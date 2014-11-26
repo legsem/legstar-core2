@@ -8,25 +8,39 @@
   <packaging>jar</packaging>
 
   <name>legstar-converter</name>
-  <url>http://maven.apache.org</url>
+  <url>http://www.legsem.com/legstar</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <compiler.version>1.6</compiler.version>
   </properties>
 
   <build>
     <plugins>
-      <!-- Test framework -->
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.16</version>
-          <configuration>
-              <!--  Activate yourkit for tests -->
-              <argLine>-agentlib:yjpagent=tracing</argLine>
-              <!--  <argLine>-agentlib:yjpagent=tracing,alloceach=10</argLine> -->
-          </configuration>
-      </plugin>
+
+        <!-- JDK -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <source>${compiler.version}</source>
+                <target>${compiler.version}</target>
+            </configuration>
+        </plugin>
+
+        <!-- Test framework -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.16</version>
+            <configuration>
+                <!--  Activate yourkit for tests -->
+                <argLine>-agentlib:yjpagent=tracing</argLine>
+                <!--  <argLine>-agentlib:yjpagent=tracing,alloceach=10</argLine> -->
+            </configuration>
+        </plugin>
+
     </plugins>
 
   </build>
@@ -34,11 +48,13 @@
 
   <dependencies>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.11</version>
+          <scope>test</scope>
+      </dependency>
+
   </dependencies>
+
 </project>
