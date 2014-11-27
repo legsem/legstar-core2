@@ -26,10 +26,9 @@ public class CobolZonedDecimalTypeTest {
     @Test
     public void testConstructor() {
         try {
-            new CobolZonedDecimalType.Builder < BigDecimal >(cobolContext,
-                    BigDecimal.class).signed(false).signLeading(true)
-                    .signSeparate(true).totalDigits(-1).fractionDigits(-1)
-                    .build();
+            new CobolZonedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .signed(false).signLeading(true).signSeparate(true)
+                    .totalDigits(-1).fractionDigits(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Total digits number -1 cannot be negative",
@@ -37,10 +36,9 @@ public class CobolZonedDecimalTypeTest {
         }
 
         try {
-            new CobolZonedDecimalType.Builder < BigDecimal >(cobolContext,
-                    BigDecimal.class).signed(false).signLeading(false)
-                    .signSeparate(true).totalDigits(0).fractionDigits(-1)
-                    .build();
+            new CobolZonedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .signed(false).signLeading(false).signSeparate(true)
+                    .totalDigits(0).fractionDigits(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Total digits cannot be zero", e.getMessage());
@@ -50,17 +48,19 @@ public class CobolZonedDecimalTypeTest {
     @Test
     public void testBytesLength() {
         assertEquals(1, new CobolZonedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(false)
-                .signLeading(false).signSeparate(false).totalDigits(1)
-                .fractionDigits(0).build().getBytesLen());
-        assertEquals(2, new CobolZonedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).signLeading(false)
-                .signSeparate(true).totalDigits(1).fractionDigits(0).build()
+                BigDecimal.class).signed(false).signLeading(false)
+                .signSeparate(false).totalDigits(1).fractionDigits(0).build()
                 .getBytesLen());
-        assertEquals(2, new CobolZonedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).signLeading(true)
-                .signSeparate(true).totalDigits(1).fractionDigits(0).build()
-                .getBytesLen());
+        assertEquals(2,
+                new CobolZonedDecimalType.Builder < BigDecimal >(
+                        BigDecimal.class).signed(true).signLeading(false)
+                        .signSeparate(true).totalDigits(1).fractionDigits(0)
+                        .build().getBytesLen());
+        assertEquals(2,
+                new CobolZonedDecimalType.Builder < BigDecimal >(
+                        BigDecimal.class).signed(true).signLeading(true)
+                        .signSeparate(true).totalDigits(1).fractionDigits(0)
+                        .build().getBytesLen());
     }
 
     @Test
@@ -157,9 +157,9 @@ public class CobolZonedDecimalTypeTest {
             fail();
         } catch (Exception e) {
             assertEquals(
-                    "Host 11 bytes numeric converts to '456790.00675' which is not a valid java.lang.Short." +
-                    " Position is 0." +
-                    " Data at position 0x->F4F5F6F7F9F0F0F0F6F7F5",
+                    "Host 11 bytes numeric converts to '456790.00675' which is not a valid java.lang.Short."
+                            + " Position is 0."
+                            + " Data at position 0x->F4F5F6F7F9F0F0F0F6F7F5",
                     e.getMessage());
         }
         assertEquals(
@@ -186,12 +186,11 @@ public class CobolZonedDecimalTypeTest {
             String hexHostData) {
 
         CobolZonedDecimalType < BigDecimal > type = new CobolZonedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(signed)
-                .signLeading(signLeading).signSeparate(signSeparate)
-                .totalDigits(totalDigits).fractionDigits(fractionDigits)
-                .build();
+                BigDecimal.class).signed(signed).signLeading(signLeading)
+                .signSeparate(signSeparate).totalDigits(totalDigits)
+                .fractionDigits(fractionDigits).build();
 
-        return type.isValid(HexUtils.decodeHex(hexHostData), 0);
+        return type.isValid(cobolContext, HexUtils.decodeHex(hexHostData), 0);
     }
 
     private String getValue(boolean signed, boolean signLeading,
@@ -206,12 +205,12 @@ public class CobolZonedDecimalTypeTest {
             int totalDigits, int fractionDigits, String hexHostData) {
 
         CobolZonedDecimalType < T > type = new CobolZonedDecimalType.Builder < T >(
-                cobolContext, clazz).signed(signed).signLeading(signLeading)
+                clazz).signed(signed).signLeading(signLeading)
                 .signSeparate(signSeparate).totalDigits(totalDigits)
                 .fractionDigits(fractionDigits).build();
 
-        return type.fromHost(HexUtils.decodeHex(hexHostData), 0).getValue()
-                .toString();
+        return type.fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
+                .getValue().toString();
 
     }
 }

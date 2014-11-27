@@ -1,6 +1,5 @@
 package com.legstar.converter.type.composite;
 
-import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 
 /**
@@ -9,8 +8,5 @@ import com.legstar.converter.type.CobolType;
  */
 public abstract class CobolCompositeType extends CobolType {
 
-    public CobolCompositeType(CobolContext cobolContext) {
-        super(cobolContext);
-    }
 
 }

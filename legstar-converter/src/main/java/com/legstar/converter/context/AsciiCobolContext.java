@@ -12,7 +12,6 @@ public class AsciiCobolContext extends AbstractCobolContext {
     private static final int ASCII_PLUS_SIGN = 0x2b;
     private static final int ASCII_MINUS_SIGN = 0x2d;
     private static final int ASCII_SPACE_CODE = 0x20;
-    private static final int MAXIMUM_PICX_CHARNUM = 16777215;
 
     public AsciiCobolContext() {
         this("ISO-8859-1");
@@ -44,10 +43,6 @@ public class AsciiCobolContext extends AbstractCobolContext {
 
     public int getHostSpaceCharCode() {
         return ASCII_SPACE_CODE;
-    }
-
-    public int getMaxPicXCharnum() {
-        return MAXIMUM_PICX_CHARNUM;
     }
 
     public boolean isTruncateHostStringsTrailingSpaces() {

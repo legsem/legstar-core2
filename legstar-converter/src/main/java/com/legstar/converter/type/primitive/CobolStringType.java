@@ -12,10 +12,15 @@ import com.legstar.converter.type.FromHostResult;
  */
 public class CobolStringType extends CobolPrimitiveType < String > {
 
+    /**
+     * @return maximum number of characters in a PIC X.
+     */
+    private static final int MAXIMUM_PICX_CHARNUM = 16777215;
+
     private final int charNum;
 
     /** {@inheritDoc} */
-    public boolean isValid(byte[] hostData, int start) {
+    public boolean isValid(CobolContext cobolContext, byte[] hostData, int start) {
 
         int bytesLen = getBytesLen();
 
@@ -26,24 +31,26 @@ public class CobolStringType extends CobolPrimitiveType < String > {
             return false;
         }
 
-        return isValidString(hostData, start);
+        return isValidString(cobolContext, hostData, start);
     }
 
     /**
      * Relatively naive implementation that assumes content is either low-value
      * or a code point greater or equal to the space character.
      * 
+     * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid string
      */
-    protected boolean isValidString(byte[] hostData, int start) {
+    protected boolean isValidString(CobolContext cobolContext, byte[] hostData,
+            int start) {
 
         int length = start + getBytesLen();
 
         for (int i = start; i < length; i++) {
             int code = hostData[i] & 0xFF;
-            if (code != 0 && code < getHostSpaceCharCode()) {
+            if (code != 0 && code < cobolContext.getHostSpaceCharCode()) {
                 return false;
             }
         }
@@ -52,8 +59,8 @@ public class CobolStringType extends CobolPrimitiveType < String > {
     }
 
     /** {@inheritDoc} */
-    public FromHostResult < String > fromHost(byte[] hostData, int start)
-            throws FromHostException {
+    public FromHostResult < String > fromHost(CobolContext cobolContext,
+            byte[] hostData, int start) throws FromHostException {
 
         int bytesLen = getBytesLen();
 
@@ -65,8 +72,8 @@ public class CobolStringType extends CobolPrimitiveType < String > {
         }
 
         // Trim trailing low-values and, optionally, trailing spaces
-        int spaceCode = getHostSpaceCharCode();
-        boolean checkSpace = isTruncateHostStringsTrailingSpaces();
+        int spaceCode = cobolContext.getHostSpaceCharCode();
+        boolean checkSpace = cobolContext.isTruncateHostStringsTrailingSpaces();
 
         int end = start + bytesLen;
         while (end > start) {
@@ -98,17 +105,17 @@ public class CobolStringType extends CobolPrimitiveType < String > {
             if (isDirty) {
                 byte[] work = new byte[end - start];
                 for (int i = start; i < end; i++) {
-                    work[i - start] = hostData[i] == 0 ? (byte) getHostSpaceCharCode()
-                            : hostData[i];
+                    work[i - start] = hostData[i] == 0 ? (byte) cobolContext
+                            .getHostSpaceCharCode() : hostData[i];
                 }
-                result = new String(work, getHostCharsetName());
+                result = new String(work, cobolContext.getHostCharsetName());
             } else {
                 result = new String(hostData, start, end - start,
-                        getHostCharsetName());
+                        cobolContext.getHostCharsetName());
             }
         } catch (UnsupportedEncodingException e) {
             throw new FromHostException("Failed to use host character set "
-                    + getHostCharsetName(), hostData, start, e);
+                    + cobolContext.getHostCharsetName(), hostData, start, e);
         }
 
         return new FromHostResult < String >(bytesLen, result);
@@ -118,45 +125,26 @@ public class CobolStringType extends CobolPrimitiveType < String > {
         return charNum;
     }
 
-    public int getHostSpaceCharCode() {
-        return getCobolContext().getHostSpaceCharCode();
-    }
-
-    public String getHostCharsetName() {
-        return getCobolContext().getHostCharsetName();
-    }
-
-    public int getMaxPicXCharnum() {
-        return getCobolContext().getMaxPicXCharnum();
-    }
-
-    public boolean isTruncateHostStringsTrailingSpaces() {
-        return getCobolContext().isTruncateHostStringsTrailingSpaces();
-    }
-
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
-    public static class Builder extends CobolPrimitiveType.Builder<String, Builder> {
+    public static class Builder extends
+            CobolPrimitiveType.Builder < String, Builder > {
 
         private int charNum;
-
-        public Builder(CobolContext cobolContext) {
-            super(cobolContext);
-        }
 
         public Builder charNum(int value) {
             charNum = value;
             return this;
         }
 
-       public CobolStringType build() {
+        public CobolStringType build() {
             return new CobolStringType(this);
         }
 
-       protected Builder self() {
-           return this;
-       }
+        protected Builder self() {
+            return this;
+        }
 
     }
 
@@ -164,17 +152,18 @@ public class CobolStringType extends CobolPrimitiveType < String > {
     // Constructor
     // -----------------------------------------------------------------------------
     private CobolStringType(Builder builder) {
-        
+
         super(builder);
 
         if (builder.charNum < 0) {
-            throw new IllegalArgumentException("Characters number " + builder.charNum
-                    + " cannot be negative");
+            throw new IllegalArgumentException("Characters number "
+                    + builder.charNum + " cannot be negative");
         }
 
-        if (builder.charNum > getMaxPicXCharnum()) {
-            throw new IllegalArgumentException("Characters number " + builder.charNum
-                    + " is greater than maximum " + getMaxPicXCharnum());
+        if (builder.charNum > MAXIMUM_PICX_CHARNUM) {
+            throw new IllegalArgumentException("Characters number "
+                    + builder.charNum + " is greater than maximum "
+                    + MAXIMUM_PICX_CHARNUM);
         }
 
         charNum = builder.charNum;

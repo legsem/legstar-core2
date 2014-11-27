@@ -29,10 +29,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertFlat01() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                 0);
-        visitor.visit(Flat01Factory.create(cobolContext));
+        visitor.visit(Flat01Factory.create());
         assertEquals("{comNumber=1043, comName=NAME000043, comAmount=2150.00}",
                 visitor.getObject().toString());
         assertEquals(30, visitor.getLastPos());
@@ -42,10 +42,10 @@ public class ObjectFromCobolVisitorTest {
     @Test
     public void testConvertFlat01Invalid() {
         try {
-            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                     HexUtils.decodeHex("ABF0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                     0);
-            visitor.visit(Flat01Factory.create(cobolContext));
+            visitor.visit(Flat01Factory.create());
             fail();
         } catch (ConversionException e) {
             assertEquals(
@@ -57,10 +57,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertFlat02() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E001F0014000F000C"),
                 0);
-        visitor.visit(Flat02Factory.create(cobolContext));
+        visitor.visit(Flat02Factory.create());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comArray=[62, 31, 20, 15, 12]}",
                 visitor.getObject().toString());
@@ -72,10 +72,10 @@ public class ObjectFromCobolVisitorTest {
     public void testConvertFlat02Invalid() {
         ObjectFromCobolVisitor visitor;
         try {
-            visitor = new ObjectFromCobolVisitor(
+            visitor = new ObjectFromCobolVisitor(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E0F1F0014000F000C"),
                     0);
-            visitor.visit(Flat02Factory.create(cobolContext));
+            visitor.visit(Flat02Factory.create());
             fail();
         } catch (ConversionException e) {
             assertEquals(
@@ -89,10 +89,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertStru01() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2"),
                 0);
-        visitor.visit(Stru01Factory.createStru01Record(cobolContext));
+        visitor.visit(Stru01Factory.createStru01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comSubRecord={comItem1=62, comItem2=AB}}",
                 visitor.getObject().toString());
@@ -103,10 +103,10 @@ public class ObjectFromCobolVisitorTest {
     @Test
     public void testConvertStru01Invalid() {
         try {
-            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F023EC1C2"),
                     0);
-            visitor.visit(Stru01Factory.createStru01Record(cobolContext));
+            visitor.visit(Stru01Factory.createStru01Record());
             fail();
         } catch (ConversionException e) {
             assertEquals(
@@ -120,10 +120,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertStru03() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C2000FC1C2000CC1C2"),
                 0);
-        visitor.visit(Stru03Factory.createStru03Record(cobolContext));
+        visitor.visit(Stru03Factory.createStru03Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comArray=[{comItem1=62, comItem2=AB}, {comItem1=31, comItem2=AB}, {comItem1=20, comItem2=AB}, {comItem1=15, comItem2=AB}, {comItem1=12, comItem2=AB}]}",
                 visitor.getObject().toString());
@@ -134,10 +134,10 @@ public class ObjectFromCobolVisitorTest {
     @Test
     public void testConvertStru03Invalid() {
         try {
-            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C20F0FC1C2000CC1C2"),
                     0);
-            visitor.visit(Stru03Factory.createStru03Record(cobolContext));
+            visitor.visit(Stru03Factory.createStru03Record());
             fail();
         } catch (ConversionException e) {
             assertEquals(
@@ -152,10 +152,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertArdo01EmptyVariableArray() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400000"),
                 0);
-        visitor.visit(Ardo01Factory.createArdo01Record(cobolContext));
+        visitor.visit(Ardo01Factory.createArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=0, comArray=[]}",
                 visitor.getObject().toString());
@@ -165,10 +165,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertArdo01OneItemVariableArray() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400001000000000023556C"),
                 0);
-        visitor.visit(Ardo01Factory.createArdo01Record(cobolContext));
+        visitor.visit(Ardo01Factory.createArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=1, comArray=[235.56]}",
                 visitor.getObject().toString());
@@ -178,10 +178,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertArdo01FullVariableArray() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400005000000000023556C000000000023656C000000000023756C000000000023856C000000000023956C"),
                 0);
-        visitor.visit(Ardo01Factory.createArdo01Record(cobolContext));
+        visitor.visit(Ardo01Factory.createArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=5, comArray=[235.56, 236.56, 237.56, 238.56, 239.56]}",
                 visitor.getObject().toString());
@@ -191,10 +191,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0);
-        visitor.visit(Rdef03Factory.createRdef03Record(cobolContext));
+        visitor.visit(Rdef03Factory.createRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail1={comName=12345}}}",
                 visitor.getObject().toString());
@@ -204,10 +204,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertRdef03DefaultStrategySecondAlternative() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("00010250000F"),
                 0);
-        visitor.visit(Rdef03Factory.createRdef03Record(cobolContext));
+        visitor.visit(Rdef03Factory.createRdef03Record());
         assertEquals(
                 "{comSelect=1, comDetail1Choice={comDetail2={comAmount=2500.00}}}",
                 visitor.getObject().toString());
@@ -217,10 +217,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertRdef03CustomStrategy() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0, new Rdef03ObjectFromHostChoiceStrategy());
-        visitor.visit(Rdef03Factory.createRdef03Record(cobolContext));
+        visitor.visit(Rdef03Factory.createRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
                 visitor.getObject().toString());
@@ -230,10 +230,10 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertCustdat() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
+        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F1D1D6C8D540E2D4C9E3C840404040404040404040C3C1D4C2D9C9C4C7C540E4D5C9E5C5D9E2C9E3E8F4F4F0F1F2F5F6F500000002F1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5CF1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5C"),
                 0);
-        visitor.visit(CustdatFactory.createCustomerDataCobolType(cobolContext));
+        visitor.visit(CustdatFactory.createCustomerDataCobolType());
         assertEquals(
                 "{customerId=1, personalData={customerName=JOHN SMITH, customerAddress=CAMBRIDGE UNIVERSITY, customerPhone=44012565}, transactions={transactionNbr=2, transaction=[{transactionDateChoice={transactionDate=10/04/11}, transactionAmount=235.56, transactionComment=*********}, {transactionDateChoice={transactionDate=10/04/11}, transactionAmount=235.56, transactionComment=*********}]}}",
                 visitor.getObject().toString());

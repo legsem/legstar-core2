@@ -2,11 +2,8 @@ package com.legstar.converter.visitor;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import com.legstar.converter.context.CobolContext;
-import com.legstar.converter.context.EbcdicCobolContext;
 import com.legstar.converter.type.gen.Ardo01Factory;
 import com.legstar.converter.type.gen.CustdatFactory;
 import com.legstar.converter.type.gen.Flat01Factory;
@@ -18,17 +15,10 @@ import com.legstar.converter.visitor.MinBytesLenCobolVisitor;
 
 public class MinBytesLenCobolVisitorTest {
 
-    private CobolContext cobolContext;
-
-    @Before
-    public void setUp() {
-        cobolContext = new EbcdicCobolContext();
-    }
-
     @Test
     public void testCalcMinBytesLenFlat01() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(Flat01Factory.create(cobolContext));
+        visitor.visit(Flat01Factory.create());
         assertEquals(30, visitor.getMinBytesLen());
 
     }
@@ -36,7 +26,7 @@ public class MinBytesLenCobolVisitorTest {
     @Test
     public void testCalcMinBytesLenFlat02() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(Flat02Factory.create(cobolContext));
+        visitor.visit(Flat02Factory.create());
         assertEquals(40, visitor.getMinBytesLen());
 
     }
@@ -44,7 +34,7 @@ public class MinBytesLenCobolVisitorTest {
     @Test
     public void testCalcMinBytesLenStru03() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(Stru03Factory.createStru03Record(cobolContext));
+        visitor.visit(Stru03Factory.createStru03Record());
         assertEquals(50, visitor.getMinBytesLen());
 
     }
@@ -52,7 +42,7 @@ public class MinBytesLenCobolVisitorTest {
     @Test
     public void testCalcMinBytesLenRdef01() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(Rdef01Factory.create(cobolContext));
+        visitor.visit(Rdef01Factory.create());
         assertEquals(6, visitor.getMinBytesLen());
 
     }
@@ -60,7 +50,7 @@ public class MinBytesLenCobolVisitorTest {
     @Test
     public void testCalcMinBytesLenRdef02() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(Rdef02Factory.createRdef02Record(cobolContext));
+        visitor.visit(Rdef02Factory.createRdef02Record());
         assertEquals(22, visitor.getMinBytesLen());
 
     }
@@ -68,7 +58,7 @@ public class MinBytesLenCobolVisitorTest {
     @Test
     public void testCalcMinBytesLenArdo01() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(Ardo01Factory.createArdo01Record(cobolContext));
+        visitor.visit(Ardo01Factory.createArdo01Record());
         assertEquals(28, visitor.getMinBytesLen());
 
     }
@@ -76,7 +66,7 @@ public class MinBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenCustdat() {
         MinBytesLenCobolVisitor visitor = new MinBytesLenCobolVisitor();
-        visitor.visit(CustdatFactory.createCustomerDataCobolType(cobolContext));
+        visitor.visit(CustdatFactory.createCustomerDataCobolType());
         assertEquals(58, visitor.getMinBytesLen());
 
     }

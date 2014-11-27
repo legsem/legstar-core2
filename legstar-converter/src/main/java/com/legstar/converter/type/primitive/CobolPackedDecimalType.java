@@ -14,8 +14,8 @@ public class CobolPackedDecimalType<T extends Number> extends
     public static final int MAX_TOTAL_DIGITS = 31;
 
     /** {@inheritDoc} */
-    protected boolean isValidInternal(Class < T > clazz, byte[] hostData,
-            int start) {
+    protected boolean isValidInternal(CobolContext cobolContext,
+            Class < T > clazz, byte[] hostData, int start) {
 
         int length = start + getBytesLen();
 
@@ -37,12 +37,12 @@ public class CobolPackedDecimalType<T extends Number> extends
         }
         // Last byte must hold a valid sign (in the right nibble)
         if (isSigned()) {
-            if (nibbles[1] != getPositiveSignNibbleValue()
-                    && nibbles[1] != getNegativeSignNibbleValue()) {
+            if (nibbles[1] != cobolContext.getPositiveSignNibbleValue()
+                    && nibbles[1] != cobolContext.getNegativeSignNibbleValue()) {
                 return false;
             }
         } else {
-            if (nibbles[1] != getUnspecifiedSignNibbleValue()) {
+            if (nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
                 return false;
             }
         }
@@ -51,7 +51,8 @@ public class CobolPackedDecimalType<T extends Number> extends
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(Class < T > clazz, byte[] hostData, int start) {
+    protected T fromHostInternal(CobolContext cobolContext, Class < T > clazz,
+            byte[] hostData, int start) {
 
         int length = start + getBytesLen();
 
@@ -63,23 +64,25 @@ public class CobolPackedDecimalType<T extends Number> extends
             if (i == length - 1) {
                 sb.append(getDigit(nibbles[0], hostData, start, i));
                 if (isSigned()) {
-                    if (nibbles[1] == getNegativeSignNibbleValue()) {
+                    if (nibbles[1] == cobolContext.getNegativeSignNibbleValue()) {
                         sb.insert(0, "-");
-                    } else if (nibbles[1] != getPositiveSignNibbleValue()) {
+                    } else if (nibbles[1] != cobolContext
+                            .getPositiveSignNibbleValue()) {
                         throw new FromHostException(
                                 "Nibble at sign position does not contain the expected values 0x"
-                                        + Integer
-                                                .toHexString(getNegativeSignNibbleValue())
+                                        + Integer.toHexString(cobolContext
+                                                .getNegativeSignNibbleValue())
                                         + " or 0x"
-                                        + Integer
-                                                .toHexString(getPositiveSignNibbleValue()),
+                                        + Integer.toHexString(cobolContext
+                                                .getPositiveSignNibbleValue()),
                                 hostData, i);
                     }
-                } else if (nibbles[1] != getUnspecifiedSignNibbleValue()) {
+                } else if (nibbles[1] != cobolContext
+                        .getUnspecifiedSignNibbleValue()) {
                     throw new FromHostException(
                             "Nibble at sign position does not contain the expected value 0x"
-                                    + Integer
-                                            .toHexString(getUnspecifiedSignNibbleValue()),
+                                    + Integer.toHexString(cobolContext
+                                            .getUnspecifiedSignNibbleValue()),
                             hostData, i);
                 }
             } else {
@@ -97,7 +100,8 @@ public class CobolPackedDecimalType<T extends Number> extends
         } catch (NumberFormatException e) {
             throw new FromHostException("Host " + getBytesLen()
                     + " bytes numeric converts to '" + sb.toString()
-                    + "' which is not a valid " + clazz.getName(), hostData, start);
+                    + "' which is not a valid " + clazz.getName(), hostData,
+                    start);
         }
     }
 
@@ -113,10 +117,11 @@ public class CobolPackedDecimalType<T extends Number> extends
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
-    public static class Builder<T extends Number> extends CobolDecimalType.Builder<T, Builder < T >> {
+    public static class Builder<T extends Number> extends
+            CobolDecimalType.Builder < T, Builder < T >> {
 
-        public Builder(CobolContext cobolContext, Class < T > clazz) {
-            super(cobolContext, clazz, MAX_TOTAL_DIGITS);
+        public Builder(Class < T > clazz) {
+            super(clazz, MAX_TOTAL_DIGITS);
         }
 
         public CobolPackedDecimalType < T > build() {

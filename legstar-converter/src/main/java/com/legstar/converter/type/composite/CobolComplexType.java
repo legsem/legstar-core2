@@ -2,7 +2,6 @@ package com.legstar.converter.type.composite;
 
 import java.util.Map;
 
-import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.visitor.CobolVisitor;
 
@@ -17,9 +16,7 @@ public class CobolComplexType extends CobolCompositeType {
      */
     private final Map < String, CobolType > fields;
 
-    public CobolComplexType(CobolContext cobolContext,
-            Map < String, CobolType > children) {
-        super(cobolContext);
+    public CobolComplexType(Map < String, CobolType > children) {
         this.fields = children;
     }
 

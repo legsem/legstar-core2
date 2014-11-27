@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.type.ConversionException;
 import com.legstar.converter.type.composite.CobolArrayType;
@@ -15,25 +16,29 @@ import com.legstar.converter.type.primitive.CobolPrimitiveType;
 /**
  * Convert a mainframe data to a java Object.
  * <p/>
- * COBOL Complex types are converted to java Maps. 
+ * COBOL Complex types are converted to java Maps.
  * 
  */
 public class ObjectFromCobolVisitor extends FromCobolVisitor {
 
-    /** Set of unique handlers to receive notifications from {@link FromCobolVisitor}*/
+    /**
+     * Set of unique handlers to receive notifications from
+     * {@link FromCobolVisitor}
+     */
     private final ObjectPrimitiveTypeHandler primitiveTypeHandler;
     private final ObjectChoiceTypeAlternativeHandler choiceTypeAlternativeHandler;
 
     /** Last java object produced by visiting an item. */
     private Object lastObject;
-    
-    public ObjectFromCobolVisitor(byte[] hostData, int start) {
-        this(hostData, start, null);
+
+    public ObjectFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start) {
+        this(cobolContext, hostData, start, null);
     }
 
-    public ObjectFromCobolVisitor(byte[] hostData, int start,
-            FromCobolChoiceStrategy customChoiceStrategy) {
-        super(hostData, start, customChoiceStrategy);
+    public ObjectFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, FromCobolChoiceStrategy customChoiceStrategy) {
+        super(cobolContext, hostData, start, customChoiceStrategy);
         primitiveTypeHandler = new ObjectPrimitiveTypeHandler();
         choiceTypeAlternativeHandler = new ObjectChoiceTypeAlternativeHandler();
     }
@@ -49,19 +54,20 @@ public class ObjectFromCobolVisitor extends FromCobolVisitor {
         super.visitCobolArrayType(type, new ObjectArrayTypeItemHandler(list));
         lastObject = list;
     }
-    
+
     public void visit(CobolChoiceType type) throws ConversionException {
         super.visitCobolChoiceType(type, choiceTypeAlternativeHandler);
     }
-    
+
     public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
         super.visitCobolPrimitiveType(type, primitiveTypeHandler);
     }
-    
-    private class ObjectComplexTypeChildHandler implements ComplexTypeChildHandler {
-        
+
+    private class ObjectComplexTypeChildHandler implements
+            ComplexTypeChildHandler {
+
         private final Map < String, Object > map;
-        
+
         public ObjectComplexTypeChildHandler(Map < String, Object > map) {
             this.map = map;
         }
@@ -71,11 +77,11 @@ public class ObjectFromCobolVisitor extends FromCobolVisitor {
             return true;
         }
     }
-    
+
     private class ObjectArrayTypeItemHandler implements ArrayTypeItemHandler {
-        
+
         private final List < Object > list;
-       
+
         public ObjectArrayTypeItemHandler(List < Object > list) {
             this.list = list;
         }
@@ -86,25 +92,25 @@ public class ObjectFromCobolVisitor extends FromCobolVisitor {
         }
 
     }
-    
-    private class ObjectChoiceTypeAlternativeHandler implements ChoiceTypeAlternativeHandler {
 
-        public void postVisit(String alternativeName,
-                CobolType alternative) {
+    private class ObjectChoiceTypeAlternativeHandler implements
+            ChoiceTypeAlternativeHandler {
+
+        public void postVisit(String alternativeName, CobolType alternative) {
             // Wrap the chosen alternative in a map
             final Map < String, Object > map = new LinkedHashMap < String, Object >();
             map.put(alternativeName, lastObject);
             lastObject = map;
         }
-        
+
     }
-    
+
     private class ObjectPrimitiveTypeHandler implements PrimitiveTypeHandler {
 
         public void postVisit(CobolType type, Object value) {
             lastObject = value;
         }
-        
+
     };
 
     public Object getObject() {

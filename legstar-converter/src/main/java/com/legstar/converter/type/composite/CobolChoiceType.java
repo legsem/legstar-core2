@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.visitor.CobolVisitor;
 
@@ -26,9 +25,7 @@ public class CobolChoiceType extends CobolCompositeType {
      */
     private final Map < CobolType, String > namesMap;
 
-    public CobolChoiceType(CobolContext cobolContext,
-            Map < String, CobolType > alternatives) {
-        super(cobolContext);
+    public CobolChoiceType(Map < String, CobolType > alternatives) {
         this.alternatives = alternatives;
         this.namesMap = new HashMap < CobolType, String >();
         for (Entry < String, CobolType > entry : alternatives.entrySet()) {

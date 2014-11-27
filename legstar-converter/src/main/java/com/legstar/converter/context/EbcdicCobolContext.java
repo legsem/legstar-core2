@@ -12,7 +12,6 @@ public class EbcdicCobolContext extends AbstractCobolContext {
     private static final int EBCDIC_PLUS_SIGN = 0x4e;
     private static final int EBCDIC_MINUS_SIGN = 0x60;
     private static final int EBCDIC_SPACE_CODE = 0x40;
-    private static final int MAXIMUM_PICX_CHARNUM = 16777215;
 
     
     public EbcdicCobolContext() {
@@ -45,10 +44,6 @@ public class EbcdicCobolContext extends AbstractCobolContext {
 
     public int getHostSpaceCharCode() {
         return EBCDIC_SPACE_CODE;
-    }
-
-    public int getMaxPicXCharnum() {
-        return MAXIMUM_PICX_CHARNUM;
     }
 
     public boolean isTruncateHostStringsTrailingSpaces() {

@@ -56,7 +56,8 @@ public abstract class CobolDecimalType<T extends Number> extends
             '4', '5', '6', '7', '8', '9' };
 
     /** {@inheritDoc} */
-    public final boolean isValid(byte[] hostData, int start) {
+    public final boolean isValid(CobolContext cobolContext, byte[] hostData,
+            int start) {
 
         int bytesLen = getBytesLen();
 
@@ -66,12 +67,13 @@ public abstract class CobolDecimalType<T extends Number> extends
         }
 
         // Let specialized classes perform their validation
-        if (!isValidInternal(clazz, hostData, start)) {
+        if (!isValidInternal(cobolContext, clazz, hostData, start)) {
             return false;
         }
 
         // If required to check within range, need to convert
-        if (!isWithinRange(fromHostInternal(clazz, hostData, start))) {
+        if (!isWithinRange(fromHostInternal(cobolContext, clazz, hostData,
+                start))) {
             return false;
         }
         return true;
@@ -105,12 +107,12 @@ public abstract class CobolDecimalType<T extends Number> extends
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
      */
-    protected abstract boolean isValidInternal(Class < T > clazz,
-            byte[] hostData, int start);
+    protected abstract boolean isValidInternal(CobolContext cobolContext,
+            Class < T > clazz, byte[] hostData, int start);
 
     /** {@inheritDoc} */
-    public FromHostResult < T > fromHost(byte[] hostData, int start)
-            throws FromHostException {
+    public FromHostResult < T > fromHost(CobolContext cobolContext,
+            byte[] hostData, int start) throws FromHostException {
 
         int bytesLen = getBytesLen();
         if (hostData.length < start + bytesLen) {
@@ -120,7 +122,7 @@ public abstract class CobolDecimalType<T extends Number> extends
                     start);
         }
 
-        T value = fromHostInternal(clazz, hostData, start);
+        T value = fromHostInternal(cobolContext, clazz, hostData, start);
         if (!isWithinRange(value)) {
             throw new FromHostException("Value " + value.toString()
                     + " is outside the required range " + getRangeAsString(),
@@ -134,14 +136,16 @@ public abstract class CobolDecimalType<T extends Number> extends
     /**
      * Convert mainframe data into a java Number.
      * 
+     * @param cobolContext host COBOL configuration parameters
      * @param clazz java Number class mapped to this COBOL decimal
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return the mainframe value as a java Number
      * @throws FromHostException if conversion fails
      */
-    protected abstract T fromHostInternal(Class < T > clazz, byte[] hostData,
-            int start) throws FromHostException;
+    protected abstract T fromHostInternal(CobolContext cobolContext,
+            Class < T > clazz, byte[] hostData, int start)
+            throws FromHostException;
 
     /**
      * A nibble is a half byte.
@@ -180,26 +184,6 @@ public abstract class CobolDecimalType<T extends Number> extends
      */
     public boolean isDigit(int nibble) {
         return nibble > -1 && nibble < 10;
-    }
-
-    public int getUnspecifiedSignNibbleValue() {
-        return getCobolContext().getUnspecifiedSignNibbleValue();
-    }
-
-    public int getPositiveSignNibbleValue() {
-        return getCobolContext().getPositiveSignNibbleValue();
-    }
-
-    public int getNegativeSignNibbleValue() {
-        return getCobolContext().getNegativeSignNibbleValue();
-    }
-
-    public int getHostPlusSign() {
-        return getCobolContext().getHostPlusSign();
-    }
-
-    public int getHostMinusSign() {
-        return getCobolContext().getHostMinusSign();
     }
 
     /**
@@ -441,9 +425,7 @@ public abstract class CobolDecimalType<T extends Number> extends
         private boolean minInclusiveSetFlag = false;
         private boolean maxInclusiveSetFlag = false;
 
-        public Builder(CobolContext cobolContext, Class < T > clazz,
-                int maxTotalDigits) {
-            super(cobolContext);
+        public Builder(Class < T > clazz, int maxTotalDigits) {
             this.clazz = clazz;
             this.maxTotalDigits = maxTotalDigits;
         }

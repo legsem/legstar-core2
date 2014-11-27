@@ -1,6 +1,5 @@
 package com.legstar.converter.type.composite;
 
-import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.utils.StringUtils;
 import com.legstar.converter.visitor.CobolVisitor;
@@ -22,14 +21,11 @@ public class CobolArrayType extends CobolCompositeType {
 
     private final String dependingOn;
 
-    public CobolArrayType(CobolContext cobolContext, CobolType itemType,
-            int maxOccurs) {
-        this(cobolContext, itemType, maxOccurs, null);
+    public CobolArrayType(CobolType itemType, int maxOccurs) {
+        this(itemType, maxOccurs, null);
     }
 
-    public CobolArrayType(CobolContext cobolContext, CobolType itemType,
-            int maxOccurs, String dependingOn) {
-        super(cobolContext);
+    public CobolArrayType(CobolType itemType, int maxOccurs, String dependingOn) {
         this.maxOccurs = maxOccurs;
         this.itemType = itemType;
         this.dependingOn = dependingOn;

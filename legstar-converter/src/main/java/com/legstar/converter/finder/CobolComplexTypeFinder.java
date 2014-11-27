@@ -1,5 +1,6 @@
 package com.legstar.converter.finder;
 
+import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.composite.CobolComplexType;
 import com.legstar.converter.visitor.MaxBytesLenCobolVisitor;
 import com.legstar.converter.visitor.MinBytesLenCobolVisitor;
@@ -29,6 +30,11 @@ import com.legstar.converter.visitor.ValidateFromCobolVisitor;
  */
 public class CobolComplexTypeFinder extends CobolTypeFinder {
 
+    /**
+     * Host COBOL configuration parameters.
+     */
+    private final CobolContext cobolContext;
+
     /** Structure that starts with the signature. */
     private final CobolComplexType cobolComplexType;
 
@@ -47,6 +53,7 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
     /**
      * Construct the finder.
      * 
+     * @param cobolContext host COBOL configuration parameters
      * @param cobolComplexType the Cobol complex type we are looking for
      * @param stopFieldInclusive what is the last field of the signature (the
      *            signature is formed by all fields from the start of the
@@ -54,9 +61,10 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
      *            is not in the complex type, the entire complex type form the
      *            signature.
      */
-    public CobolComplexTypeFinder(CobolComplexType cobolComplexType,
-            String stopFieldInclusive) {
+    public CobolComplexTypeFinder(CobolContext cobolContext,
+            CobolComplexType cobolComplexType, String stopFieldInclusive) {
 
+        this.cobolContext = cobolContext;
         this.cobolComplexType = cobolComplexType;
         this.stopFieldInclusive = stopFieldInclusive;
 
@@ -77,9 +85,9 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
 
     /** {@inheritDoc} */
     public boolean match(byte[] hostData, int start, int length) {
-        
+
         ValidateFromCobolVisitor visitor = new ValidateFromCobolVisitor(
-                hostData, start, stopFieldInclusive);
+                cobolContext, hostData, start, stopFieldInclusive);
         visitor.visit(cobolComplexType);
         return visitor.isValid();
 

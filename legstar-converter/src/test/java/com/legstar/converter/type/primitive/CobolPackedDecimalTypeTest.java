@@ -25,7 +25,7 @@ public class CobolPackedDecimalTypeTest {
     @Test
     public void testConstructor() {
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(cobolContext,
+            new CobolPackedDecimalType.Builder < BigDecimal >(
                     BigDecimal.class).signed(true).totalDigits(-1)
                     .fractionDigits(-1).build();
             fail();
@@ -34,7 +34,7 @@ public class CobolPackedDecimalTypeTest {
                     e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(cobolContext,
+            new CobolPackedDecimalType.Builder < BigDecimal >(
                     BigDecimal.class).signed(true).totalDigits(0)
                     .fractionDigits(-1).build();
             fail();
@@ -42,7 +42,7 @@ public class CobolPackedDecimalTypeTest {
             assertEquals("Total digits cannot be zero", e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(cobolContext,
+            new CobolPackedDecimalType.Builder < BigDecimal >(
                     BigDecimal.class).signed(true).totalDigits(1)
                     .fractionDigits(-1).build();
             fail();
@@ -51,7 +51,7 @@ public class CobolPackedDecimalTypeTest {
                     e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(cobolContext,
+            new CobolPackedDecimalType.Builder < BigDecimal >(
                     BigDecimal.class).signed(true).totalDigits(45)
                     .fractionDigits(-1).build();
             fail();
@@ -60,7 +60,7 @@ public class CobolPackedDecimalTypeTest {
                     e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(cobolContext,
+            new CobolPackedDecimalType.Builder < BigDecimal >(
                     BigDecimal.class).signed(true).totalDigits(2)
                     .fractionDigits(3).build();
             fail();
@@ -74,19 +74,19 @@ public class CobolPackedDecimalTypeTest {
     @Test
     public void testBytesLength() {
         assertEquals(1, new CobolPackedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).totalDigits(1)
+                 BigDecimal.class).signed(true).totalDigits(1)
                 .fractionDigits(0).build().getBytesLen());
         assertEquals(2, new CobolPackedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).totalDigits(2)
+                 BigDecimal.class).signed(true).totalDigits(2)
                 .fractionDigits(0).build().getBytesLen());
         assertEquals(3, new CobolPackedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).totalDigits(5)
+                 BigDecimal.class).signed(true).totalDigits(5)
                 .fractionDigits(0).build().getBytesLen());
         assertEquals(4, new CobolPackedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).totalDigits(6)
+                 BigDecimal.class).signed(true).totalDigits(6)
                 .fractionDigits(0).build().getBytesLen());
         assertEquals(4, new CobolPackedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(true).totalDigits(7)
+                 BigDecimal.class).signed(true).totalDigits(7)
                 .fractionDigits(0).build().getBytesLen());
     }
 
@@ -155,11 +155,11 @@ public class CobolPackedDecimalTypeTest {
             int fractionDigits, String hexHostData) {
 
         CobolPackedDecimalType < BigDecimal > type = new CobolPackedDecimalType.Builder < BigDecimal >(
-                cobolContext, BigDecimal.class).signed(signed)
+                 BigDecimal.class).signed(signed)
                 .totalDigits(totalDigits).fractionDigits(fractionDigits)
                 .build();
 
-        return type.isValid(HexUtils.decodeHex(hexHostData), 0);
+        return type.isValid(cobolContext, HexUtils.decodeHex(hexHostData), 0);
     }
 
     private String getValue(boolean signed, int totalDigits,
@@ -173,10 +173,10 @@ public class CobolPackedDecimalTypeTest {
             String hexHostData) {
 
         CobolPackedDecimalType < T > type = new CobolPackedDecimalType.Builder < T >(
-                cobolContext, clazz).signed(signed).totalDigits(totalDigits)
+                 clazz).signed(signed).totalDigits(totalDigits)
                 .fractionDigits(fractionDigits).build();
 
-        return type.fromHost(HexUtils.decodeHex(hexHostData), 0).getValue()
+        return type.fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0).getValue()
                 .toString();
 
     }

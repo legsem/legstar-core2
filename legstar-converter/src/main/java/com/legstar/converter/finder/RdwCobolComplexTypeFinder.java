@@ -2,6 +2,7 @@ package com.legstar.converter.finder;
 
 import java.nio.ByteBuffer;
 
+import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.composite.CobolComplexType;
 
 /**
@@ -13,9 +14,9 @@ public class RdwCobolComplexTypeFinder extends CobolComplexTypeFinder {
 
     public static final int RDW_LEN = 4;
 
-    public RdwCobolComplexTypeFinder(CobolComplexType cobolComplexType,
-            String stopFieldInclusive) {
-        super(cobolComplexType, stopFieldInclusive);
+    public RdwCobolComplexTypeFinder(CobolContext cobolContext,
+            CobolComplexType cobolComplexType, String stopFieldInclusive) {
+        super(cobolContext, cobolComplexType, stopFieldInclusive);
 
     }
 

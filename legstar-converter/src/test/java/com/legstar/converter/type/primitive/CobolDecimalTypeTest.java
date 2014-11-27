@@ -54,34 +54,34 @@ public class CobolDecimalTypeTest {
     public void testDecimalInRange() {
         CobolDecimalType < BigDecimal > cobolDecimal = getCobolDecimal(false,
                 5, 0, true, BigDecimal.valueOf(-5), 3);
-        assertFalse(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertFalse(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true, BigDecimal.ZERO, 3);
-        assertTrue(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true,
                 BigDecimal.valueOf(250.35), 3);
-        assertTrue(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true,
                 BigDecimal.valueOf(99999), 3);
-        assertTrue(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true,
                 BigDecimal.valueOf(100000), 3);
-        assertFalse(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertFalse(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(true, 5, 0, true,
                 BigDecimal.valueOf(-250.54), 3);
-        assertTrue(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(true, 5, 0, true,
                 BigDecimal.valueOf(-99999), 3);
-        assertTrue(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(true, 5, 0, true,
                 BigDecimal.valueOf(-100000), 3);
-        assertFalse(cobolDecimal.isValid(HexUtils.decodeHex("c1c1c1"), 0));
+        assertFalse(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
     }
 
     public CobolDecimalType < BigDecimal > getCobolDecimal(boolean signed,
@@ -94,7 +94,7 @@ public class CobolDecimalTypeTest {
             int totalDigits, int fractionDigits, final boolean isValid,
             final BigDecimal value, final int bytesLen) {
 
-        return new MyCobolDecimalType.Builder(cobolContext, BigDecimal.class)
+        return new MyCobolDecimalType.Builder(BigDecimal.class)
                 .signed(signed).totalDigits(totalDigits).fractionDigits(fractionDigits)
                 .valid(isValid).fromHost(value).bytesLen(bytesLen)
                 .build();
@@ -112,8 +112,8 @@ public class CobolDecimalTypeTest {
 
             private int bytesLen;
 
-            public Builder(CobolContext cobolContext, Class < BigDecimal > clazz) {
-                super(cobolContext, clazz, 18);
+            public Builder(Class < BigDecimal > clazz) {
+                super(clazz, 18);
             }
 
             public Builder valid(boolean value) {
@@ -154,12 +154,12 @@ public class CobolDecimalTypeTest {
             bytesLen = builder.bytesLen;
         }
 
-        protected boolean isValidInternal(Class < BigDecimal > clazz,
+        protected boolean isValidInternal(CobolContext cobolContext, Class < BigDecimal > clazz,
                 byte[] hostData, int start) {
             return valid;
         }
 
-        protected BigDecimal fromHostInternal(Class < BigDecimal > clazz,
+        protected BigDecimal fromHostInternal(CobolContext cobolContext, Class < BigDecimal > clazz,
                 byte[] hostData, int start) throws FromHostException {
             return fromHost;
         }

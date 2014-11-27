@@ -19,7 +19,7 @@ import com.legstar.converter.visitor.MaxBytesLenCobolVisitor;
 import com.legstar.converter.visitor.ObjectFromCobolVisitor;
 
 public class ObjectFromCobolVisitorLoadText {
-    
+
     public static final int RDW_LEN = 4;
 
     private byte[] rdw = new byte[RDW_LEN];
@@ -33,28 +33,30 @@ public class ObjectFromCobolVisitorLoadText {
 
     @Test
     public void testLoad() throws Exception {
-        
+
         MaxBytesLenCobolVisitor macLenCalculator = new MaxBytesLenCobolVisitor();
-        macLenCalculator.visit(CustdatFactory.createCustomerDataCobolType(cobolContext));
+        macLenCalculator.visit(CustdatFactory
+                .createCustomerDataCobolType());
         byte[] record = new byte[macLenCalculator.getMaxBytesLen()];
-        
-        CobolComplexType cobolType = CustdatFactory.createCustomerDataCobolType(cobolContext);
-        
-        FileInputStream is = new FileInputStream(new File("src/test/data/ZOS.FCUSTDAT.RDW.bin"));
+
+        CobolComplexType cobolType = CustdatFactory
+                .createCustomerDataCobolType();
+
+        FileInputStream is = new FileInputStream(new File(
+                "src/test/data/ZOS.FCUSTDAT.RDW.bin"));
         int rdw;
         int count = 0;
-        while((rdw = getRecLen(is)) > 0 ) {
+        while ((rdw = getRecLen(is)) > 0) {
             readFully(is, record, 0, rdw);
             ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(
-                    record,
-                    0);
+                    cobolContext, record, 0);
             visitor.visit(cobolType);
             count++;
 
         }
         assertEquals(10000, count);
     }
-    
+
     private int getRecLen(FileInputStream is) throws Exception {
         int c = is.read(rdw);
         if (c < RDW_LEN) {
@@ -63,10 +65,11 @@ public class ObjectFromCobolVisitorLoadText {
         ByteBuffer buf = ByteBuffer.allocate(2);
         buf.put(rdw, 0, 2).position(0);
         return buf.getShort() - RDW_LEN;
-        
+
     }
 
-    public int readFully(InputStream is, byte b[], int off, int len) throws IOException {
+    public int readFully(InputStream is, byte b[], int off, int len)
+            throws IOException {
         int remaining = len;
         while (remaining > 0) {
             int location = len - remaining;

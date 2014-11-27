@@ -99,7 +99,8 @@ public class CobolBinaryTypeTest {
 
     @Test
     public void testFromHostShortUnderflow() {
-        assertEquals("32767", getValueComp5(Short.class, false, 9, 0, "00007FFF"));
+        assertEquals("32767",
+                getValueComp5(Short.class, false, 9, 0, "00007FFF"));
         try {
             getValueComp5(Short.class, false, 9, 0, "00008FFF");
             fail();
@@ -111,8 +112,10 @@ public class CobolBinaryTypeTest {
         }
         assertEquals("-1", getValueComp5(Short.class, true, 9, 0, "FFFFFFFF"));
         assertEquals("-1", getValueComp5(Integer.class, true, 9, 0, "FFFFFFFF"));
-        assertEquals("-32768", getValueComp5(Short.class, true, 9, 0, "FFFF8000"));
-        assertEquals("-32768", getValueComp5(Integer.class, true, 9, 0, "FFFF8000"));
+        assertEquals("-32768",
+                getValueComp5(Short.class, true, 9, 0, "FFFF8000"));
+        assertEquals("-32768",
+                getValueComp5(Integer.class, true, 9, 0, "FFFF8000"));
 
         try {
             getValueComp5(Short.class, false, 9, 0, "00FF8000");
@@ -135,14 +138,15 @@ public class CobolBinaryTypeTest {
             int fractionDigits, String hexHostData) {
 
         return getType(BigDecimal.class, signed, totalDigits, fractionDigits)
-                .isValid(HexUtils.decodeHex(hexHostData), 0);
+                .isValid(cobolContext, HexUtils.decodeHex(hexHostData), 0);
     }
 
     private boolean isValidComp5(boolean signed, int totalDigits,
             int fractionDigits, String hexHostData) {
 
-        return getTypeComp5(BigDecimal.class, signed, totalDigits, fractionDigits)
-                .isValid(HexUtils.decodeHex(hexHostData), 0);
+        return getTypeComp5(BigDecimal.class, signed, totalDigits,
+                fractionDigits).isValid(cobolContext,
+                HexUtils.decodeHex(hexHostData), 0);
     }
 
     private String getValue(boolean signed, int totalDigits,
@@ -156,22 +160,22 @@ public class CobolBinaryTypeTest {
             String hexHostData) {
 
         return getType(clazz, signed, totalDigits, fractionDigits)
-                .fromHost(HexUtils.decodeHex(hexHostData), 0).getValue()
-                .toString();
+                .fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
+                .getValue().toString();
 
     }
-    
+
     private <T extends Number> CobolBinaryType < T > getType(Class < T > clazz,
             boolean signed, int totalDigits, int fractionDigits) {
-        return new CobolBinaryType.Builder < T >(
-                cobolContext, clazz).signed(signed).totalDigits(totalDigits)
-                .fractionDigits(fractionDigits).build();
+        return new CobolBinaryType.Builder < T >(clazz).signed(signed)
+                .totalDigits(totalDigits).fractionDigits(fractionDigits)
+                .build();
     }
-    
+
     private String getValueComp5(boolean signed, int totalDigits,
             int fractionDigits, String hexHostData) {
-        return getValueComp5(BigDecimal.class, signed, totalDigits, fractionDigits,
-                hexHostData);
+        return getValueComp5(BigDecimal.class, signed, totalDigits,
+                fractionDigits, hexHostData);
     }
 
     private <T extends Number> String getValueComp5(Class < T > clazz,
@@ -179,18 +183,17 @@ public class CobolBinaryTypeTest {
             String hexHostData) {
 
         return getTypeComp5(clazz, signed, totalDigits, fractionDigits)
-                .fromHost(HexUtils.decodeHex(hexHostData), 0).getValue()
-                .toString();
+                .fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
+                .getValue().toString();
 
     }
-    
+
     private <T extends Number> CobolBinaryType < T > getTypeComp5(
             Class < T > clazz, boolean signed, int totalDigits,
             int fractionDigits) {
-        return new CobolBinaryType.Builder < T >(cobolContext, clazz)
-                .signed(signed).totalDigits(totalDigits)
-                .fractionDigits(fractionDigits).minInclusive(null)
-                .maxInclusive(null).build();
+        return new CobolBinaryType.Builder < T >(clazz).signed(signed)
+                .totalDigits(totalDigits).fractionDigits(fractionDigits)
+                .minInclusive(null).maxInclusive(null).build();
     }
-    
+
 }

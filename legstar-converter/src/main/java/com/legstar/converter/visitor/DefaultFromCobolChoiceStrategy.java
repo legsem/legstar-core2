@@ -3,6 +3,7 @@ package com.legstar.converter.visitor;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.type.FromHostException;
 import com.legstar.converter.type.composite.CobolArrayType;
@@ -19,6 +20,15 @@ import com.legstar.converter.type.primitive.CobolPrimitiveType;
  * If no alternative validates, returns null.
  */
 public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
+
+    /**
+     * Host COBOL configuration parameters.
+     */
+    private final CobolContext cobolContext;
+
+    public DefaultFromCobolChoiceStrategy(CobolContext cobolContext) {
+        this.cobolContext = cobolContext;
+    }
 
     public CobolType choose(String choiceFieldName,
             CobolChoiceType cobolChoiceType, Map < String, Object > variables,
@@ -41,7 +51,7 @@ public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
             int start) {
 
         ValidateFromCobolVisitor visitor = new ValidateFromCobolVisitor(
-                hostData, start);
+                cobolContext, hostData, start);
         if (alternative instanceof CobolComplexType) {
             visitor.visit((CobolComplexType) alternative);
         } else if (alternative instanceof CobolArrayType) {

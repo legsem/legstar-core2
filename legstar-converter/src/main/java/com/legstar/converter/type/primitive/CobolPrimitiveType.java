@@ -31,21 +31,23 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
      * Check if a byte array contains valid mainframe data for this type
      * characteristics.
      * 
+     * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
      */
-    public abstract boolean isValid(byte[] hostData, int start);
+    public abstract boolean isValid(CobolContext cobolContext, byte[] hostData, int start);
 
     /**
      * Convert mainframe data into a Java object.
      * 
+     * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return the mainframe value as a java object
      * @throws FromHostException if conversion fails
      */
-    public abstract FromHostResult < T > fromHost(byte[] hostData, int start)
+    public abstract FromHostResult < T > fromHost(CobolContext cobolContext, byte[] hostData, int start)
             throws FromHostException;
 
     /**
@@ -74,16 +76,9 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     // -----------------------------------------------------------------------------
     public abstract static class Builder<T, B extends Builder < T, B >> {
 
-        // Required
-        private final CobolContext cobolContext;
-
         // Optional
         private boolean odoObject = false;
         private boolean customVariable = false;
-
-        public Builder(CobolContext cobolContext) {
-            this.cobolContext = cobolContext;
-        }
 
         public B odoObject(boolean value) {
             odoObject = value;
@@ -103,8 +98,6 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     // Constructor
     // -----------------------------------------------------------------------------
     public CobolPrimitiveType(Builder < T, ? > builder) {
-        super(builder.cobolContext);
-
         odoObject = builder.odoObject;
         customVariable = builder.customVariable;
 

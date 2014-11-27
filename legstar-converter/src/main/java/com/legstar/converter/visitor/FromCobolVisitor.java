@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.type.ConversionException;
 import com.legstar.converter.type.FromHostException;
@@ -21,6 +22,11 @@ import com.legstar.converter.type.primitive.CobolPrimitiveType;
  * 
  */
 public abstract class FromCobolVisitor implements CobolVisitor {
+
+    /**
+     * Host COBOL configuration parameters.
+     */
+    private final CobolContext cobolContext;
 
     /**
      * Incoming mainframe data.
@@ -70,12 +76,13 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     // -----------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------
-    public FromCobolVisitor(byte[] hostData, int start) {
-        this(hostData, start, null);
+    public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start) {
+        this(cobolContext, hostData, start, null);
     }
 
-    public FromCobolVisitor(byte[] hostData, int start,
-            FromCobolChoiceStrategy customChoiceStrategy) {
+    public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, FromCobolChoiceStrategy customChoiceStrategy) {
         if (hostData == null) {
             throw new IllegalArgumentException("Mainframe data buffer is null");
         }
@@ -83,12 +90,14 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             throw new IllegalArgumentException("Start position " + start
                     + " is outside the mainframe data buffer");
         }
+        this.cobolContext = cobolContext;
         this.hostData = hostData;
         this.start = start;
         this.lastPos = start;
         variables = new HashMap < String, Object >();
         this.customChoiceStrategy = customChoiceStrategy;
-        this.defaultChoiceStrategy = new DefaultFromCobolChoiceStrategy();
+        this.defaultChoiceStrategy = new DefaultFromCobolChoiceStrategy(
+                cobolContext);
     }
 
     // -----------------------------------------------------------------------------
@@ -192,8 +201,8 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public void visitCobolPrimitiveType(CobolPrimitiveType < ? > type,
             PrimitiveTypeHandler callback) throws ConversionException {
 
-        FromHostResult < ? > result = type
-                .fromHost(getHostData(), getLastPos());
+        FromHostResult < ? > result = type.fromHost(cobolContext,
+                getHostData(), getLastPos());
         this.lastPos += result.getBytesProcessed();
 
         // Keep those values that might be needed later
@@ -378,6 +387,10 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void setCurFieldName(String curFieldName) {
         this.curFieldName = curFieldName;
+    }
+
+    public CobolContext getCobolContext() {
+        return cobolContext;
     }
 
 }

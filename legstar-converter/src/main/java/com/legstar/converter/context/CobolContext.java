@@ -39,11 +39,6 @@ public interface CobolContext {
     public String getHostCharsetName();
 
     /**
-     * @return maximum number of characters in a PIC X.
-     */
-    public int getMaxPicXCharnum();
-
-    /**
      * @return should trailing spaces be trimmed from host strings when
      *         converted to java
      */

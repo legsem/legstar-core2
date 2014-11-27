@@ -1,5 +1,6 @@
 package com.legstar.converter.visitor;
 
+import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
 import com.legstar.converter.type.ConversionException;
 import com.legstar.converter.type.FromHostResult;
@@ -60,19 +61,20 @@ public class ValidateFromCobolVisitor extends FromCobolVisitor {
 
     };
 
-    public ValidateFromCobolVisitor(byte[] hostData, int start) {
-        this(hostData, start, null, null);
+    public ValidateFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start) {
+        this(cobolContext, hostData, start, null, null);
     }
 
-    public ValidateFromCobolVisitor(byte[] hostData, int start,
-            String stopFieldInclusive) {
-        this(hostData, start, stopFieldInclusive, null);
+    public ValidateFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, String stopFieldInclusive) {
+        this(cobolContext, hostData, start, stopFieldInclusive, null);
     }
 
-    public ValidateFromCobolVisitor(byte[] hostData, int start,
-            String stopFieldInclusive,
+    public ValidateFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, String stopFieldInclusive,
             FromCobolChoiceStrategy customChoiceStrategy) {
-        super(hostData, start, customChoiceStrategy);
+        super(cobolContext, hostData, start, customChoiceStrategy);
         this.stopFieldInclusive = stopFieldInclusive;
         this.valid = true;
     }
@@ -104,12 +106,12 @@ public class ValidateFromCobolVisitor extends FromCobolVisitor {
      * {@inheritDoc}
      */
     public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
-        if (type.isValid(getHostData(), getLastPos())) {
+        if (type.isValid(getCobolContext(), getHostData(), getLastPos())) {
 
             // Perform conversion for those values that might be needed later
             if (type.isOdoObject() || type.isCustomVariable()) {
-                FromHostResult < ? > result = type.fromHost(getHostData(),
-                        getLastPos());
+                FromHostResult < ? > result = type.fromHost(getCobolContext(),
+                        getHostData(), getLastPos());
                 putVariable(getCurFieldName(), result.getValue());
                 setLastPos(getLastPos() + result.getBytesProcessed());
             } else {

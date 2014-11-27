@@ -13,16 +13,15 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
 
     public static final int MAX_TOTAL_DIGITS = 18;
 
-    
-   /**
+    /**
      * Size of the buffer needed to hold 2's complement java values of this
      * type.
      */
     private final int bufferLen;
 
     /** {@inheritDoc} */
-    protected boolean isValidInternal(Class < T > clazz, byte[] hostData,
-            int start) {
+    protected boolean isValidInternal(CobolContext cobolContext,
+            Class < T > clazz, byte[] hostData, int start) {
         // Unsigned numeric must have sign bit turned off
         if (!isSigned() && isNegative(hostData[start])) {
             return false;
@@ -32,7 +31,8 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(Class < T > clazz, byte[] hostData, int start) {
+    protected T fromHostInternal(CobolContext cobolContext, Class < T > clazz,
+            byte[] hostData, int start) {
         ByteBuffer bb = getByteBuffer(clazz, hostData, start);
         return valueOf(clazz, bb, getFractionDigits());
     }
@@ -129,8 +129,8 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     public static class Builder<T extends Number> extends
             CobolDecimalType.Builder < T, Builder < T >> {
 
-        public Builder(CobolContext cobolContext, Class < T > clazz) {
-            super(cobolContext, clazz, MAX_TOTAL_DIGITS);
+        public Builder(Class < T > clazz) {
+            super(clazz, MAX_TOTAL_DIGITS);
         }
 
         public CobolBinaryType < T > build() {
@@ -148,7 +148,7 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     // -----------------------------------------------------------------------------
     private CobolBinaryType(Builder < T > builder) {
         super(builder);
-        
+
         // Determine the byte buffer length needed to hold the 2's complement
         // value for this java type
         if (getClazz().equals(Short.class)) {
