@@ -1,7 +1,6 @@
 package com.legstar.converter.type.composite;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,18 +16,18 @@ import com.legstar.converter.visitor.CobolVisitor;
 public class CobolChoiceType extends CobolCompositeType {
 
     /**
-     * Alternatives are kept in a LinkedHashMap to preserve entry order.
+     * List of alternatives mapping to their COBOL type.
      */
-    private final LinkedHashMap < String, CobolType > alternatives;
+    private final Map < String, CobolType > alternatives;
 
     /**
-     * Allows to efficiently retrieve the name of an alternative in its parent
-     * choice.
+     * Allows to efficiently retrieve the name of an alternative given its COBOL
+     * type.
      */
     private final Map < CobolType, String > namesMap;
 
     public CobolChoiceType(CobolContext cobolContext,
-            LinkedHashMap < String, CobolType > alternatives) {
+            Map < String, CobolType > alternatives) {
         super(cobolContext);
         this.alternatives = alternatives;
         this.namesMap = new HashMap < CobolType, String >();
@@ -41,7 +40,7 @@ public class CobolChoiceType extends CobolCompositeType {
         visitor.visit(this);
     }
 
-    public LinkedHashMap < String, CobolType > getAlternatives() {
+    public Map < String, CobolType > getAlternatives() {
         return alternatives;
     }
 

@@ -1,6 +1,6 @@
 package com.legstar.converter.type.composite;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.legstar.converter.context.CobolContext;
 import com.legstar.converter.type.CobolType;
@@ -13,18 +13,18 @@ import com.legstar.converter.visitor.CobolVisitor;
 public class CobolComplexType extends CobolCompositeType {
 
     /**
-     * Children are kept in a LinkedHashMap to preserve entry order.
+     * List of fields mapping to their COBOL type.
      */
-    private final LinkedHashMap < String, CobolType > children;
+    private final Map < String, CobolType > fields;
 
     public CobolComplexType(CobolContext cobolContext,
-            LinkedHashMap < String, CobolType > children) {
+            Map < String, CobolType > children) {
         super(cobolContext);
-        this.children = children;
+        this.fields = children;
     }
 
-    public LinkedHashMap < String, CobolType > getChildren() {
-        return children;
+    public Map < String, CobolType > getFields() {
+        return fields;
     }
 
     /** {@inheritDoc} */

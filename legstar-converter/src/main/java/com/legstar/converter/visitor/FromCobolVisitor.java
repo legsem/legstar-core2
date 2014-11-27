@@ -103,7 +103,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void visitComplexType(CobolComplexType type,
             ComplexTypeChildHandler callback) {
-        for (Entry < String, CobolType > child : type.getChildren().entrySet()) {
+        for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             curFieldName = child.getKey();
             child.getValue().accept(this);
             if (!callback.postVisit(child.getKey(), child.getValue())) {

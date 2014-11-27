@@ -40,7 +40,7 @@ public class MinBytesLenCobolVisitor implements CobolVisitor {
     }
 
     public void visit(CobolComplexType type) throws ConversionException {
-        for (Entry < String, CobolType > child : type.getChildren().entrySet()) {
+        for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             child.getValue().accept(this);
             if (child.getKey().equals(stopFieldInclusive)) {
                 break;
