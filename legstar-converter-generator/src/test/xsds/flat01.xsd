@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://beans.test.avro.legstar/flat01" elementFormDefault="qualified" targetNamespace="http://beans.test.avro.legstar/flat01">
+    <complexType name="Flat01Record">
+        <sequence>
+            <element name="comNumber">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-NUMBER" levelNumber="5" picture="9(6)" signed="false" srceLine="2" totalDigits="6" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="6"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="comName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-NAME" levelNumber="5" picture="X(20)" srceLine="3" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="comAmount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-AMOUNT" fractionDigits="2" levelNumber="5" picture="9(5)V99" signed="false" srceLine="4" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="flat01Record" type="tns:Flat01Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="FLAT01-RECORD" levelNumber="1" srceLine="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

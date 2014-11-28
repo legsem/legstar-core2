@@ -26,7 +26,8 @@ public class Ardo01Factory {
                 new CobolBinaryType.Builder < Short >(Short.class)
                         .signed(false).totalDigits(4).fractionDigits(0)
                         .minInclusive(Short.valueOf("0"))
-                        .maxInclusive(Short.valueOf("5")).odoObject(true)
+                        .maxInclusive(Short.valueOf("5"))
+                        .odoObject(true)
                         .build());
 
         CobolPackedDecimalType < BigDecimal > arrayItemType = new CobolPackedDecimalType.Builder < BigDecimal >(

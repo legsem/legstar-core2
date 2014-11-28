@@ -1,0 +1,42 @@
+{{~#if complexType}}
+{{~#if maxOccurs}}
+        fields.put("{{@key}}", new CobolArrayType(create{{complexTypeName}}(), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+{{~else}}
+        fields.put("{{@key}}", create{{complexTypeName}}());
+{{~/if ~}}{{!-- maxOccurs --}}
+{{~else}}
+{{~#if choiceType}}
+{{~#if maxOccurs}}
+        fields.put("{{@key}}", new CobolArrayType(create{{complexTypeName}}(), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+{{~else}}
+        fields.put("{{@key}}", create{{complexTypeName}}());
+{{~/if ~}}{{!-- maxOccurs --}}
+{{~else}}
+        {{cobolTypeName}}{{#if javaTypeName}} < {{javaTypeName}} >{{/if}} {{@key}} =
+                new {{cobolTypeName}}.Builder{{#if javaTypeName}} < {{javaTypeName}} >{{/if}}({{#if javaTypeName}}{{javaTypeName}}.class{{/if}})
+                        {{~#if signed}}
+                        .signed({{signed}}){{/if}}
+                        {{~#if signLeading}}
+                        .signLeading({{signLeading}}){{/if}}
+                        {{~#if signSeparate}}
+                        .signSeparate({{signSeparate}}){{/if}}
+                        {{~#if totalDigits}}
+                        .totalDigits({{totalDigits}}){{/if}}
+                        {{~#if fractionDigits}}
+                        .fractionDigits({{fractionDigits}}){{/if}}
+                        {{~#if charNum}}
+                        .charNum({{charNum}}){{/if}}
+                        {{~#if minInclusive}}
+                        .minInclusive({{javaTypeName}}.valueOf("{{minInclusive}}")){{/if}}
+                        {{~#if maxInclusive}}
+                        .maxInclusive({{javaTypeName}}.valueOf("{{maxInclusive}}")){{/if}}
+                        {{~#if odoObject}}
+                        .odoObject(true){{/if}}
+                        .build();
+{{~#if maxOccurs}}
+        fields.put("{{@key}}", new CobolArrayType({{@key}}, {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+{{~else}}
+        fields.put("{{@key}}", {{@key}});
+{{~/if ~}}{{!-- maxOccurs --}}
+{{~/if ~}}{{!-- choiceType --}}
+{{~/if ~}}{{!-- complexType --}}

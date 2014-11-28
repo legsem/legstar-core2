@@ -1,0 +1,37 @@
+package {{package_name}};
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.legstar.converter.type.CobolType;
+import com.legstar.converter.type.composite.*;
+import com.legstar.converter.type.primitive.*;
+
+public class {{class_name}} {
+
+    public static CobolComplexType create() {
+        return create{{root_type_name}}();
+    }
+{{#each complex_types}}
+    public static CobolComplexType create{{@key}}() {
+
+        Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
+{{#each this ~}}
+{{> com/legstar/converter/generator/java.field}}
+{{~/each}}{{!-- this: fields in complex type --}}
+        return new CobolComplexType(fields);
+
+    }
+{{/each}}{{!-- complex_types --}}
+{{~#each choice_types}}
+    public static CobolChoiceType create{{@key}}() {
+
+        Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
+{{#each this ~}}
+{{> com/legstar/converter/generator/java.field}}
+{{~/each}}{{!-- this: fields in choice type --}}
+        return new CobolChoiceType(fields);
+
+    }
+{{/each}}{{!-- choice_types --}}
+}
