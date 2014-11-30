@@ -1,0 +1,64 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. VARARCOM.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A FIXED SIZE COMPLEX ARRAY                 *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  WS-I    PIC 9(4) COMP VALUE ZERO.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 C-ITEMS-NUMBER PIC S9(4) COMP-5.
+          05 C-ARRAY   OCCURS 1 TO 250 DEPENDING ON C-ITEMS-NUMBER.
+             10 C-ITEM-1  PIC X(5).
+             10 C-ITEM-2  PIC S9(4) BINARY.
+          
+       PROCEDURE DIVISION.
+      *
+      * First check what we received
+      *
+           IF C-ITEMS-NUMBER NOT = 5
+              DISPLAY 'VARARCOM ERROR. RECEIVED=' C-ITEMS-NUMBER
+                      ' WHILE EXPECTING=' 5
+           END-IF.
+           
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 5
+           
+               IF C-ITEM-1 (WS-I) NOT = 'ABCDE'
+                  DISPLAY 'VARARCOM ERROR. RECEIVED=' C-ITEM-1 (WS-I)
+                          ' WHILE EXPECTING=' 'ABCDE'
+               END-IF
+               IF C-ITEM-2 (WS-I) NOT = WS-I
+                  DISPLAY 'VARARCOM ERROR. RECEIVED=' C-ITEM-2 (WS-I)
+                          ' WHILE EXPECTING=' WS-I
+               END-IF
+           
+           END-PERFORM.
+      *
+      * Create some output
+      *
+           MOVE 36 TO C-ITEMS-NUMBER.
+           
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 36
+           
+               MOVE 'FGHIJ' TO C-ITEM-1 (WS-I)
+               COMPUTE C-ITEM-2 (WS-I) = WS-I * 5
+           
+           END-PERFORM.
+           
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM VARARCOM.

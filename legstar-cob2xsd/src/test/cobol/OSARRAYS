@@ -1,0 +1,63 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. OSARRAYS.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH OCTET STREAM ARRAYS                        *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9(9) COMP VALUE ZERO.
+       01 WS-J   PIC 9 VALUE ZERO.
+       01 WS-X   PIC X(5) VALUE SPACES.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 S-STRING   PIC X(4).
+          05 S-BINARY   PIC X(4).
+                   
+          05 A-STRING   OCCURS 2 PIC X(4).
+          05 A-BINARY   OCCURS 2 PIC X(4).
+          
+       PROCEDURE DIVISION.
+
+      *
+      * First check what we received
+      *
+           IF S-STRING NOT = 'ABCD'
+                DISPLAY 'OSARRAYS ERROR. RECEIVED=' S-STRING
+                        ' WHILE EXPECTING=' 'ABCD'
+           END-IF.
+           IF S-BINARY NOT = X'0102'
+                DISPLAY 'OSARRAYS ERROR. RECEIVED=' S-BINARY
+                        ' WHILE EXPECTING=' X'0102'
+           END-IF.
+                
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 2
+           
+               IF A-STRING(WS-I) NOT = 'ABCD'
+                    DISPLAY 'OSARRAYS ERROR RECEIVED=' A-STRING(WS-I)
+                            ' WHILE EXPECTING=' 'ABCD'
+               END-IF
+               IF A-BINARY(WS-I) NOT = X'0102'
+                    DISPLAY 'OSARRAYS ERROR RECEIVED=' A-BINARY(WS-I)
+                            ' WHILE EXPECTING=' X'0102'
+               END-IF
+              
+           END-PERFORM.
+
+           
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM OSARRAYS.

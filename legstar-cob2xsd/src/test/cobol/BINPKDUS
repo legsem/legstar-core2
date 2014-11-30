@@ -1,0 +1,130 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. BINPKDUS.
+      *****************************************************************
+      * AUTHOR                                                        *
+      * ------                                                        *
+      * Fady Moussallam   fady@legsem.com                             *
+      *                                                               *
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL program used to test binary numeric conversions           *
+      * Test case: UNSIGNED PACKED DECIMAL                            *
+      *                                                               *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+       
+       01  WS-RESP                    PIC S9(8) COMP VALUE ZERO.
+       01  WS-RESP2                   PIC S9(8) COMP VALUE ZERO.
+
+       01  WS-EXPECTED-INCOMING-DATA.
+           05 WS-UNSIGNED-PACKED-DECIMAL.
+              10 WS-COMPAT.
+                 15 WS-P9X1-NULL      PIC 9(1) PACKED-DECIMAL VALUE 0.
+                 15 WS-P9X1           PIC 9(1) PACKED-DECIMAL VALUE 3.
+                 15 WS-P9X2           PIC 9(2) PACKED-DECIMAL VALUE 12.
+                 15 WS-P9X7           PIC 9(7) PACKED-DECIMAL
+                                  VALUE 32769.
+                 15 WS-P9X18          PIC 9(18) PACKED-DECIMAL
+                                  VALUE 123456789012345678.
+              10 WS-EXTEND.
+                 15 WS-P9X19          PIC 9(19) PACKED-DECIMAL
+                                  VALUE 1234567890123456789.
+                 15 WS-P9X31          PIC 9(31) PACKED-DECIMAL
+                                  VALUE 1234567890123456789012345678901.
+                    
+       01  FILLER.
+           05 WS-PS9X18-DIS-1              PIC +9(18).
+           05 WS-PS9X18-DIS-2              PIC +9(18).
+           05 WS-PS9X31-DIS-1              PIC +9(31).
+           05 WS-PS9X31-DIS-2              PIC +9(31).
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05 LS-UNSIGNED-PACKED-DECIMAL.
+              10 LS-COMPAT.
+                 15 LS-P9X1-NULL      PIC 9(1) PACKED-DECIMAL.
+                 15 LS-P9X1           PIC 9(1) PACKED-DECIMAL.
+                 15 LS-P9X2           PIC 9(2) PACKED-DECIMAL.
+                 15 LS-P9X7           PIC 9(7) PACKED-DECIMAL.
+                 15 LS-P9X18          PIC 9(18) PACKED-DECIMAL.
+              10 LS-EXTEND.
+                 15 LS-P9X19          PIC 9(19) PACKED-DECIMAL.
+                 15 LS-P9X31          PIC 9(31) PACKED-DECIMAL.
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+       
+           PERFORM CHECK-INCOMING-DATA THRU
+               END-CHECK-INCOMING-DATA.
+
+           MOVE WS-EXPECTED-INCOMING-DATA
+             TO LS-UNSIGNED-PACKED-DECIMAL.           
+           EXEC CICS RETURN END-EXEC.
+           GOBACK.
+           
+      *****************************************************************
+      * Verify that incoming data contains what is expected           *
+      *****************************************************************
+       CHECK-INCOMING-DATA.
+           IF LS-P9X1-NULL NOT = WS-P9X1-NULL
+              COMPUTE WS-PS9X18-DIS-1 = LS-P9X1-NULL
+              COMPUTE WS-PS9X18-DIS-2 = WS-P9X1-NULL
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+
+           IF LS-P9X1 NOT = WS-P9X1
+              COMPUTE WS-PS9X18-DIS-1 = LS-P9X1
+              COMPUTE WS-PS9X18-DIS-2 = WS-P9X1
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           IF LS-P9X2 NOT = WS-P9X2
+              COMPUTE WS-PS9X18-DIS-1 = LS-P9X2
+              COMPUTE WS-PS9X18-DIS-2 = WS-P9X2
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           IF LS-P9X7 NOT = WS-P9X7
+              COMPUTE WS-PS9X18-DIS-1 = LS-P9X7
+              COMPUTE WS-PS9X18-DIS-2 = WS-P9X7
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           IF LS-P9X18 NOT = WS-P9X18
+              COMPUTE WS-PS9X18-DIS-1 = LS-P9X18
+              COMPUTE WS-PS9X18-DIS-2 = WS-P9X18
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           
+           IF LS-P9X19 NOT = WS-P9X19
+              COMPUTE WS-PS9X31-DIS-1 = LS-P9X19
+              COMPUTE WS-PS9X31-DIS-2 = WS-P9X19
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X31-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X31-DIS-2
+           END-IF.
+           IF LS-P9X31 NOT = WS-P9X31
+              COMPUTE WS-PS9X31-DIS-1 = LS-P9X31
+              COMPUTE WS-PS9X31-DIS-2 = WS-P9X31
+              DISPLAY 'BINPKDUS ERROR. RECEIVED=' WS-PS9X31-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X31-DIS-2
+           END-IF.
+           
+       END-CHECK-INCOMING-DATA.    EXIT.
+

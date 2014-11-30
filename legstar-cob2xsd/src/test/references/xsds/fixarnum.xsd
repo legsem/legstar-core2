@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/fixarnum/fixarnum" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/fixarnum/fixarnum">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element maxOccurs="3" minOccurs="3" name="CArrayPd">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ARRAY-PD" fractionDigits="2" levelNumber="5" maxOccurs="3" minOccurs="3" picture="9(5)V99" signed="false" srceLine="23" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="CArrayZd">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ARRAY-ZD" fractionDigits="3" levelNumber="5" maxOccurs="3" minOccurs="3" picture="9(3)V999" signed="false" srceLine="24" totalDigits="6" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="6"/>
+                        <fractionDigits value="3"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="CArrayZi">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ARRAY-ZI" levelNumber="5" maxOccurs="3" minOccurs="3" picture="9(4)" signed="false" srceLine="25" totalDigits="4" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="CArrayBi">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ARRAY-BI" levelNumber="5" maxOccurs="3" minOccurs="3" picture="9(9)" signed="false" srceLine="26" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="CArrayNi">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ARRAY-NI" levelNumber="5" maxOccurs="3" minOccurs="3" picture="9(18)" signed="false" srceLine="27" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="22" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

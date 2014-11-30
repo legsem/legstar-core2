@@ -1,0 +1,67 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) DBCS CODEPAGE(01147)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CHARSETS.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * LOCAL CHARACTER SETS SUPPORT. TESTS FRENCH CHARACTER SET      *
+      * SUPPORT. SHOULD BE CHANGED TO SUPPORT A DBCS LANGUAGE INSTEAD.*
+      * On Windows with a US keyboard:                                *
+      * à = Alt + 0224                                                *
+      * ç = Alt + 0231                                                *
+      * è = Alt + 0232                                                *
+      * é = Alt + 0233                                                *
+      * ü = Alt + 0252                                                *
+      *                                                               *
+      *****************************************************************
+ 
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       
+        77  ABEND-INVALID-INPUT PIC X(4) VALUE 'TCII'.
+        01  WORK-BUFFER         PIC X(32) VALUE LOW-VALUES.
+        
+      *
+      * Expecting: 'ça c'est un problème'
+      * Host encoding is assumed to be IBM01147(EBCDIC French 297+euro)
+      *
+       01  FR-EXPECTED-INPUT    PIC X(20) 
+           VALUE X'e08140837d85a2a340a495409799968293d09485'.
+      *
+      * Producing: 'élémentaire à résoudre'
+      * Host encoding is assumed to be IBM01147(EBCDIC French 297+euro)
+      *
+       01  FR-OUTPUT   PIC X(22) 
+           VALUE X'c093c0948595a381899985407c4099c0a296a4849985'.
+
+       LINKAGE SECTION.
+       01  DFHCOMMAREA.
+           05 COM-LOCAL             PIC X(32).
+           05 COM-DBCS              PIC G(32) USAGE DISPLAY-1.
+           05 COM-NATIONAL          PIC N(32) USAGE NATIONAL.
+          
+       PROCEDURE DIVISION.
+
+      *
+      * COM-LOCAL SHOULD HAVE BEEN ENCODED IN A HOST EBCDIC LOCAL CCSID
+      *     
+           IF (COM-LOCAL(1:20) NOT = FR-EXPECTED-INPUT)
+              DISPLAY 'UNEXPECTED COM-LOCAL INPUT=' COM-LOCAL
+              EXEC CICS ABEND ABCODE(ABEND-INVALID-INPUT) END-EXEC
+           END-IF.
+           MOVE FR-OUTPUT TO COM-LOCAL.
+      *
+      * FOR NOW DO NOTHING WITH THE DBCS CHARS
+      *     
+           DISPLAY 'COM-DBCS=' COM-DBCS.
+           DISPLAY FUNCTION DISPLAY-OF(COM-NATIONAL).
+           
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM CHARSETS.

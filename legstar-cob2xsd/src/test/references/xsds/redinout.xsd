@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/redinout/redinout" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/redinout/redinout">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="CNumeric">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NUMERIC" levelNumber="5" picture="9(4)" signed="false" srceLine="21" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <choice>
+                <element name="CBuffer">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-BUFFER" isRedefined="true" levelNumber="5" picture="X(500)" srceLine="22" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.redinout.ChoiceSelector"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="500"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="CParain" type="tns:CParain">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-PARAIN" levelNumber="5" redefines="C-BUFFER" srceLine="23" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="CParaout" type="tns:CParaout">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-PARAOUT" levelNumber="5" redefines="C-BUFFER" srceLine="25" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="CParain">
+        <sequence>
+            <element name="CSomeInput">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-SOME-INPUT" levelNumber="10" picture="X(15)" srceLine="24" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="15"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CParaout">
+        <sequence>
+            <element name="CSomeOutput">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-SOME-OUTPUT" levelNumber="10" picture="9(8)" signed="false" srceLine="26" totalDigits="8" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="Filler27">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="10" picture="X(17)" srceLine="27" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="17"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

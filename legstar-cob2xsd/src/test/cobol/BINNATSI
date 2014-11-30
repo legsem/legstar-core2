@@ -1,0 +1,181 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. BINNATSI.
+      *****************************************************************
+      * AUTHOR                                                        *
+      * ------                                                        *
+      * Fady Moussallam   fady@legsem.com                             *
+      *                                                               *
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL program used to test binary numeric conversions           *
+      * Test case: SIGNED NATIVE BINARY                               *
+      *                                                               *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+       
+       01  WS-RESP                    PIC S9(8) COMP VALUE ZERO.
+       01  WS-RESP2                   PIC S9(8) COMP VALUE ZERO.
+
+       01  WS-EXPECTED-INCOMING-DATA.
+           05 WS-UNSIGNED-NATIVE.
+              10 WS-HALFWORDS.
+                 15 WS-PS9X4-MIN    PIC S9(4) COMP-5 VALUE -32768.
+                 15 WS-PS9X4-LOW    PIC S9(4) COMP-5 VALUE -128.
+                 15 WS-PS9X4-HIGH   PIC S9(4) COMP-5 VALUE +1045.
+                 15 WS-PS9X4-MAX    PIC S9(4) COMP-5 VALUE +32767.
+              10 WS-FULLWORDS.
+                 15 WS-PS9X9-MIN    PIC S9(9) COMP-5 VALUE -2147483648.
+                 15 WS-PS9X9-LOW    PIC S9(9) COMP-5 VALUE -128.
+                 15 WS-PS9X9-HIGH   PIC S9(9) COMP-5 VALUE +123456789.
+                 15 WS-PS9X9-MAX    PIC S9(9) COMP-5 VALUE +2147483647.
+              10 WS-DOUBLEWORDS.
+                 15 WS-PS9X18-MIN-B.
+                    20 FILLER       PIC S9(9) COMP-5 VALUE -2147483648.
+                    20 FILLER       PIC 9(9) COMP-5 VALUE 0.
+                 15 WS-PS9X18-MIN    REDEFINES WS-PS9X18-MIN-B
+                                    PIC S9(18) COMP-5.
+                 15 WS-PS9X18-LOW   PIC S9(18) COMP-5 VALUE -4294967294.
+                 15 WS-PS9X18-HIGH-B.
+                    20 FILLER       PIC 9(9) COMP-5 VALUE 3.
+                    20 FILLER       PIC 9(9) COMP-5 VALUE 4294967295.
+                 15 WS-PS9X18-HIGH   REDEFINES WS-PS9X18-HIGH-B
+                                    PIC S9(18) COMP-5.
+                 15 WS-PS9X18-MAX-B.
+                    20 FILLER       PIC 9(9) COMP-5 VALUE 2147483647.
+                    20 FILLER       PIC 9(9) COMP-5 VALUE 4294967295.
+                 15 WS-PS9X18-MAX    REDEFINES WS-PS9X18-MAX-B
+                                    PIC S9(18) COMP-5.
+                    
+       01  FILLER.
+           05 WS-PS9X4-DIS-1               PIC +9(5).
+           05 WS-PS9X9-DIS-1               PIC +9(10).
+           05 WS-PS9X18-DIS-1              PIC +9(20).
+           05 WS-PS9X4-DIS-2               PIC +9(5).
+           05 WS-PS9X9-DIS-2               PIC +9(10).
+           05 WS-PS9X18-DIS-2              PIC +9(20).
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05 LS-UNSIGNED-NATIVE.
+              10 LS-HALFWORDS.
+                 15 LS-PS9X4-MIN             PIC S9(4) COMP-5.
+                 15 LS-PS9X4-LOW             PIC S9(4) COMP-5.
+                 15 LS-PS9X4-HIGH            PIC S9(4) COMP-5.
+                 15 LS-PS9X4-MAX             PIC S9(4) COMP-5.
+              10 LS-FULLWORDS.
+                 15 LS-PS9X9-MIN             PIC S9(9) COMP-5.
+                 15 LS-PS9X9-LOW             PIC S9(9) COMP-5.
+                 15 LS-PS9X9-HIGH            PIC S9(9) COMP-5.
+                 15 LS-PS9X9-MAX             PIC S9(9) COMP-5.
+              10 LS-DOUBLEWORDS.
+                 15 LS-PS9X18-MIN            PIC S9(18) COMP-5.
+                 15 LS-PS9X18-LOW            PIC S9(18) COMP-5.
+                 15 LS-PS9X18-HIGH           PIC S9(18) COMP-5.
+                 15 LS-PS9X18-MAX            PIC S9(18) COMP-5.
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+       
+           PERFORM CHECK-INCOMING-DATA THRU
+               END-CHECK-INCOMING-DATA.
+
+           MOVE WS-EXPECTED-INCOMING-DATA TO LS-UNSIGNED-NATIVE.           
+           EXEC CICS RETURN END-EXEC.
+           GOBACK.
+           
+      *****************************************************************
+      * Verify that incoming data contains what is expected           *
+      *****************************************************************
+       CHECK-INCOMING-DATA.
+           IF LS-PS9X4-MIN NOT = WS-PS9X4-MIN
+              COMPUTE WS-PS9X4-DIS-1 = LS-PS9X4-MIN
+              COMPUTE WS-PS9X4-DIS-2 = WS-PS9X4-MIN
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X4-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X4-DIS-2
+           END-IF.
+           IF LS-PS9X4-LOW NOT = WS-PS9X4-LOW
+              COMPUTE WS-PS9X4-DIS-1 = LS-PS9X4-LOW
+              COMPUTE WS-PS9X4-DIS-2 = WS-PS9X4-LOW
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X4-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X4-DIS-2
+           END-IF.
+           IF LS-PS9X4-HIGH NOT = WS-PS9X4-HIGH
+              COMPUTE WS-PS9X4-DIS-1 = LS-PS9X4-HIGH
+              COMPUTE WS-PS9X4-DIS-2 = WS-PS9X4-HIGH
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X4-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X4-DIS-2
+           END-IF.
+           IF LS-PS9X4-MAX NOT = WS-PS9X4-MAX
+              COMPUTE WS-PS9X4-DIS-1 = LS-PS9X4-MAX
+              COMPUTE WS-PS9X4-DIS-2 = WS-PS9X4-MAX
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X4-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X4-DIS-2
+           END-IF.
+
+           IF LS-PS9X9-MIN NOT = WS-PS9X9-MIN
+              COMPUTE WS-PS9X9-DIS-1 = LS-PS9X9-MIN
+              COMPUTE WS-PS9X9-DIS-2 = WS-PS9X9-MIN
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X9-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X9-DIS-2
+           END-IF.
+           IF LS-PS9X9-LOW NOT = WS-PS9X9-LOW
+              COMPUTE WS-PS9X9-DIS-1 = LS-PS9X9-LOW
+              COMPUTE WS-PS9X9-DIS-2 = WS-PS9X9-LOW
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X9-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X9-DIS-2
+           END-IF.
+           IF LS-PS9X9-HIGH NOT = WS-PS9X9-HIGH
+              COMPUTE WS-PS9X9-DIS-1 = LS-PS9X9-HIGH
+              COMPUTE WS-PS9X9-DIS-2 = WS-PS9X9-HIGH
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X9-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X9-DIS-2
+           END-IF.
+           IF LS-PS9X9-MAX NOT = WS-PS9X9-MAX
+              COMPUTE WS-PS9X9-DIS-1 = LS-PS9X9-MAX
+              COMPUTE WS-PS9X9-DIS-2 = WS-PS9X9-MAX
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X9-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X9-DIS-2
+           END-IF.
+              
+           IF LS-PS9X18-MIN NOT = WS-PS9X18-MIN
+              COMPUTE WS-PS9X18-DIS-1 = LS-PS9X18-MIN
+              COMPUTE WS-PS9X18-DIS-2 = WS-PS9X18-MIN
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           IF LS-PS9X18-LOW NOT = WS-PS9X18-LOW
+              COMPUTE WS-PS9X18-DIS-1 = LS-PS9X18-LOW
+              COMPUTE WS-PS9X18-DIS-2 = WS-PS9X18-LOW
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           IF LS-PS9X18-HIGH NOT = WS-PS9X18-HIGH
+              COMPUTE WS-PS9X18-DIS-1 = LS-PS9X18-HIGH
+              COMPUTE WS-PS9X18-DIS-2 = WS-PS9X18-HIGH
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+           IF LS-PS9X18-MAX NOT = WS-PS9X18-MAX
+              COMPUTE WS-PS9X18-DIS-1 = LS-PS9X18-MAX
+              COMPUTE WS-PS9X18-DIS-2 = WS-PS9X18-MAX
+              DISPLAY 'BINNATSI ERROR. RECEIVED=' WS-PS9X18-DIS-1
+                      ' WHILE EXPECTING=' WS-PS9X18-DIS-2
+           END-IF.
+
+       END-CHECK-INCOMING-DATA.    EXIT.
+

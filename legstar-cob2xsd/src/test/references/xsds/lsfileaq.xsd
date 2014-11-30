@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/lsfileaq/lsfileaq" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/lsfileaq/lsfileaq">
+    <element name="Filler24">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="FILLER" levelNumber="1" picture="9(4)" signed="false" srceLine="24" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="unsignedShort">
+                <totalDigits value="4"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="QueryData" type="tns:QueryData">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="QUERY-DATA" levelNumber="5" srceLine="36" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="ReplyData" type="tns:ReplyData">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-DATA" levelNumber="5" srceLine="40" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="QueryData">
+        <sequence>
+            <element name="CustomerName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CUSTOMER-NAME" levelNumber="10" picture="X(20)" srceLine="37" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="MaxReplies">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="MAX-REPLIES" levelNumber="10" picture="S9(4)" signed="true" srceLine="38" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ReplyData">
+        <sequence>
+            <element name="ReplyCount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-COUNT" isODOObject="true" levelNumber="10" picture="9(8)" signed="false" srceLine="41" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="100" name="Customer" type="tns:Customer">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CUSTOMER" dependingOn="REPLY-COUNT" levelNumber="10" maxOccurs="100" minOccurs="1" srceLine="42" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Customer">
+        <sequence>
+            <element name="CustomerId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CUSTOMER-ID" levelNumber="15" picture="9(6)" signed="false" srceLine="43" totalDigits="6" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="6"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="PersonalData" type="tns:PersonalData">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="PERSONAL-DATA" levelNumber="15" srceLine="44" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <choice>
+                <element name="LastTransDate">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="LAST-TRANS-DATE" isRedefined="true" levelNumber="15" picture="X(8)" srceLine="48" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName=""/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="8"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="Filler49" type="tns:Filler49">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FILLER" levelNumber="15" redefines="LAST-TRANS-DATE" srceLine="49" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+            <element name="LastTransAmount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LAST-TRANS-AMOUNT" fractionDigits="2" levelNumber="15" picture="$9999.99" signed="false" srceLine="55" totalDigits="6" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                        <pattern value="($|\d|\s)?\d{0,4}\.?\d{0,2}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LastTransComment">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LAST-TRANS-COMMENT" levelNumber="15" picture="X(9)" srceLine="56" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="PersonalData">
+        <sequence>
+            <element name="CustomerName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CUSTOMER-NAME" levelNumber="20" picture="X(20)" srceLine="45" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CustomerAddress">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CUSTOMER-ADDRESS" levelNumber="20" picture="X(20)" srceLine="46" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CustomerPhone">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CUSTOMER-PHONE" levelNumber="20" picture="X(8)" srceLine="47" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Filler49">
+        <sequence>
+            <element name="LastTransDay">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LAST-TRANS-DAY" levelNumber="20" picture="X(2)" srceLine="50" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="Filler51">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="20" picture="X" srceLine="51" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LastTransMonth">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LAST-TRANS-MONTH" levelNumber="20" picture="X(2)" srceLine="52" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="Filler53">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="20" picture="X" srceLine="53" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LastTransYear">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LAST-TRANS-YEAR" levelNumber="20" picture="X(2)" srceLine="54" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="35" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

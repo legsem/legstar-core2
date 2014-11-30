@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/t1contxt/t1contxt" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/t1contxt/t1contxt">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="ComUserId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-USER-ID" levelNumber="5" picture="X(8)" srceLine="22" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComTransactionId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-TRANSACTION-ID" levelNumber="5" picture="X(4)" srceLine="23" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComTaskId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-TASK-ID" levelNumber="5" picture="S9(7)" signed="true" srceLine="24" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="7"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComTermId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-TERM-ID" levelNumber="5" picture="X(4)" srceLine="25" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComCommareaSize">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-COMMAREA-SIZE" levelNumber="5" picture="9(8)" signed="false" srceLine="26" totalDigits="8" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="21" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

@@ -1,0 +1,54 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ARRAYSSM.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * CASES FOR ARRAYS DEPENDING ON                                 *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9 VALUE ZERO.
+       
+       01 WS-ODO.
+          05 FILLER       PIC X(3) VALUE "ODO".
+          05 WS-ODO-A     PIC 9(2).
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 TABLE-SIZE   PIC 9(2).
+          05 TABLE-ODO OCCURS 1 TO 100 DEPENDING ON TABLE-SIZE
+                          PIC X(5).
+          
+       PROCEDURE DIVISION.
+      *
+      * First check what we received
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > TABLE-SIZE
+               MOVE WS-I TO WS-ODO-A
+               IF TABLE-ODO(WS-I) NOT = WS-ODO
+                   DISPLAY "TABLE-ODO ITEM" WS-I
+				           " RECEIVED:" TABLE-ODO(WS-I)
+				           " EXPECTED:" WS-ODO
+               END-IF
+           END-PERFORM.
+      *
+      * Send back everything in reverse order
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > TABLE-SIZE
+               COMPUTE WS-ODO-A = TABLE-SIZE - WS-I + 1
+               MOVE WS-ODO TO TABLE-ODO( WS-I)
+           END-PERFORM.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM ARRAYSSM.

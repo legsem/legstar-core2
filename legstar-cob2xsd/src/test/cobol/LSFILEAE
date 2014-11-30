@@ -1,0 +1,67 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LSFILEAE.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * SIMPLE DPL PROGRAM PERFORMING A READ ON FILEA (PART OF IBM    *
+      * CICS STANDARD SAMPLES).                                       *
+      * EXPECTED INPUT:                                               *
+      *   COM-NUMBER : A VALUE OF 100 SHOULD YIELD A RESULT           *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+
+      * DFH0CFIL IS A STANDARD IBM COPYBOOK DESCRIBING A FILEA RECORD
+       01  FILEA.   COPY DFH0CFIL.
+       
+       77  RESPONSE     PIC S9(8).
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 COM-NUMBER         PIC 9(6).
+          05 COM-PERSONAL.
+             10 COM-NAME        PIC X(20).
+             10 COM-ADDRESS     PIC X(20).
+             10 COM-PHONE       PIC X(8).
+          05 COM-DATE           PIC X(8).
+          05 COM-AMOUNT         PIC X(8).
+          05 COM-COMMENT        PIC X(9).
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+
+           EXEC CICS READ
+                INTO    (FILEA)
+                RIDFLD  (COM-NUMBER)
+                RESP    (RESPONSE)
+                FILE    ('FILEA')
+           END-EXEC.
+           IF RESPONSE NOT = DFHRESP(NORMAL)
+              INITIALIZE DFHCOMMAREA
+           ELSE
+              MOVE NAME    TO COM-NAME
+              MOVE ADDRX   TO COM-ADDRESS
+              MOVE PHONE   TO COM-PHONE
+              MOVE DATEX   TO COM-DATE
+              MOVE AMOUNT  TO COM-AMOUNT
+              MOVE COMMENT TO COM-COMMENT
+           END-IF.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM LSFILEAE.

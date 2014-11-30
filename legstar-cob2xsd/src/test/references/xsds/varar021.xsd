@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/varar021/varar021" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/varar021/varar021">
+    <complexType name="Filler23">
+        <sequence>
+            <choice>
+                <element name="WAlpha">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="W-ALPHA" isRedefined="true" levelNumber="5" picture="X(05)" srceLine="24" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName=""/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="5"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="WNum">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="W-NUM" levelNumber="5" picture="9(05)" redefines="W-ALPHA" signed="false" srceLine="25" totalDigits="5" type="ZONED_DECIMAL_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedInt">
+                            <totalDigits value="5"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <element name="Filler23" type="tns:Filler23">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="FILLER" levelNumber="1" srceLine="23" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="SearchGrplst">
+        <sequence>
+            <element name="Payload" type="tns:Payload">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="PAYLOAD" levelNumber="3" srceLine="32" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Payload">
+        <sequence>
+            <element name="WechRequestRows">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WECH-REQUEST-ROWS" isODOObject="true" levelNumber="5" picture="9(3)" signed="false" srceLine="33" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WechDynamicResponseRows">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WECH-DYNAMIC-RESPONSE-ROWS" isODOObject="true" levelNumber="5" picture="9(3)" signed="false" srceLine="34" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WechErrorRows">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WECH-ERROR-ROWS" isODOObject="true" levelNumber="5" picture="9(3)" signed="false" srceLine="35" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WechAdditionalPageKeys">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WECH-ADDITIONAL-PAGE-KEYS" levelNumber="5" picture="X(1)" srceLine="36" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element minOccurs="0" name="IStaticData" type="tns:IStaticData">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="I-STATIC-DATA" dependingOn="WECH-REQUEST-ROWS" levelNumber="5" maxOccurs="1" minOccurs="0" srceLine="37" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element maxOccurs="363" minOccurs="0" name="ODynamicData" type="tns:ODynamicData">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="O-DYNAMIC-DATA" dependingOn="WECH-DYNAMIC-RESPONSE-ROWS" levelNumber="5" maxOccurs="363" minOccurs="0" srceLine="42" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element maxOccurs="99" minOccurs="0" name="WellpointEaiEbsErrorRow" type="tns:WellpointEaiEbsErrorRow">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WELLPOINT-EAI-EBS-ERROR-ROW" dependingOn="WECH-ERROR-ROWS" levelNumber="5" maxOccurs="99" minOccurs="0" srceLine="47" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="IStaticData">
+        <sequence>
+            <element maxOccurs="2" minOccurs="2" name="LkupInfo" type="tns:LkupInfo39">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LKUP-INFO" levelNumber="10" maxOccurs="2" minOccurs="2" srceLine="39" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LkupInfo39">
+        <sequence>
+            <element name="LkupId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LKUP-ID" levelNumber="15" picture="X(18)" srceLine="40" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LkupTypCd">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LKUP-TYP-CD" levelNumber="15" picture="X(05)" srceLine="41" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ODynamicData">
+        <sequence>
+            <element maxOccurs="2" minOccurs="2" name="LkupInfo" type="tns:LkupInfo44">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LKUP-INFO" levelNumber="10" maxOccurs="2" minOccurs="2" srceLine="44" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LkupInfo44">
+        <sequence>
+            <element name="LkupIdCt">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LKUP-ID-CT" levelNumber="15" picture="X(18)" srceLine="45" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LkupTypCdCt">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LKUP-TYP-CD-CT" levelNumber="15" picture="X(05)" srceLine="46" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="WellpointEaiEbsErrorRow">
+        <sequence>
+            <element name="WeerExceptionUuid">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WEER-EXCEPTION-UUID" levelNumber="10" picture="X(32)" srceLine="49" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="SearchGrplst" type="tns:SearchGrplst">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="SEARCH-GRPLST" levelNumber="1" srceLine="31" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

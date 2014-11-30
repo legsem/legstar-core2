@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/redbotha/redbotha" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/redbotha/redbotha">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <choice>
+                <element name="CNumeric">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-NUMERIC" isRedefined="true" levelNumber="5" picture="9(4)" signed="false" srceLine="21" totalDigits="4" type="BINARY_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.redbotha.ChoiceSelector" usage="BINARY"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedShort">
+                            <totalDigits value="4"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="Filler22" type="tns:Filler22">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FILLER" levelNumber="5" redefines="C-NUMERIC" srceLine="22" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="Filler22">
+        <sequence>
+            <element name="CLeftByte">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-LEFT-BYTE" levelNumber="10" picture="X" srceLine="23" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CRightByte">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-RIGHT-BYTE" levelNumber="10" picture="X" srceLine="24" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

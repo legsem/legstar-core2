@@ -1,0 +1,68 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DOUBLMIX.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A MIXTURE OF DOUBLE TYPES                  *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 C-DOUBLE-1234            COMP-2.
+          05 C-DOUBLE-0               COMP-2.
+          05 C-DOUBLE-1               COMP-2.
+          05 C-DOUBLE-345006p5678     COMP-2.
+          05 C-DOUBLE-798p20067em16   COMP-2.
+          05 C-DOUBLE-3p40282347ep38  COMP-2.
+          
+       PROCEDURE DIVISION.
+
+           IF C-DOUBLE-1234 NOT = 1234.0
+              DISPLAY 'DOUBLMIX ERROR. RECEIVED=' C-DOUBLE-1234
+                      ' WHILE EXPECTING=' 1234.0
+           END-IF.
+           IF C-DOUBLE-0 NOT = ZERO
+              DISPLAY 'DOUBLMIX ERROR. RECEIVED=' C-DOUBLE-0
+                      ' WHILE EXPECTING=' ZERO
+           END-IF.
+           IF C-DOUBLE-1 NOT = 1.0
+              DISPLAY 'DOUBLMIX ERROR. RECEIVED=' C-DOUBLE-1
+                      ' WHILE EXPECTING=' 1.0
+           END-IF.
+           IF C-DOUBLE-345006p5678 NOT = .3450065677999998E+06
+              DISPLAY 'DOUBLMIX ERROR. RECEIVED=' C-DOUBLE-345006p5678
+                      ' WHILE EXPECTING=' .3450065677999998E+06
+           END-IF.
+           IF C-DOUBLE-798p20067em16 NOT = .7982006699999985E-13
+              DISPLAY 'DOUBLMIX ERROR. RECEIVED='
+               C-DOUBLE-798p20067em16
+                      ' WHILE EXPECTING=' .7982006699999985E-13
+           END-IF.
+           IF C-DOUBLE-3p40282347ep38 NOT = .3402823469999999E+39
+              DISPLAY 'DOUBLMIX ERROR. RECEIVED='
+               C-DOUBLE-3p40282347ep38
+                      ' WHILE EXPECTING=' .3402823469999999E+39
+           END-IF.
+           
+           MOVE 1234.0 TO C-DOUBLE-1234.
+           MOVE ZERO TO C-DOUBLE-0.
+           MOVE 1.0 TO C-DOUBLE-1.
+           MOVE 345006.5678 TO C-DOUBLE-345006p5678.
+           MOVE 798.20067E-16 TO C-DOUBLE-798p20067em16.
+           MOVE 3.40282347E+38 TO C-DOUBLE-3p40282347ep38.
+           
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM DOUBLMIX.

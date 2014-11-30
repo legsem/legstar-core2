@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/lsfileac/lsfileac" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/lsfileac/lsfileac">
+    <element name="Filler25">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="FILLER" levelNumber="77" picture="X" srceLine="25" type="ALPHANUMERIC_ITEM" value="N"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="string">
+                <maxLength value="1"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <complexType name="WQueryData">
+        <sequence>
+            <element name="WQueryName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="W-QUERY-NAME" levelNumber="5" picture="X(20)" srceLine="32" type="ALPHANUMERIC_ITEM" value="*"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WQueryAddress">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="W-QUERY-ADDRESS" levelNumber="5" picture="X(20)" srceLine="33" type="ALPHANUMERIC_ITEM" value="*"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WQueryPhone">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="W-QUERY-PHONE" levelNumber="5" picture="X(8)" srceLine="34" type="ALPHANUMERIC_ITEM" value="*"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WQueryData" type="tns:WQueryData">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="W-QUERY-DATA" levelNumber="1" srceLine="31" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="WQueryLimit">
+        <sequence>
+            <element name="WMaxItemsRead">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="W-MAX-ITEMS-READ" levelNumber="5" picture="9(8)" signed="false" srceLine="37" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="200"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WMaxElapseTime">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="W-MAX-ELAPSE-TIME" levelNumber="5" picture="9(8)" signed="false" srceLine="38" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="10000"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WQueryLimit" type="tns:WQueryLimit">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="W-QUERY-LIMIT" levelNumber="1" srceLine="36" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <element name="WVisitMode">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="W-VISIT-MODE" levelNumber="1" picture="9(4)" signed="false" srceLine="42" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="unsignedShort">
+                <totalDigits value="4"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <element name="WNameMatch">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="W-NAME-MATCH" levelNumber="1" picture="9(4)" signed="false" srceLine="45" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="unsignedShort">
+                <totalDigits value="4"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <complexType name="ReplyData">
+        <sequence>
+            <element name="ReplyItemscount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-ITEMSCOUNT" isODOObject="true" levelNumber="5" picture="9(8)" signed="false" srceLine="64" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="100" name="ReplyItem" type="tns:ReplyItem">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-ITEM" dependingOn="REPLY-ITEMSCOUNT" levelNumber="5" maxOccurs="100" minOccurs="1" srceLine="65" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ReplyItem">
+        <sequence>
+            <element name="ReplyNumber">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-NUMBER" levelNumber="15" picture="9(6)" signed="false" srceLine="67" totalDigits="6" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="6"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyPersonal" type="tns:ReplyPersonal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-PERSONAL" levelNumber="15" srceLine="68" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="ReplyDate">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-DATE" levelNumber="15" picture="X(8)" srceLine="72" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyAmount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-AMOUNT" levelNumber="15" picture="X(8)" srceLine="73" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyComment">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-COMMENT" levelNumber="15" picture="X(9)" srceLine="74" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ReplyPersonal">
+        <sequence>
+            <element name="ReplyName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-NAME" levelNumber="20" picture="X(20)" srceLine="69" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyAddress">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-ADDRESS" levelNumber="20" picture="X(20)" srceLine="70" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyPhone">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-PHONE" levelNumber="20" picture="X(8)" srceLine="71" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="ReplyData" type="tns:ReplyData">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="REPLY-DATA" levelNumber="1" srceLine="63" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="ReplyStatus">
+        <sequence>
+            <element name="ReplyType">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-TYPE" levelNumber="5" picture="9(4)" signed="false" srceLine="77" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SearchDuration">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="SEARCH-DURATION" levelNumber="5" picture="X(8)" srceLine="80" type="ALPHANUMERIC_ITEM" value="0x0000000000000000"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="TotalItemsRead">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="TOTAL-ITEMS-READ" levelNumber="5" picture="9(8)" signed="false" srceLine="81" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyResp">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-RESP" levelNumber="5" picture="S9(8)" signed="true" srceLine="82" totalDigits="8" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyResp2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-RESP2" levelNumber="5" picture="S9(8)" signed="true" srceLine="83" totalDigits="8" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ReplyMessage">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="REPLY-MESSAGE" levelNumber="5" picture="X(128)" srceLine="84" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="128"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="ReplyStatus" type="tns:ReplyStatus">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="REPLY-STATUS" levelNumber="1" srceLine="76" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="QueryData">
+        <sequence>
+            <element name="QueryName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="QUERY-NAME" levelNumber="5" picture="X(20)" srceLine="92" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="QueryAddress">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="QUERY-ADDRESS" levelNumber="5" picture="X(20)" srceLine="93" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="QueryPhone">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="QUERY-PHONE" levelNumber="5" picture="X(8)" srceLine="94" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="QueryData" type="tns:QueryData">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="QUERY-DATA" levelNumber="1" srceLine="91" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="QueryLimit">
+        <sequence>
+            <element name="MaxItemsRead">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="MAX-ITEMS-READ" levelNumber="5" picture="9(8)" signed="false" srceLine="97" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="MaxElapseTime">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="MAX-ELAPSE-TIME" levelNumber="5" picture="9(8)" signed="false" srceLine="98" totalDigits="8" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="QueryLimit" type="tns:QueryLimit">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="QUERY-LIMIT" levelNumber="1" srceLine="96" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

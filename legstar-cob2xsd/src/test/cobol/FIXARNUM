@@ -1,0 +1,83 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FIXARNUM.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A FIXED SIZE ARRAY OF NUMERICS             *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9(9) COMP VALUE ZERO.
+       01 WS-J   PIC 9(18)V999 VALUE ZERO.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 C-ARRAY-PD   OCCURS 3  PIC 9(5)V99 COMP-3.
+          05 C-ARRAY-ZD   OCCURS 3  PIC 9(3)V999.
+          05 C-ARRAY-ZI   OCCURS 3  PIC 9(4).
+          05 C-ARRAY-BI   OCCURS 3  PIC 9(9) COMP.
+          05 C-ARRAY-NI   OCCURS 3  PIC 9(18) COMP-5.
+          
+       PROCEDURE DIVISION.
+
+      *
+      * First check what we received
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+           
+              COMPUTE WS-J = (WS-I - 1) * 3.5
+              IF (C-ARRAY-PD(WS-I) NOT = WS-J)
+                DISPLAY 'FIXARNUM ERROR. RECEIVED=' C-ARRAY-PD(WS-I)
+                        ' WHILE EXPECTING=' WS-J
+              END-IF
+              
+              COMPUTE WS-J = (WS-I - 1) * 7.3
+              IF (C-ARRAY-ZD(WS-I) NOT = WS-J)
+                DISPLAY 'FIXARNUM ERROR. RECEIVED=' C-ARRAY-ZD(WS-I)
+                        ' WHILE EXPECTING=' WS-J
+              END-IF
+
+              COMPUTE WS-J = (WS-I - 1) * 4
+              IF (C-ARRAY-ZI(WS-I) NOT = WS-J)
+                DISPLAY 'FIXARNUM ERROR. RECEIVED=' C-ARRAY-ZI(WS-I)
+                        ' WHILE EXPECTING=' WS-J
+              END-IF
+
+              COMPUTE WS-J = (WS-I - 1) * 457
+              IF (C-ARRAY-BI(WS-I) NOT = WS-J)
+                DISPLAY 'FIXARNUM ERROR. RECEIVED=' C-ARRAY-BI(WS-I)
+                        ' WHILE EXPECTING=' WS-J
+              END-IF
+
+              COMPUTE WS-J = (WS-I - 1) * 32756
+              IF (C-ARRAY-NI(WS-I) NOT = WS-J)
+                DISPLAY 'FIXARNUM ERROR. RECEIVED=' C-ARRAY-NI(WS-I)
+                        ' WHILE EXPECTING=' WS-J
+              END-IF
+              
+           END-PERFORM.
+
+      *
+      * Create some output
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+                COMPUTE C-ARRAY-PD(WS-I) = WS-I * 3.5
+                COMPUTE C-ARRAY-ZD(WS-I) = WS-I * 7.3
+                COMPUTE C-ARRAY-ZI(WS-I) = WS-I * 4
+                COMPUTE C-ARRAY-BI(WS-I) = WS-I * 457
+                COMPUTE C-ARRAY-NI(WS-I) = WS-I * 32756
+           END-PERFORM.
+           
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM FIXARNUM.

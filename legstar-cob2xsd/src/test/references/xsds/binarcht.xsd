@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/binarcht/binarcht" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/binarcht/binarcht">
+    <complexType name="WsSignedNative">
+        <sequence>
+            <element name="WsPs9X4Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X4-MIN" levelNumber="5" picture="+9(5)" signed="true" srceLine="29" totalDigits="5" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="6"/>
+                        <pattern value="[\+\-\d]?\d{0,5}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X4Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X4-MAX" levelNumber="5" picture="+9(5)" signed="true" srceLine="30" totalDigits="5" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="6"/>
+                        <pattern value="[\+\-\d]?\d{0,5}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X9Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X9-MIN" levelNumber="5" picture="+9(10)" signed="true" srceLine="31" totalDigits="10" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="11"/>
+                        <pattern value="[\+\-\d]?\d{0,10}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X9Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X9-MAX" levelNumber="5" picture="+9(10)" signed="true" srceLine="32" totalDigits="10" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="11"/>
+                        <pattern value="[\+\-\d]?\d{0,10}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X18Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X18-MIN" levelNumber="5" picture="+9(19)" signed="true" srceLine="33" totalDigits="19" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                        <pattern value="[\+\-\d]?\d{0,19}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X18Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X18-MAX" levelNumber="5" picture="+9(19)" signed="true" srceLine="34" totalDigits="19" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="20"/>
+                        <pattern value="[\+\-\d]?\d{0,19}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WsSignedNative" type="tns:WsSignedNative">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-SIGNED-NATIVE" levelNumber="1" srceLine="28" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="LsUnsignedNative" type="tns:LsUnsignedNative">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-UNSIGNED-NATIVE" levelNumber="5" srceLine="41" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="LsSignedNative" type="tns:LsSignedNative">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-SIGNED-NATIVE" levelNumber="5" srceLine="48" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsUnsignedNative">
+        <sequence>
+            <element name="LsP9X4Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X4-MIN" levelNumber="10" picture="9(4)" signed="false" srceLine="42" totalDigits="4" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort"/>
+                </simpleType>
+            </element>
+            <element name="LsP9X4Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X4-MAX" levelNumber="10" picture="9(4)" signed="false" srceLine="43" totalDigits="4" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort"/>
+                </simpleType>
+            </element>
+            <element name="LsP9X9Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X9-MIN" levelNumber="10" picture="9(9)" signed="false" srceLine="44" totalDigits="9" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt"/>
+                </simpleType>
+            </element>
+            <element name="LsP9X9Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X9-MAX" levelNumber="10" picture="9(9)" signed="false" srceLine="45" totalDigits="9" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt"/>
+                </simpleType>
+            </element>
+            <element name="LsP9X18Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X18-MIN" levelNumber="10" picture="9(18)" signed="false" srceLine="46" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong"/>
+                </simpleType>
+            </element>
+            <element name="LsP9X18Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X18-MAX" levelNumber="10" picture="9(18)" signed="false" srceLine="47" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsSignedNative">
+        <sequence>
+            <element name="LsPs9X4Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PS9X4-MIN" levelNumber="10" picture="S9(4)" signed="true" srceLine="49" totalDigits="4" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short"/>
+                </simpleType>
+            </element>
+            <element name="LsPs9X4Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PS9X4-MAX" levelNumber="10" picture="S9(4)" signed="true" srceLine="50" totalDigits="4" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short"/>
+                </simpleType>
+            </element>
+            <element name="LsPs9X9Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PS9X9-MIN" levelNumber="10" picture="S9(9)" signed="true" srceLine="51" totalDigits="9" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int"/>
+                </simpleType>
+            </element>
+            <element name="LsPs9X9Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PS9X9-MAX" levelNumber="10" picture="S9(9)" signed="true" srceLine="52" totalDigits="9" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int"/>
+                </simpleType>
+            </element>
+            <element name="LsPs9X18Min">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PS9X18-MIN" levelNumber="10" picture="S9(18)" signed="true" srceLine="53" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="long"/>
+                </simpleType>
+            </element>
+            <element name="LsPs9X18Max">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PS9X18-MAX" levelNumber="10" picture="S9(18)" signed="true" srceLine="54" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="long"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="40" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

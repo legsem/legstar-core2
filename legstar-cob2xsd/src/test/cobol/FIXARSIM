@@ -1,0 +1,59 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. FIXARSIM.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A FIXED SIZE ARRAY                         *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9(9) COMP VALUE ZERO.
+       01 WS-J   PIC 9 VALUE ZERO.
+       01 WS-X   PIC X(5) VALUE SPACES.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 C-ARRAY   OCCURS 3  PIC X(5).
+          
+       PROCEDURE DIVISION.
+
+      *
+      * First check what we received
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+           
+              COMPUTE WS-J = WS-I
+              STRING 'ABCD' WS-J 
+                DELIMITED BY SPACE INTO WS-X 
+              IF (C-ARRAY(WS-I) NOT = WS-X)
+                DISPLAY 'FIXARSIM ERROR. RECEIVED=' C-ARRAY(WS-I)
+                        ' WHILE EXPECTING=' WS-X
+              END-IF
+              
+           END-PERFORM.
+
+      *
+      * Create some output
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+           
+              COMPUTE WS-J = WS-I
+              STRING WS-J 'EFGH'
+                DELIMITED BY SPACE INTO C-ARRAY (WS-I) 
+              
+           END-PERFORM.
+           
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM FIXARSIM.

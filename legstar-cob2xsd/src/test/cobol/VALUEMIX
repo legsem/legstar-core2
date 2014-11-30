@@ -1,0 +1,27 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. VALUEMIX.
+       ENVIRONMENT DIVISION.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05 WS-ZERO               PIC 9(05) VALUE ZERO.
+           05 WS-ZEROS              PIC 9(05) VALUE ZEROS.
+           05 WS-ZEROES             PIC 9(05) VALUE ZEROES.
+           05 WS-SPACE              PIC X(05) VALUE SPACE.
+           05 WS-SPACES             PIC X(05) VALUE SPACES.
+           05 WS-HIGH-VALUE         PIC X(05) VALUE HIGH-VALUE.
+           05 WS-HIGH-VALUES        PIC X(05) VALUE HIGH-VALUES.
+           05 WS-LOW-VALUE          PIC X(05) VALUE LOW-VALUE.
+           05 WS-LOW-VALUES         PIC X(05) VALUE LOW-VALUES.
+           05 WS-QUOTE              PIC X(05) VALUE QUOTE.
+           05 WS-QUOTES             PIC X(05) VALUE QUOTES.
+           05 WS-NULL               PIC X(05) VALUE NULL.
+           05 WS-NULLS              PIC X(05) VALUE NULLS.
+           05 WS-STRING             PIC X(05) VALUE 'ABCDE'.
+           05 WS-NUMERIC            PIC S9(05) VALUE -345.
+           05 WS-PACKED-DECIMAL     PIC S9(15)V99 COMP-3 VALUE -245.56.
+           05 WS-SINGLE-FLOAT       COMP-1 VALUE +0.6E08.
+           05 WS-DOUBLE-FLOAT       COMP-2 VALUE -1.8E-56.
+       PROCEDURE DIVISION.
+           GOBACK.

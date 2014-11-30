@@ -1,0 +1,142 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. BINARCHT.
+      *****************************************************************
+      * AUTHOR                                                        *
+      * ------                                                        *
+      * Fady Moussallam   fady@legsem.com                             *
+      *                                                               *
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL program used to test binary numeric conversions           *
+      *                                                               *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+       
+       01  WS-RESP                    PIC S9(8) COMP VALUE ZERO.
+       01  WS-RESP2                   PIC S9(8) COMP VALUE ZERO.
+
+       01  WS-SIGNED-NATIVE.
+           05 WS-PS9X4-MIN                 PIC +9(5).
+           05 WS-PS9X4-MAX                 PIC +9(5).
+           05 WS-PS9X9-MIN                 PIC +9(10).
+           05 WS-PS9X9-MAX                 PIC +9(10).
+           05 WS-PS9X18-MIN                PIC +9(19).
+           05 WS-PS9X18-MAX                PIC +9(19).
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 LS-UNSIGNED-NATIVE.
+             10 LS-P9X4-MIN                  PIC 9(4) COMP-5.
+             10 LS-P9X4-MAX                  PIC 9(4) COMP-5.
+             10 LS-P9X9-MIN                  PIC 9(9) COMP-5.
+             10 LS-P9X9-MAX                  PIC 9(9) COMP-5.
+             10 LS-P9X18-MIN                 PIC 9(18) COMP-5.
+             10 LS-P9X18-MAX                 PIC 9(18) COMP-5.
+          05 LS-SIGNED-NATIVE.
+             10 LS-PS9X4-MIN                 PIC S9(4) COMP-5.
+             10 LS-PS9X4-MAX                 PIC S9(4) COMP-5.
+             10 LS-PS9X9-MIN                 PIC S9(9) COMP-5.
+             10 LS-PS9X9-MAX                 PIC S9(9) COMP-5.
+             10 LS-PS9X18-MIN                PIC S9(18) COMP-5.
+             10 LS-PS9X18-MAX                PIC S9(18) COMP-5.
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+
+           PERFORM UNSIGNED-SHORT-NATIVE THRU
+               END-UNSIGNED-SHORT-NATIVE.
+           PERFORM SIGNED-SHORT-NATIVE THRU
+               END-SIGNED-SHORT-NATIVE.
+           
+           PERFORM NORMAL-EXIT THRU END-NORMAL-EXIT.
+           GOBACK.
+           
+      *****************************************************************
+      * Display incoming data and provide output for unsigned binary  *
+      *****************************************************************
+       UNSIGNED-SHORT-NATIVE.
+      * Print what we have received
+           DISPLAY '** UNSIGNED BINARY:'.
+           DISPLAY 'P9X4-MIN =' LS-P9X4-MIN.
+           DISPLAY 'P9X4-MAX =' LS-P9X4-MAX.
+           DISPLAY 'P9X9-MIN =' LS-P9X9-MIN.
+           DISPLAY 'P9X9-MAX =' LS-P9X9-MAX.
+           DISPLAY 'P9X18-MIN=' LS-P9X18-MIN.
+           DISPLAY 'P9X18-MAX=' LS-P9X18-MAX.
+
+      * Set constant values for unsigned native 
+           MOVE ZERO  TO LS-P9X4-MIN LS-P9X9-MIN LS-P9X18-MIN.
+           MOVE 65535 TO LS-P9X4-MAX.
+      *    MOVE 4294967295 TO LS-P9X9-MAX.
+           MOVE 1234567890 TO LS-P9X9-MAX.
+           
+      * Compiler refuse to assign 20 digits (18446744073709551615)
+      *    COMPUTE LS-P9X18-MAX = 4294967295 * 4294967297.
+           COMPUTE LS-P9X18-MAX = 123456789012345678.
+              
+       END-UNSIGNED-SHORT-NATIVE.    EXIT.
+
+      *****************************************************************
+      * Display incoming data and provide output for signed binary  *
+      *****************************************************************
+       SIGNED-SHORT-NATIVE.
+
+      * Format numerics so that the sign/digits show up correctly
+           COMPUTE WS-PS9X4-MIN = LS-PS9X4-MIN.
+           COMPUTE WS-PS9X4-MAX = LS-PS9X4-MAX.
+           COMPUTE WS-PS9X9-MIN = LS-PS9X9-MIN.
+           COMPUTE WS-PS9X9-MAX = LS-PS9X9-MAX.
+           COMPUTE WS-PS9X18-MIN = LS-PS9X18-MIN.
+           COMPUTE WS-PS9X18-MAX = LS-PS9X18-MAX.
+
+      * Print what we have received
+           DISPLAY '** SIGNED BINARY:'.
+           DISPLAY 'PS9X4-MIN =' WS-PS9X4-MIN.
+           DISPLAY 'PS9X4-MAX =' WS-PS9X4-MAX.
+           DISPLAY 'PS9X9-MIN =' WS-PS9X9-MIN.
+           DISPLAY 'PS9X9-MAX =' WS-PS9X9-MAX.
+           DISPLAY 'PS9X18-MIN=' WS-PS9X18-MIN.
+           DISPLAY 'PS9X18-MAX=' WS-PS9X18-MAX.
+
+      * Set constant values for unsigned native 
+           MOVE -32768 TO LS-PS9X4-MIN.
+           MOVE +32767 TO LS-PS9X4-MAX.
+      *    MOVE -2147483648  TO  LS-PS9X9-MIN.
+      *    MOVE +2147483647  TO  LS-PS9X9-MAX.
+           MOVE -123456789   TO  LS-PS9X9-MIN.
+           MOVE +123456789   TO  LS-PS9X9-MAX.
+
+      * Compiler refuse to assign 19 digits (9223372036854775808)
+      *    COMPUTE LS-PS9X18-MIN = -2147483648 * 4294967296.
+      *    COMPUTE LS-PS9X18-MAX = 2147483648 * 4294967296 - 1.
+           COMPUTE LS-PS9X18-MIN = -12345678901234567.
+           COMPUTE LS-PS9X18-MAX = 12345678901234567.
+           
+              
+       END-SIGNED-SHORT-NATIVE.    EXIT.
+
+       
+      *****************************************************************
+      * Finalize the commarea and return to cics                      *
+      *****************************************************************
+       NORMAL-EXIT.
+
+           EXEC CICS RETURN END-EXEC.
+           
+       END-NORMAL-EXIT.    EXIT.
+

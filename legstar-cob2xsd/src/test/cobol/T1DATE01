@@ -1,0 +1,36 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. T1DATE01.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * COBOL DATE FORMAT                                             *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+          
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 COM-USER-ID        PIC X(8).
+          05 COM-WINDOWED-NUM   PIC 9(6) BINARY DATE FORMAT YYXXXX.
+          05 COM-WINDOWED-ALPHA PIC X(6) DATE FORMAT YYXXXX.
+          05 COM-EXPANDED-NUM   PIC 9(8) BINARY DATE FORMAT YYYYXXXX.
+          05 COM-EXPANDED-ALPHA PIC 9(8) DATE FORMAT YYYYXXXX.
+
+       PROCEDURE DIVISION.
+
+           EXEC CICS ASSIGN USERID(COM-USER-ID) END-EXEC.
+           MOVE FUNCTION CURRENT-DATE(1:8) TO COM-EXPANDED-ALPHA.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM T1DATE01.

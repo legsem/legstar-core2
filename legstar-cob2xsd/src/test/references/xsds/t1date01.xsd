@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/t1date01/t1date01" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/t1date01/t1date01">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="ComUserId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-USER-ID" levelNumber="5" picture="X(8)" srceLine="21" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComWindowedNum">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-WINDOWED-NUM" levelNumber="5" picture="9(6)" signed="false" srceLine="22" totalDigits="6" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="6"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComWindowedAlpha">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-WINDOWED-ALPHA" levelNumber="5" picture="X(6)" srceLine="23" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="6"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComExpandedNum">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-EXPANDED-NUM" levelNumber="5" picture="9(8)" signed="false" srceLine="24" totalDigits="8" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComExpandedAlpha">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-EXPANDED-ALPHA" levelNumber="5" picture="9(8)" signed="false" srceLine="25" totalDigits="8" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

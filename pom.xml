@@ -19,6 +19,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <compiler.version>1.6</compiler.version>
+    <antlr.version>3.5.2</antlr.version>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
   </properties>
@@ -88,6 +89,7 @@
   </organization>
 
   <modules>
+      <module>legstar-cob2xsd</module>
       <module>legstar-converter</module>
       <module>legstar-converter-generator</module>
   </modules>
@@ -120,9 +122,21 @@
 
       <!-- Handlebars Templating -->
       <dependency>
-          <groupId>com.github.jknack</groupId>
-          <artifactId>handlebars</artifactId>
-          <version>1.3.2</version>
+        <groupId>com.github.jknack</groupId>
+        <artifactId>handlebars</artifactId>
+        <version>1.3.2</version>
+      </dependency>
+
+      <!-- ANTLR -->
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr</artifactId>
+        <version>${antlr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr-runtime</artifactId>
+        <version>${antlr.version}</version>
       </dependency>
 
       <!-- Apache utils -->
@@ -156,6 +170,22 @@
         <version>4.11</version>
         <scope>test</scope>
       </dependency>
+
+      <!-- Used to graph ASTs -->   
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>stringtemplate</artifactId>
+        <version>3.2.1</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- XML testing -->
+      <dependency>
+        <groupId>xmlunit</groupId>
+        <artifactId>xmlunit</artifactId>
+        <version>1.5</version>
+        <scope>test</scope>
+      </dependency> 
 
     </dependencies>
 
@@ -223,6 +253,13 @@
                 <exclude>**/test/**/*</exclude>
               </excludes>
             </configuration>
+        </plugin>
+
+        <!-- Antlr generator -->
+        <plugin>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr3-maven-plugin</artifactId>
+            <version>${antlr.version}</version>
         </plugin>
 
         <!-- Test framework -->
@@ -344,6 +381,19 @@
                   </pluginExecutionFilter>
                   <action>
                     <ignore />
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr3-maven-plugin</artifactId>
+                    <versionRange>[3.5.2,)</versionRange>
+                    <goals>
+                      <goal>antlr</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
                   </action>
                 </pluginExecution>
               </pluginExecutions>

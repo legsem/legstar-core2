@@ -1,0 +1,86 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ARRAYSCX.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * CASES WITH IMBEDDED ARRAYS AND REDEFINES WITHIN ARRAYS        *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9(9) COMP VALUE ZERO.
+       01 WS-J   PIC 9(9) COMP VALUE ZERO.
+       01 WS-K   PIC 9(9) COMP VALUE ZERO.
+       01 WS-X   PIC 9 VALUE ZERO.
+       01 WS-ITEM PIC X(3) VALUE SPACES.
+       01 FILLER REDEFINES WS-ITEM.
+          05 WS-ITEM-A OCCURS 3 PIC 9.
+       01 WS-ITEM-N REDEFINES WS-ITEM PIC 9(3).
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 TABLE-THREE.
+             10 ELEMENT-ONE OCCURS 3 TIMES.
+                15 ELEMENT-TWO OCCURS 3 TIMES.
+                   20 ELEMENT-THREE OCCURS 2 TIMES PIC X(3).
+          05 TABLE-REDEF OCCURS 3.
+             10 ELEMENT-REDEF-1   PIC X(3).
+             10 ELEMENT-REDEF-2 REDEFINES ELEMENT-REDEF-1 PIC 9(3).
+          
+       PROCEDURE DIVISION.
+      *
+      * First check what we received
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+               COMPUTE WS-ITEM-A(1) = WS-I
+		           PERFORM VARYING WS-J FROM 1 BY 1 UNTIL WS-J > 3
+                   COMPUTE WS-ITEM-A(2) = WS-J
+				           PERFORM VARYING WS-K FROM 1 BY 1 UNTIL WS-K > 2
+                       COMPUTE WS-ITEM-A(3) = WS-K
+				               IF ELEMENT-THREE(WS-I, WS-J, WS-K) NOT = WS-ITEM
+				                   DISPLAY "TABLE-THREE ITEM" WS-I WS-J WS-K
+				                           " RECEIVED:"
+				                           ELEMENT-THREE(WS-I, WS-J, WS-K)
+				               END-IF
+				           END-PERFORM
+		           END-PERFORM
+           END-PERFORM.
+           
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+               COMPUTE WS-ITEM-N = WS-I
+               IF ELEMENT-REDEF-2( WS-I) NOT = WS-ITEM-N
+                   DISPLAY "TABLE-REDEF ITEM" WS-I
+				                   " RECEIVED:" ELEMENT-REDEF-1( WS-I)
+               END-IF
+           END-PERFORM.
+      *
+      * Send back everything in reverse order
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+               COMPUTE WS-ITEM-A(1) = 4 - WS-I
+		           PERFORM VARYING WS-J FROM 1 BY 1 UNTIL WS-J > 3
+                   COMPUTE WS-ITEM-A(2) = 4 - WS-J
+				           PERFORM VARYING WS-K FROM 1 BY 1 UNTIL WS-K > 2
+                       COMPUTE WS-ITEM-A(3) = 3 - WS-K
+                       MOVE WS-ITEM TO ELEMENT-THREE(WS-I, WS-J, WS-K)
+				           END-PERFORM
+		           END-PERFORM
+           END-PERFORM.
+           
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+               COMPUTE WS-ITEM-N = 4 - WS-I
+               MOVE WS-ITEM TO ELEMENT-REDEF-1( WS-I)
+           END-PERFORM.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM ARRAYSCX.

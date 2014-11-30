@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/arrayscx/arrayscx" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/arrayscx/arrayscx">
+    <complexType name="Filler23">
+        <sequence>
+            <element maxOccurs="3" minOccurs="3" name="WsItemA">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-ITEM-A" levelNumber="5" maxOccurs="3" minOccurs="3" picture="9" signed="false" srceLine="24" totalDigits="1" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Filler23" type="tns:Filler23">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="FILLER" levelNumber="1" redefines="WS-ITEM" srceLine="23" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="TableThree" type="tns:TableThree">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="TABLE-THREE" levelNumber="5" srceLine="29" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="TableRedef" type="tns:TableRedef">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="TABLE-REDEF" levelNumber="5" maxOccurs="3" minOccurs="3" srceLine="33" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="TableThree">
+        <sequence>
+            <element maxOccurs="3" minOccurs="3" name="ElementOne" type="tns:ElementOne">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ELEMENT-ONE" levelNumber="10" maxOccurs="3" minOccurs="3" srceLine="30" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ElementOne">
+        <sequence>
+            <element maxOccurs="3" minOccurs="3" name="ElementTwo" type="tns:ElementTwo">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ELEMENT-TWO" levelNumber="15" maxOccurs="3" minOccurs="3" srceLine="31" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ElementTwo">
+        <sequence>
+            <element maxOccurs="2" minOccurs="2" name="ElementThree">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ELEMENT-THREE" levelNumber="20" maxOccurs="2" minOccurs="2" picture="X(3)" srceLine="32" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="TableRedef">
+        <sequence>
+            <choice>
+                <element name="ElementRedef1">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="ELEMENT-REDEF-1" isRedefined="true" levelNumber="10" picture="X(3)" srceLine="34" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.arrayscx.ChoiceSelector"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="3"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="ElementRedef2">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="ELEMENT-REDEF-2" levelNumber="10" picture="9(3)" redefines="ELEMENT-REDEF-1" signed="false" srceLine="35" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedShort">
+                            <totalDigits value="3"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="28" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

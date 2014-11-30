@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/dplarcht/dplarcht" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/dplarcht/dplarcht">
+    <element name="WsErrorStatus">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-ERROR-STATUS" levelNumber="1" picture="9(4)" signed="false" srceLine="40" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="unsignedShort">
+                <totalDigits value="4"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <element name="WsItemsSelection">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-ITEMS-SELECTION" levelNumber="1" picture="9(4)" signed="false" srceLine="43" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="unsignedShort">
+                <totalDigits value="4"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <element name="WsSearchStatus">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-SEARCH-STATUS" levelNumber="1" picture="9(4)" signed="false" srceLine="46" totalDigits="4" type="BINARY_ITEM" usage="BINARY" value="0"/>
+            </appinfo>
+        </annotation>
+        <simpleType>
+            <restriction base="unsignedShort">
+                <totalDigits value="4"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <complexType name="WsFileDescription">
+        <sequence>
+            <element name="WsFileStart">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-FILE-START" levelNumber="5" picture="X(8)" srceLine="54" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsFileName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-FILE-NAME" levelNumber="5" picture="X(8)" srceLine="55" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsFileDsname">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-FILE-DSNAME" levelNumber="5" picture="X(44)" srceLine="56" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="44"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsFileEnablestatus">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-FILE-ENABLESTATUS" levelNumber="5" picture="9(8)" signed="false" srceLine="57" totalDigits="8" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WsFileDescription" type="tns:WsFileDescription">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-FILE-DESCRIPTION" levelNumber="1" srceLine="53" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="WsProgramDescription">
+        <sequence>
+            <element name="WsProgramStart">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PROGRAM-START" levelNumber="5" picture="X(8)" srceLine="60" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsProgramName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PROGRAM-NAME" levelNumber="5" picture="X(8)" srceLine="61" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsProgramType">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PROGRAM-TYPE" levelNumber="5" picture="9(8)" signed="false" srceLine="62" totalDigits="8" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsProgramLanguage">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PROGRAM-LANGUAGE" levelNumber="5" picture="9(8)" signed="false" srceLine="63" totalDigits="8" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsProgramLength">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PROGRAM-LENGTH" levelNumber="5" picture="S9(9)" signed="true" srceLine="64" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsProgramUsecount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PROGRAM-USECOUNT" levelNumber="5" picture="S9(9)" signed="true" srceLine="65" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WsProgramDescription" type="tns:WsProgramDescription">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-PROGRAM-DESCRIPTION" levelNumber="1" srceLine="59" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="WsTransactionDescription">
+        <sequence>
+            <element name="WsTransactionStart">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-TRANSACTION-START" levelNumber="5" picture="X(8)" srceLine="68" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsTransactionName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-TRANSACTION-NAME" levelNumber="5" picture="X(8)" srceLine="69" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsTransactionProgram">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-TRANSACTION-PROGRAM" levelNumber="5" picture="X(8)" srceLine="70" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsTransactionStatus">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-TRANSACTION-STATUS" levelNumber="5" picture="9(8)" signed="false" srceLine="71" totalDigits="8" type="BINARY_ITEM" usage="BINARY" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WsTransactionDescription" type="tns:WsTransactionDescription">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-TRANSACTION-DESCRIPTION" levelNumber="1" srceLine="67" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="LsRequest" type="tns:LsRequest">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-REQUEST" levelNumber="5" srceLine="81" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="LsReply" type="tns:LsReply">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-REPLY" levelNumber="5" srceLine="93" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsRequest">
+        <sequence>
+            <element name="LsRequestType">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-REQUEST-TYPE" levelNumber="10" picture="9(4)" signed="false" srceLine="82" totalDigits="4" type="BINARY_ITEM" usage="BINARY" customVariable="true"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <choice>
+                <element name="LsAllItems">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="LS-ALL-ITEMS" isRedefined="true" levelNumber="10" picture="X(4)" srceLine="86" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName=""/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="4"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="LsMaxItems">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="LS-MAX-ITEMS" levelNumber="10" picture="9(4)" redefines="LS-ALL-ITEMS" signed="false" srceLine="87" totalDigits="4" type="ZONED_DECIMAL_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedShort">
+                            <totalDigits value="4"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+            <element name="LsSearchCriteria" type="tns:LsSearchCriteria">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-SEARCH-CRITERIA" levelNumber="10" srceLine="89" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsSearchCriteria">
+        <sequence>
+            <element name="LsStartwith">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-STARTWITH" levelNumber="15" picture="X(8)" srceLine="90" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsStartwithLen">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-STARTWITH-LEN" levelNumber="15" picture="9(9)" signed="false" srceLine="91" totalDigits="9" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsReply">
+        <sequence>
+            <element name="LsReplyType">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-REPLY-TYPE" levelNumber="10" picture="9(4)" signed="false" srceLine="94" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsReplyData" type="tns:LsReplyData">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-REPLY-DATA" levelNumber="10" srceLine="98" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsReplyData">
+        <sequence>
+            <element name="LsItemsCount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-ITEMS-COUNT" isODOObject="true" levelNumber="15" picture="9(9)" signed="false" srceLine="99" totalDigits="9" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt"/>
+                </simpleType>
+            </element>
+            <element maxOccurs="500" name="LsItemsArray" type="tns:LsItemsArray">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-ITEMS-ARRAY" dependingOn="LS-ITEMS-COUNT" levelNumber="15" maxOccurs="500" minOccurs="1" srceLine="100" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsItemsArray">
+        <sequence>
+            <choice>
+                <element name="LsFilesData" type="tns:LsFilesData">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="LS-FILES-DATA" isRedefined="true" levelNumber="20" srceLine="102" type="GROUP_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.dplarcht.ChoiceSelector"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="LsProgramsData" type="tns:LsProgramsData">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="LS-PROGRAMS-DATA" levelNumber="20" redefines="LS-FILES-DATA" srceLine="107" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="LsTransactionsData" type="tns:LsTransactionsData">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="LS-TRANSACTIONS-DATA" levelNumber="20" redefines="LS-FILES-DATA" srceLine="115" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="LsFilesData">
+        <sequence>
+            <element name="LsFileName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-FILE-NAME" levelNumber="25" picture="X(8)" srceLine="103" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsFileDsname">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-FILE-DSNAME" levelNumber="25" picture="X(44)" srceLine="104" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="44"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsFileEnablestatus">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-FILE-ENABLESTATUS" levelNumber="25" picture="X(12)" srceLine="105" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="12"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsProgramsData">
+        <sequence>
+            <element name="LsProgramName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PROGRAM-NAME" levelNumber="25" picture="X(8)" srceLine="108" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsProgramType">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PROGRAM-TYPE" levelNumber="25" picture="X(12)" srceLine="109" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="12"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsProgramLanguage">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PROGRAM-LANGUAGE" levelNumber="25" picture="X(12)" srceLine="110" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="12"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsProgramLength">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PROGRAM-LENGTH" levelNumber="25" picture="S9(9)" signed="true" srceLine="111" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsProgramUsecount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-PROGRAM-USECOUNT" levelNumber="25" picture="S9(9)" signed="true" srceLine="112" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="Filler113">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="25" picture="X(24)" srceLine="113" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="24"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsTransactionsData">
+        <sequence>
+            <element name="LsTransactionName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-TRANSACTION-NAME" levelNumber="25" picture="X(8)" srceLine="116" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsTransactionProgram">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-TRANSACTION-PROGRAM" levelNumber="25" picture="X(8)" srceLine="117" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsTransactionStatus">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-TRANSACTION-STATUS" levelNumber="25" picture="X(12)" srceLine="118" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="12"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="Filler119">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="25" picture="X(36)" srceLine="119" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="36"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="80" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

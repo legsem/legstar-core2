@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/fixarcom/fixarcom" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/fixarcom/fixarcom">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element maxOccurs="7" minOccurs="7" name="CArray" type="tns:CArray">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ARRAY" levelNumber="5" maxOccurs="7" minOccurs="7" srceLine="23" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CArray">
+        <sequence>
+            <element name="CItem1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ITEM-1" levelNumber="10" picture="X(5)" srceLine="24" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CItem2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ITEM-2" levelNumber="10" picture="S9(4)" signed="true" srceLine="25" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="22" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

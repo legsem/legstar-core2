@@ -1,0 +1,33 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. REDBOTHA.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A REDEFINE                                 *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05  C-NUMERIC     PIC  9(4) COMP.
+           05  FILLER REDEFINES C-NUMERIC.
+               10 C-LEFT-BYTE  PIC X.
+               10 C-RIGHT-BYTE PIC X.
+          
+       PROCEDURE DIVISION.
+
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM REDBOTHA.

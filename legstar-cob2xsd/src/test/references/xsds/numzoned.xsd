@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/numzoned/numzoned" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/numzoned/numzoned">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="LU">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="L-U" levelNumber="5" picture="9(1)" signed="false" srceLine="31" totalDigits="1" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LS">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="L-S" levelNumber="5" picture="S9(2)" signed="true" srceLine="32" totalDigits="2" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LSSignL">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="L-S-SIGN-L" levelNumber="5" picture="S9(3)" signLeading="true" signed="true" srceLine="33" totalDigits="3" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LSSignT">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="L-S-SIGN-T" levelNumber="5" picture="S9(2)" signed="true" srceLine="34" totalDigits="2" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LSSignSL">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="L-S-SIGN-S-L" levelNumber="5" picture="S9(1)" signLeading="true" signSeparate="true" signed="true" srceLine="35" totalDigits="1" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LSSignST">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="L-S-SIGN-S-T" levelNumber="5" picture="S9(2)" signSeparate="true" signed="true" srceLine="36" totalDigits="2" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="30" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

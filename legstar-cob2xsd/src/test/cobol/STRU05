@@ -1,0 +1,8 @@
+       01  STRU05-RECORD.
+           05 COM-ITEM-A.
+              10 COM-ITEM-B                       PIC 9(5)V99 COMP-3.
+           05 COM-ITEM-C OCCURS 3 TIMES.
+              10 COM-ITEM-B                       PIC S9(4) COMP.
+           05 COM-ITEM-D.
+              10 COM-ITEM-E.
+                  15 COM-ITEM-B                   PIC X(4).

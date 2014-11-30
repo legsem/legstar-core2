@@ -1,0 +1,7 @@
+       01 ARDO01-RECORD.
+          05 COM-NUMBER         PIC 9(6).
+          05 COM-NAME           PIC X(20).
+          05 COM-NBR            PIC 9(4) COMP.
+          05 COM-ARRAY OCCURS 0 TO 5
+                 DEPENDING ON COM-NBR
+                                PIC S9(13)V99 COMP-3.

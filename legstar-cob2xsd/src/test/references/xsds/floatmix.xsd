@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/floatmix/floatmix" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/floatmix/floatmix">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="CFloat1234">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FLOAT-1234" levelNumber="5" srceLine="21" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="CFloat0">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FLOAT-0" levelNumber="5" srceLine="22" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="CFloat1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FLOAT-1" levelNumber="5" srceLine="23" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="CFloat345006P5678">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FLOAT-345006p5678" levelNumber="5" srceLine="24" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="CFloat798P20067Em16">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FLOAT-798p20067em16" levelNumber="5" srceLine="25" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="CFloat3P40282347Ep38">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FLOAT-3p40282347ep38" levelNumber="5" srceLine="26" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

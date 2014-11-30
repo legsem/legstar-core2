@@ -1,0 +1,207 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LSFILEAL.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL PROGRAM INCLUDING THE FOLLOWING CASES                     *
+      *  - INPUT LAYOUT DIFFERS FROM OUTPUT LAYOUT                    *
+      *  - REDEFINES WITH MULTIPLE POSSIBLE OUTPUTS                   *
+      *  - OCCURS DEPENDING ON                                        *
+      *                                                               *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+
+       01  FILEA.   COPY DFH0CFIL.
+       01  W-FILENAME            PIC X(8) VALUE 'FILEA'.
+       01  W-REQUEST-NAME        PIC X(20) VALUE SPACES.
+       01  W-NUMBER              PIC 9(6)  VALUE ZERO.
+       01  W-ITEMSCOUNT          PIC 9(8) COMP-3 VALUE ZERO.
+       01  W-VISIT-MODE          PIC 9(4) COMP VALUE ZERO.
+           88 COUNT-MODE         VALUE 0.
+           88 LOAD-MODE          VALUE 1.
+       01  W-NAME-MATCH          PIC 9(4) COMP VALUE ZERO.
+           88 NO-MATCH           VALUE 0.
+           88 MATCH              VALUE 1.
+       01  W-RESP                PIC S9(8) VALUE ZERO.
+       01  W-RESP2               PIC S9(8) VALUE ZERO.
+       01  W-I                   PIC S9(8) VALUE ZERO.
+       01  W-START-TIME          PIC S9(15) COMP-3 VALUE ZERO.
+       01  W-STOP-TIME           PIC S9(15) COMP-3 VALUE ZERO.
+       01  W-ELAPSE-TIME         PIC S9(15) COMP-3 VALUE ZERO.
+       01  W-ITEMSREAD           PIC 9(8) COMP-3 VALUE ZERO.
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       
+       01 REQUEST-PARMS.
+          05 REQUEST-NAME               PIC X(20).
+             
+       01 REPLY-DATA.
+          05 REPLY-TYPE                 PIC 9(4) COMP.
+             88 REPLY-SUCCESS     VALUE 0.
+             88 REPLY-ERROR       VALUE 1.
+          05 REPLY-SUCCESS-HEADER.
+             10 SEARCH-DURATION         PIC X(8).
+             10 TOTAL-ITEMS-READ        PIC 9(8) COMP-3.
+             10                         PIC X(123).
+          05 REPLY-ERROR-HEADER REDEFINES REPLY-SUCCESS-HEADER.
+             10 REPLY-RESP              PIC S9(8) COMP.
+             10 REPLY-RESP2             PIC S9(8) COMP.
+             10 REPLY-MESSAGE           PIC X(128).
+          05 FILLER.
+             10 REPLY-ITEMSCOUNT        PIC 9(8) COMP-3.
+		         10 REPLY-ITEM OCCURS 1 TO 100 
+		            DEPENDING ON REPLY-ITEMSCOUNT.
+		            15 REPLY-NUMBER         PIC 9(6).
+		            15 REPLY-PERSONAL.
+		               20 REPLY-NAME        PIC X(20).
+		               20 REPLY-ADDRESS     PIC X(20).
+		               20 REPLY-PHONE       PIC X(8).
+		            15 REPLY-DATE           PIC X(8).
+		            15 REPLY-AMOUNT         PIC X(8).
+		            15 REPLY-COMMENT        PIC X(9).
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+
+           EXEC CICS ASKTIME ABSTIME(W-START-TIME) END-EXEC.
+           SET ADDRESS OF REQUEST-PARMS TO ADDRESS OF DFHCOMMAREA.
+           MOVE REQUEST-NAME TO W-REQUEST-NAME.
+           
+           SET ADDRESS OF REPLY-DATA TO ADDRESS OF DFHCOMMAREA.
+           MOVE ZERO TO REPLY-ITEMSCOUNT.
+           
+           SET COUNT-MODE TO TRUE.
+           PERFORM VISIT-ITEMS THRU END-VISIT-ITEMS.
+           IF (W-RESP NOT = DFHRESP(NORMAL))
+               PERFORM HANDLE-ERROR THRU END-HANDLE-ERROR
+           END-IF.
+
+           SET LOAD-MODE TO TRUE.
+           PERFORM VISIT-ITEMS THRU END-VISIT-ITEMS.
+           IF (W-RESP NOT = DFHRESP(NORMAL))
+               PERFORM HANDLE-ERROR THRU END-HANDLE-ERROR
+           END-IF.
+           EXEC CICS ASKTIME ABSTIME(W-STOP-TIME) END-EXEC.
+           COMPUTE W-ELAPSE-TIME = W-STOP-TIME - W-START-TIME.
+           EXEC CICS FORMATTIME ABSTIME(W-ELAPSE-TIME)
+                TIME(SEARCH-DURATION) TIMESEP
+           END-EXEC.    
+           MOVE W-ITEMSREAD TO TOTAL-ITEMS-READ.     
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+           
+      *---------------------------------------------------------------*
+      * This routine visits the items that satisfy the search criteria
+      * in W-REQUEST-NAME. There are 2 modes of execution:
+      * In count mode, the routine returns the number of hits
+      * in W-ITEMSCOUNT.
+      * In load mode, the routine populates the reply array.
+      * W-RESP should be DFHRESP(NORMAL) on exit.
+      *
+       VISIT-ITEMS.
+           IF LOAD-MODE
+               SET REPLY-SUCCESS TO TRUE
+               MOVE W-ITEMSCOUNT TO REPLY-ITEMSCOUNT
+           END-IF.
+           MOVE ZERO TO W-NUMBER W-ITEMSCOUNT W-ITEMSREAD.
+           EXEC CICS STARTBR
+                FILE    (W-FILENAME)
+                RIDFLD  (W-NUMBER)
+                RESP    (W-RESP)
+                RESP2   (W-RESP2)
+           END-EXEC.
+           PERFORM UNTIL W-RESP NOT = DFHRESP(NORMAL)
+              EXEC CICS READNEXT
+                  INTO    (FILEA)
+                  FILE    (W-FILENAME)
+                  RIDFLD  (W-NUMBER)
+                  RESP    (W-RESP)
+                  RESP2   (W-RESP2)
+              END-EXEC
+              IF W-RESP = DFHRESP(NORMAL)
+                  PERFORM CHECK-NAME THRU END-CHECK-NAME
+                  IF MATCH
+                      ADD 1 TO W-ITEMSCOUNT
+                      IF LOAD-MODE
+                          MOVE NUMB    TO REPLY-NUMBER (W-ITEMSCOUNT)
+                          MOVE NAME    TO REPLY-NAME (W-ITEMSCOUNT)
+                          MOVE ADDRX   TO REPLY-ADDRESS (W-ITEMSCOUNT)
+                          MOVE PHONE   TO REPLY-PHONE (W-ITEMSCOUNT)
+                          MOVE DATEX   TO REPLY-DATE( W-ITEMSCOUNT)
+                          MOVE AMOUNT  TO REPLY-AMOUNT (W-ITEMSCOUNT)
+                          MOVE COMMENT TO REPLY-COMMENT (W-ITEMSCOUNT)
+                      END-IF
+                  END-IF
+                  ADD 1 TO W-ITEMSREAD
+              END-IF
+           END-PERFORM.
+           IF (W-RESP = DFHRESP(NOTFND) OR DFHRESP(ENDFILE)) 
+              EXEC CICS ENDBR
+                  FILE    (W-FILENAME)
+                  RESP    (W-RESP)
+                  RESP2   (W-RESP2)
+              END-EXEC
+           END-IF.
+          
+       END-VISIT-ITEMS.   EXIT.
+       
+      *---------------------------------------------------------------*
+      * Check a given NAME against the W-REQUEST-NAME.
+      *
+       CHECK-NAME.
+           SET MATCH TO TRUE.
+           PERFORM VARYING W-I FROM 1 BY 1 UNTIL
+                   W-I > LENGTH OF W-REQUEST-NAME
+                   OR W-REQUEST-NAME (W-I:1) = '*'
+                   OR NO-MATCH
+               IF (NAME(W-I:1) NOT = W-REQUEST-NAME (W-I:1))
+                  SET NO-MATCH TO TRUE
+               END-IF
+           END-PERFORM.
+       END-CHECK-NAME.  EXIT.
+       
+      *---------------------------------------------------------------*
+      * Something went wrong. Format an error reply.
+      *
+       HANDLE-ERROR.
+           SET REPLY-ERROR TO TRUE.
+           MOVE W-RESP TO REPLY-RESP.
+           MOVE W-RESP2 TO REPLY-RESP2.
+           EVALUATE W-RESP
+               WHEN DFHRESP(FILENOTFOUND)
+                    MOVE 'FILE NOT FOUND' TO REPLY-MESSAGE
+               WHEN DFHRESP(INVREQ)
+                    MOVE 'INVALID REQUEST' TO REPLY-MESSAGE
+               WHEN DFHRESP(LENGERR)
+                    MOVE 'LENGTH ERROR' TO REPLY-MESSAGE
+               WHEN DFHRESP(NOTAUTH)
+                    MOVE 'FILE NOT AUTHORIZED' TO REPLY-MESSAGE
+               WHEN DFHRESP(NOTOPEN)
+                    MOVE 'FILE NOT OPEN' TO REPLY-MESSAGE
+               WHEN OTHER
+                    MOVE 'ERROR PROCESSING YOUR REQUEST'
+                      TO REPLY-MESSAGE
+           END-EVALUATE.
+           EXEC CICS RETURN END-EXEC.
+       END-HANDLE-ERROR.  EXIT.
+
+       END PROGRAM LSFILEAL.

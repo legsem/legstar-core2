@@ -1,0 +1,143 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. TYPESMIX.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A MIXTURE OF SIMPLE TYPES                  *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 C-ALPHABETIC            PIC A(5).
+          05 C-NATIONAL              PIC N(9).
+          05 C-DBCS                  PIC G(4) USAGE DISPLAY-1.
+          05 C-ALPHANUMERIC-EDITED   PIC A(2)X(3)/9900BBB/.
+          05 C-ALPHANUMERIC          PIC X(7).
+          05 C-OCTET-STRING          PIC X(8).
+          05 C-SINGLE-FLOAT          COMP-1.
+          05 C-DOUBLE-FLOAT          COMP-2.
+          05 C-PACKED-DECIMAL        PIC S9(15)V99 COMP-3.
+          05 C-ZONED-DECIMAL         PIC S9(5)9(9) DISPLAY.
+          05 C-NUMERIC-EDITED-1      PIC PPP009999CR.
+          05 C-NUMERIC-EDITED-2      PIC $$$9999/,99.999+.
+          05 C-NUMERIC-EDITED-3      PIC ****999.99.
+          05 C-NUMERIC-EDITED-4      PIC -ZZZZ99.999.
+          05 C-INDEX                 USAGE INDEX.
+          05 C-POINTER               USAGE POINTER.
+          05 C-PROC-POINTER          USAGE PROCEDURE-POINTER.
+          05 C-FUNC-POINTER          USAGE FUNCTION-POINTER.
+          05 C-EXTERNAL-FLOATING     PIC +99.99E-99.
+          05 C-BINARY                PIC S9(9) COMP.
+          05 C-NATIVE-BINARY         PIC 9(4) COMP-5.
+
+       PROCEDURE DIVISION.
+
+      *
+      * First check what we received
+      *
+           IF C-ALPHABETIC NOT = 'ABCDE'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-ALPHABETIC
+                      ' WHILE EXPECTING=' 'ABCDE'
+           END-IF
+      *    IF C-NATIONAL NOT = 'ABCDE'
+      *       DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-NATIONAL
+      *               ' WHILE EXPECTING=' 'ABCDE'
+      *    END-IF
+           IF C-DBCS NOT = G'    ©'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-DBCS
+                      ' WHILE EXPECTING=' G'    ©'
+           END-IF
+           IF C-ALPHANUMERIC-EDITED NOT = 'HAHAHAH'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-ALPHANUMERIC-EDITED
+                      ' WHILE EXPECTING=' 'HAHAHAH'
+           END-IF
+           IF C-ALPHANUMERIC        NOT = 'A9973'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-ALPHANUMERIC-EDITED
+                      ' WHILE EXPECTING=' 'A9973'
+           END-IF
+           IF C-OCTET-STRING NOT = X'0000000000000000'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-OCTET-STRING
+                      ' WHILE EXPECTING=' X'0000000000000000'
+           END-IF
+           IF C-SINGLE-FLOAT NOT = .34512232E-06
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-SINGLE-FLOAT
+                      ' WHILE EXPECTING=' .34512232E-06
+           END-IF
+           IF C-DOUBLE-FLOAT NOT = 0.45123456789E+12
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-DOUBLE-FLOAT
+                      ' WHILE EXPECTING=' 0.45123456789E+12
+           END-IF
+           IF C-PACKED-DECIMAL NOT = 75.45
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-PACKED-DECIMAL
+                      ' WHILE EXPECTING=' 75.45
+           END-IF
+           IF C-ZONED-DECIMAL NOT = -44535678912
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-ZONED-DECIMAL
+                      ' WHILE EXPECTING=' -44535678912
+           END-IF
+           IF C-NUMERIC-EDITED-1 NOT = '0'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-NUMERIC-EDITED-1
+                      ' WHILE EXPECTING=' '0'
+           END-IF
+           IF C-NUMERIC-EDITED-2 NOT = '0'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-NUMERIC-EDITED-2
+                      ' WHILE EXPECTING=' '0'
+           END-IF
+           IF C-NUMERIC-EDITED-3 NOT = '0'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-NUMERIC-EDITED-3
+                      ' WHILE EXPECTING=' '0'
+           END-IF
+           IF C-NUMERIC-EDITED-4 NOT = '0'
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-NUMERIC-EDITED-4
+                      ' WHILE EXPECTING=' '0'
+           END-IF
+           IF C-EXTERNAL-FLOATING NOT = +35.12E-08
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-EXTERNAL-FLOATING
+                      ' WHILE EXPECTING=' +35.12E-08
+           END-IF
+           IF C-BINARY NOT = -19
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-BINARY
+                      ' WHILE EXPECTING=' -19
+           END-IF
+           IF C-NATIVE-BINARY NOT = 9872
+              DISPLAY 'TYPESMIX ERROR. RECEIVED=' C-NATIVE-BINARY
+                      ' WHILE EXPECTING=' 9872
+           END-IF
+
+      *
+      * Create some output
+      *
+           MOVE 'FGHIJ' TO C-ALPHABETIC.
+      *    MOVE N'ABCDEFGHI' TO C-NATIONAL.
+           MOVE G'    ©' TO C-DBCS.
+           MOVE 'AAXXXT5566FFFT' TO C-ALPHANUMERIC-EDITED.
+           MOVE 'ALPHA12' TO C-ALPHANUMERIC.
+           MOVE X'01020304' TO C-OCTET-STRING.
+           MOVE 65.89E03 TO C-SINGLE-FLOAT.
+           MOVE -5.670078E-14 TO C-DOUBLE-FLOAT.
+           MOVE 3456000897.56 TO C-PACKED-DECIMAL.
+           MOVE -675439650076 TO C-ZONED-DECIMAL.
+           MOVE -0.56787 TO C-NUMERIC-EDITED-1.
+           MOVE -86679007.678 TO C-NUMERIC-EDITED-2.
+           MOVE 6778.65 TO C-NUMERIC-EDITED-3.
+           MOVE 7345.505 TO C-NUMERIC-EDITED-4.
+           MOVE 13.06E-07 TO C-EXTERNAL-FLOATING.
+           MOVE -86799 TO C-BINARY.
+           MOVE 65001 TO C-NATIVE-BINARY.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM TYPESMIX.
+

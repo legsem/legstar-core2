@@ -1,0 +1,173 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ALLTYPES.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH ENOUGH TYPES TO COVER ALL POSSIBLE BINDINGS*
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9(9) COMP VALUE ZERO.
+       01 WS-J   PIC 9 VALUE ZERO.
+       01 WS-X   PIC X(5) VALUE SPACES.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 S-STRING   PIC X(4).
+          05 S-BINARY   PIC X(4).
+          05 S-SHORT    PIC S9(4) COMP.
+          05 S-USHORT   PIC 9(4) COMP.
+          05 S-INT      PIC S9(9) COMP.
+          05 S-UINT     PIC 9(9) COMP.
+          05 S-LONG     PIC S9(18) COMP-3.
+          05 S-ULONG    PIC 9(18) COMP-3.
+          05 S-XLONG    PIC S9(31) COMP-3.
+          05 S-UXLONG   PIC 9(31) COMP-3.
+          05 S-DEC      PIC 9(7)V99 COMP-3.
+          05 S-FLOAT    COMP-1.          
+          05 S-DOUBLE   COMP-2. 
+                   
+          05 A-STRING   OCCURS 2 PIC X(4).
+          05 A-BINARY   OCCURS 2 PIC X(4).
+          05 A-SHORT    OCCURS 2 PIC S9(4) COMP.
+          05 A-USHORT   OCCURS 2 PIC 9(4) COMP.
+          05 A-INT      OCCURS 2 PIC S9(9) COMP.
+          05 A-UINT     OCCURS 2 PIC 9(9) COMP.
+          05 A-LONG     OCCURS 2 PIC S9(18) COMP-3.
+          05 A-ULONG    OCCURS 2 PIC 9(18) COMP-3.
+          05 A-XLONG    OCCURS 2 PIC S9(31) COMP-3.
+          05 A-UXLONG   OCCURS 2 PIC 9(31) COMP-3.
+          05 A-DEC      OCCURS 2 PIC 9(7)V99 COMP-3.
+          05 A-FLOAT    OCCURS 2 COMP-1.          
+          05 A-DOUBLE   OCCURS 2 COMP-2. 
+          
+       PROCEDURE DIVISION.
+
+      *
+      * First check what we received
+      *
+           IF S-STRING NOT = 'ABCD'
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-STRING
+                        ' WHILE EXPECTING=' 'ABCD'
+           END-IF.
+           IF S-BINARY NOT = X'0102'
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-BINARY
+                        ' WHILE EXPECTING=' X'0102'
+           END-IF.
+           IF S-SHORT NOT = -932
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-SHORT
+                        ' WHILE EXPECTING=' -932
+           END-IF.
+           IF S-USHORT NOT = 15
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-USHORT
+                        ' WHILE EXPECTING=' 15
+           END-IF.
+           IF S-INT NOT = 78906
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-INT
+                        ' WHILE EXPECTING=' 78906
+           END-IF.
+           IF S-UINT NOT = 452
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-UINT
+                        ' WHILE EXPECTING=' 452
+           END-IF.
+           IF S-LONG NOT = -4532456
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-LONG
+                        ' WHILE EXPECTING=' -4532456
+           END-IF.
+           IF S-ULONG NOT = 7800056
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-ULONG
+                        ' WHILE EXPECTING=' 7800056
+           END-IF.
+           IF S-XLONG NOT = 87554907654321
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-XLONG
+                        ' WHILE EXPECTING=' 87554907654321
+           END-IF.
+           IF S-UXLONG NOT = 564678008321
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-UXLONG
+                        ' WHILE EXPECTING=' 564678008321
+           END-IF.
+           IF S-DEC NOT = 75.45
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-DEC
+                        ' WHILE EXPECTING=' 75.45
+           END-IF.
+           IF S-FLOAT NOT = .3450065677999998E+06
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-FLOAT
+                        ' WHILE EXPECTING=' .3450065677999998E+06
+           END-IF.
+           IF S-DOUBLE NOT = .7982006699999985E-13
+                DISPLAY 'ALLTYPES ERROR. RECEIVED=' S-FLOAT
+                        ' WHILE EXPECTING=' .7982006699999985E-13
+           END-IF.
+                
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 2
+           
+               IF A-STRING(WS-I) NOT = 'ABCD'
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-STRING(WS-I)
+                            ' WHILE EXPECTING=' 'ABCD'
+               END-IF
+               IF A-BINARY(WS-I) NOT = X'0102'
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-BINARY(WS-I)
+                            ' WHILE EXPECTING=' X'0102'
+               END-IF
+               IF A-SHORT(WS-I) NOT = -932
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-SHORT(WS-I)
+                            ' WHILE EXPECTING=' -932
+               END-IF
+               IF A-USHORT(WS-I) NOT = 15
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-USHORT(WS-I)
+                            ' WHILE EXPECTING=' 15
+               END-IF
+               IF A-INT(WS-I) NOT = 78906
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-INT(WS-I)
+                            ' WHILE EXPECTING=' 78906
+               END-IF
+               IF A-UINT(WS-I) NOT = 452
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-UINT(WS-I)
+                            ' WHILE EXPECTING=' 452
+               END-IF
+               IF A-LONG(WS-I) NOT = -4532456
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-LONG(WS-I)
+                            ' WHILE EXPECTING=' -4532456
+               END-IF
+               IF A-ULONG(WS-I) NOT = 7800056
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-ULONG(WS-I)
+                            ' WHILE EXPECTING=' 7800056
+               END-IF
+               IF A-XLONG(WS-I) NOT = 87554907654321
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-XLONG(WS-I)
+                            ' WHILE EXPECTING=' 87554907654321
+               END-IF
+               IF A-UXLONG(WS-I) NOT = 564678008321
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-UXLONG(WS-I)
+                            ' WHILE EXPECTING=' 564678008321
+               END-IF
+               IF A-DEC(WS-I) NOT = 7545
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-DEC(WS-I)
+                            ' WHILE EXPECTING=' 7545
+               END-IF
+               IF A-FLOAT(WS-I) NOT = .3450065677999998E+06
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-FLOAT(WS-I)
+                            ' WHILE EXPECTING=' .3450065677999998E+06
+               END-IF
+               IF A-DOUBLE(WS-I) NOT = .7982006699999985E-13
+                    DISPLAY 'ALLTYPES ERROR RECEIVED=' A-FLOAT(WS-I)
+                            ' WHILE EXPECTING=' .7982006699999985E-13
+               END-IF
+              
+           END-PERFORM.
+
+           
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM ALLTYPES.

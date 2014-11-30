@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/redsimpt/redsimpt" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/redsimpt/redsimpt">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <choice>
+                <element name="CDefinition1">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-DEFINITION-1" isRedefined="true" levelNumber="5" picture="X(18)" srceLine="21" type="ALPHANUMERIC_ITEM" unmarshalChoiceStrategyClassName="com.legstar.coxb.cust.redsimpt.ChoiceSelector"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="18"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="CDefinition2">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="C-DEFINITION-2" levelNumber="5" picture="9(18)" redefines="C-DEFINITION-1" signed="false" srceLine="22" totalDigits="18" type="ZONED_DECIMAL_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedLong">
+                            <maxInclusive value="999999999999999999"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

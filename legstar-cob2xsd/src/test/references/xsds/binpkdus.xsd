@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/binpkdus/binpkdus" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/binpkdus/binpkdus">
+    <complexType name="WsExpectedIncomingData">
+        <sequence>
+            <element name="WsUnsignedPackedDecimal" type="tns:WsUnsignedPackedDecimal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-UNSIGNED-PACKED-DECIMAL" levelNumber="5" srceLine="30" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="WsUnsignedPackedDecimal">
+        <sequence>
+            <element name="WsCompat" type="tns:WsCompat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-COMPAT" levelNumber="10" srceLine="31" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="WsExtend" type="tns:WsExtend">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-EXTEND" levelNumber="10" srceLine="39" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="WsCompat">
+        <sequence>
+            <element name="WsP9X1Null">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X1-NULL" levelNumber="15" picture="9(1)" signed="false" srceLine="32" totalDigits="1" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsP9X1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X1" levelNumber="15" picture="9(1)" signed="false" srceLine="33" totalDigits="1" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsP9X2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X2" levelNumber="15" picture="9(2)" signed="false" srceLine="34" totalDigits="2" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="12"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsP9X7">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X7" levelNumber="15" picture="9(7)" signed="false" srceLine="35" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="32769"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="7"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsP9X18">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X18" levelNumber="15" picture="9(18)" signed="false" srceLine="37" totalDigits="18" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="123456789012345678"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong">
+                        <maxInclusive value="999999999999999999"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="WsExtend">
+        <sequence>
+            <element name="WsP9X19">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X19" levelNumber="15" picture="9(19)" signed="false" srceLine="40" totalDigits="19" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="1234567890123456789"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong">
+                        <maxInclusive value="9999999999999999999"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsP9X31">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-P9X31" levelNumber="15" picture="9(31)" signed="false" srceLine="42" totalDigits="31" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="1234567890123456789012345678901"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="integer">
+                        <totalDigits value="31"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WsExpectedIncomingData" type="tns:WsExpectedIncomingData">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-EXPECTED-INCOMING-DATA" levelNumber="1" srceLine="29" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="Filler45">
+        <sequence>
+            <element name="WsPs9X18Dis1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X18-DIS-1" levelNumber="5" picture="+9(18)" signed="true" srceLine="46" totalDigits="18" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="19"/>
+                        <pattern value="[\+\-\d]?\d{0,18}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X18Dis2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X18-DIS-2" levelNumber="5" picture="+9(18)" signed="true" srceLine="47" totalDigits="18" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="19"/>
+                        <pattern value="[\+\-\d]?\d{0,18}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X31Dis1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X31-DIS-1" levelNumber="5" picture="+9(31)" signed="true" srceLine="48" totalDigits="31" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                        <pattern value="[\+\-\d]?\d{0,31}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPs9X31Dis2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PS9X31-DIS-2" levelNumber="5" picture="+9(31)" signed="true" srceLine="49" totalDigits="31" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                        <pattern value="[\+\-\d]?\d{0,31}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Filler45" type="tns:Filler45">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="FILLER" levelNumber="1" srceLine="45" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="LsUnsignedPackedDecimal" type="tns:LsUnsignedPackedDecimal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-UNSIGNED-PACKED-DECIMAL" levelNumber="5" srceLine="56" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsUnsignedPackedDecimal">
+        <sequence>
+            <element name="LsCompat" type="tns:LsCompat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-COMPAT" levelNumber="10" srceLine="57" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="LsExtend" type="tns:LsExtend">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-EXTEND" levelNumber="10" srceLine="63" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsCompat">
+        <sequence>
+            <element name="LsP9X1Null">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X1-NULL" levelNumber="15" picture="9(1)" signed="false" srceLine="58" totalDigits="1" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsP9X1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X1" levelNumber="15" picture="9(1)" signed="false" srceLine="59" totalDigits="1" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsP9X2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X2" levelNumber="15" picture="9(2)" signed="false" srceLine="60" totalDigits="2" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsP9X7">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X7" levelNumber="15" picture="9(7)" signed="false" srceLine="61" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="7"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsP9X18">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X18" levelNumber="15" picture="9(18)" signed="false" srceLine="62" totalDigits="18" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong">
+                        <maxInclusive value="999999999999999999"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="LsExtend">
+        <sequence>
+            <element name="LsP9X19">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X19" levelNumber="15" picture="9(19)" signed="false" srceLine="64" totalDigits="19" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong">
+                        <maxInclusive value="9999999999999999999"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="LsP9X31">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="LS-P9X31" levelNumber="15" picture="9(31)" signed="false" srceLine="65" totalDigits="31" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="integer">
+                        <totalDigits value="31"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="55" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

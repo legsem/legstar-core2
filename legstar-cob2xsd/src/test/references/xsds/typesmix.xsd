@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/typesmix/typesmix" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/typesmix/typesmix">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="CAlphabetic">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ALPHABETIC" levelNumber="5" picture="A(5)" srceLine="21" type="ALPHABETIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                        <pattern value="[\p{L}\s]{0,5}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CNational">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NATIONAL" levelNumber="5" picture="N(9)" srceLine="22" type="NATIONAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CDbcs">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-DBCS" levelNumber="5" picture="G(4)" srceLine="23" type="DBCS_ITEM" usage="DISPLAY-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CAlphanumericEdited">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ALPHANUMERIC-EDITED" levelNumber="5" picture="A(2)X(3)/9900BBB/" srceLine="24" type="ALPHANUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="14"/>
+                        <pattern value="[\p{L}\s]{0,2}.{0,3}/?\d{0,2}0{0,2}\s{0,3}/?"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CAlphanumeric">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ALPHANUMERIC" levelNumber="5" picture="X(7)" srceLine="25" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="7"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="COctetString">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-OCTET-STRING" levelNumber="5" picture="X(8)" srceLine="26" type="OCTET_STREAM_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary">
+                        <maxLength value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CSingleFloat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-SINGLE-FLOAT" levelNumber="5" srceLine="27" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="CDoubleFloat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-DOUBLE-FLOAT" levelNumber="5" srceLine="28" type="DOUBLE_FLOAT_ITEM" usage="COMP-2"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="double"/>
+                </simpleType>
+            </element>
+            <element name="CPackedDecimal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-PACKED-DECIMAL" fractionDigits="2" levelNumber="5" picture="S9(15)V99" signed="true" srceLine="29" totalDigits="17" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="17"/>
+                        <fractionDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CZonedDecimal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-ZONED-DECIMAL" levelNumber="5" picture="S9(5)9(9)" signed="true" srceLine="30" totalDigits="14" type="ZONED_DECIMAL_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="long">
+                        <totalDigits value="14"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CNumericEdited1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NUMERIC-EDITED-1" levelNumber="5" picture="PPP009999CR" signed="false" srceLine="31" totalDigits="4" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="8"/>
+                        <pattern value="[\d\.]{0,3}0{0,2}\d{0,4}(CR|\s\s)?"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CNumericEdited2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NUMERIC-EDITED-2" fractionDigits="3" levelNumber="5" picture="$$$9999/,99.999+" signed="false" srceLine="32" totalDigits="11" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="16"/>
+                        <pattern value="($|\d|\s){0,3}\d{0,4}/?,?\d{0,2}\.?\d{0,3}[\+\-\d]?"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CNumericEdited3">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NUMERIC-EDITED-3" fractionDigits="2" levelNumber="5" picture="****999.99" signed="false" srceLine="33" totalDigits="9" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                        <pattern value="[1-9\*]{0,4}\d{0,3}\.?\d{0,2}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CNumericEdited4">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NUMERIC-EDITED-4" fractionDigits="3" levelNumber="5" picture="-ZZZZ99.999" signed="true" srceLine="34" totalDigits="9" type="NUMERIC_EDITED_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="11"/>
+                        <pattern value="[\+\-\d]?[1-9\s]{0,4}\d{0,2}\.?\d{0,3}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CIndex">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-INDEX" levelNumber="5" srceLine="35" type="INDEX_ITEM" usage="INDEX"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary"/>
+                </simpleType>
+            </element>
+            <element name="CPointer">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-POINTER" levelNumber="5" srceLine="36" type="POINTER_ITEM" usage="POINTER"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary"/>
+                </simpleType>
+            </element>
+            <element name="CProcPointer">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-PROC-POINTER" levelNumber="5" srceLine="37" type="PROC_POINTER_ITEM" usage="PROCEDURE-POINTER"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary"/>
+                </simpleType>
+            </element>
+            <element name="CFuncPointer">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-FUNC-POINTER" levelNumber="5" srceLine="38" type="FUNC_POINTER_ITEM" usage="FUNCTION-POINTER"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary"/>
+                </simpleType>
+            </element>
+            <element name="CExternalFloating">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-EXTERNAL-FLOATING" levelNumber="5" picture="+99.99E-99" srceLine="39" type="EXTERNAL_FLOATING_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                        <pattern value="[\+\-\d]?\d{0,2}\.?\d{0,2}E?[\+\-\d]?\d{0,2}"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CBinary">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-BINARY" levelNumber="5" picture="S9(9)" signed="true" srceLine="40" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="CNativeBinary">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="C-NATIVE-BINARY" levelNumber="5" picture="9(4)" signed="false" srceLine="41" totalDigits="4" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

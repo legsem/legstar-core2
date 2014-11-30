@@ -1,0 +1,116 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LSFILEAQ.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * QUERY A CUSTOMERS FILE USING CUSTOMER FULL OR PARTIAL NAME    *
+      * SHOWCASES VARIOUS DATA TYPES THAT ARE COMMON IN COBOL.        *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+
+      * DFH0CFIL IS A STANDARD IBM COPYBOOK DESCRIBING A FILEA RECORD
+       01  FILEA.   COPY DFH0CFIL.
+       
+       01  W-CUSTOMER-ID              PIC 9(6) VALUE ZERO.
+       01  FILLER                     PIC 9(4) COMP VALUE ZERO.
+           88 NO-MATCH            VALUE 0.
+           88 MATCH               VALUE 1.
+       01  W-RESP                     PIC S9(8) VALUE ZERO.
+       01  W-RESP2                    PIC S9(8) VALUE ZERO.
+       01  W-I                        PIC S9(8) VALUE ZERO.
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05 QUERY-DATA.
+              10 CUSTOMER-NAME               PIC X(20).
+              10 MAX-REPLIES                 PIC S9(4) COMP VALUE -1.
+                  88 UNLIMITED     VALUE -1.
+           05 REPLY-DATA.
+              10 REPLY-COUNT                 PIC 9(8) COMP-3.
+              10 CUSTOMER OCCURS 1 TO 100 DEPENDING ON REPLY-COUNT.
+                  15 CUSTOMER-ID             PIC 9(6).
+                  15 PERSONAL-DATA.
+                     20 CUSTOMER-NAME        PIC X(20).
+                     20 CUSTOMER-ADDRESS     PIC X(20).
+                     20 CUSTOMER-PHONE       PIC X(8).
+                  15 LAST-TRANS-DATE         PIC X(8).
+                  15 FILLER REDEFINES LAST-TRANS-DATE.
+                     20 LAST-TRANS-DAY       PIC X(2).
+                     20 FILLER               PIC X.
+                     20 LAST-TRANS-MONTH     PIC X(2).
+                     20 FILLER               PIC X.
+                     20 LAST-TRANS-YEAR      PIC X(2).
+                  15 LAST-TRANS-AMOUNT       PIC $9999.99.
+                  15 LAST-TRANS-COMMENT      PIC X(9).
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+
+           MOVE ZERO TO W-CUSTOMER-ID REPLY-COUNT.
+           EXEC CICS STARTBR
+                FILE    ('FILEA')
+                RIDFLD  (W-CUSTOMER-ID)
+                RESP    (W-RESP)
+                RESP2   (W-RESP2)
+           END-EXEC.
+           PERFORM UNTIL W-RESP NOT = DFHRESP(NORMAL) OR
+              (NOT UNLIMITED AND REPLY-COUNT NOT < MAX-REPLIES)
+              EXEC CICS READNEXT
+                  INTO    (FILEA)
+                  FILE    ('FILEA')
+                  RIDFLD  (W-CUSTOMER-ID)
+                  RESP    (W-RESP)
+                  RESP2   (W-RESP2)
+              END-EXEC
+              IF W-RESP = DFHRESP(NORMAL)
+                  PERFORM CHECK-MATCH THRU END-CHECK-MATCH
+                  IF MATCH
+                      ADD 1        TO REPLY-COUNT
+                      MOVE NUMB    TO CUSTOMER-ID (REPLY-COUNT)
+                      MOVE NAME    TO CUSTOMER-NAME
+                                      OF REPLY-DATA (REPLY-COUNT)
+                      MOVE ADDRX   TO CUSTOMER-ADDRESS (REPLY-COUNT)
+                      MOVE PHONE   TO CUSTOMER-PHONE (REPLY-COUNT)
+                      MOVE DATEX   TO LAST-TRANS-DATE( REPLY-COUNT)
+                      COMPUTE LAST-TRANS-AMOUNT (REPLY-COUNT)
+                        = FUNCTION NUMVAL-C(AMOUNT)
+                      MOVE COMMENT TO LAST-TRANS-COMMENT (REPLY-COUNT)
+                  END-IF
+              END-IF
+           END-PERFORM.
+           EXEC CICS ENDBR
+               FILE    ('FILEA')
+               NOHANDLE
+           END-EXEC.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       CHECK-MATCH.
+           SET MATCH TO TRUE.
+           PERFORM VARYING W-I FROM 1 BY 1 UNTIL
+                   W-I > LENGTH OF NAME
+                   OR CUSTOMER-NAME OF QUERY-DATA (W-I:1) = '*'
+                   OR NO-MATCH
+               IF NAME(W-I:1) NOT = CUSTOMER-NAME OF QUERY-DATA(W-I:1)
+                  SET NO-MATCH TO TRUE
+               END-IF
+           END-PERFORM.
+       END-CHECK-MATCH.  EXIT.
+
+       END PROGRAM LSFILEAQ.

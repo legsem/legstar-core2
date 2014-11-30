@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/charsets/charsets" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/charsets/charsets">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="ComLocal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-LOCAL" levelNumber="5" picture="X(32)" srceLine="43" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComDbcs">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-DBCS" levelNumber="5" picture="G(32)" srceLine="44" type="DBCS_ITEM" usage="DISPLAY-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComNational">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-NATIONAL" levelNumber="5" picture="N(32)" srceLine="45" type="NATIONAL_ITEM" usage="NATIONAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="42" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

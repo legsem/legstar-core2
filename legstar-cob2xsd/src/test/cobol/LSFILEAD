@@ -1,0 +1,64 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DPLARCHT.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL PROGRAM THAT PERFORMS VARIOUS SPI COMMANDS                *
+      * THIS PROGRAM ILLUSTRATES VARIOUS COMMAREA LAYOUT CASES        *
+      * INCLUDING:                                                    *
+      *   MIX OF DIFFERENT NUMERICS TYPES AND STRINGS                 *
+      *   DEEP (MORE THAN 2 LEVELS) STRUCTURES                        *
+      *   MULTIPLE EXECUTION TYPES YIELDING DIFFERENT OUTPUT LAYOUTS  *
+      *   LEVELS 88 WITH RANGES                                       *
+      *   REDEFINES OF DIFFERENT SIMPLE TYPES                         *
+      *                                                               *
+      *                                                               *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+        01  FILEA.   COPY DFH0CFIL.
+        77  RESPONSE     PIC S9(8).
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 COM-NUMBER         PIC 9(6).
+          05 COM-NAME           PIC X(20).
+          05 COM-ADDRESS        PIC X(20).
+          05 COM-PHONE          PIC X(8).
+          05 COM-DATE           PIC X(8).
+          05 COM-AMOUNT         PIC X(8).
+          05 COM-COMMENT        PIC X(9).
+          
+       PROCEDURE DIVISION.
+
+           EXEC CICS READ
+                INTO    (FILEA)
+                RIDFLD  (COM-NUMBER)
+                RESP    (RESPONSE)
+                FILE    ('FILEA')
+           END-EXEC.
+           IF RESPONSE NOT = DFHRESP(NORMAL)
+              INITIALIZE DFHCOMMAREA
+           ELSE
+              MOVE NAME    TO COM-NAME
+              MOVE ADDRX   TO COM-ADDRESS
+              MOVE PHONE   TO COM-PHONE
+              MOVE DATEX   TO COM-DATE
+              MOVE AMOUNT  TO COM-AMOUNT
+              MOVE COMMENT TO COM-COMMENT
+           END-IF.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM LSFILEAD.

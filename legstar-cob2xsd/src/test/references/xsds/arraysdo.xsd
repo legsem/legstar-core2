@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/arraysdo/arraysdo" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/arraysdo/arraysdo">
+    <complexType name="WsOdo">
+        <sequence>
+            <element name="Filler21">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="5" picture="X(3)" srceLine="21" type="ALPHANUMERIC_ITEM" value="ODO"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsOdoA">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-ODO-A" levelNumber="5" picture="9(2)" signed="false" srceLine="22" totalDigits="2" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="WsOdo" type="tns:WsOdo">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="WS-ODO" levelNumber="1" srceLine="20" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="TableSize">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="TABLE-SIZE" isODOObject="true" levelNumber="5" picture="9(2)" signed="false" srceLine="26" totalDigits="2" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="100" name="TableOdo">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="TABLE-ODO" dependingOn="TABLE-SIZE" levelNumber="5" maxOccurs="100" minOccurs="1" picture="X(5)" srceLine="27" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="25" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

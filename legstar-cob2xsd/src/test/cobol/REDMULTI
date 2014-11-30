@@ -1,0 +1,62 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. REDMULTI.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * A DPL PROGRAM WITH A REDEFINE NON DETERMINISTIC OUTPUT        *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       
+       01 SEED-TIME PIC 9(08) VALUE ZEROES.
+       01 FILLER REDEFINES SEED-TIME.
+          05 SEED-HOURS       PIC 99.
+          05 SEED-MINUTES     PIC 99.
+          05 SEED-SECONDS     PIC 99.
+          05 SEED-HUNDREDTH   PIC 99.
+
+       01 SEED         PIC S9(4) COMP.
+       01 RANDOM-FLOAT USAGE COMP-1.
+       
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05  C-OUTPUT-TYPE               PIC X(6).
+               88  A-NORMAL     VALUE 'normal'.
+               88  A-ERROR      VALUE 'error'.
+           03  C-DATA                      PIC X(200).
+           03  FILLER       REDEFINES C-DATA.
+               05  C-STRING                PIC X(30).
+               05  FILLER                  PIC X(170).
+           03  FILLER       REDEFINES C-DATA.
+               05  C-ERROR-NUM             PIC 9(4).
+               05  C-ERROR-DESCRIPTION     PIC X(196).
+          
+       PROCEDURE DIVISION.
+           
+           ACCEPT SEED-TIME FROM TIME.
+           COMPUTE SEED = SEED-SECONDS.
+           COMPUTE RANDOM-FLOAT = FUNCTION RANDOM(SEED).
+           
+           IF RANDOM-FLOAT > 0.5
+                  MOVE 'ABJADHAOUAZ' TO C-STRING
+                  SET A-NORMAL TO TRUE
+           ELSE
+               COMPUTE C-ERROR-NUM = RANDOM-FLOAT * 100
+               MOVE 'RANDOM WAS SMALLER THAN 0.5'
+                 TO C-ERROR-DESCRIPTION
+               SET A-ERROR TO TRUE
+           END-IF.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM REDMULTI.

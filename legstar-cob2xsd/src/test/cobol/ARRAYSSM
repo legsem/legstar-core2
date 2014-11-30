@@ -1,0 +1,97 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ARRAYSSM.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * VARIOUS CASES OF SIMPLE ARRAYS                                *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-I   PIC 9 VALUE ZERO.
+       
+       01 WS-TS.
+          05 FILLER    PIC X(2) VALUE "TS".
+          05 WS-TS-A   PIC 9(1).
+       01 WS-TC.
+          05 FILLER    PIC X(4) VALUE "TCEC".
+          05 WS-TC-A   PIC 9(1).
+       01 WS-TC2.
+          05 FILLER    PIC X(6) VALUE "TC2EC2".
+          05 WS-TC2-A   PIC 9(1).
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 TABLE-SIMPLE OCCURS 2 TIMES PIC X(3).
+          05 TABLE-COMPLEX OCCURS 3 TIMES.
+             10 ELEMENT-COMPLEX  PIC X(5).
+          05 TABLE-COMPLEX-2.
+             10 ELEMENT-COMPLEX-2 OCCURS 4 TIMES  PIC X(7).
+          05 TABLE-SIMPLE-NUMERIC OCCURS 5 TIMES PIC 9.
+          
+       PROCEDURE DIVISION.
+      *
+      * First check what we received
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 2
+               MOVE WS-I TO WS-TS-A
+               IF TABLE-SIMPLE(WS-I) NOT = WS-TS
+                   DISPLAY "TABLE-SIMPLE ITEM" WS-I
+				           " RECEIVED:" TABLE-SIMPLE(WS-I)
+				           " EXPECTED:" WS-TS
+               END-IF
+           END-PERFORM.
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+               MOVE WS-I TO WS-TC-A
+               IF TABLE-COMPLEX(WS-I) NOT = WS-TC
+                   DISPLAY "TABLE-COMPLEX ITEM" WS-I
+				           " RECEIVED:" TABLE-COMPLEX(WS-I)
+				           " EXPECTED:" WS-TC
+               END-IF
+           END-PERFORM.
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 4
+               MOVE WS-I TO WS-TC2-A
+               IF ELEMENT-COMPLEX-2(WS-I) NOT = WS-TC2
+                   DISPLAY "TABLE-COMPLEX-2 ITEM" WS-I
+				           " RECEIVED:" ELEMENT-COMPLEX-2(WS-I)
+				           " EXPECTED:" WS-TC2
+               END-IF
+           END-PERFORM.
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 5
+                IF TABLE-SIMPLE-NUMERIC(WS-I) NOT = WS-I
+                   DISPLAY "TABLE-SIMPLE-NUMERIC ITEM" WS-I
+				           " RECEIVED:" TABLE-SIMPLE(WS-I)
+				           " EXPECTED:" WS-I
+               END-IF
+           END-PERFORM.
+      *
+      * Send back everything in reverse order
+      *
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 2
+               COMPUTE WS-TS-A = 3 - WS-I
+               MOVE WS-TS TO TABLE-SIMPLE( WS-I)
+           END-PERFORM.
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 3
+               COMPUTE WS-TC-A = 4 - WS-I
+               MOVE WS-TC TO TABLE-COMPLEX( WS-I)
+           END-PERFORM.
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 4
+               COMPUTE WS-TC2-A = 5 - WS-I
+               MOVE WS-TC2 TO ELEMENT-COMPLEX-2( WS-I)
+           END-PERFORM.
+           PERFORM VARYING WS-I FROM 1 BY 1 UNTIL WS-I > 5
+               COMPUTE TABLE-SIMPLE-NUMERIC(WS-I) = 6 - WS-I
+           END-PERFORM.
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM ARRAYSSM.

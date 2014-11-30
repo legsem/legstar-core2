@@ -1,0 +1,96 @@
+       PROCESS XOPTS(APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL) ARITH(EXTEND)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. NUMZONED.
+      *****************************************************************
+      * AUTHOR                                                        *
+      * ------                                                        *
+      * Fady Moussallam   fady@legsem.com                             *
+      *                                                               *
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL program used to test binary numeric conversions           *
+      * Test case: ZONED DECIMALS                                     *
+      *                                                               *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 L-U          PIC 9(1) DISPLAY.
+          05 L-S          PIC S9(2) DISPLAY.
+          05 L-S-SIGN-L   PIC S9(3) SIGN IS LEADING DISPLAY.
+          05 L-S-SIGN-T   PIC S9(2) SIGN IS TRAILING DISPLAY.
+          05 L-S-SIGN-S-L PIC S9(1) SIGN IS LEADING SEPARATE DISPLAY.
+          05 L-S-SIGN-S-T PIC S9(2) SIGN IS TRAILING SEPARATE DISPLAY.
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+       
+           PERFORM CHECK-INCOMING-DATA THRU
+               END-CHECK-INCOMING-DATA.
+           PERFORM FORMAT-REPLY THRU
+               END-FORMAT-REPLY.
+
+           EXEC CICS RETURN END-EXEC.
+           GOBACK.
+           
+      *****************************************************************
+      * Verify that incoming data contains what is expected           *
+      *****************************************************************
+       CHECK-INCOMING-DATA.
+           IF L-U NOT = 6
+              DISPLAY 'NUMZONED ERROR. RECEIVED=' L-U
+                      ' WHILE EXPECTING=' 6
+           END-IF.
+           IF L-S NOT = -5
+              DISPLAY 'NUMZONED ERROR. RECEIVED=' L-S
+                      ' WHILE EXPECTING=' 6
+           END-IF.
+           IF L-S-SIGN-L NOT = -78
+              DISPLAY 'NUMZONED ERROR. RECEIVED=' L-S-SIGN-L
+                      ' WHILE EXPECTING=' 6
+           END-IF.
+           IF L-S-SIGN-T NOT = 1
+              DISPLAY 'NUMZONED ERROR. RECEIVED=' L-S-SIGN-T
+                      ' WHILE EXPECTING=' 6
+           END-IF.
+           IF L-S-SIGN-S-L NOT = 9
+              DISPLAY 'NUMZONED ERROR. RECEIVED=' L-S-SIGN-S-L
+                      ' WHILE EXPECTING=' 6
+           END-IF.
+           IF L-S-SIGN-S-T NOT = -11
+              DISPLAY 'NUMZONED ERROR. RECEIVED=' L-S-SIGN-S-T
+                      ' WHILE EXPECTING=' 6
+           END-IF.
+
+           
+       END-CHECK-INCOMING-DATA.    EXIT.
+
+      *****************************************************************
+      * Format data back                                              *
+      *****************************************************************
+       FORMAT-REPLY.
+       
+           COMPUTE L-U = L-U * 2.
+           COMPUTE L-S = L-S * -1.
+           COMPUTE L-S-SIGN-L = L-S-SIGN-L * -1.
+           COMPUTE L-S-SIGN-T = L-S-SIGN-T * -1.
+           COMPUTE L-S-SIGN-S-L = L-S-SIGN-S-L * -1.
+           COMPUTE L-S-SIGN-S-T = L-S-SIGN-S-T * -1.
+           
+       END-FORMAT-REPLY.    EXIT.
+       

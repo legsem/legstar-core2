@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/valuemix/valuemix" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/valuemix/valuemix">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="WsZero">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-ZERO" levelNumber="5" picture="9(05)" signed="false" srceLine="8" totalDigits="5" type="ZONED_DECIMAL_ITEM" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsZeros">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-ZEROS" levelNumber="5" picture="9(05)" signed="false" srceLine="9" totalDigits="5" type="ZONED_DECIMAL_ITEM" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsZeroes">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-ZEROES" levelNumber="5" picture="9(05)" signed="false" srceLine="10" totalDigits="5" type="ZONED_DECIMAL_ITEM" value="0"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsSpace">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-SPACE" levelNumber="5" picture="X(05)" srceLine="11" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsSpaces">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-SPACES" levelNumber="5" picture="X(05)" srceLine="12" type="ALPHANUMERIC_ITEM" value=" "/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsHighValue">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-HIGH-VALUE" levelNumber="5" picture="X(05)" srceLine="13" type="ALPHANUMERIC_ITEM" value="0xFFFFFFFFFF"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsHighValues">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-HIGH-VALUES" levelNumber="5" picture="X(05)" srceLine="14" type="ALPHANUMERIC_ITEM" value="0xFFFFFFFFFF"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsLowValue">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-LOW-VALUE" levelNumber="5" picture="X(05)" srceLine="15" type="ALPHANUMERIC_ITEM" value="0x0000000000"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsLowValues">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-LOW-VALUES" levelNumber="5" picture="X(05)" srceLine="16" type="ALPHANUMERIC_ITEM" value="0x0000000000"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsQuote">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-QUOTE" levelNumber="5" picture="X(05)" srceLine="17" type="ALPHANUMERIC_ITEM" value="'"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsQuotes">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-QUOTES" levelNumber="5" picture="X(05)" srceLine="18" type="ALPHANUMERIC_ITEM" value="'"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsNull">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-NULL" levelNumber="5" picture="X(05)" srceLine="19" type="ALPHANUMERIC_ITEM" value="0x0000000000"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsNulls">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-NULLS" levelNumber="5" picture="X(05)" srceLine="20" type="ALPHANUMERIC_ITEM" value="0x0000000000"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsString">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-STRING" levelNumber="5" picture="X(05)" srceLine="21" type="ALPHANUMERIC_ITEM" value="ABCDE"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsNumeric">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-NUMERIC" levelNumber="5" picture="S9(05)" signed="true" srceLine="22" totalDigits="5" type="ZONED_DECIMAL_ITEM" value="-345"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsPackedDecimal">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-PACKED-DECIMAL" fractionDigits="2" levelNumber="5" picture="S9(15)V99" signed="true" srceLine="23" totalDigits="17" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL" value="-245.56"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="17"/>
+                        <fractionDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="WsSingleFloat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-SINGLE-FLOAT" levelNumber="5" srceLine="24" type="SINGLE_FLOAT_ITEM" usage="COMP-1" value="+0.6E08"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="WsDoubleFloat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="WS-DOUBLE-FLOAT" levelNumber="5" srceLine="25" type="DOUBLE_FLOAT_ITEM" usage="COMP-2" value="-1.8E-56"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="double"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="7" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>
