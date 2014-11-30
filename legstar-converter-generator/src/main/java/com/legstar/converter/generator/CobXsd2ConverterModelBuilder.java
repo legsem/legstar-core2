@@ -30,6 +30,9 @@ import org.apache.ws.commons.schema.utils.XmlSchemaObjectBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.legstar.cobol.model.CobolAnnotations;
+import com.legstar.cobol.model.CobolTypes;
+
 /**
  * Build a model using a COBOL-annotated XML schema such as the ones produced by
  * legstar-cob2xsd.

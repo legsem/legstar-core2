@@ -1,4 +1,4 @@
-package com.legstar.converter.generator;
+package com.legstar.cobol.model;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
@@ -28,7 +28,7 @@ public class CobolAnnotations {
     private static Element getCobolXsdAnnotations(XmlSchemaElement xsdElement) {
         XmlSchemaAnnotation annotation = xsdElement.getAnnotation();
         if (annotation == null || annotation.getItems().size() == 0) {
-            throw new CobXsd2ConverterException("Xsd element of type "
+            throw new IllegalArgumentException("Xsd element of type "
                     + xsdElement.getSchemaType().getQName()
                     + " at line " + xsdElement.getLineNumber()
                     + " does not have COBOL annotations");
@@ -37,7 +37,7 @@ public class CobolAnnotations {
         XmlSchemaAppInfo appinfo = (XmlSchemaAppInfo) annotation.getItems()
                 .get(0);
         if (appinfo.getMarkup() == null) {
-            throw new CobXsd2ConverterException("Xsd element of type "
+            throw new IllegalArgumentException("Xsd element of type "
                     + xsdElement.getSchemaType().getQName()
                     + " does not have any markup in its annotations");
         }
@@ -53,7 +53,7 @@ public class CobolAnnotations {
             }
         }
         if (!found) {
-            throw new CobXsd2ConverterException("Xsd element of type "
+            throw new IllegalArgumentException("Xsd element of type "
                     + xsdElement.getSchemaType().getQName()
                     + " at line " + xsdElement.getLineNumber()
                     + " does not have any COBOL annotations");
