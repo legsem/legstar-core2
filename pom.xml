@@ -8,11 +8,11 @@
   </parent>
 
   <groupId>com.legsem.legstar</groupId>
-  <artifactId>legstar-core</artifactId>
+  <artifactId>legstar-core2</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>legstar-core</name>
+  <name>legstar-core2</name>
   <description>Translates COBOL structures to a java model. Converts Mainframe data to Java objects.</description>
   <url>https://github.com/legsem/legstar-core</url>
 
@@ -90,8 +90,8 @@
 
   <modules>
       <module>legstar-cob2xsd</module>
-      <module>legstar-converter</module>
-      <module>legstar-converter-generator</module>
+      <module>legstar-base</module>
+      <module>legstar-base-generator</module>
   </modules>
 
   <dependencyManagement>
@@ -102,7 +102,7 @@
       <!-- LegStar Converter -->
       <dependency>
           <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-converter</artifactId>
+          <artifactId>legstar-base</artifactId>
           <version>${project.version}</version>
       </dependency>
 
@@ -116,7 +116,7 @@
       <!-- LegStar Converter Generator -->
       <dependency>
           <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-converter-generator</artifactId>
+          <artifactId>legstar-base-generator</artifactId>
           <version>${project.version}</version>
       </dependency>
 

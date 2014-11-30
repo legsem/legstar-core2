@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-core2</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>legstar-base-generator</artifactId>
+  <packaging>jar</packaging>
+
+  <name>legstar-base-generator</name>
+
+  <dependencies>
+
+      <!-- LegStar converter -->
+      <dependency>
+          <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-base</artifactId>
+      </dependency>
+
+      <!-- LegStar Cobol to XSD Translator -->
+      <dependency>
+          <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-cob2xsd</artifactId>
+      </dependency>
+
+      <!-- XML schema -->
+      <dependency>
+          <groupId>org.apache.ws.xmlschema</groupId>
+          <artifactId>xmlschema-core</artifactId>
+      </dependency>
+
+      <!-- Handlebars Templating -->
+      <dependency>
+          <groupId>com.github.jknack</groupId>
+          <artifactId>handlebars</artifactId>
+      </dependency>
+
+      <!-- Apache utils -->
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+      </dependency>
+
+      <!-- Logging -->   
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+      </dependency>
+
+      <!-- Tests -->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+  </dependencies>
+</project>
