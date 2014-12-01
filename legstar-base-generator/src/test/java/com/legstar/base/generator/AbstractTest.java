@@ -16,6 +16,8 @@ public class AbstractTest {
 
     public static final File TEST_XSD_FOLDER = new File("src/test/xsds");
 
+    public static final File TEST_COBOL_FOLDER = new File("src/test/cobol");
+
     @Rule
     public TestName name = new TestName();
 

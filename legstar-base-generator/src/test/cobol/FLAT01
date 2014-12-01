@@ -1,0 +1,4 @@
+       01 FLAT01-RECORD.
+          05 COM-NUMBER         PIC 9(6).
+          05 COM-NAME           PIC X(20).
+          05 COM-AMOUNT         PIC 9(5)V99 COMP-3.
