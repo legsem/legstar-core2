@@ -80,9 +80,6 @@ public class Cob2XsdConfig {
     /** For fixed format COBOL position of the right margin. */
     public static final String END_COLUMN = "endColumn";
 
-    /** Character set used to encode the source COBOL file. */
-    public static final String COBOL_SOURCE_FILE_ENCODING = "cobolSourceFileEncoding";
-
     /** Character set used to encode the output XML Schema. */
     public static final String XSD_ENCODING = "xsdEncoding";
 
@@ -142,12 +139,6 @@ public class Cob2XsdConfig {
 
     /** For fixed format COBOL, position of the right margin. */
     private final int _endColumn;
-
-    /**
-     * Character set used to encode the input COBOL source files. Null means
-     * default character set.
-     */
-    private final String _cobolSourceFileEncoding;
 
     /*
      * ----------------------------------------------------------------------
@@ -234,8 +225,6 @@ public class Cob2XsdConfig {
         _endColumn = Integer.parseInt(props.getProperty(END_COLUMN,
                 DEFAULT_END_COLUMN));
 
-        _cobolSourceFileEncoding = props
-                .getProperty(COBOL_SOURCE_FILE_ENCODING);
         _xsdEncoding = props.getProperty(XSD_ENCODING, DEFAULT_XSD_ENCODING);
         _targetNamespace = props.getProperty(TARGET_NAMESPACE);
         _mapConditionsToFacets = Boolean.parseBoolean(props.getProperty(
@@ -315,13 +304,6 @@ public class Cob2XsdConfig {
      */
     public int getEndColumn() {
         return _endColumn;
-    }
-
-    /**
-     * @return the character set used to encode the input COBOL source files
-     */
-    public String getCobolSourceFileEncoding() {
-        return _cobolSourceFileEncoding;
     }
 
     /*
@@ -471,8 +453,6 @@ public class Cob2XsdConfig {
         builder.append(_startColumn);
         builder.append(", _endColumn=");
         builder.append(_endColumn);
-        builder.append(", _cobolSourceFileEncoding=");
-        builder.append(_cobolSourceFileEncoding);
         builder.append(", _xsdEncoding=");
         builder.append(_xsdEncoding);
         builder.append(", _targetNamespace=");

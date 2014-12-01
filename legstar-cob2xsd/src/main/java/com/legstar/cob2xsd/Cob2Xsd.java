@@ -10,9 +10,9 @@
  ******************************************************************************/
 package com.legstar.cob2xsd;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -111,69 +111,72 @@ public class Cob2Xsd {
     /**
      * Execute the translation from COBOL to XML Schema.
      * 
-     * @param cobolSource the COBOL source code
+     * @param cobolReader reads the raw COBOL source
      * @return the XML Schema
      * @throws RecognizerException if COBOL recognition fails
      * @throws XsdGenerationException if XML schema generation process fails
      */
-    public String translate(final String cobolSource)
-            throws RecognizerException, XsdGenerationException {
-        return translate(cobolSource, null);
+    public String translate(final Reader cobolReader)
+            throws XsdGenerationException {
+        return translate(cobolReader, null);
     }
 
     /**
      * Execute the translation from COBOL to XML Schema.
      * 
-     * @param cobolSource the COBOL source code
+     * @param cobolReader reads the raw COBOL source
      * @param baseName the name to use to uniquely identify the target namespace
      *            (null to use the configured namespace without further
      *            qualification)
      * @return the XML Schema
-     * @throws RecognizerException if COBOL recognition fails
      * @throws XsdGenerationException if XML schema generation process fails
      */
-    public String translate(final String cobolSource, final String baseName)
-            throws RecognizerException, XsdGenerationException {
-        if (_log.isDebugEnabled()) {
-            debug("Translating with options:", getConfig().toString());
+    public String translate(final Reader cobolReader, final String baseName)
+            throws XsdGenerationException {
+        try {
+            if (_log.isDebugEnabled()) {
+                _log.debug("Translating with options: {}", getConfig().toString());
+            }
+            return xsdToString(emitXsd(toModel(cobolReader),
+                    getUniqueTargetNamespace(baseName)));
+        } catch (RecognizerException e) {
+            throw new XsdGenerationException(e);
         }
-        return xsdToString(emitXsd(toModel(cobolSource),
-                getUniqueTargetNamespace(baseName)));
     }
 
     /**
      * Parses a COBOL source into an in-memory model.
      * 
-     * @param cobolSource the COBOL source
+     * @param cobolReader reads the raw COBOL source
      * @return a list of root COBOL data items
      * @throws RecognizerException if COBOL recognition fails
      */
-    public List < CobolDataItem > toModel(final String cobolSource)
+    public List < CobolDataItem > toModel(final Reader cobolReader)
             throws RecognizerException {
-        return emitModel(parse(lex(clean(cobolSource))));
+        return emitModel(parse(lex(clean(cobolReader))));
     }
 
     /**
      * Remove any non COBOL Structure characters from the source.
      * 
-     * @param cobolSource the raw source
+     * @param cobolReader reads the raw COBOL source
      * @return a cleaned up source
      * @throws CleanerException if source cannot be read
      */
-    public String clean(final String cobolSource) throws CleanerException {
+    public String clean(final Reader cobolReader) throws CleanerException {
         if (_log.isDebugEnabled()) {
-            debug("1. Cleaning COBOL source code:", cobolSource);
+            _log.debug("1. Cleaning COBOL source code");
         }
         switch (getConfig().getCodeFormat()) {
         case FIXED_FORMAT:
             CobolFixedFormatSourceCleaner fixedCleaner = new CobolFixedFormatSourceCleaner(
                     getErrorHandler(), getConfig().getStartColumn(), getConfig()
                             .getEndColumn());
-            return fixedCleaner.clean(cobolSource);
+            return fixedCleaner.clean(cobolReader);
         case FREE_FORMAT:
             CobolFreeFormatSourceCleaner freeCleaner = new CobolFreeFormatSourceCleaner(
                     getErrorHandler());
-            return freeCleaner.clean(cobolSource);
+            return freeCleaner.clean(cobolReader);
         default:
             throw new CleanerException("Unkown COBOL source format "
                     + getConfig().getCodeFormat());
@@ -190,7 +193,7 @@ public class Cob2Xsd {
     public CommonTokenStream lex(final String cleanedCobolSource)
             throws RecognizerException {
         if (_log.isDebugEnabled()) {
-            debug("2. Lexing COBOL source code:", cleanedCobolSource);
+            _log.debug("2. Lexing COBOL source code: {}", cleanedCobolSource);
         }
         try {
             CobolStructureLexer lex = new CobolStructureLexerImpl(
@@ -219,7 +222,7 @@ public class Cob2Xsd {
     public CommonTree parse(final CommonTokenStream tokens)
             throws RecognizerException {
         if (_log.isDebugEnabled()) {
-            debug("3. Parsing tokens:", tokens.toString());
+            _log.debug("3. Parsing tokens: {}", tokens.toString());
         }
         try {
             CobolStructureParser parser = new CobolStructureParserImpl(tokens,
@@ -248,7 +251,7 @@ public class Cob2Xsd {
             throws RecognizerException {
         List < CobolDataItem > cobolDataItems = new ArrayList < CobolDataItem >();
         if (_log.isDebugEnabled()) {
-            debug("4. Emitting Model from AST: ",
+            _log.debug("4. Emitting Model from AST: {}",
                     ((ast == null) ? "null" : ast.toStringTree()));
         }
         if (ast == null) {
@@ -276,7 +279,7 @@ public class Cob2Xsd {
      */
     public XmlSchema emitXsd(final List < CobolDataItem > cobolDataItems, final String targetNamespace) {
         if (_log.isDebugEnabled()) {
-            debug("5. Emitting XML Schema from model: ",
+            _log.debug("5. Emitting XML Schema from model: {}",
                     cobolDataItems.toString());
         }
         XmlSchema xsd = createXmlSchema(getConfig().getXsdEncoding(), targetNamespace);
@@ -311,7 +314,7 @@ public class Cob2Xsd {
         if (_log.isDebugEnabled()) {
             StringWriter writer = new StringWriter();
             xsd.write(writer);
-            debug("6. Writing XML Schema: ", writer.toString());
+            _log.debug("6. Writing XML Schema: {}", writer.toString());
         }
 
         String errorMessage = "Customizing XML Schema failed.";
@@ -474,31 +477,6 @@ public class Cob2Xsd {
         } else {
             return targetNamespacePrefix + '/' + baseName;
         }
-    }
-
-    /**
-     * Produce long text in a delimited debug zone.
-     * 
-     * @param title the debug text title
-     * @param text the text itself
-     */
-    private void debug(final String title, final String text) {
-        _log.debug(title);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < title.length(); i++) {
-            sb.append("-");
-        }
-        _log.debug(sb.toString());
-        try {
-            BufferedReader reader = new BufferedReader(new StringReader(text));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                _log.debug(line);
-            }
-        } catch (IOException e) {
-            _log.error("Unable to read", e);
-        }
-        _log.debug("----------------------------------------------------------------");
     }
 
     /**

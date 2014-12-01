@@ -1,6 +1,7 @@
 package com.legstar.cob2xsd;
 
 import java.io.File;
+import java.io.StringReader;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -46,4 +47,11 @@ public abstract class AbstractTest {
         FileUtils.forceMkdir(antGenDir);
 
     }
+
+    public String translate(String cobolSource) {
+        Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
+        return cob2xsd.translate(new StringReader(cobolSource));
+        
+    }
+
 }

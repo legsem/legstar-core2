@@ -60,6 +60,11 @@ public class Cob2XsdMain {
     private File _input;
 
     /**
+     * Character encoding used by input files (null means platform default)
+     */
+    private String _inputEncoding;
+
+    /**
      * A folder containing translated XML Schema. Defaults to schema relative
      * folder.
      */
@@ -96,7 +101,7 @@ public class Cob2XsdMain {
             if (collectOptions(options, args)) {
                 setDefaults();
                 loadConfig();
-                execute(getInput(), getOutput());
+                execute(getInput(), getInputEncoding(), getOutput());
             }
         } catch (Exception e) {
             _log.error("COBOL to Xsd translation failure", e);
@@ -182,6 +187,10 @@ public class Cob2XsdMain {
                         + " Name is relative or absolute");
         options.addOption(input);
 
+        Option inputEncoding = new Option("enc", "inputEncoding", true,
+                "Character set used for COBOL files encoding");
+        options.addOption(inputEncoding);
+
         Option output = new Option("o", "output", true,
                 "folder or file receiving the translated XML schema");
         options.addOption(output);
@@ -213,6 +222,9 @@ public class Cob2XsdMain {
         if (line.hasOption("input")) {
             setInput(line.getOptionValue("input").trim());
         }
+        if (line.hasOption("inputEncoding")) {
+            setInputEncoding(line.getOptionValue("inputEncoding").trim());
+        }
         if (line.hasOption("output")) {
             setOutput(line.getOptionValue("output").trim());
         }
@@ -225,15 +237,18 @@ public class Cob2XsdMain {
      * in the output folder.
      * 
      * @param input the input COBOL file or folder
+     * @param cobolFileEncoding the COBOL file character encoding
      * @param target the output folder or file where XML schema file must go
      * @throws XsdGenerationException if XML schema cannot be generated
      */
-    protected void execute(final File input, final File target)
-            throws XsdGenerationException {
+    protected void execute(final File input, final String cobolFileEncoding,
+            final File target) throws XsdGenerationException {
 
         try {
             _log.info("Started translation from COBOL to XML Schema");
             _log.info("Taking COBOL from      : " + input);
+            _log.info("COBOL encoding         : " + cobolFileEncoding == null ? "default"
+                    : cobolFileEncoding);
             _log.info("Output XML Schema to   : " + target);
             _log.info("Options in effect      : " + getConfig().toString());
 
@@ -241,12 +256,12 @@ public class Cob2XsdMain {
                 if (FilenameUtils.getExtension(target.getPath()).length() == 0) {
                     FileUtils.forceMkdir(target);
                 }
-                translate(input, target);
+                translate(input, cobolFileEncoding, target);
             } else {
                 FileUtils.forceMkdir(target);
                 for (File cobolFile : input.listFiles()) {
                     if (cobolFile.isFile()) {
-                        translate(cobolFile, target);
+                        translate(cobolFile, cobolFileEncoding, target);
                     }
                 }
             }
@@ -261,14 +276,16 @@ public class Cob2XsdMain {
      * Translates a single COBOL source file.
      * 
      * @param cobolFile COBOL source file
+     * @param cobolFileEncoding the COBOL file character encoding
      * @param target target file or folder
      * @throws XsdGenerationException if parser fails
      */
-    protected void translate(final File cobolFile, final File target)
+    protected void translate(final File cobolFile,
+            final String cobolFileEncoding, final File target)
             throws XsdGenerationException {
         try {
             Cob2XsdIO cob2XsdIO = new Cob2XsdIO(getConfig());
-            cob2XsdIO.translate(cobolFile, target);
+            cob2XsdIO.translate(cobolFile, cobolFileEncoding, target);
         } catch (RecognizerException e) {
             throw new XsdGenerationException(e);
         }
@@ -318,8 +335,8 @@ public class Cob2XsdMain {
                         + " is not a configuration file");
             }
         } else {
-            throw new IllegalArgumentException("Configuration file "
-                    + config + " not found");
+            throw new IllegalArgumentException("Configuration file " + config
+                    + " not found");
         }
         setConfigFile(file);
     }
@@ -352,6 +369,14 @@ public class Cob2XsdMain {
                     + " not found");
         }
         _input = file;
+    }
+
+    public String getInputEncoding() {
+        return _inputEncoding;
+    }
+
+    public void setInputEncoding(String inputEncoding) {
+        _inputEncoding = inputEncoding;
     }
 
     /**

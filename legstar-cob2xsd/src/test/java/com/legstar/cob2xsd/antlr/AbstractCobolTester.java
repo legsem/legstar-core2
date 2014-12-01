@@ -49,8 +49,11 @@ public abstract class AbstractCobolTester extends AbstractAntlrTester {
      * @throws CleanerException 
      */
     public String clean(final String source) throws CleanerException {
+        if (source == null) {
+            throw new CleanerException("COBOL source was null");
+        }
         CobolFixedFormatSourceCleaner cleaner = new CobolFixedFormatSourceCleaner(getErrorHandler(), 7, 72);
-        return cleaner.clean(source);
+        return cleaner.clean(new StringReader(source));
     }
 
     /**

@@ -31,9 +31,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE,
                     "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("       01 A.\n           02 B PIC X.");
+            String xmlSchema = translate("       01 A.\n           02 B PIC X.");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
                     + " xmlns:tns=\"http://www.mycompany.com/test\""
@@ -68,9 +66,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.XSD_ENCODING,
                     "ISO-8859-1");
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("       01 A.\n           02 B PIC X.");
+            String xmlSchema = translate("       01 A.\n           02 B PIC X.");
             compare("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>"
                     + "<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
                     + " xmlns:tns=\"http://www.mycompany.com/test\""
@@ -107,9 +103,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
                     "ISO-8859-1");
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.CUSTOM_XSLT_FILENAME, XSLT_SAMPLES_DIR + "/alltypes.xsl");
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("       01 A.\n           02 S-BINARY PIC X.");
+            String xmlSchema = translate("       01 A.\n           02 S-BINARY PIC X.");
             compare("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>"
 
                     + "<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
@@ -157,9 +151,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("       01 DFHCOMMAREA.\n"
+            String xmlSchema = translate("       01 DFHCOMMAREA.\n"
                             + "          05 E-FIELD-1        PIC X(5).\n"
                             + "             88 ISEMPTY VALUE ALL SPACES.\n"
                             + "          05 E-FIELD-2        PIC X(5).\n"
@@ -207,8 +199,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("        01  5500-REC-01.\n"
+            String xmlSchema = translate("        01  5500-REC-01.\n"
                     + "          05 5500-REC-TYPE      PIC X(01).\n"
                     + "          05 5500-PLAN-NUM      PIC X(06).");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
@@ -252,8 +243,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("        01  REC-01.\n"
+            String xmlSchema = translate("        01  REC-01.\n"
                     + "            05 REC-TYPE      PIC X(01).\n"
                     + "        01  REC-02.\n"
                     + "            05 REC-TYPE      PIC X(01).\n");
@@ -305,8 +295,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("        01  REC-01.\n"
+            String xmlSchema = translate("        01  REC-01.\n"
                     + "            05 REC-TYPE.\n"
                     + "                10 FIELD1      PIC X(01).\n"
                     + "        01  REC-02.\n" + "            05 REC-TYPE.\n"
@@ -370,8 +359,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("        01  REC-01.\n"
+            String xmlSchema = translate("        01  REC-01.\n"
                     + "            05 REC-TYPE      PIC X(01).\n"
                     + "                10 FIELD1      PIC X(01).\n");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
@@ -409,9 +397,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("*\n"
+            String xmlSchema = translate("*\n"
                             + "01  WS71-HEADER.\n"
                             + "      05  WS71-HEADER-ID        PIC X(4)  VALUE '$HD$'.\n"
                             + "*    05  WS71-TRANS-DESC       PIC X(43) VALUE SPACES.\n"
@@ -464,9 +450,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("*\n"
+            String xmlSchema = translate("*\n"
                             + "01  WS71-HEADER.\n"
                             + "      05  WS71-HEADER-ID        PIC X(4)  VALUE '$HD$'.\n"
                             + "      05  WS73-INVOICE-NO.\n"
@@ -515,8 +499,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("*\n" + "FD OUTPUT-FILE\n"
+            String xmlSchema = translate("*\n" + "FD OUTPUT-FILE\n"
                     + "RECORDING MODE IS V\n" + "BLOCK CONTAINS 2 RECORDS\n"
                     + "RECORD CONTAINS 58 TO 183 CHARACTERS.\n"
                     + "COPY ABCD.01  CUSTOMER-DATA.\n"
@@ -553,8 +536,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("*\n"
+            String xmlSchema = translate("*\n"
                     + "01  A                         COMP-3.\n"
                     + "    05  B     PIC S9(13)V99.\n");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
@@ -588,8 +570,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("*\n"
+            String xmlSchema = translate("*\n"
                     + "       ID DIVISION.\n"
                     + "       DATE-WRITTEN.              04 GENNAIO 2005.\n"
                     + "       DATA DIVISION.\n"
@@ -625,9 +606,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("*\n"
+            String xmlSchema = translate("*\n"
                             + "       01 A. 02  B     PIC X(56) VALUE 'CONTO N. W '.\n");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
@@ -659,8 +638,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate("*\n"
+            String xmlSchema = translate("*\n"
                     + "       01 FILLER. 02  F PIC X. 02  F PIC X.\n");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
@@ -700,9 +678,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
             configProps.put(Cob2XsdConfig.IGNORE_ORPHAN_PRIMITIVE_ELEMENTS, Boolean.toString(false));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("        10  A PIC S9(4) COMP.\n"
+            String xmlSchema = translate("        10  A PIC S9(4) COMP.\n"
                             + "        10  B PIC S9(04) COMP.\n");
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"unqualified\">"
@@ -736,9 +712,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.remove(Cob2XsdConfig.TARGET_NAMESPACE);
             configProps.put(Cob2XsdConfig.MAP_CONDITIONS_TO_FACETS, Boolean.toString(true));
-            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd
-                    .translate("        01  COMMAREA."
+            String xmlSchema = translate("        01  COMMAREA."
                             + "        05  PIB-SECURITY-CODE PIC 9(3) COMP-4.\n"
                             + "        88  PIB-TECH-USER               VALUE  1.\n"
                             + "        88  PIB-MASTER-USER             VALUE  1 THRU   9.\n"
@@ -765,4 +739,5 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             fail();
         }
     }
+    
 }

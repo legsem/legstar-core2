@@ -4,21 +4,14 @@ package com.legstar.base.generator;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Map;
 
-import javax.xml.transform.stream.StreamSource;
-
-import org.apache.ws.commons.schema.XmlSchema;
-import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.legstar.base.generator.CobXsd2Converter;
+import com.legstar.base.generator.Xsd2ConverterGenerator;
 
-public class CobXsd2ConverterTest extends AbstractTest {
+public class Xsd2ConverterGeneratorTest extends AbstractTest {
 
     private static final boolean CREATE_REFERENCE = false;
 
@@ -76,14 +69,8 @@ public class CobXsd2ConverterTest extends AbstractTest {
     
     private String generate(String schemaName, String recordName) throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");
-
-        Reader reader = new InputStreamReader(new FileInputStream(xsdFile),
-                LEGSTAR_XSD_FILE_ENCODING);
-
-        XmlSchemaCollection schemaCol = new XmlSchemaCollection();
-        XmlSchema xsd = schemaCol.read(new StreamSource(reader));
-        CobXsd2Converter gen = new CobXsd2Converter();
-        Map <String, String> code = gen.generate(xsd, "test.example");
+        Xsd2ConverterGenerator gen = new Xsd2ConverterGenerator();
+        Map <String, String> code = gen.generate(xsdFile, LEGSTAR_XSD_FILE_ENCODING, "test.example");
         assertEquals(1, code.size());
         return code.get(recordName + "Factory");
     }

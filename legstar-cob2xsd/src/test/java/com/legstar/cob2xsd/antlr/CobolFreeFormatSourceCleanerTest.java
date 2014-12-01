@@ -2,6 +2,8 @@ package com.legstar.cob2xsd.antlr;
 
 import static org.junit.Assert.*;
 
+import java.io.StringReader;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +24,7 @@ public class CobolFreeFormatSourceCleanerTest extends AbstractCobolTester {
     @Test
     public void testShouldCleanCommentInFirstColumn() throws Exception {
         assertEquals("\n01  DATA.\n",
-                _cleaner.clean("* This is a comment\n01  DATA."));
+                _cleaner.clean(new StringReader("* This is a comment\n01  DATA.")));
     }
 
     /**
@@ -31,6 +33,6 @@ public class CobolFreeFormatSourceCleanerTest extends AbstractCobolTester {
     @Test
     public void testShouldCleanCommentInAnyColumn() throws Exception {
         assertEquals("\n01  DATA.\n",
-                _cleaner.clean("     / This is a comment\n01  DATA."));
+                _cleaner.clean(new StringReader("     / This is a comment\n01  DATA.")));
     }
 }

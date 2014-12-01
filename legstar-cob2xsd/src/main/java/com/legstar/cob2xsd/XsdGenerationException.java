@@ -14,7 +14,7 @@ package com.legstar.cob2xsd;
  * The generation of the XML schema failed.
  *
  */
-public class XsdGenerationException extends Exception {
+public class XsdGenerationException extends RuntimeException {
 
     /**
      * A serial ID.

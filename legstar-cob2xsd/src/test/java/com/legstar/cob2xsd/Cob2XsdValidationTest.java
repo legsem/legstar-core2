@@ -76,7 +76,7 @@ public class Cob2XsdValidationTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.CODE_FORMAT, "FREE_FORMAT");
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE, targetNamespace);
             Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            String xmlSchema = cob2xsd.translate(COBOL_SOURCE);
+            String xmlSchema = cob2xsd.translate(new StringReader(COBOL_SOURCE));
 
             // First make sure the XML Schema itself is valid XML
             // Turned off because W3C site replies with HTTP 500 on

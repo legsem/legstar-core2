@@ -12,6 +12,8 @@ package com.legstar.cob2xsd.antlr;
 
 import static org.junit.Assert.*;
 
+import java.io.StringReader;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -90,7 +92,7 @@ public class CobolFixedFormatSourceCleanerTest extends AbstractCobolTester {
     public void testCleanLongSeparators() throws CleanerException {
 
         assertEquals("       01 A  PIC  X(5)  VALUE  5." + LS,
-                _cleaner.clean("123456 01 A, PIC; X(5), VALUE, 5."));
+                _cleaner.clean(new StringReader("123456 01 A, PIC; X(5), VALUE, 5.")));
     }
 
     /**
@@ -103,7 +105,7 @@ public class CobolFixedFormatSourceCleanerTest extends AbstractCobolTester {
             throws CleanerException {
 
         assertEquals("       01 A  PIC  X(5)  VALUE  'AB, C'." + LS,
-                _cleaner.clean("123456 01 A, PIC; X(5), VALUE, 'AB, C'."));
+                _cleaner.clean(new StringReader("123456 01 A, PIC; X(5), VALUE, 'AB, C'.")));
     }
 
     /**

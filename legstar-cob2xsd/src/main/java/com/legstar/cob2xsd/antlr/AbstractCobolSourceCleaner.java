@@ -12,7 +12,7 @@ package com.legstar.cob2xsd.antlr;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -88,35 +88,35 @@ public abstract class AbstractCobolSourceCleaner {
      * Statements which are not data descriptions become empty lines in order to
      * preserve original line numbering.
      * 
-     * @param cobolSource the raw COBOL source
+     * @param cobolReader a reader for the raw COBOL source
      * @return the source cleaned up
      * @throws CleanerException if source cannot be read
      */
-    public String clean(final String cobolSource) throws CleanerException {
-        if (cobolSource != null) {
-            BufferedReader reader = new BufferedReader(new StringReader(
-                    cobolSource));
-            String line;
-            StringBuilder cleanedSource = new StringBuilder();
-            CleaningContext context = new CleaningContext();
-            try {
-                while ((line = reader.readLine()) != null) {
-                    if (isLineOfCode(line) && isDataDivision(line, context)) {
-                        cleanedSource.append(removeExtraneousCharacters(
-                                cleanLine(line), context));
-                    }
-                    cleanedSource.append("\n");
-                }
-                if (cleanedSource.length() <= "\n".length()) {
-                    throw new CleanerException(
-                            "No data descriptions found. Are you sure this is COBOL source?");
-                }
-                return cleanedSource.toString();
-            } catch (IOException e) {
-                throw new CleanerException(e);
-            }
-        } else {
+    public String clean(final Reader cobolReader) throws CleanerException {
+
+        if (cobolReader == null) {
             throw new CleanerException("COBOL source was null");
+        }
+
+        BufferedReader reader = new BufferedReader(cobolReader);
+        String line;
+        StringBuilder cleanedSource = new StringBuilder();
+        CleaningContext context = new CleaningContext();
+        try {
+            while ((line = reader.readLine()) != null) {
+                if (isLineOfCode(line) && isDataDivision(line, context)) {
+                    cleanedSource.append(removeExtraneousCharacters(
+                            cleanLine(line), context));
+                }
+                cleanedSource.append("\n");
+            }
+            if (cleanedSource.length() <= "\n".length()) {
+                throw new CleanerException(
+                        "No data descriptions found. Are you sure this is COBOL source?");
+            }
+            return cleanedSource.toString();
+        } catch (IOException e) {
+            throw new CleanerException(e);
         }
     }
 

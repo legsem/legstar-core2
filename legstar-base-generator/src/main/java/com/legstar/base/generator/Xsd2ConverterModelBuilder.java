@@ -41,13 +41,13 @@ import com.legstar.cobol.model.CobolTypes;
  * by a template engine.
  * 
  */
-public class CobXsd2ConverterModelBuilder {
+public class Xsd2ConverterModelBuilder {
 
     private static final String CHOICE_FIELD_NAME_SUFFIX = "Choice";
 
     /** Logging. */
     private static Logger log = LoggerFactory
-            .getLogger(CobXsd2ConverterModelBuilder.class);
+            .getLogger(Xsd2ConverterModelBuilder.class);
 
     /**
      * Maps an Object Depending On COBOL name to its properties. This helps
@@ -69,10 +69,10 @@ public class CobXsd2ConverterModelBuilder {
      * @param xmlSchema the XML schema with COBOL annotations
      * @return a map of root elements in the XML schema, each one mapped to its
      *         composite types constituents
-     * @throws CobXsd2ConverterException if parsing the XML schema fails
+     * @throws Xsd2ConverterException if parsing the XML schema fails
      */
     public Map < String, CompositeTypes > build(XmlSchema xmlSchema)
-            throws CobXsd2ConverterException {
+            throws Xsd2ConverterException {
 
         log.debug("visit XML Schema started");
         Map < String, CompositeTypes > rootComplexTypes = new LinkedHashMap < String, CompositeTypes >();
@@ -102,7 +102,7 @@ public class CobXsd2ConverterModelBuilder {
      */
     public class CompositeTypes {
 
-        public final Map < String, Object > complexTypes = new LinkedHashMap < String, Object >();;
+        public final Map < String, Object > complexTypes = new LinkedHashMap < String, Object >();
 
         public final Map < String, Object > choiceTypes = new LinkedHashMap < String, Object >();
 
@@ -263,7 +263,7 @@ public class CobXsd2ConverterModelBuilder {
             }
 
         } else {
-            throw new CobXsd2ConverterException(
+            throw new Xsd2ConverterException(
                     "Unsupported xsd element of type "
                             + xsdElement.getSchemaType().getQName()
                             + " at line " + xsdElement.getLineNumber());
@@ -313,7 +313,7 @@ public class CobXsd2ConverterModelBuilder {
             }
 
         }
-        throw new CobXsd2ConverterException(
+        throw new Xsd2ConverterException(
                 "Choice without any alternative at line "
                         + xsdChoice.getLineNumber());
     }
@@ -393,12 +393,12 @@ public class CobXsd2ConverterModelBuilder {
             } else if (xsdTypeName.equals(Constants.XSD_UNSIGNEDLONG)) {
                 return getCobolDecimalType(cobolAnnotations, BigInteger.class);
             } else {
-                throw new CobXsd2ConverterException("Unsupported xsd type "
+                throw new Xsd2ConverterException("Unsupported xsd type "
                         + xsdTypeName);
             }
 
         } else {
-            throw new CobXsd2ConverterException(
+            throw new Xsd2ConverterException(
                     "Simple type without restriction "
                             + xsdSimpleType.getQName());
         }
@@ -465,7 +465,7 @@ public class CobXsd2ConverterModelBuilder {
             props.put("maxInclusive", "");
             break;
         default:
-            throw new CobXsd2ConverterException(
+            throw new Xsd2ConverterException(
                     "Unsupported COBOL numeric type " + cobolType);
         }
         props.put("signed", cobolAnnotations.signed());

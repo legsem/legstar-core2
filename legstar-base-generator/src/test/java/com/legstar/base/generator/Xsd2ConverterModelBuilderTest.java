@@ -15,9 +15,9 @@ import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.legstar.base.generator.CobXsd2ConverterModelBuilder;
+import com.legstar.base.generator.Xsd2ConverterModelBuilder;
 
-public class CobXsd2ConverterModelBuilderTest extends AbstractTest {
+public class Xsd2ConverterModelBuilderTest extends AbstractTest {
 
     private static final String LEGSTAR_XSD_FILE_ENCODING = "UTF-8";
 
@@ -81,8 +81,8 @@ public class CobXsd2ConverterModelBuilderTest extends AbstractTest {
 
         XmlSchemaCollection schemaCol = new XmlSchemaCollection();
         XmlSchema xsd = schemaCol.read(new StreamSource(reader));
-        CobXsd2ConverterModelBuilder builder = new CobXsd2ConverterModelBuilder();
-        Map < String, CobXsd2ConverterModelBuilder.CompositeTypes > model = builder.build(xsd);
+        Xsd2ConverterModelBuilder builder = new Xsd2ConverterModelBuilder();
+        Map < String, Xsd2ConverterModelBuilder.CompositeTypes > model = builder.build(xsd);
         assertEquals(1, model.size());
         return model.toString();
     }

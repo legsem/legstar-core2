@@ -10,10 +10,10 @@
  ******************************************************************************/
 package com.legstar.cob2xsd;
 
+import java.io.StringReader;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import com.legstar.cob2xsd.antlr.RecognizerException;
 
 import static org.junit.Assert.*;
 
@@ -39,13 +39,12 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     @Test
     public void testCleanerErrors() {
         try {
-            cob2xsd.translate("^�@");
-        } catch (XsdGenerationException e) {
+            translate("^�@");
             fail();
-        } catch (RecognizerException e) {
+        } catch (XsdGenerationException e) {
             assertEquals(
                     "No data descriptions found. Are you sure this is COBOL source?",
-                    e.getMessage());
+                    e.getCause().getMessage());
         }
     }
 
@@ -55,12 +54,11 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     @Test
     public void testLexerErrors() {
         try {
-            cob2xsd.translate("       1 ^�@ .");
+            Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
+            cob2xsd.translate(new StringReader("       1 ^�@ ."));
             assertEquals("line 1:12 Syntax error in last COBOL clause", cob2xsd
                     .getErrorHistory().get(0));
         } catch (XsdGenerationException e) {
-            fail();
-        } catch (RecognizerException e) {
             fail();
         }
     }
@@ -71,14 +69,13 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     @Test
     public void testParserUnwantedTokenException() {
         try {
-            cob2xsd.translate("       01 01.");
-        } catch (XsdGenerationException e) {
+            translate("       01 01.");
             fail();
-        } catch (RecognizerException e) {
+        } catch (XsdGenerationException e) {
             assertEquals(
                     "Parsing failed. 1 syntax errors."
                             + " Last error was line 1:10 unexpected token '01' expecting PERIOD",
-                    e.getMessage());
+                    e.getCause().getMessage());
         }
     }
 
@@ -88,14 +85,13 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     @Test
     public void testParserMismatchedTokenException() {
         try {
-            cob2xsd.translate("       88 A PIC X.");
-        } catch (XsdGenerationException e) {
+            translate("       88 A PIC X.");
             fail();
-        } catch (RecognizerException e) {
+        } catch (XsdGenerationException e) {
             assertEquals(
                     "Parsing failed. 1 syntax errors."
                             + " Last error was line 1:12 unexpected token 'PIC' expecting VALUE_KEYWORD",
-                    e.getMessage());
+                    e.getCause().getMessage());
         }
     }
 
@@ -105,14 +101,13 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     @Test
     public void testParserMismatchedTokenExceptionEOF() {
         try {
-            cob2xsd.translate("       01 A PIC X");
-        } catch (XsdGenerationException e) {
+            translate("       01 A PIC X");
             fail();
-        } catch (RecognizerException e) {
+        } catch (XsdGenerationException e) {
             assertEquals(
                     "Parsing failed. 1 syntax errors."
                             + " Last error was line 2:0 reached end of file looking for PERIOD",
-                    e.getMessage());
+                    e.getCause().getMessage());
         }
     }
 
@@ -122,14 +117,13 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     @Test
     public void testParserEarlyExitException() {
         try {
-            cob2xsd.translate("       01 A PIC.");
-        } catch (XsdGenerationException e) {
+            translate("       01 A PIC.");
             fail();
-        } catch (RecognizerException e) {
+        } catch (XsdGenerationException e) {
             assertEquals(
                     "Parsing failed. 1 syntax errors."
                             + " Last error was line 1:15 required tokens not found at input '.'",
-                    e.getMessage());
+                    e.getCause().getMessage());
         }
     }
 

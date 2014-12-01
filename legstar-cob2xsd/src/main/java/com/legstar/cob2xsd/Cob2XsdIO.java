@@ -1,7 +1,10 @@
 package com.legstar.cob2xsd;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -29,12 +32,15 @@ public class Cob2XsdIO extends Cob2Xsd {
      * When requested the file base name is appended to the target namespace.
      * 
      * @param cobolFile COBOL source file
+     * @param cobolFileEncoding COBOL source file encoding (null to use platform
+     *            default)
      * @param target target file or folder
      * @return the XML Schema
      * @throws RecognizerException if parser fails
      * @throws XsdGenerationException if COBOL model interpretation fails
      */
-    public File translate(final File cobolFile, final File target) throws RecognizerException,
+    public File translate(final File cobolFile, final String cobolFileEncoding,
+            final File target) throws RecognizerException,
             XsdGenerationException {
 
         try {
@@ -47,8 +53,11 @@ public class Cob2XsdIO extends Cob2Xsd {
             String baseName = FilenameUtils.getBaseName(
                     cobolFile.getAbsolutePath()).toLowerCase();
 
-            String xsdString = translate(FileUtils.readFileToString(cobolFile,
-                    getConfig().getCobolSourceFileEncoding()), baseName);
+            Reader cobolReader = cobolFileEncoding == null ? new InputStreamReader(
+                    new FileInputStream(cobolFile)) : new InputStreamReader(
+                    new FileInputStream(cobolFile), cobolFileEncoding);
+
+            String xsdString = translate(cobolReader, baseName);
             File xsdFile = null;
             if (target.isDirectory()) {
                 String xsdFileName = cobolFile.getName() + ".xsd";

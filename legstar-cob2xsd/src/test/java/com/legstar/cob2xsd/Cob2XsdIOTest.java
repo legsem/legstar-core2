@@ -20,7 +20,6 @@ import org.w3c.dom.Document;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Test the COBOL to XSD API.
  * 
@@ -28,7 +27,8 @@ import static org.junit.Assert.*;
 public class Cob2XsdIOTest extends AbstractXsdTester {
 
     /** Logger. */
-    private static final Logger _log = LoggerFactory.getLogger(Cob2XsdIOTest.class);
+    private static final Logger _log = LoggerFactory
+            .getLogger(Cob2XsdIOTest.class);
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
@@ -56,21 +56,23 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                         "http://legstar.com/test/coxb/" + name);
 
                 /* Backward compatibility */
-                configProps.put(Cob2XsdConfig.ELEMENT_NAMES_START_WITH_UPPERCASE,
+                configProps.put(
+                        Cob2XsdConfig.ELEMENT_NAMES_START_WITH_UPPERCASE,
                         Boolean.toString(true));
                 configProps.put(Cob2XsdConfig.QUOTE_IS_QUOTE,
                         Boolean.toString(false));
-                
-                Cob2XsdIO translator = new Cob2XsdIO(new Cob2XsdConfig(configProps));
-                File xsdFile = translator
-                        .translate(cobolFile, xsdGenDir);
+
+                Cob2XsdIO translator = new Cob2XsdIO(new Cob2XsdConfig(
+                        configProps));
+                File xsdFile = translator.translate(cobolFile, "ISO-8859-1",
+                        xsdGenDir);
                 if (_log.isDebugEnabled()) {
                     _log.debug("Result:\n"
                             + FileUtils.readFileToString(xsdFile));
                 }
-                File xsdRefFile = new File(XSD_REFERENCES_DIR, name.toLowerCase()
-                        + ".xsd");
-                
+                File xsdRefFile = new File(XSD_REFERENCES_DIR,
+                        name.toLowerCase() + ".xsd");
+
                 if (CREATE_REFERENCES) {
                     FileUtils.copyFile(xsdFile, xsdRefFile);
                 } else {
@@ -91,10 +93,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
         try {
             configProps.put(Cob2XsdConfig.TARGET_NAMESPACE,
                     "http://www.mycompany.com/test");
-            configProps.put(Cob2XsdConfig.COBOL_SOURCE_FILE_ENCODING,
-                    "UTF-8");
-            configProps.put(Cob2XsdConfig.XSD_ENCODING,
-                    "UTF-8");
+            configProps.put(Cob2XsdConfig.XSD_ENCODING, "UTF-8");
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS,
                     Boolean.toString(true));
 
@@ -103,10 +102,12 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
             tempCobolFile.deleteOnExit();
 
             FileUtils.write(tempCobolFile,
-                    "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.", "UTF8");
-            File xmlSchema = cob2xsd.translate(tempCobolFile, xsdGenDir);
-            
-             for (String line : FileUtils.readLines(xmlSchema, "UTF8")) {
+                    "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.",
+                    "UTF8");
+            File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", new File(
+                    System.getProperty("java.io.tmpdir")));
+
+            for (String line : FileUtils.readLines(xmlSchema, "UTF8")) {
                 if (line.contains("cobolName=\"B\"")) {
                     assertTrue(line.contains("value=\"牛年快乐\""));
                 }
