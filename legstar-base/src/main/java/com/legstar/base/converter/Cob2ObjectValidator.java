@@ -1,4 +1,4 @@
-package com.legstar.base.visitor;
+package com.legstar.base.converter;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
@@ -8,6 +8,8 @@ import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
+import com.legstar.base.visitor.FromCobolChoiceStrategy;
+import com.legstar.base.visitor.FromCobolVisitor;
 
 /**
  * Validates that an incoming mainframe bytes array contains data that is
@@ -25,7 +27,7 @@ import com.legstar.base.type.primitive.CobolPrimitiveType;
  * incoming buffer that was validated.
  * 
  */
-public class ValidateFromCobolVisitor extends FromCobolVisitor {
+public class Cob2ObjectValidator extends FromCobolVisitor {
 
     /**
      * Overwritten by each visited item.
@@ -61,17 +63,17 @@ public class ValidateFromCobolVisitor extends FromCobolVisitor {
 
     };
 
-    public ValidateFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+    public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
             int start) {
         this(cobolContext, hostData, start, null, null);
     }
 
-    public ValidateFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+    public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
             int start, String stopFieldInclusive) {
         this(cobolContext, hostData, start, stopFieldInclusive, null);
     }
 
-    public ValidateFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+    public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
             int start, String stopFieldInclusive,
             FromCobolChoiceStrategy customChoiceStrategy) {
         super(cobolContext, hostData, start, customChoiceStrategy);

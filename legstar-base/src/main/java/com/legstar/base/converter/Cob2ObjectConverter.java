@@ -1,4 +1,4 @@
-package com.legstar.base.visitor;
+package com.legstar.base.converter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,6 +12,8 @@ import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
+import com.legstar.base.visitor.FromCobolChoiceStrategy;
+import com.legstar.base.visitor.FromCobolVisitor;
 
 /**
  * Convert a mainframe data to a java Object.
@@ -19,7 +21,7 @@ import com.legstar.base.type.primitive.CobolPrimitiveType;
  * COBOL Complex types are converted to java Maps.
  * 
  */
-public class ObjectFromCobolVisitor extends FromCobolVisitor {
+public class Cob2ObjectConverter extends FromCobolVisitor {
 
     /**
      * Set of unique handlers to receive notifications from
@@ -31,12 +33,12 @@ public class ObjectFromCobolVisitor extends FromCobolVisitor {
     /** Last java object produced by visiting an item. */
     private Object lastObject;
 
-    public ObjectFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+    public Cob2ObjectConverter(CobolContext cobolContext, byte[] hostData,
             int start) {
         this(cobolContext, hostData, start, null);
     }
 
-    public ObjectFromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+    public Cob2ObjectConverter(CobolContext cobolContext, byte[] hostData,
             int start, FromCobolChoiceStrategy customChoiceStrategy) {
         super(cobolContext, hostData, start, customChoiceStrategy);
         primitiveTypeHandler = new ObjectPrimitiveTypeHandler();

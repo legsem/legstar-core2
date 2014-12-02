@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.legstar.base.context.CobolContext;
+import com.legstar.base.converter.Cob2ObjectValidator;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.FromHostException;
 import com.legstar.base.type.composite.CobolArrayType;
@@ -50,7 +51,7 @@ public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
             CobolType alternative, String alternativeName, byte[] hostData,
             int start) {
 
-        ValidateFromCobolVisitor visitor = new ValidateFromCobolVisitor(
+        Cob2ObjectValidator visitor = new Cob2ObjectValidator(
                 cobolContext, hostData, start);
         if (alternative instanceof CobolComplexType) {
             visitor.visit((CobolComplexType) alternative);

@@ -1,10 +1,10 @@
 package com.legstar.base.finder;
 
 import com.legstar.base.context.CobolContext;
+import com.legstar.base.converter.Cob2ObjectValidator;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 import com.legstar.base.visitor.MinBytesLenCobolVisitor;
-import com.legstar.base.visitor.ValidateFromCobolVisitor;
 
 /**
  * This finder implementation assumes a complex type starts with a number of
@@ -86,7 +86,7 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
     /** {@inheritDoc} */
     public boolean match(byte[] hostData, int start, int length) {
 
-        ValidateFromCobolVisitor visitor = new ValidateFromCobolVisitor(
+        Cob2ObjectValidator visitor = new Cob2ObjectValidator(
                 cobolContext, hostData, start, stopFieldInclusive);
         visitor.visit(cobolComplexType);
         return visitor.isValid();

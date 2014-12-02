@@ -1,4 +1,4 @@
-package com.legstar.base.visitor;
+package com.legstar.base.converter;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
+import com.legstar.base.converter.Cob2ObjectConverter;
 import com.legstar.base.type.ConversionException;
 import com.legstar.base.type.gen.Ardo01Factory;
 import com.legstar.base.type.gen.CustdatFactory;
@@ -16,9 +17,9 @@ import com.legstar.base.type.gen.Rdef03Factory;
 import com.legstar.base.type.gen.Stru01Factory;
 import com.legstar.base.type.gen.Stru03Factory;
 import com.legstar.base.utils.HexUtils;
-import com.legstar.base.visitor.ObjectFromCobolVisitor;
+import com.legstar.base.visitor.Rdef03ObjectFromHostChoiceStrategy;
 
-public class ObjectFromCobolVisitorTest {
+public class Cob2ObjectConverterTest {
 
     private CobolContext cobolContext;
 
@@ -29,7 +30,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertFlat01() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                 0);
         visitor.visit(Flat01Factory.create());
@@ -42,7 +43,7 @@ public class ObjectFromCobolVisitorTest {
     @Test
     public void testConvertFlat01Invalid() {
         try {
-            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+            Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                     HexUtils.decodeHex("ABF0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                     0);
             visitor.visit(Flat01Factory.create());
@@ -57,7 +58,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertFlat02() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E001F0014000F000C"),
                 0);
         visitor.visit(Flat02Factory.create());
@@ -70,9 +71,9 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertFlat02Invalid() {
-        ObjectFromCobolVisitor visitor;
+        Cob2ObjectConverter visitor;
         try {
-            visitor = new ObjectFromCobolVisitor(cobolContext,
+            visitor = new Cob2ObjectConverter(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E0F1F0014000F000C"),
                     0);
             visitor.visit(Flat02Factory.create());
@@ -89,7 +90,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertStru01() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2"),
                 0);
         visitor.visit(Stru01Factory.createStru01Record());
@@ -103,7 +104,7 @@ public class ObjectFromCobolVisitorTest {
     @Test
     public void testConvertStru01Invalid() {
         try {
-            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+            Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F023EC1C2"),
                     0);
             visitor.visit(Stru01Factory.createStru01Record());
@@ -120,7 +121,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertStru03() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C2000FC1C2000CC1C2"),
                 0);
         visitor.visit(Stru03Factory.createStru03Record());
@@ -134,7 +135,7 @@ public class ObjectFromCobolVisitorTest {
     @Test
     public void testConvertStru03Invalid() {
         try {
-            ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+            Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C20F0FC1C2000CC1C2"),
                     0);
             visitor.visit(Stru03Factory.createStru03Record());
@@ -152,7 +153,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertArdo01EmptyVariableArray() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400000"),
                 0);
         visitor.visit(Ardo01Factory.createArdo01Record());
@@ -165,7 +166,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertArdo01OneItemVariableArray() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400001000000000023556C"),
                 0);
         visitor.visit(Ardo01Factory.createArdo01Record());
@@ -178,7 +179,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertArdo01FullVariableArray() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400005000000000023556C000000000023656C000000000023756C000000000023856C000000000023956C"),
                 0);
         visitor.visit(Ardo01Factory.createArdo01Record());
@@ -191,7 +192,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0);
         visitor.visit(Rdef03Factory.createRdef03Record());
@@ -204,7 +205,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertRdef03DefaultStrategySecondAlternative() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("00010250000F"),
                 0);
         visitor.visit(Rdef03Factory.createRdef03Record());
@@ -217,7 +218,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertRdef03CustomStrategy() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0, new Rdef03ObjectFromHostChoiceStrategy());
         visitor.visit(Rdef03Factory.createRdef03Record());
@@ -230,7 +231,7 @@ public class ObjectFromCobolVisitorTest {
 
     @Test
     public void testConvertCustdat() {
-        ObjectFromCobolVisitor visitor = new ObjectFromCobolVisitor(cobolContext,
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F1D1D6C8D540E2D4C9E3C840404040404040404040C3C1D4C2D9C9C4C7C540E4D5C9E5C5D9E2C9E3E8F4F4F0F1F2F5F6F500000002F1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5CF1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5C"),
                 0);
         visitor.visit(CustdatFactory.createCustomerDataCobolType());
