@@ -216,8 +216,10 @@ public class Cob2XsdConfig {
      * 
      * @param props the property file
      */
-    public Cob2XsdConfig(final Properties props) {
-
+    public Cob2XsdConfig(final Properties configProps) {
+        
+        Properties props = configProps == null ? getDefaultConfigProps() : configProps;
+        
         _codeFormat = CodeFormat.valueOf(props.getProperty(CODE_FORMAT,
                 DEFAULT_CODE_FORMAT));
         _startColumn = Integer.parseInt(props.getProperty(START_COLUMN,
@@ -264,9 +266,13 @@ public class Cob2XsdConfig {
                 : getConfigProps(new FileInputStream(configFile));
     }
 
-    public static Properties getDefaultConfigProps() throws IOException {
-        return getConfigProps(Cob2XsdConfig.class
-                .getResourceAsStream(DEFAULT_CONFIG_RESOURCE));
+    public static Properties getDefaultConfigProps() {
+        try {
+            return getConfigProps(Cob2XsdConfig.class
+                    .getResourceAsStream(DEFAULT_CONFIG_RESOURCE));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

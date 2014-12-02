@@ -28,6 +28,8 @@ import static org.junit.Assert.*;
  */
 public class Cob2XsdMainTest extends AbstractTest {
 
+    private static final File tempFolder = new File(
+            System.getProperty("java.io.tmpdir"));
     /**
      * Test without arguments.
      */
@@ -99,11 +101,12 @@ public class Cob2XsdMainTest extends AbstractTest {
             main.execute(new String[] { "-c",
                     "src/main/resources/cob2xsd.properties", "-i",
                     COBOL_SAMPLES_DIR + "/LSFILEAE", "-o",
-                    GEN_XSD_DIR + "/myfile.xsd" });
-            File result = new File(GEN_XSD_DIR + "/myfile.xsd");
+                    tempFolder.getAbsolutePath() + "/myfile.xsd" });
+            File result = new File(tempFolder, "myfile.xsd");
             assertTrue(result.exists());
             assertTrue(FileUtils.readFileToString(result).contains(
                     "xmlns:tns=\"http://legstar.com/lsfileae\""));
+            result.deleteOnExit();
         } catch (Exception e) {
             fail(e.getMessage());
         }

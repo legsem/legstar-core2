@@ -126,7 +126,9 @@ public class Xsd2ConverterGenerator {
                     .build(xmlSchema).entrySet()) {
                 String className = entry.getKey() + "Factory";
                 Map < String, Object > model = new HashMap < String, Object >();
-                model.put("package_name", packageName);
+                if (packageName != null && packageName.length() > 0) {
+                    model.put("package_name", packageName);
+                }
                 model.put("class_name", className);
                 model.put("root_type_name", entry.getKey());
                 model.put("complex_types", entry.getValue().complexTypes);

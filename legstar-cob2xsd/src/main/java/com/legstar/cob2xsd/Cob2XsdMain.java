@@ -157,11 +157,7 @@ public class Cob2XsdMain {
      */
     protected void produceHelp(final Options options) throws Exception {
         HelpFormatter formatter = new HelpFormatter();
-        String version = getVersion();
-        formatter.printHelp(
-                "java -jar legstar-cob2xsd-"
-                        + version.substring(0, version.indexOf(' '))
-                        + "-exe.jar followed by:", options);
+        formatter.printHelp("Options available:", options);
     }
 
     /**

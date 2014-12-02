@@ -67,4 +67,36 @@
       </dependency>
 
   </dependencies>
+
+  <build>
+
+      <!-- Used for version -->
+      <resources>
+          <resource>
+              <directory>src/main/resources</directory>
+              <filtering>true</filtering>
+          </resource>
+      </resources>
+  
+      <plugins>
+  
+          <!-- Make the jar executable (referencing a lib folder for dependencies) -->
+          <plugin>
+              <artifactId>maven-jar-plugin</artifactId>
+              <configuration>
+                  <archive>
+                      <manifest>
+                          <addClasspath>true</addClasspath>
+                          <classpathPrefix>lib/</classpathPrefix>
+                          <mainClass>com.legstar.base.generator.Cob2ConverterGeneratorMain</mainClass>
+                      </manifest>
+                  </archive>
+              </configuration>
+          </plugin>
+
+      </plugins>
+
+  </build>
+
+
 </project>

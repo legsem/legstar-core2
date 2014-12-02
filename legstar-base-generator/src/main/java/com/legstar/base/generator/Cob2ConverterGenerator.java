@@ -64,7 +64,8 @@ public class Cob2ConverterGenerator {
     public Map < String, String > generate(File cobolFile,
             String cobolFileEncoding, String packageName) {
         try {
-            Reader reader = new InputStreamReader(
+            Reader reader = cobolFileEncoding == null ? new InputStreamReader(
+                    new FileInputStream(cobolFile)) : new InputStreamReader(
                     new FileInputStream(cobolFile), cobolFileEncoding);
             return generate(reader, packageName);
         } catch (UnsupportedEncodingException e) {
