@@ -15,6 +15,7 @@ public class Rdef02RecordFactory {
 
     public static CobolComplexType createRdef02Key() {
 
+        final String complexTypeName = "Rdef02Key";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         fields.put("rdef02Item1Choice", createRdef02Item1Choice());
@@ -25,12 +26,13 @@ public class Rdef02RecordFactory {
                         .build();
         fields.put("comSelect", comSelect);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createComDetail1() {
 
+        final String complexTypeName = "ComDetail1";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolStringType comName =
@@ -39,12 +41,13 @@ public class Rdef02RecordFactory {
                         .build();
         fields.put("comName", comName);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createComDetail2() {
 
+        final String complexTypeName = "ComDetail2";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolPackedDecimalType < java.math.BigDecimal > comAmount =
@@ -60,12 +63,13 @@ public class Rdef02RecordFactory {
                         .build();
         fields.put("filler13", filler13);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createRdef02Record() {
 
+        final String complexTypeName = "Rdef02Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         fields.put("rdef02Key", createRdef02Key());
@@ -79,7 +83,7 @@ public class Rdef02RecordFactory {
                         .build();
         fields.put("comItem3", comItem3);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 

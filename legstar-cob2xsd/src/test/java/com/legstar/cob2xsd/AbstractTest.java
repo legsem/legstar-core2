@@ -21,17 +21,12 @@ public abstract class AbstractTest {
     /** Where generated schemas are stored (cleanable location). */
     public static final String GEN_XSD_DIR = "target/gen/schema";
 
-    /** Ant scripts files will be generated here (cleanable location). */
-    public static final String GEN_ANT_DIR = "target/gen/ant";
-
     /** Translator options. */
     protected Properties configProps;
     
     protected Cob2XsdConfig defaultConfig;
 
     protected File xsdGenDir;
-
-    protected File antGenDir;
 
     @Before
     public void setUp() throws Exception {
@@ -42,10 +37,6 @@ public abstract class AbstractTest {
         FileUtils.deleteQuietly(xsdGenDir);
         FileUtils.forceMkdir(xsdGenDir);
  
-        antGenDir = new File(GEN_ANT_DIR);
-        FileUtils.deleteQuietly(antGenDir);
-        FileUtils.forceMkdir(antGenDir);
-
     }
 
     public String translate(String cobolSource) {

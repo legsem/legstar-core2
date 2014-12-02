@@ -35,7 +35,7 @@ public class Ardo01Factory {
                 .fractionDigits(2).build();
         children.put("comArray", new CobolArrayType(arrayItemType, 5, "comNbr"));
 
-        return new CobolComplexType(children);
+        return new CobolComplexType("Ardo01", children);
 
     }
 }

@@ -15,6 +15,7 @@ public class Stru01RecordFactory {
 
     public static CobolComplexType createComSubRecord() {
 
+        final String complexTypeName = "ComSubRecord";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolBinaryType < java.lang.Short > comItem1 =
@@ -30,12 +31,13 @@ public class Stru01RecordFactory {
                         .build();
         fields.put("comItem2", comItem2);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createStru01Record() {
 
+        final String complexTypeName = "Stru01Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolZonedDecimalType < java.lang.Long > comNumber =
@@ -59,7 +61,7 @@ public class Stru01RecordFactory {
 
         fields.put("comSubRecord", createComSubRecord());
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 

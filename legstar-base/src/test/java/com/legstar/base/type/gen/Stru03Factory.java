@@ -27,7 +27,7 @@ public class Stru03Factory {
                         .fractionDigits(2).build());
 
         children.put("comArray", new CobolArrayType(createComSubRecord(), 5));
-        return new CobolComplexType(children);
+        return new CobolComplexType("Stru03", children);
 
     }
 
@@ -41,7 +41,7 @@ public class Stru03Factory {
                         .maxInclusive(Short.valueOf("99")).build());
         children.put("comItem2", new CobolStringType.Builder().charNum(2)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("ComSubRecord", children);
 
     }
 

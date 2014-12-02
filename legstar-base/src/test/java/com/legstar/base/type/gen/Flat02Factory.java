@@ -31,7 +31,7 @@ public class Flat02Factory {
                 .minInclusive((short) 0).maxInclusive((short) 99).build();
         children.put("comArray", new CobolArrayType(arrayItemType, 5));
 
-        return new CobolComplexType(children);
+        return new CobolComplexType("Flat02", children);
 
     }
 }

@@ -18,7 +18,7 @@ public class Rdef01Factory {
                 Short.class).customVariable(true).signed(false).totalDigits(4)
                 .fractionDigits(0).customVariable(true).build());
         children.put("comDetail1Choice", createComDetail1Choice());
-        return new CobolComplexType(children);
+        return new CobolComplexType("Rdef01", children);
     }
 
     public static CobolChoiceType createComDetail1Choice() {
@@ -32,7 +32,7 @@ public class Rdef01Factory {
         LinkedHashMap < String, CobolType > children = new LinkedHashMap < String, CobolType >();
         children.put("comName", new CobolStringType.Builder().charNum(10)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("ComDetail1", children);
     }
 
     public static CobolComplexType createComDetail2() {
@@ -41,6 +41,6 @@ public class Rdef01Factory {
                 new CobolPackedDecimalType.Builder < BigDecimal >(
                         BigDecimal.class).signed(false).totalDigits(7)
                         .fractionDigits(2).build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("ComDetail2", children);
     }
 }

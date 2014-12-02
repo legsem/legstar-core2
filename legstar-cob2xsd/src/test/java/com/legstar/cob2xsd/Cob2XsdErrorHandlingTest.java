@@ -12,7 +12,6 @@ package com.legstar.cob2xsd;
 
 import java.io.StringReader;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -25,14 +24,6 @@ import static org.junit.Assert.*;
  */
 public class Cob2XsdErrorHandlingTest extends AbstractTest {
     
-    private Cob2Xsd cob2xsd;
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-    }
-
     /**
      * Cleaning might get errors.
      */

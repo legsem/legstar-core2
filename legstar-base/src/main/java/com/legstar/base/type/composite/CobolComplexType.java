@@ -10,18 +10,28 @@ import com.legstar.base.visitor.CobolVisitor;
  * 
  */
 public class CobolComplexType extends CobolCompositeType {
+    
+    /**
+     * A unique name for this complex type.
+     */
+    private final String name;
 
     /**
      * List of fields mapping to their COBOL type.
      */
     private final Map < String, CobolType > fields;
 
-    public CobolComplexType(Map < String, CobolType > children) {
+    public CobolComplexType(String name, Map < String, CobolType > children) {
+        this.name = name;
         this.fields = children;
     }
 
     public Map < String, CobolType > getFields() {
         return fields;
+    }
+
+    public String getName() {
+        return name;
     }
 
     /** {@inheritDoc} */

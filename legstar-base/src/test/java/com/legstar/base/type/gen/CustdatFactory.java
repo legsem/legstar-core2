@@ -23,7 +23,7 @@ public class CustdatFactory {
                                                                     // ID
         children.put("personalData", createPersonalDataCobolType());
         children.put("transactions", createTransactionsCobolType());
-        return new CobolComplexType(children);
+        return new CobolComplexType("CustomerData", children);
 
     }
 
@@ -35,7 +35,7 @@ public class CustdatFactory {
                 new CobolStringType.Builder().charNum(20).build());
         children.put("customerPhone", new CobolStringType.Builder().charNum(8)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("PersonalData", children);
     }
 
     private static CobolComplexType createTransactionsCobolType() {
@@ -49,7 +49,7 @@ public class CustdatFactory {
                         .build());
         children.put("transaction", new CobolArrayType(
                 createTransactionCobolType(), 5, "transactionNbr"));
-        return new CobolComplexType(children);
+        return new CobolComplexType("Transactions", children);
     }
 
     private static CobolComplexType createTransactionCobolType() {
@@ -61,7 +61,7 @@ public class CustdatFactory {
                         .fractionDigits(2).build());
         children.put("transactionComment", new CobolStringType.Builder()
                 .charNum(9).build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("Transaction", children);
     }
 
     public static CobolChoiceType createTransactionDateChoice() {
@@ -84,6 +84,6 @@ public class CustdatFactory {
                 .build());
         children.put("transactionYear", new CobolStringType.Builder()
                 .charNum(2).build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("Filler12", children);
     }
 }

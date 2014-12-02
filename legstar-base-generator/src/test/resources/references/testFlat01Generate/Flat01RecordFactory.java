@@ -15,6 +15,7 @@ public class Flat01RecordFactory {
 
     public static CobolComplexType createFlat01Record() {
 
+        final String complexTypeName = "Flat01Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolZonedDecimalType < java.lang.Long > comNumber =
@@ -36,7 +37,7 @@ public class Flat01RecordFactory {
                         .build();
         fields.put("comAmount", comAmount);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 

@@ -15,6 +15,7 @@ public class Ardo01RecordFactory {
 
     public static CobolComplexType createArdo01Record() {
 
+        final String complexTypeName = "Ardo01Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolZonedDecimalType < java.lang.Long > comNumber =
@@ -46,7 +47,7 @@ public class Ardo01RecordFactory {
                         .build();
         fields.put("comArray", new CobolArrayType(comArray, 5, "comNbr"));
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 

@@ -23,7 +23,7 @@ public class Flat01Factory {
                 new CobolPackedDecimalType.Builder < BigDecimal >(
                         BigDecimal.class).signed(false).totalDigits(7)
                         .fractionDigits(2).build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("Flat01", children);
 
     }
 }

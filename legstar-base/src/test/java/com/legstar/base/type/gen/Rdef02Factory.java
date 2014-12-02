@@ -21,7 +21,7 @@ public class Rdef02Factory {
                         BigDecimal.class).signed(false).totalDigits(7)
                         .fractionDigits(2).build());
 
-        return new CobolComplexType(children);
+        return new CobolComplexType("Rdef02", children);
     }
 
     public static CobolComplexType createRdef02Key() {
@@ -30,7 +30,7 @@ public class Rdef02Factory {
         children.put("comSelect", new CobolBinaryType.Builder < Short >(
                 Short.class).signed(false).totalDigits(4).fractionDigits(0)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("Rdef02Key", children);
     }
 
     public static CobolChoiceType createRedf02Item1Choice() {
@@ -55,7 +55,7 @@ public class Rdef02Factory {
         LinkedHashMap < String, CobolType > children = new LinkedHashMap < String, CobolType >();
         children.put("comName", new CobolStringType.Builder().charNum(10)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("ComDetail1", children);
     }
 
     public static CobolComplexType createComDetail2() {
@@ -66,6 +66,6 @@ public class Rdef02Factory {
                         .fractionDigits(2).build());
         children.put("filler12", new CobolStringType.Builder().charNum(6)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("ComDetail2", children);
     }
 }

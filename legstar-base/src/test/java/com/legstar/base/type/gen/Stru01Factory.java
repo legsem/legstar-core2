@@ -25,7 +25,7 @@ public class Stru01Factory {
                         BigDecimal.class).signed(false).totalDigits(7)
                         .fractionDigits(2).build());
         children.put("comSubRecord", createComSubRecord());
-        return new CobolComplexType(children);
+        return new CobolComplexType("Stru01", children);
 
     }
 
@@ -39,7 +39,7 @@ public class Stru01Factory {
                         .maxInclusive(Short.valueOf("99")).build());
         children.put("comItem2", new CobolStringType.Builder().charNum(2)
                 .build());
-        return new CobolComplexType(children);
+        return new CobolComplexType("ComSubRecord", children);
 
     }
 

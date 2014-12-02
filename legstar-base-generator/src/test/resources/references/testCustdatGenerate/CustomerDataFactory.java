@@ -15,6 +15,7 @@ public class CustomerDataFactory {
 
     public static CobolComplexType createPersonalData() {
 
+        final String complexTypeName = "PersonalData";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolStringType customerName =
@@ -35,12 +36,13 @@ public class CustomerDataFactory {
                         .build();
         fields.put("customerPhone", customerPhone);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createFiller12() {
 
+        final String complexTypeName = "Filler12";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolStringType transactionDay =
@@ -73,12 +75,13 @@ public class CustomerDataFactory {
                         .build();
         fields.put("transactionYear", transactionYear);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createTransaction() {
 
+        final String complexTypeName = "Transaction";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         fields.put("transactionDateChoice", createTransactionDateChoice());
@@ -97,12 +100,13 @@ public class CustomerDataFactory {
                         .build();
         fields.put("transactionComment", transactionComment);
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createTransactions() {
 
+        final String complexTypeName = "Transactions";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolBinaryType < java.lang.Long > transactionNbr =
@@ -116,12 +120,13 @@ public class CustomerDataFactory {
 
         fields.put("transaction", new CobolArrayType(createTransaction(), 5, "transactionNbr"));
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
     public static CobolComplexType createCustomerData() {
 
+        final String complexTypeName = "CustomerData";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolZonedDecimalType < java.lang.Long > customerId =
@@ -134,7 +139,7 @@ public class CustomerDataFactory {
 
         fields.put("transactions", createTransactions());
 
-        return new CobolComplexType(fields);
+        return new CobolComplexType(complexTypeName, fields);
 
     }
 
