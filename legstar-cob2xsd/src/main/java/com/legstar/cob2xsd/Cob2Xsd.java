@@ -112,33 +112,20 @@ public class Cob2Xsd {
      * Execute the translation from COBOL to XML Schema.
      * 
      * @param cobolReader reads the raw COBOL source
-     * @return the XML Schema
-     * @throws RecognizerException if COBOL recognition fails
-     * @throws XsdGenerationException if XML schema generation process fails
-     */
-    public String translate(final Reader cobolReader)
-            throws XsdGenerationException {
-        return translate(cobolReader, null);
-    }
-
-    /**
-     * Execute the translation from COBOL to XML Schema.
-     * 
-     * @param cobolReader reads the raw COBOL source
-     * @param baseName the name to use to uniquely identify the target namespace
-     *            (null to use the configured namespace without further
-     *            qualification)
+     * @param targetNamespace the generated XML schema target namespace (null
+     *            for no namespace)
      * @return the XML Schema
      * @throws XsdGenerationException if XML schema generation process fails
      */
-    public String translate(final Reader cobolReader, final String baseName)
-            throws XsdGenerationException {
+    public String translate(final Reader cobolReader,
+            final String targetNamespace) throws XsdGenerationException {
         try {
             if (_log.isDebugEnabled()) {
-                _log.debug("Translating with options: {}", getConfig().toString());
+                _log.debug("Translating with options: {}", getConfig()
+                        .toString());
+                _log.debug("Target namespace: {}", targetNamespace);
             }
-            return xsdToString(emitXsd(toModel(cobolReader),
-                    getUniqueTargetNamespace(baseName)));
+            return xsdToString(emitXsd(toModel(cobolReader), targetNamespace));
         } catch (RecognizerException e) {
             throw new XsdGenerationException(e);
         }
@@ -274,7 +261,7 @@ public class Cob2Xsd {
      * (structures) with children.
      * 
      * @param cobolDataItems a list of COBOL data items
-     * @param targetNamespace the target namespace to use
+     * @param targetNamespace the target namespace to use (null for no namespace)
      * @return the XML schema
      */
     public XmlSchema emitXsd(final List < CobolDataItem > cobolDataItems, final String targetNamespace) {
@@ -417,7 +404,7 @@ public class Cob2Xsd {
      * (usually XML Schema namespace).
      * 
      * @param encoding the character set used to encode this XML Schema
-     * @param targetNamespace the target namespace to use
+     * @param targetNamespace the target namespace to use (null for no namespace)
      * @return a new empty XML schema using the model
      */
     protected XmlSchema createXmlSchema(final String encoding, final String targetNamespace) {
@@ -448,35 +435,6 @@ public class Cob2Xsd {
             xsd.setNamespaceContext(prefixmap);
         }
         return xsd;
-    }
-
-    /**
-     * TargetNamespace, if it is not null, is completed with the baseName.
-     * 
-     * @param baseName A name, derived from the COBOL file name, that can be
-     *            used to identify generated artifacts
-     * @return the targetNamespace for the xml schema
-     */
-    protected String getUniqueTargetNamespace(final String baseName) {
-
-        String targetNamespacePrefix = getConfig().getTargetNamespace();
-
-        // User configured the system for no target namespace
-        if (targetNamespacePrefix == null
-                || targetNamespacePrefix.length() == 0) {
-            return null;
-        }
-
-        // No need to further qualify the target namespace
-        if (baseName == null || baseName.length() == 0) {
-            return targetNamespacePrefix;
-        }
-
-        if (targetNamespacePrefix.charAt(targetNamespacePrefix.length() - 1) == '/') {
-            return targetNamespacePrefix + baseName;
-        } else {
-            return targetNamespacePrefix + '/' + baseName;
-        }
     }
 
     /**

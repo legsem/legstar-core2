@@ -87,7 +87,9 @@ public class Cob2ConverterGenerator {
     public Map < String, String > generate(Reader cobolReader,
             String packageName) {
 
-        String xmlSchemaSource = cob2xsd.translate(cobolReader);
+        // The XML schema is an intermediary result which we do not keep. The
+        // target namespace is not useful in this case
+        String xmlSchemaSource = cob2xsd.translate(cobolReader, null);
         return xsd2Converter.generate(xmlSchemaSource, packageName);
 
     }

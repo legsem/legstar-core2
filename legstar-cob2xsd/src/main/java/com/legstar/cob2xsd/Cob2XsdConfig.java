@@ -83,9 +83,6 @@ public class Cob2XsdConfig {
     /** Character set used to encode the output XML Schema. */
     public static final String XSD_ENCODING = "xsdEncoding";
 
-    /** Target namespace for generated XML schema. */
-    public static final String TARGET_NAMESPACE = "targetNamespace";
-
     /** Whether COBOL conditions (level 88) should be mapped to facets. */
     public static final String MAP_CONDITIONS_TO_FACETS = "mapConditionsToFacets";
 
@@ -147,9 +144,6 @@ public class Cob2XsdConfig {
 
     /** Character set used to encode the output XML Schema. */
     private final String _xsdEncoding;
-
-    /** Target namespace for generated XML schema. */
-    private final String _targetNamespace;
 
     /**
      * Whether COBOL conditions (level 88) should be mapped to facets. Facets
@@ -228,7 +222,6 @@ public class Cob2XsdConfig {
                 DEFAULT_END_COLUMN));
 
         _xsdEncoding = props.getProperty(XSD_ENCODING, DEFAULT_XSD_ENCODING);
-        _targetNamespace = props.getProperty(TARGET_NAMESPACE);
         _mapConditionsToFacets = Boolean.parseBoolean(props.getProperty(
                 MAP_CONDITIONS_TO_FACETS, "false"));
         _nameConflictPrependParentName = Boolean.parseBoolean(props
@@ -322,15 +315,6 @@ public class Cob2XsdConfig {
      */
     public String getXsdEncoding() {
         return _xsdEncoding;
-    }
-
-    /**
-     * The target namespace for generated XML schema.
-     * 
-     * @return the target namespace for generated XML schema
-     */
-    public String getTargetNamespace() {
-        return _targetNamespace;
     }
 
     /**
@@ -461,8 +445,6 @@ public class Cob2XsdConfig {
         builder.append(_endColumn);
         builder.append(", _xsdEncoding=");
         builder.append(_xsdEncoding);
-        builder.append(", _targetNamespace=");
-        builder.append(_targetNamespace);
         builder.append(", _mapConditionsToFacets=");
         builder.append(_mapConditionsToFacets);
         builder.append(", _nameConflictPrependParentName=");

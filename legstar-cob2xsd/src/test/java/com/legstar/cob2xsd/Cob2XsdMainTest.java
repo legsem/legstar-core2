@@ -101,7 +101,8 @@ public class Cob2XsdMainTest extends AbstractTest {
             main.execute(new String[] { "-c",
                     "src/main/resources/cob2xsd.properties", "-i",
                     COBOL_SAMPLES_DIR + "/LSFILEAE", "-o",
-                    tempFolder.getAbsolutePath() + "/myfile.xsd" });
+                    tempFolder.getAbsolutePath() + "/myfile.xsd",
+                    "-n", "http://legstar.com"});
             File result = new File(tempFolder, "myfile.xsd");
             assertTrue(result.exists());
             assertTrue(FileUtils.readFileToString(result).contains(

@@ -46,7 +46,7 @@ public class Cob2XsdErrorHandlingTest extends AbstractTest {
     public void testLexerErrors() {
         try {
             Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-            cob2xsd.translate(new StringReader("       1 ^�@ ."));
+            cob2xsd.translate(new StringReader("       1 ^�@ ."), "http://test.legstar");
             assertEquals("line 1:12 Syntax error in last COBOL clause", cob2xsd
                     .getErrorHistory().get(0));
         } catch (XsdGenerationException e) {

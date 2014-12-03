@@ -35,13 +35,16 @@ public class Cob2XsdIO extends Cob2Xsd {
      * @param cobolFileEncoding COBOL source file encoding (null to use platform
      *            default)
      * @param target target file or folder
+     * @param targetNamespacePrefix used as a prefix prepended to the cobol file
+     *            base name to form a unique target namespace for the generated
+     *            XML schema
      * @return the XML Schema
      * @throws RecognizerException if parser fails
      * @throws XsdGenerationException if COBOL model interpretation fails
      */
     public File translate(final File cobolFile, final String cobolFileEncoding,
-            final File target) throws RecognizerException,
-            XsdGenerationException {
+            final File target, final String targetNamespacePrefix)
+            throws RecognizerException, XsdGenerationException {
 
         try {
             if (_log.isDebugEnabled()) {
@@ -57,7 +60,8 @@ public class Cob2XsdIO extends Cob2Xsd {
                     new FileInputStream(cobolFile)) : new InputStreamReader(
                     new FileInputStream(cobolFile), cobolFileEncoding);
 
-            String xsdString = translate(cobolReader, baseName);
+            String xsdString = translate(cobolReader,
+                    getUniqueTargetNamespace(targetNamespacePrefix, baseName));
             File xsdFile = null;
             if (target.isDirectory()) {
                 String xsdFileName = cobolFile.getName() + ".xsd";
@@ -110,6 +114,34 @@ public class Cob2XsdIO extends Cob2Xsd {
             if (extension.length() == 0) {
                 throw new IOException("Target folder " + target + " not found");
             }
+        }
+    }
+
+    /**
+     * TargetNamespace, if it is not null, is completed with the baseName.
+     * 
+     * @param targetNamespacePrefix the target namespace prefix
+     * @param baseName A name, derived from the COBOL file name, that can be
+     *            used to identify generated artifacts
+     * @return the targetNamespace for the xml schema
+     * @throws IOException if unable to create a namespace
+     */
+    protected String getUniqueTargetNamespace(String targetNamespacePrefix,
+            final String baseName) throws IOException {
+
+        if (targetNamespacePrefix == null
+                || targetNamespacePrefix.length() == 0) {
+            return null;
+        }
+
+        if (baseName == null || baseName.length() == 0) {
+            throw new IOException("No target basename was provided");
+        }
+
+        if (targetNamespacePrefix.charAt(targetNamespacePrefix.length() - 1) == '/') {
+            return targetNamespacePrefix + baseName;
+        } else {
+            return targetNamespacePrefix + '/' + baseName;
         }
     }
 

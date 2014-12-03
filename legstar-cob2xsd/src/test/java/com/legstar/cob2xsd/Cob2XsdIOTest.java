@@ -32,7 +32,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
-    
+
     private static final File tempDir = new File(
             System.getProperty("java.io.tmpdir"));
 
@@ -55,8 +55,6 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                 }
                 configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS,
                         Boolean.toString(true));
-                configProps.put(Cob2XsdConfig.TARGET_NAMESPACE,
-                        "http://legstar.com/test/coxb/" + name);
 
                 /* Backward compatibility */
                 configProps.put(
@@ -68,7 +66,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                 Cob2XsdIO translator = new Cob2XsdIO(new Cob2XsdConfig(
                         configProps));
                 File xsdFile = translator.translate(cobolFile, "ISO-8859-1",
-                        tempDir);
+                        tempDir, "http://legstar.com/test/coxb");
                 if (_log.isDebugEnabled()) {
                     _log.debug("Result:\n"
                             + FileUtils.readFileToString(xsdFile));
@@ -95,8 +93,6 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
     @Test
     public void testFileOutputEncoding() {
         try {
-            configProps.put(Cob2XsdConfig.TARGET_NAMESPACE,
-                    "http://www.mycompany.com/test");
             configProps.put(Cob2XsdConfig.XSD_ENCODING, "UTF-8");
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS,
                     Boolean.toString(true));
@@ -108,7 +104,8 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
             FileUtils.write(tempCobolFile,
                     "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.",
                     "UTF8");
-            File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", tempDir);
+            File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", tempDir,
+                    "http://www.mycompany.com/test");
 
             for (String line : FileUtils.readLines(xmlSchema, "UTF8")) {
                 if (line.contains("cobolName=\"B\"")) {

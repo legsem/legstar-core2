@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/rdef01/rdef01" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/rdef01/rdef01">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/rdef01" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/rdef01">
     <complexType name="Rdef01Record">
         <sequence>
             <element name="ComSelect">

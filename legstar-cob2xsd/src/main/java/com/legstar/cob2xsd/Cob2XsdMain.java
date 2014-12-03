@@ -70,6 +70,11 @@ public class Cob2XsdMain {
      */
     private File _output;
 
+    /**
+     * A prefix used to form target namespaces for the generated XML schemas.
+     */
+    private String _targetNamespacePrefix;
+
     /** Set of options to use. */
     private Cob2XsdConfig _config;
 
@@ -101,7 +106,8 @@ public class Cob2XsdMain {
             if (collectOptions(options, args)) {
                 setDefaults();
                 loadConfig();
-                execute(getInput(), getInputEncoding(), getOutput());
+                execute(getInput(), getInputEncoding(), getOutput(),
+                        getTargetNamespacePrefix());
             }
         } catch (Exception e) {
             _log.error("COBOL to Xsd translation failure", e);
@@ -184,12 +190,16 @@ public class Cob2XsdMain {
         options.addOption(input);
 
         Option inputEncoding = new Option("enc", "inputEncoding", true,
-                "Character set used for COBOL files encoding");
+                "character set used for COBOL files encoding");
         options.addOption(inputEncoding);
 
         Option output = new Option("o", "output", true,
                 "folder or file receiving the translated XML schema");
         options.addOption(output);
+
+        Option targetNamespacePrefix = new Option("n", "targetNamespacePrefix",
+                true, "target namespace prefix for translated XML schema");
+        options.addOption(targetNamespacePrefix);
 
         return options;
     }
@@ -224,6 +234,10 @@ public class Cob2XsdMain {
         if (line.hasOption("output")) {
             setOutput(line.getOptionValue("output").trim());
         }
+        if (line.hasOption("targetNamespacePrefix")) {
+            setTargetNamespacePrefix(line.getOptionValue(
+                    "targetNamespacePrefix").trim());
+        }
 
         return true;
     }
@@ -235,29 +249,35 @@ public class Cob2XsdMain {
      * @param input the input COBOL file or folder
      * @param cobolFileEncoding the COBOL file character encoding
      * @param target the output folder or file where XML schema file must go
+     * @param targetNamespacePrefix the output XML schemas target namespace
+     *            prefix
      * @throws XsdGenerationException if XML schema cannot be generated
      */
     protected void execute(final File input, final String cobolFileEncoding,
-            final File target) throws XsdGenerationException {
+            final File target, final String targetNamespacePrefix)
+            throws XsdGenerationException {
 
         try {
             _log.info("Started translation from COBOL to XML Schema");
-            _log.info("Taking COBOL from      : " + input);
-            _log.info("COBOL encoding         : " + cobolFileEncoding == null ? "default"
+            _log.info("Taking COBOL from           : " + input);
+            _log.info("COBOL encoding              : " + cobolFileEncoding == null ? "default"
                     : cobolFileEncoding);
-            _log.info("Output XML Schema to   : " + target);
-            _log.info("Options in effect      : " + getConfig().toString());
+            _log.info("Output XML Schema to        : " + target);
+            _log.info("XML Schema namespace prefix : " + targetNamespacePrefix);
+            _log.info("Options in effect           : " + getConfig().toString());
 
             if (input.isFile()) {
                 if (FilenameUtils.getExtension(target.getPath()).length() == 0) {
                     FileUtils.forceMkdir(target);
                 }
-                translate(input, cobolFileEncoding, target);
+                translate(input, cobolFileEncoding, target,
+                        targetNamespacePrefix);
             } else {
                 FileUtils.forceMkdir(target);
                 for (File cobolFile : input.listFiles()) {
                     if (cobolFile.isFile()) {
-                        translate(cobolFile, cobolFileEncoding, target);
+                        translate(cobolFile, cobolFileEncoding, target,
+                                targetNamespacePrefix);
                     }
                 }
             }
@@ -274,14 +294,17 @@ public class Cob2XsdMain {
      * @param cobolFile COBOL source file
      * @param cobolFileEncoding the COBOL file character encoding
      * @param target target file or folder
+     * @param targetNamespacePrefix the output XML schemas target namespace
+     *            prefix
      * @throws XsdGenerationException if parser fails
      */
     protected void translate(final File cobolFile,
-            final String cobolFileEncoding, final File target)
-            throws XsdGenerationException {
+            final String cobolFileEncoding, final File target,
+            final String targetNamespacePrefix) throws XsdGenerationException {
         try {
             Cob2XsdIO cob2XsdIO = new Cob2XsdIO(getConfig());
-            cob2XsdIO.translate(cobolFile, cobolFileEncoding, target);
+            cob2XsdIO.translate(cobolFile, cobolFileEncoding, target,
+                    targetNamespacePrefix);
         } catch (RecognizerException e) {
             throw new XsdGenerationException(e);
         }
@@ -388,6 +411,10 @@ public class Cob2XsdMain {
         _output = new File(output);
     }
 
+    public void setTargetNamespacePrefix(String targetNamespacePrefix) {
+        _targetNamespacePrefix = targetNamespacePrefix;
+    }
+
     /**
      * Gather all parameters into a config object.
      * 
@@ -409,6 +436,10 @@ public class Cob2XsdMain {
      */
     public File getOutput() {
         return _output;
+    }
+
+    public String getTargetNamespacePrefix() {
+        return _targetNamespacePrefix;
     }
 
 }
