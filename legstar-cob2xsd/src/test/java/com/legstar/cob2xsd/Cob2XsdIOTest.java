@@ -32,6 +32,9 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
+    
+    private static final File tempDir = new File(
+            System.getProperty("java.io.tmpdir"));
 
     /**
      * Go through all the samples and check with backward compatibility.
@@ -65,7 +68,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                 Cob2XsdIO translator = new Cob2XsdIO(new Cob2XsdConfig(
                         configProps));
                 File xsdFile = translator.translate(cobolFile, "ISO-8859-1",
-                        xsdGenDir);
+                        tempDir);
                 if (_log.isDebugEnabled()) {
                     _log.debug("Result:\n"
                             + FileUtils.readFileToString(xsdFile));
@@ -80,6 +83,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                     Document expected = getXMLSchemaAsDoc(xsdRefFile);
                     compare(xsdFile.getName(), expected, result);
                 }
+                xsdFile.deleteOnExit();
             }
         }
     }
@@ -104,14 +108,14 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
             FileUtils.write(tempCobolFile,
                     "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.",
                     "UTF8");
-            File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", new File(
-                    System.getProperty("java.io.tmpdir")));
+            File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", tempDir);
 
             for (String line : FileUtils.readLines(xmlSchema, "UTF8")) {
                 if (line.contains("cobolName=\"B\"")) {
                     assertTrue(line.contains("value=\"牛年快乐\""));
                 }
             }
+            xmlSchema.deleteOnExit();
 
         } catch (Exception e) {
             e.printStackTrace();

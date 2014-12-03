@@ -41,7 +41,8 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
 
     private ComplexTypeChildHandler complexTypeChildHandler = new ComplexTypeChildHandler() {
 
-        public boolean postVisit(String fieldName, CobolType child) {
+        public boolean postVisit(String fieldName, int fieldIndex,
+                CobolType child) {
             return valid && !fieldName.equals(stopFieldInclusive);
         }
 
@@ -49,7 +50,7 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
 
     private ArrayTypeItemHandler arrayTypeItemHandler = new ArrayTypeItemHandler() {
 
-        public boolean postVisit(CobolType item) {
+        public boolean postVisit(int itemIndex, CobolType item) {
             return valid;
         }
 
@@ -57,7 +58,8 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
 
     private ChoiceTypeAlternativeHandler choiceTypeAlternativeHandler = new ChoiceTypeAlternativeHandler() {
 
-        public void postVisit(String alternativeName, CobolType alternative) {
+        public void postVisit(String alternativeName, int alternativeIndex,
+                CobolType alternative) {
 
         }
 

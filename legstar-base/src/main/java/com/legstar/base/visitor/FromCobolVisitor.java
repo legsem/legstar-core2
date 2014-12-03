@@ -112,12 +112,14 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void visitComplexType(CobolComplexType type,
             ComplexTypeChildHandler callback) {
+        int index = 0;
         for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             curFieldName = child.getKey();
             child.getValue().accept(this);
-            if (!callback.postVisit(child.getKey(), child.getValue())) {
+            if (!callback.postVisit(child.getKey(), index, child.getValue())) {
                 break;
             }
+            index++;
         }
     }
 
@@ -135,7 +137,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             ArrayTypeItemHandler callback) {
         for (int i = 0; i < getOccurs(type); i++) {
             type.getItemType().accept(this);
-            if (!callback.postVisit(type)) {
+            if (!callback.postVisit(i, type)) {
                 break;
             }
         }
@@ -177,7 +179,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         }
 
         // Make sure the strategy is returning a known alternative
-        String alternativeName = type.getNamesMap().get(alternative);
+        String alternativeName = type.getAlternativeName(alternative);
         if (alternativeName == null) {
             throw new FromHostException(
                     "Alternative does not correspond to a known alternative for choice "
@@ -186,7 +188,8 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
         alternative.accept(this);
 
-        callback.postVisit(alternativeName, alternative);
+        callback.postVisit(alternativeName,
+                type.getAlternativeIndex(alternativeName), alternative);
 
     }
 
@@ -227,10 +230,12 @@ public abstract class FromCobolVisitor implements CobolVisitor {
          * Notify caller that a field was visited
          * 
          * @param fieldName the visited field's name
+         * @param fieldIndex the visited field's name position in its parent
+         *            complex type
          * @param child the visited field type
          * @return if false, visiting should stop
          */
-        boolean postVisit(String fieldName, CobolType child);
+        boolean postVisit(String fieldName, int fieldIndex, CobolType child);
 
     }
 
@@ -243,10 +248,11 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         /**
          * Notify caller that an item was visited
          * 
+         * @param itemIndex the visited item index in the array
          * @param item the visited item type
          * @return if false, visiting should stop
          */
-        boolean postVisit(CobolType item);
+        boolean postVisit(int itemIndex, CobolType item);
     }
 
     /**
@@ -260,9 +266,12 @@ public abstract class FromCobolVisitor implements CobolVisitor {
          * 
          * @param alternativeName the visited alternative field name in the
          *            choice
+         * @param alternativeIndex the visited alternative position in the
+         *            choice
          * @param alternative the visited alternative type
          */
-        void postVisit(String alternativeName, CobolType alternative);
+        void postVisit(String alternativeName, int alternativeIndex,
+                CobolType alternative);
     }
 
     /**

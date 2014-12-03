@@ -78,6 +78,7 @@ public class Rdef03RecordFactory {
 
     public static CobolChoiceType createComDetail1Choice() {
 
+        final String choiceTypeName = "ComDetail1Choice";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         fields.put("comDetail1", createComDetail1());
@@ -86,7 +87,7 @@ public class Rdef03RecordFactory {
 
         fields.put("comDetail3", createComDetail3());
 
-        return new CobolChoiceType(fields);
+        return new CobolChoiceType(choiceTypeName, fields);
 
     }
 

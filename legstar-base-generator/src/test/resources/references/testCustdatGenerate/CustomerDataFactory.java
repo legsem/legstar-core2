@@ -145,6 +145,7 @@ public class CustomerDataFactory {
 
     public static CobolChoiceType createTransactionDateChoice() {
 
+        final String choiceTypeName = "TransactionDateChoice";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolStringType transactionDate =
@@ -155,7 +156,7 @@ public class CustomerDataFactory {
 
         fields.put("filler12", createFiller12());
 
-        return new CobolChoiceType(fields);
+        return new CobolChoiceType(choiceTypeName, fields);
 
     }
 

@@ -1,6 +1,5 @@
 package com.legstar.base.type.composite;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,39 +14,69 @@ import com.legstar.base.visitor.CobolVisitor;
 public class CobolChoiceType extends CobolCompositeType {
 
     /**
+     * A unique name for this choice.
+     */
+    private final String name;
+
+    /**
      * List of alternatives mapping to their COBOL type.
      */
     private final Map < String, CobolType > alternatives;
 
     /**
-     * Allows to efficiently retrieve the name of an alternative given its COBOL
-     * type.
+     * Builds a choice from a series of named alternatives.
+     * 
+     * @param name a unique name for this choice
+     * @param alternatives the mapping of alternatives to their names. It is
+     *            important that this structure preserves insertion order (such
+     *            as {@link LinkedHashMap} )
      */
-    private final Map < CobolType, String > namesMap;
-
-    public CobolChoiceType(Map < String, CobolType > alternatives) {
+    public CobolChoiceType(String name, Map < String, CobolType > alternatives) {
+        this.name = name;
         this.alternatives = alternatives;
-        this.namesMap = new HashMap < CobolType, String >();
-        for (Entry < String, CobolType > entry : alternatives.entrySet()) {
-            namesMap.put(entry.getValue(), entry.getKey());
-        }
     }
 
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Map < String, CobolType > getAlternatives() {
         return alternatives;
     }
 
-    /**
-     * Map an alternative to its in the parent choice
-     * 
-     * @return Map of alternative to its in the parent choice
-     */
-    public Map < CobolType, String > getNamesMap() {
-        return namesMap;
+    public String getAlternativeName(CobolType alternative) {
+        for (Entry < String, CobolType > entry : alternatives.entrySet()) {
+            if (entry.getValue().equals(alternative)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public int getAlternativeIndex(CobolType alternative) {
+        int index = 0;
+        for (Entry < String, CobolType > entry : alternatives.entrySet()) {
+            if (entry.getValue().equals(alternative)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    public int getAlternativeIndex(String alternativeName) {
+        int index = 0;
+        for (Entry < String, CobolType > entry : alternatives.entrySet()) {
+            if (entry.getKey().equals(alternativeName)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
     }
 
 }

@@ -41,14 +41,14 @@ public class Rdef02Factory {
                         .fractionDigits(0).build());
         alternatives.put("comItem2", new CobolStringType.Builder().charNum(6)
                 .build());
-        return new CobolChoiceType(alternatives);
+        return new CobolChoiceType("Redf02Item1Choice", alternatives);
     }
 
     public static CobolChoiceType createComDetail1Choice() {
         LinkedHashMap < String, CobolType > alternatives = new LinkedHashMap < String, CobolType >();
         alternatives.put("comDetail1", createComDetail1());
         alternatives.put("comDetail2", createComDetail2());
-        return new CobolChoiceType(alternatives);
+        return new CobolChoiceType("ComDetail1Choice", alternatives);
     }
 
     public static CobolComplexType createComDetail1() {

@@ -27,11 +27,12 @@ public class {{class_name}} {
 {{~#each choice_types}}
     public static CobolChoiceType create{{@key}}() {
 
+        final String choiceTypeName = "{{@key}}";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 {{#each this ~}}
 {{> com/legstar/base/generator/java.field}}
 {{~/each}}{{!-- this: fields in choice type --}}
-        return new CobolChoiceType(fields);
+        return new CobolChoiceType(choiceTypeName, fields);
 
     }
 {{/each}}{{!-- choice_types --}}

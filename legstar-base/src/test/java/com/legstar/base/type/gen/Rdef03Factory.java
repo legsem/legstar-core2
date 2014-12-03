@@ -27,7 +27,7 @@ public class Rdef03Factory {
         alternatives.put("comDetail1", createComDetail1());
         alternatives.put("comDetail2", createComDetail2());
         alternatives.put("comDetail3", createComDetail3());
-        return new CobolChoiceType(alternatives);
+        return new CobolChoiceType("ComDetail1Choice", alternatives);
     }
 
     public static CobolComplexType createComDetail1() {

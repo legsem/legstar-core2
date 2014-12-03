@@ -89,6 +89,7 @@ public class Rdef02RecordFactory {
 
     public static CobolChoiceType createRdef02Item1Choice() {
 
+        final String choiceTypeName = "Rdef02Item1Choice";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         CobolPackedDecimalType < java.lang.Long > rdef02Item1 =
@@ -104,19 +105,20 @@ public class Rdef02RecordFactory {
                         .build();
         fields.put("rdef02Item2", rdef02Item2);
 
-        return new CobolChoiceType(fields);
+        return new CobolChoiceType(choiceTypeName, fields);
 
     }
 
     public static CobolChoiceType createComDetail1Choice() {
 
+        final String choiceTypeName = "ComDetail1Choice";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
         fields.put("comDetail1", createComDetail1());
 
         fields.put("comDetail2", createComDetail2());
 
-        return new CobolChoiceType(fields);
+        return new CobolChoiceType(choiceTypeName, fields);
 
     }
 

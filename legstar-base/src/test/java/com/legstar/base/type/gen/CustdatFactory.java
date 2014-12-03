@@ -69,7 +69,7 @@ public class CustdatFactory {
         alternatives.put("transactionDate", new CobolStringType.Builder()
                 .charNum(8).build());
         alternatives.put("filler1", createFiller12CobolType());
-        return new CobolChoiceType(alternatives);
+        return new CobolChoiceType("TransactionDateChoice", alternatives);
     }
 
     private static CobolComplexType createFiller12CobolType() {
