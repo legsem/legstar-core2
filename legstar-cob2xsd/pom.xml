@@ -121,6 +121,20 @@
               </executions>
           </plugin>
 
+          <!-- Make the jar executable (referencing a lib folder for dependencies) -->
+          <plugin>
+              <artifactId>maven-jar-plugin</artifactId>
+              <configuration>
+                  <archive>
+                      <manifest>
+                          <addClasspath>true</addClasspath>
+                          <classpathPrefix>lib/</classpathPrefix>
+                          <mainClass>com.legstar.cob2xsd.Cob2XsdMain</mainClass>
+                      </manifest>
+                  </archive>
+              </configuration>
+          </plugin>
+
        </plugins>
   </build>
 
