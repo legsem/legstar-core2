@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-core2</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>legstar-jaxb</artifactId>
+  <packaging>jar</packaging>
+
+  <name>legstar-jaxb</name>
+
+  <dependencies>
+
+      <!-- LegStar Converter -->
+      <dependency>
+          <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-base</artifactId>
+      </dependency>
+
+      <!-- Logging -->   
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+      </dependency>
+
+      <!-- Apache utils -->
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+      </dependency>
+
+      <!-- LegStar Converter Generator -->
+      <dependency>
+          <groupId>com.legsem.legstar</groupId>
+          <artifactId>legstar-base-generator</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+      <!-- Tests -->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+  </dependencies>
+  
+  <build>
+
+      <plugins>
+    
+          <!-- Invoke Cob2ConverterGenerator for copybooks translation to Java converters -->
+          <!-- Invoke Cob2XsdMain for copybooks translation to XML Schema (input to XJC ) -->
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <id>cobol.to.converter</id>
+                      <phase>generate-sources</phase>
+                      <goals>
+                          <goal>java</goal>
+                      </goals>
+                      <configuration>
+                          <mainClass>com.legstar.base.generator.Cob2ConverterGeneratorMain</mainClass>
+                          <arguments>
+                              <argument>-i</argument>
+                              <argument>${basedir}/src/test/cobol</argument>
+                              <argument>-o</argument>
+                              <argument>${project.build.directory}/generated-sources/java</argument>
+                              <argument>-p</argument>
+                              <argument>legstar.test.converter</argument>
+                          </arguments>
+                          <systemProperties>
+                              <systemProperty>
+                                  <key>log4j.configuration</key>
+                                  <value>file:///${basedir}/src/main/resources/log4j.properties</value>
+                              </systemProperty>
+                          </systemProperties>
+                          <classpathScope>test</classpathScope>
+                       </configuration>
+                  </execution>
+                  <execution>
+                      <id>cobol.to.xsd</id>
+                      <phase>generate-sources</phase>
+                      <goals>
+                          <goal>java</goal>
+                      </goals>
+                      <configuration>
+                          <mainClass>com.legstar.cob2xsd.Cob2XsdMain</mainClass>
+                          <arguments>
+                              <argument>-i</argument>
+                              <argument>${basedir}/src/test/cobol</argument>
+                              <argument>-o</argument>
+                              <argument>${project.build.directory}/generated-sources/xsds</argument>
+                              <argument>-n</argument>
+                              <argument>http://jaxb.test.legstar</argument>
+                          </arguments>
+                          <systemProperties>
+                              <systemProperty>
+                                  <key>log4j.configuration</key>
+                                  <value>file:///${basedir}/src/main/resources/log4j.properties</value>
+                              </systemProperty>
+                          </systemProperties>
+                          <classpathScope>test</classpathScope>
+                       </configuration>
+                  </execution>
+              </executions>
+          </plugin>
+    
+          <!-- Generate JAXB classes -->
+          <plugin>
+              <groupId>org.jvnet.jaxb2.maven2</groupId>
+              <artifactId>maven-jaxb2-plugin</artifactId>
+              <executions>
+                  <execution>
+                        <phase>generate-sources</phase>
+                      <goals>
+                        <goal>generate</goal>
+                      </goals>
+                      <configuration>
+                          <schemaDirectory>${project.build.directory}/generated-sources/xsds</schemaDirectory>
+                          <generateDirectory>${project.build.directory}/generated-sources/java</generateDirectory>
+                          <packageLevelAnnotations>false</packageLevelAnnotations>
+                          <cleanPackageDirectories>true</cleanPackageDirectories>
+                          <forceRegenerate >true</forceRegenerate >
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
+          
+          <!-- Add generated java classes common folder as source folder -->
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>build-helper-maven-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <phase>generate-sources</phase>
+                      <goals>
+                          <goal>add-test-source</goal>
+                      </goals>
+                      <configuration>
+                          <sources>
+                              <source>${project.build.directory}/generated-sources/java</source>
+                          </sources>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
+      
+      </plugins>
+
+  </build>
+
+</project>
