@@ -33,6 +33,9 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     /** Last java object produced by visiting an item. */
     private Object lastObject;
 
+    // -----------------------------------------------------------------------------
+    // Constructors
+    // -----------------------------------------------------------------------------
     public Cob2ObjectConverter(CobolContext cobolContext, byte[] hostData,
             int start) {
         this(cobolContext, hostData, start, null);
@@ -40,11 +43,19 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
 
     public Cob2ObjectConverter(CobolContext cobolContext, byte[] hostData,
             int start, FromCobolChoiceStrategy customChoiceStrategy) {
-        super(cobolContext, hostData, start, customChoiceStrategy);
+        this(cobolContext, hostData, start, customChoiceStrategy, null);
+    }
+
+    public Cob2ObjectConverter(CobolContext cobolContext, byte[] hostData,
+            int start, FromCobolChoiceStrategy customChoiceStrategy, List < String > customVariables) {
+        super(cobolContext, hostData, start, customChoiceStrategy, customVariables);
         primitiveTypeHandler = new ObjectPrimitiveTypeHandler();
         choiceTypeAlternativeHandler = new ObjectChoiceTypeAlternativeHandler();
     }
 
+    // -----------------------------------------------------------------------------
+    // Visit methods
+    // -----------------------------------------------------------------------------
     public void visit(CobolComplexType type) throws ConversionException {
         final Map < String, Object > map = new LinkedHashMap < String, Object >();
         super.visitComplexType(type, new ObjectComplexTypeChildHandler(map));
@@ -65,6 +76,9 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
         super.visitCobolPrimitiveType(type, primitiveTypeHandler);
     }
 
+    // -----------------------------------------------------------------------------
+    // Handlers
+    // -----------------------------------------------------------------------------
     private class ObjectComplexTypeChildHandler implements
             ComplexTypeChildHandler {
 
@@ -115,6 +129,9 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
 
     };
 
+    // -----------------------------------------------------------------------------
+    // Getters
+    // -----------------------------------------------------------------------------
     public Object getObject() {
         return lastObject;
     }

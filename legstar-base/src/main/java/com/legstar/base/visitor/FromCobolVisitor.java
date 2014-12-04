@@ -1,6 +1,7 @@
 package com.legstar.base.visitor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -51,6 +52,18 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     private final Map < String, Object > variables;
 
     /**
+     * There are 2 mechanisms to mark custom variables:
+     * <ul>
+     * <li>From within a primitive type description using the customVariable
+     * property</li>
+     * <li>At runtime by specifying the custom variable name in this collection</li>
+     * </ul>
+     * TODO custom variable names are not namespaced within a structure and
+     * there is a conflict risk
+     */
+    private final List < String > customVariables;
+
+    /**
      * By default, this is the strategy for choice alternative selection.
      */
     private final FromCobolChoiceStrategy defaultChoiceStrategy;
@@ -83,6 +96,12 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
     public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
             int start, FromCobolChoiceStrategy customChoiceStrategy) {
+        this(cobolContext, hostData, start, customChoiceStrategy, null);
+    }
+
+    public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, FromCobolChoiceStrategy customChoiceStrategy,
+            List < String > customVariables) {
         if (hostData == null) {
             throw new IllegalArgumentException("Mainframe data buffer is null");
         }
@@ -94,7 +113,8 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         this.hostData = hostData;
         this.start = start;
         this.lastPos = start;
-        variables = new HashMap < String, Object >();
+        this.variables = new HashMap < String, Object >();
+        this.customVariables = customVariables;
         this.customChoiceStrategy = customChoiceStrategy;
         this.defaultChoiceStrategy = new DefaultFromCobolChoiceStrategy(
                 cobolContext);
@@ -209,7 +229,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         this.lastPos += result.getBytesProcessed();
 
         // Keep those values that might be needed later
-        if (type.isOdoObject() || type.isCustomVariable()) {
+        if (type.isOdoObject() || isCustomVariable(type, curFieldName)) {
             putVariable(curFieldName, result.getValue());
         }
 
@@ -379,6 +399,24 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public Map < String, Object > getVariables() {
         return variables;
+    }
+    
+    /**
+     * A primitive type is a custom variable if it has been marked as so via one
+     * of the available mechanisms.
+     * 
+     * @param type the primitive type
+     * @param name the variable name
+     * @return true if this is a custom variable
+     */
+    public boolean isCustomVariable(CobolPrimitiveType < ? > type, String name) {
+        if (type.isCustomVariable()) {
+            return true;
+        }
+        if (customVariables != null && customVariables.contains(name)) {
+            return true;
+        }
+        return false;
     }
 
     /**

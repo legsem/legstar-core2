@@ -2,6 +2,8 @@ package com.legstar.base.converter;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -221,6 +223,19 @@ public class Cob2ObjectConverterTest {
         Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0, new Rdef03ObjectFromHostChoiceStrategy());
+        visitor.visit(Rdef03Factory.createRdef03Record());
+        assertEquals(
+                "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
+                visitor.getObject().toString());
+        assertEquals(7, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertRdef03CustomStrategyWithVariables() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
+                0, new Rdef03ObjectFromHostChoiceStrategy(), Arrays.asList(new String[] {"comSelect"}));
         visitor.visit(Rdef03Factory.createRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",

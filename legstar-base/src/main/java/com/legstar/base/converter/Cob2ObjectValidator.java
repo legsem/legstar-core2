@@ -113,7 +113,7 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
         if (type.isValid(getCobolContext(), getHostData(), getLastPos())) {
 
             // Perform conversion for those values that might be needed later
-            if (type.isOdoObject() || type.isCustomVariable()) {
+            if (type.isOdoObject() || isCustomVariable(type, getCurFieldName())) {
                 FromHostResult < ? > result = type.fromHost(getCobolContext(),
                         getHostData(), getLastPos());
                 putVariable(getCurFieldName(), result.getValue());
