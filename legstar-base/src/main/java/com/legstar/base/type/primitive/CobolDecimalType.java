@@ -24,8 +24,6 @@ public abstract class CobolDecimalType<T extends Number> extends
 
     protected static final char JAVA_DECIMAL_POINT = '.';
 
-    private final Class < T > clazz;
-
     /**
      * True if this is a signed COBOL decimal.
      */
@@ -56,7 +54,7 @@ public abstract class CobolDecimalType<T extends Number> extends
             '4', '5', '6', '7', '8', '9' };
 
     /** {@inheritDoc} */
-    public final boolean isValid(CobolContext cobolContext, byte[] hostData,
+    public final boolean isValid(Class < T > javaClass, CobolContext cobolContext, byte[] hostData,
             int start) {
 
         int bytesLen = getBytesLen();
@@ -67,12 +65,12 @@ public abstract class CobolDecimalType<T extends Number> extends
         }
 
         // Let specialized classes perform their validation
-        if (!isValidInternal(cobolContext, clazz, hostData, start)) {
+        if (!isValidInternal(javaClass, cobolContext, hostData, start)) {
             return false;
         }
 
         // If required to check within range, need to convert
-        if (!isWithinRange(fromHostInternal(cobolContext, clazz, hostData,
+        if (!isWithinRange(fromHostInternal(javaClass, cobolContext, hostData,
                 start))) {
             return false;
         }
@@ -102,16 +100,16 @@ public abstract class CobolDecimalType<T extends Number> extends
      * Check if a byte array contains a valid type with this instance
      * characteristics.
      * 
-     * @param clazz java Number class mapped to this COBOL decimal
+     * @param javaClass java Number class mapped to this COBOL decimal
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
      */
-    protected abstract boolean isValidInternal(CobolContext cobolContext,
-            Class < T > clazz, byte[] hostData, int start);
+    protected abstract boolean isValidInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start);
 
     /** {@inheritDoc} */
-    public FromHostResult < T > fromHost(CobolContext cobolContext,
+    public FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) throws FromHostException {
 
         int bytesLen = getBytesLen();
@@ -122,7 +120,8 @@ public abstract class CobolDecimalType<T extends Number> extends
                     start);
         }
 
-        T value = fromHostInternal(cobolContext, clazz, hostData, start);
+        T value = fromHostInternal(javaClass, cobolContext, hostData,
+                start);
         if (!isWithinRange(value)) {
             throw new FromHostException("Value " + value.toString()
                     + " is outside the required range " + getRangeAsString(),
@@ -136,15 +135,15 @@ public abstract class CobolDecimalType<T extends Number> extends
     /**
      * Convert mainframe data into a java Number.
      * 
+     * @param javaClass java Number class mapped to this COBOL decimal
      * @param cobolContext host COBOL configuration parameters
-     * @param clazz java Number class mapped to this COBOL decimal
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return the mainframe value as a java Number
      * @throws FromHostException if conversion fails
      */
-    protected abstract T fromHostInternal(CobolContext cobolContext,
-            Class < T > clazz, byte[] hostData, int start)
+    protected abstract T fromHostInternal(
+            Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start)
             throws FromHostException;
 
     /**
@@ -386,10 +385,6 @@ public abstract class CobolDecimalType<T extends Number> extends
         return maxInclusive;
     }
 
-    public Class < T > getClazz() {
-        return clazz;
-    }
-
     /**
      * @return a log friendly string showing the range this numeric must fall in
      */
@@ -412,21 +407,20 @@ public abstract class CobolDecimalType<T extends Number> extends
             extends CobolPrimitiveType.Builder < T, B > {
 
         // Required
-        private final Class < T > clazz;
-        private final int maxTotalDigits;
+        protected final int maxTotalDigits;
 
         // Optional
-        private boolean signed = false;
-        private int totalDigits = 9;
-        private int fractionDigits = 0;
-        private T minInclusive = null;
-        private T maxInclusive = null;
+        protected boolean signed = false;
+        protected int totalDigits = 9;
+        protected int fractionDigits = 0;
+        protected T minInclusive = null;
+        protected T maxInclusive = null;
 
-        private boolean minInclusiveSetFlag = false;
-        private boolean maxInclusiveSetFlag = false;
+        protected boolean minInclusiveSetFlag = false;
+        protected boolean maxInclusiveSetFlag = false;
 
         public Builder(Class < T > clazz, int maxTotalDigits) {
-            this.clazz = clazz;
+            super(clazz);
             this.maxTotalDigits = maxTotalDigits;
         }
 
@@ -489,15 +483,14 @@ public abstract class CobolDecimalType<T extends Number> extends
                     + " cannot exceed total digits number "
                     + builder.totalDigits);
         }
-        clazz = builder.clazz;
         signed = builder.signed;
         totalDigits = builder.totalDigits;
         fractionDigits = builder.fractionDigits;
         minInclusive = builder.minInclusiveSetFlag ? builder.minInclusive
-                : getJavaMinInclusive(builder.clazz, builder.signed,
+                : getJavaMinInclusive(builder.javaClass, builder.signed,
                         builder.totalDigits, builder.fractionDigits);
         maxInclusive = builder.maxInclusiveSetFlag ? builder.maxInclusive
-                : getJavaMaxInclusive(builder.clazz, builder.totalDigits,
+                : getJavaMaxInclusive(builder.javaClass, builder.totalDigits,
                         builder.fractionDigits);
     }
 

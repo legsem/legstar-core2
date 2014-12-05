@@ -29,11 +29,15 @@ public class CustdatFactory {
 
     public static CobolComplexType createPersonalDataCobolType() {
         LinkedHashMap < String, CobolType > children = new LinkedHashMap < String, CobolType >();
-        children.put("customerName", new CobolStringType.Builder().charNum(20)
+        children.put("customerName", new CobolStringType.Builder <String>(String.class)
+                .charNum(20)
                 .build());
         children.put("customerAddress",
-                new CobolStringType.Builder().charNum(20).build());
-        children.put("customerPhone", new CobolStringType.Builder().charNum(8)
+                new CobolStringType.Builder <String>(String.class)
+                .charNum(20)
+                .build());
+        children.put("customerPhone", new CobolStringType.Builder <String>(String.class)
+                .charNum(8)
                 .build());
         return new CobolComplexType("PersonalData", children);
     }
@@ -59,14 +63,14 @@ public class CustdatFactory {
                 new CobolPackedDecimalType.Builder < BigDecimal >(
                         BigDecimal.class).signed(true).totalDigits(15)
                         .fractionDigits(2).build());
-        children.put("transactionComment", new CobolStringType.Builder()
+        children.put("transactionComment", new CobolStringType.Builder <String>(String.class)
                 .charNum(9).build());
         return new CobolComplexType("Transaction", children);
     }
 
     public static CobolChoiceType createTransactionDateChoice() {
         LinkedHashMap < String, CobolType > alternatives = new LinkedHashMap < String, CobolType >();
-        alternatives.put("transactionDate", new CobolStringType.Builder()
+        alternatives.put("transactionDate", new CobolStringType.Builder <String>(String.class)
                 .charNum(8).build());
         alternatives.put("filler1", createFiller12CobolType());
         return new CobolChoiceType("TransactionDateChoice", alternatives);
@@ -74,16 +78,22 @@ public class CustdatFactory {
 
     private static CobolComplexType createFiller12CobolType() {
         LinkedHashMap < String, CobolType > children = new LinkedHashMap < String, CobolType >();
-        children.put("transactionDay", new CobolStringType.Builder().charNum(2)
+        children.put("transactionDay", new CobolStringType.Builder <String>(String.class)
+                .charNum(2)
                 .build());
-        children.put("filler2", new CobolStringType.Builder().charNum(1)
+        children.put("filler2", new CobolStringType.Builder <String>(String.class)
+                .charNum(1)
                 .build());
         children.put("transactionMonth",
-                new CobolStringType.Builder().charNum(2).build());
-        children.put("filler3", new CobolStringType.Builder().charNum(1)
+                new CobolStringType.Builder <String>(String.class)
+                .charNum(2).
+                build());
+        children.put("filler3", new CobolStringType.Builder <String>(String.class)
+                .charNum(1)
                 .build());
-        children.put("transactionYear", new CobolStringType.Builder()
-                .charNum(2).build());
+        children.put("transactionYear", new CobolStringType.Builder <String>(String.class)
+                .charNum(2)
+                .build());
         return new CobolComplexType("Filler12", children);
     }
 }

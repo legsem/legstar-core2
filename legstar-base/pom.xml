@@ -22,7 +22,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
                 <!--  Activate yourkit for tests -->
-                <argLine>-agentlib:yjpagent=tracing</argLine>
                 <!--  <argLine>-agentlib:yjpagent=tracing,alloceach=10</argLine> -->
             </configuration>
         </plugin>

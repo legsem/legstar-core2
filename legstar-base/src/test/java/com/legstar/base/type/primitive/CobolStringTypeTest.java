@@ -23,14 +23,14 @@ public class CobolStringTypeTest {
     @Test
     public void testConstructor() {
         try {
-            new CobolStringType.Builder().charNum(-1).build();
+            new CobolStringType.Builder <String>(String.class).charNum(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Characters number -1 cannot be negative",
                     e.getMessage());
         }
         try {
-            new CobolStringType.Builder().charNum(Integer.MAX_VALUE).build();
+            new CobolStringType.Builder <String>(String.class).charNum(Integer.MAX_VALUE).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals(
@@ -116,12 +116,12 @@ public class CobolStringTypeTest {
     }
 
    private boolean isValid(int charNum, String hexHostData) {
-        return new CobolStringType.Builder().charNum(charNum).build().isValid(cobolContext,
+        return new CobolStringType.Builder <String>(String.class).charNum(charNum).build().isValid(cobolContext,
                 HexUtils.decodeHex(hexHostData), 0);
     }
 
     private String getValue(int charNum, String hexHostData) {
-        return new CobolStringType.Builder().charNum(charNum).build().fromHost(cobolContext,
+        return new CobolStringType.Builder <String>(String.class).charNum(charNum).build().fromHost(cobolContext,
                 HexUtils.decodeHex(hexHostData), 0).getValue();
 
     }

@@ -18,23 +18,23 @@ public class Ardo01RecordFactory {
         final String complexTypeName = "Ardo01Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolZonedDecimalType < java.lang.Long > comNumber =
-                new CobolZonedDecimalType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolZonedDecimalType < Long > comNumber =
+                new CobolZonedDecimalType.Builder < Long >(Long.class)
                         .totalDigits(6)
                         .build();
         fields.put("comNumber", comNumber);
 
-        CobolStringType comName =
-                new CobolStringType.Builder()
+        CobolStringType < String > comName =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(20)
                         .build();
         fields.put("comName", comName);
 
-        CobolBinaryType < java.lang.Integer > comNbr =
-                new CobolBinaryType.Builder < java.lang.Integer >(java.lang.Integer.class)
+        CobolBinaryType < Integer > comNbr =
+                new CobolBinaryType.Builder < Integer >(Integer.class)
                         .totalDigits(4)
-                        .minInclusive(java.lang.Integer.valueOf("0"))
-                        .maxInclusive(java.lang.Integer.valueOf("5"))
+                        .minInclusive(Integer.valueOf("0"))
+                        .maxInclusive(Integer.valueOf("5"))
                         .odoObject(true)
                         .build();
         fields.put("comNbr", comNbr);

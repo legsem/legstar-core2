@@ -9,12 +9,17 @@ import com.legstar.base.visitor.CobolVisitor;
 /**
  * A primitive COBOL type.
  * <p/>
- * Because primitive type tends to have lots of optional properties they are
+ * Because primitive types tend to have lots of optional properties they are
  * created using Builders.
  * 
  * @param <T> the underlying java type
  */
 public abstract class CobolPrimitiveType<T> extends CobolType {
+
+    /**
+     * The target java type.
+     */
+    private final Class < T > javaClass;
 
     /**
      * This type's value gives the runtime size of a variable size array.
@@ -36,7 +41,21 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
      */
-    public abstract boolean isValid(CobolContext cobolContext, byte[] hostData, int start);
+    public boolean isValid(CobolContext cobolContext, byte[] hostData, int start) {
+        return isValid(javaClass, cobolContext, hostData, start);
+    }
+
+    /**
+     * Check if a byte array contains valid mainframe data for this type
+     * characteristics.
+     * 
+     * @param javaClass target java type
+     * @param cobolContext host COBOL configuration parameters
+     * @param hostData the byte array containing mainframe data
+     * @param start the start position for the expected type in the byte array
+     * @return true if the byte array contains a valid type
+     */
+    public abstract boolean isValid(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start);
 
     /**
      * Convert mainframe data into a Java object.
@@ -47,7 +66,22 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
      * @return the mainframe value as a java object
      * @throws FromHostException if conversion fails
      */
-    public abstract FromHostResult < T > fromHost(CobolContext cobolContext, byte[] hostData, int start)
+    public FromHostResult < T > fromHost(CobolContext cobolContext, byte[] hostData, int start)
+            throws FromHostException {
+        return fromHost(javaClass, cobolContext, hostData, start);
+    }
+
+    /**
+     * Convert mainframe data into a Java object.
+     * 
+     * @param javaClass target java type
+     * @param cobolContext host COBOL configuration parameters
+     * @param hostData the byte array containing mainframe data
+     * @param start the start position for the expected type in the byte array
+     * @return the mainframe value as a java object
+     * @throws FromHostException if conversion fails
+     */
+    public abstract FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start)
             throws FromHostException;
 
     /**
@@ -63,6 +97,10 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
         visitor.visit(this);
     }
 
+    public Class < T > getJavaClass() {
+        return javaClass;
+    }
+
     public boolean isOdoObject() {
         return odoObject;
     }
@@ -76,9 +114,16 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     // -----------------------------------------------------------------------------
     public abstract static class Builder<T, B extends Builder < T, B >> {
 
+        // Required
+        protected final Class < T > javaClass;
+
         // Optional
-        private boolean odoObject = false;
-        private boolean customVariable = false;
+        protected boolean odoObject = false;
+        protected boolean customVariable = false;
+
+        public Builder(Class < T > javaClass) {
+            this.javaClass = javaClass;
+        }
 
         public B odoObject(boolean value) {
             odoObject = value;
@@ -98,6 +143,7 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     // Constructor
     // -----------------------------------------------------------------------------
     public CobolPrimitiveType(Builder < T, ? > builder) {
+        javaClass = builder.javaClass;
         odoObject = builder.odoObject;
         customVariable = builder.customVariable;
 

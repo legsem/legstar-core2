@@ -72,7 +72,7 @@ public class Xsd2ConverterGeneratorTest extends AbstractTest {
         Xsd2ConverterGenerator gen = new Xsd2ConverterGenerator();
         Map <String, String> code = gen.generate(xsdFile, LEGSTAR_XSD_FILE_ENCODING, "test.example");
         assertEquals(1, code.size());
-        return code.get(recordName + "Factory");
+        return code.get(recordName + Xsd2ConverterGenerator.JAVA_CLASS_NAME_SUFFIX);
     }
 
 }

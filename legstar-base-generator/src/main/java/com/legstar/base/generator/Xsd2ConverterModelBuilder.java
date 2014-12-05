@@ -37,8 +37,8 @@ import com.legstar.cobol.model.CobolTypes;
  * Build a model using a COBOL-annotated XML schema such as the ones produced by
  * legstar-cob2xsd.
  * <p/>
- * The model is organized as a set of hierarchical properties which are easy to use
- * by a template engine.
+ * The model is organized as a set of hierarchical properties which are easy to
+ * use by a template engine.
  * 
  */
 public class Xsd2ConverterModelBuilder {
@@ -92,7 +92,7 @@ public class Xsd2ConverterModelBuilder {
         log.debug("visit XML Schema ended");
         return rootComplexTypes;
     }
-    
+
     /**
      * Gathers all composite types for a given root element in the schema.
      * <p/>
@@ -135,15 +135,19 @@ public class Xsd2ConverterModelBuilder {
         Map < String, Object > fields = new LinkedHashMap < String, Object >();
         XmlSchemaParticle particle = xsdComplexType.getParticle();
         if (particle instanceof XmlSchemaSequence) {
+            int fieldIndex = 0;
             XmlSchemaSequence sequence = (XmlSchemaSequence) particle;
             for (XmlSchemaSequenceMember member : sequence.getItems()) {
-                addField(member, fields, compositeTypes);
+                addField(fieldIndex, member, fields, compositeTypes);
+                fieldIndex++;
             }
 
         } else if (particle instanceof XmlSchemaAll) {
+            int fieldIndex = 0;
             XmlSchemaAll all = (XmlSchemaAll) particle;
             for (XmlSchemaAllMember member : all.getItems()) {
-                addField(member, fields, compositeTypes);
+                addField(fieldIndex, member, fields, compositeTypes);
+                fieldIndex++;
             }
 
         } else {
@@ -168,9 +172,11 @@ public class Xsd2ConverterModelBuilder {
     private void visit(XmlSchemaChoice xsdChoice,
             CompositeTypes compositeTypes, String complexTypeName) {
         Map < String, Object > alternatives = new LinkedHashMap < String, Object >();
+        int fieldIndex = 0;
         for (XmlSchemaChoiceMember alternative : xsdChoice.getItems()) {
             if (alternative instanceof XmlSchemaElement) {
-                addField(alternative, alternatives, compositeTypes);
+                addField(fieldIndex, alternative, alternatives, compositeTypes);
+                fieldIndex++;
             }
         }
         compositeTypes.choiceTypes.put(complexTypeName, alternatives);
@@ -180,19 +186,22 @@ public class Xsd2ConverterModelBuilder {
     /**
      * Add a field with associated properties to a complex type.
      * 
+     * @param index the order of the field in the parent complex type
+     * @param xsdSchemaObject the potential field
      * @param xsdSchemaObject the potential field
      * @param fields the parent complex type's fields collection
      * @param compositeTypes the lists of composite types being populated
      */
-    private void addField(XmlSchemaObjectBase xsdSchemaObject,
+    private void addField(int fieldIndex, XmlSchemaObjectBase xsdSchemaObject,
             Map < String, Object > fields, CompositeTypes compositeTypes) {
         if (xsdSchemaObject instanceof XmlSchemaElement) {
             XmlSchemaElement xsdElement = (XmlSchemaElement) xsdSchemaObject;
             fields.put(getFieldName(xsdElement),
-                    getProps(xsdElement, compositeTypes));
+                    getProps(fieldIndex, xsdElement, compositeTypes));
         } else if (xsdSchemaObject instanceof XmlSchemaChoice) {
             XmlSchemaChoice xsdChoice = (XmlSchemaChoice) xsdSchemaObject;
-            fields.put(getFieldName(xsdChoice), getProps(xsdChoice, compositeTypes));
+            fields.put(getFieldName(xsdChoice),
+                    getProps(fieldIndex, xsdChoice, compositeTypes));
         }
         // TODO Add Groups
     }
@@ -202,24 +211,25 @@ public class Xsd2ConverterModelBuilder {
      * <p/>
      * Use the opportunity to visit each of the choice's alternatives.
      * 
+     * @param fieldIndex the order of the choice in the parent complex type
      * @param xsdChoice the choice element
      * @param compositeTypes the lists of composite types being populated
      * @return the choice's properties
      */
-    private Map < String, Object > getProps(XmlSchemaChoice xsdChoice,
-            CompositeTypes compositeTypes) {
+    private Map < String, Object > getProps(int fieldIndex,
+            XmlSchemaChoice xsdChoice, CompositeTypes compositeTypes) {
 
         String complexTypeName = getComplexTypeName(xsdChoice);
         visit(xsdChoice, compositeTypes, complexTypeName);
 
         Map < String, Object > props = new HashMap < String, Object >();
+        props.put("fieldIndex", fieldIndex);
         props.put("choiceType", true);
         props.put("complexTypeName", complexTypeName);
 
         return props;
 
     }
-    
 
     /**
      * Retrieve the properties of a complex type.
@@ -231,8 +241,7 @@ public class Xsd2ConverterModelBuilder {
      * @return the complex type properties
      */
     private Map < String, Object > getProps(
-            XmlSchemaComplexType xsdComplexType,
-            CompositeTypes compositeTypes) {
+            XmlSchemaComplexType xsdComplexType, CompositeTypes compositeTypes) {
 
         String complexTypeName = getComplexTypeName(xsdComplexType);
         visit(xsdComplexType, compositeTypes, complexTypeName);
@@ -245,8 +254,8 @@ public class Xsd2ConverterModelBuilder {
 
     }
 
-    private Map < String, Object > getProps(XmlSchemaElement xsdElement,
-            CompositeTypes compositeTypes) {
+    private Map < String, Object > getProps(int fieldIndex,
+            XmlSchemaElement xsdElement, CompositeTypes compositeTypes) {
         Map < String, Object > props;
         CobolAnnotations cobolAnnotations = new CobolAnnotations(xsdElement);
 
@@ -263,16 +272,16 @@ public class Xsd2ConverterModelBuilder {
             }
 
         } else {
-            throw new Xsd2ConverterException(
-                    "Unsupported xsd element of type "
-                            + xsdElement.getSchemaType().getQName()
-                            + " at line " + xsdElement.getLineNumber());
+            throw new Xsd2ConverterException("Unsupported xsd element of type "
+                    + xsdElement.getSchemaType().getQName() + " at line "
+                    + xsdElement.getLineNumber());
         }
 
         if (xsdElement.getMaxOccurs() > 1) {
             addArrayProps(xsdElement, cobolAnnotations, props);
         }
 
+        props.put("fieldIndex", fieldIndex);
         return props;
 
     }
@@ -317,7 +326,7 @@ public class Xsd2ConverterModelBuilder {
                 "Choice without any alternative at line "
                         + xsdChoice.getLineNumber());
     }
-    
+
     /**
      * Choices are artificially associated with a complex type name.
      * 
@@ -398,15 +407,15 @@ public class Xsd2ConverterModelBuilder {
             }
 
         } else {
-            throw new Xsd2ConverterException(
-                    "Simple type without restriction "
-                            + xsdSimpleType.getQName());
+            throw new Xsd2ConverterException("Simple type without restriction "
+                    + xsdSimpleType.getQName());
         }
 
     }
 
     /**
      * Retrieve the properties of an alphanumeric type.
+     * 
      * @param facets the XSD facets
      * @return the properties of an alphanumeric type
      */
@@ -415,6 +424,7 @@ public class Xsd2ConverterModelBuilder {
         Map < String, Object > props = new HashMap < String, Object >();
         props.put("cobolTypeName", "CobolStringType");
         props.put("charNum", getMaxLength(facets));
+        props.put("javaTypeName", getShortTypeName(String.class));
         return props;
     }
 
@@ -465,13 +475,13 @@ public class Xsd2ConverterModelBuilder {
             props.put("maxInclusive", "");
             break;
         default:
-            throw new Xsd2ConverterException(
-                    "Unsupported COBOL numeric type " + cobolType);
+            throw new Xsd2ConverterException("Unsupported COBOL numeric type "
+                    + cobolType);
         }
         props.put("signed", cobolAnnotations.signed());
         props.put("totalDigits", cobolAnnotations.totalDigits());
         props.put("fractionDigits", cobolAnnotations.fractionDigits());
-        props.put("javaTypeName", clazz.getName());
+        props.put("javaTypeName", getShortTypeName(clazz));
 
         if (cobolAnnotations.odoObject()) {
             props.put("odoObject", true);
@@ -482,4 +492,20 @@ public class Xsd2ConverterModelBuilder {
 
     }
 
- }
+    /**
+     * For java.lang types, strips the package which is not needed in generated
+     * java classes.
+     * 
+     * @param javaType the proposed java class
+     * @return the java type name shortened if needed
+     */
+    private static String getShortTypeName(Class < ? > javaType) {
+        String javaTypeName = javaType.getName();
+        if (javaTypeName.startsWith("java.lang.")) {
+            return javaTypeName.substring("java.lang.".length());
+        } else {
+            return javaTypeName;
+        }
+    }
+
+}

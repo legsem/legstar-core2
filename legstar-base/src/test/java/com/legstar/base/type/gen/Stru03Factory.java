@@ -19,7 +19,8 @@ public class Stru03Factory {
                 new CobolZonedDecimalType.Builder < Integer >(Integer.class)
                         .signed(false).signLeading(false).signSeparate(false)
                         .totalDigits(6).fractionDigits(0).build());
-        children.put("comName", new CobolStringType.Builder().charNum(20)
+        children.put("comName", new CobolStringType.Builder <String>(String.class)
+                .charNum(20)
                 .build());
         children.put("comAmount",
                 new CobolPackedDecimalType.Builder < BigDecimal >(
@@ -39,7 +40,8 @@ public class Stru03Factory {
                         .totalDigits(4).fractionDigits(0)
                         .minInclusive(Short.valueOf("0"))
                         .maxInclusive(Short.valueOf("99")).build());
-        children.put("comItem2", new CobolStringType.Builder().charNum(2)
+        children.put("comItem2", new CobolStringType.Builder <String>(String.class)
+                .charNum(2)
                 .build());
         return new CobolComplexType("ComSubRecord", children);
 

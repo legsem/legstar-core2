@@ -1,16 +1,17 @@
 package com.legstar.base.type.primitive;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.FromHostException;
 import com.legstar.base.type.FromHostResult;
 
 /**
- * A PIC X known to contain readable characters.
+ * A PIC X.
  * 
  */
-public class CobolStringType extends CobolPrimitiveType < String > {
+public class CobolStringType<T> extends CobolPrimitiveType < T > {
 
     /**
      * @return maximum number of characters in a PIC X.
@@ -20,7 +21,8 @@ public class CobolStringType extends CobolPrimitiveType < String > {
     private final int charNum;
 
     /** {@inheritDoc} */
-    public boolean isValid(CobolContext cobolContext, byte[] hostData, int start) {
+    public boolean isValid(Class < T > javaClass, CobolContext cobolContext,
+            byte[] hostData, int start) {
 
         int bytesLen = getBytesLen();
 
@@ -31,7 +33,14 @@ public class CobolStringType extends CobolPrimitiveType < String > {
             return false;
         }
 
-        return isValidString(cobolContext, hostData, start);
+        if (javaClass.equals(String.class)) {
+            return isValidString(cobolContext, hostData, start);
+        } else if (javaClass.equals(ByteBuffer.class)) {
+            return true;
+        } else {
+            throw new IllegalArgumentException("Unsupported java type "
+                    + javaClass);
+        }
     }
 
     /**
@@ -59,7 +68,7 @@ public class CobolStringType extends CobolPrimitiveType < String > {
     }
 
     /** {@inheritDoc} */
-    public FromHostResult < String > fromHost(CobolContext cobolContext,
+    public FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) throws FromHostException {
 
         int bytesLen = getBytesLen();
@@ -70,6 +79,38 @@ public class CobolStringType extends CobolPrimitiveType < String > {
         if (hostData.length < start + bytesLen) {
             bytesLen = hostData.length - start;
         }
+        
+        return fromHostInternal(javaClass, cobolContext, hostData, start, bytesLen);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private <D> FromHostResult < D > fromHostInternal(Class < D > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start, int bytesLen) {
+        if (javaClass.equals(String.class)) {
+            return (FromHostResult < D >) fromHostString(cobolContext,
+                    hostData, start, bytesLen);
+        } else if (javaClass.equals(ByteBuffer.class)) {
+            return (FromHostResult < D >) fromHostBytes(cobolContext,
+                    hostData, start, bytesLen);
+        } else {
+            throw new IllegalArgumentException("Unsupported java type " + javaClass);
+        }
+
+    }
+
+    /**
+     * Convert host data to a java String.
+     * 
+     * @param cobolContext the COBOL config parameters
+     * @param hostData the host data
+     * @param start where to start in the host data
+     * @param bytesLen how many bytes from the host data to process
+     * @return the result of the conversion
+     * @throws FromHostException if conversion fails
+     */
+    private FromHostResult < String > fromHostString(CobolContext cobolContext,
+            byte[] hostData, int start, int bytesLen) throws FromHostException {
 
         // Trim trailing low-values and, optionally, trailing spaces
         int spaceCode = cobolContext.getHostSpaceCharCode();
@@ -121,6 +162,25 @@ public class CobolStringType extends CobolPrimitiveType < String > {
         return new FromHostResult < String >(bytesLen, result);
     }
 
+    /**
+     * Case where the host data must be preserved as is (no conversion)
+     * 
+     * @param cobolContext the COBOL context
+     * @param hostData the host data
+     * @param start where to start in the host data
+     * @param bytesLen how many bytes from the host data to process
+     * @return the result of the conversion
+     * @throws FromHostException if conversion fails
+     */
+    private FromHostResult < ByteBuffer > fromHostBytes(
+            CobolContext cobolContext, byte[] hostData, int start, int bytesLen)
+            throws FromHostException {
+
+        ByteBuffer result = ByteBuffer.allocate(bytesLen);
+        result.put(hostData, start, bytesLen);
+        return new FromHostResult < ByteBuffer >(bytesLen, result);
+    }
+
     public int getBytesLen() {
         return charNum;
     }
@@ -128,21 +188,25 @@ public class CobolStringType extends CobolPrimitiveType < String > {
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
-    public static class Builder extends
-            CobolPrimitiveType.Builder < String, Builder > {
+    public static class Builder<T> extends
+            CobolPrimitiveType.Builder < T, Builder < T > > {
 
         private int charNum;
 
-        public Builder charNum(int value) {
+        public Builder(Class < T > clazz) {
+            super(clazz);
+        }
+
+        public Builder < T > charNum(int value) {
             charNum = value;
             return this;
         }
 
-        public CobolStringType build() {
-            return new CobolStringType(this);
+        public CobolStringType < T > build() {
+            return new CobolStringType < T >(this);
         }
 
-        protected Builder self() {
+        protected Builder < T > self() {
             return this;
         }
 
@@ -151,7 +215,7 @@ public class CobolStringType extends CobolPrimitiveType < String > {
     // -----------------------------------------------------------------------------
     // Constructor
     // -----------------------------------------------------------------------------
-    private CobolStringType(Builder builder) {
+    private CobolStringType(Builder < T > builder) {
 
         super(builder);
 

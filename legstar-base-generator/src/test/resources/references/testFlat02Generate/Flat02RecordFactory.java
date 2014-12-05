@@ -18,14 +18,14 @@ public class Flat02RecordFactory {
         final String complexTypeName = "Flat02Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolZonedDecimalType < java.lang.Long > comNumber =
-                new CobolZonedDecimalType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolZonedDecimalType < Long > comNumber =
+                new CobolZonedDecimalType.Builder < Long >(Long.class)
                         .totalDigits(6)
                         .build();
         fields.put("comNumber", comNumber);
 
-        CobolStringType comName =
-                new CobolStringType.Builder()
+        CobolStringType < String > comName =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(20)
                         .build();
         fields.put("comName", comName);
@@ -37,8 +37,8 @@ public class Flat02RecordFactory {
                         .build();
         fields.put("comAmount", comAmount);
 
-        CobolBinaryType < java.lang.Short > comArray =
-                new CobolBinaryType.Builder < java.lang.Short >(java.lang.Short.class)
+        CobolBinaryType < Short > comArray =
+                new CobolBinaryType.Builder < Short >(Short.class)
                         .signed(true)
                         .totalDigits(4)
                         .build();

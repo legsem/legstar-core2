@@ -18,20 +18,20 @@ public class CustomerDataFactory {
         final String complexTypeName = "PersonalData";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType customerName =
-                new CobolStringType.Builder()
+        CobolStringType < String > customerName =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(20)
                         .build();
         fields.put("customerName", customerName);
 
-        CobolStringType customerAddress =
-                new CobolStringType.Builder()
+        CobolStringType < String > customerAddress =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(20)
                         .build();
         fields.put("customerAddress", customerAddress);
 
-        CobolStringType customerPhone =
-                new CobolStringType.Builder()
+        CobolStringType < String > customerPhone =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(8)
                         .build();
         fields.put("customerPhone", customerPhone);
@@ -45,32 +45,32 @@ public class CustomerDataFactory {
         final String complexTypeName = "Filler12";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType transactionDay =
-                new CobolStringType.Builder()
+        CobolStringType < String > transactionDay =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(2)
                         .build();
         fields.put("transactionDay", transactionDay);
 
-        CobolStringType filler14 =
-                new CobolStringType.Builder()
+        CobolStringType < String > filler14 =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(1)
                         .build();
         fields.put("filler14", filler14);
 
-        CobolStringType transactionMonth =
-                new CobolStringType.Builder()
+        CobolStringType < String > transactionMonth =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(2)
                         .build();
         fields.put("transactionMonth", transactionMonth);
 
-        CobolStringType filler16 =
-                new CobolStringType.Builder()
+        CobolStringType < String > filler16 =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(1)
                         .build();
         fields.put("filler16", filler16);
 
-        CobolStringType transactionYear =
-                new CobolStringType.Builder()
+        CobolStringType < String > transactionYear =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(2)
                         .build();
         fields.put("transactionYear", transactionYear);
@@ -94,8 +94,8 @@ public class CustomerDataFactory {
                         .build();
         fields.put("transactionAmount", transactionAmount);
 
-        CobolStringType transactionComment =
-                new CobolStringType.Builder()
+        CobolStringType < String > transactionComment =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(9)
                         .build();
         fields.put("transactionComment", transactionComment);
@@ -109,11 +109,11 @@ public class CustomerDataFactory {
         final String complexTypeName = "Transactions";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolBinaryType < java.lang.Long > transactionNbr =
-                new CobolBinaryType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolBinaryType < Long > transactionNbr =
+                new CobolBinaryType.Builder < Long >(Long.class)
                         .totalDigits(9)
-                        .minInclusive(java.lang.Long.valueOf("0"))
-                        .maxInclusive(java.lang.Long.valueOf("5"))
+                        .minInclusive(Long.valueOf("0"))
+                        .maxInclusive(Long.valueOf("5"))
                         .odoObject(true)
                         .build();
         fields.put("transactionNbr", transactionNbr);
@@ -129,8 +129,8 @@ public class CustomerDataFactory {
         final String complexTypeName = "CustomerData";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolZonedDecimalType < java.lang.Long > customerId =
-                new CobolZonedDecimalType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolZonedDecimalType < Long > customerId =
+                new CobolZonedDecimalType.Builder < Long >(Long.class)
                         .totalDigits(6)
                         .build();
         fields.put("customerId", customerId);
@@ -148,8 +148,8 @@ public class CustomerDataFactory {
         final String choiceTypeName = "TransactionDateChoice";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType transactionDate =
-                new CobolStringType.Builder()
+        CobolStringType < String > transactionDate =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(8)
                         .build();
         fields.put("transactionDate", transactionDate);

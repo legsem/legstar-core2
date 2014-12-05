@@ -17,7 +17,8 @@ public class Flat01Factory {
                 new CobolZonedDecimalType.Builder < Integer >(Integer.class)
                         .signed(false).signLeading(false).signSeparate(false)
                         .totalDigits(6).fractionDigits(0).build());
-        children.put("comName", new CobolStringType.Builder().charNum(20)
+        children.put("comName", new CobolStringType.Builder <String>(String.class)
+                .charNum(20)
                 .build());
         children.put("comAmount",
                 new CobolPackedDecimalType.Builder < BigDecimal >(

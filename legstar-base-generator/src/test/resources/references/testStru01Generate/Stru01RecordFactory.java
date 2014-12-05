@@ -18,15 +18,15 @@ public class Stru01RecordFactory {
         final String complexTypeName = "ComSubRecord";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolBinaryType < java.lang.Short > comItem1 =
-                new CobolBinaryType.Builder < java.lang.Short >(java.lang.Short.class)
+        CobolBinaryType < Short > comItem1 =
+                new CobolBinaryType.Builder < Short >(Short.class)
                         .signed(true)
                         .totalDigits(4)
                         .build();
         fields.put("comItem1", comItem1);
 
-        CobolStringType comItem2 =
-                new CobolStringType.Builder()
+        CobolStringType < String > comItem2 =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(2)
                         .build();
         fields.put("comItem2", comItem2);
@@ -40,14 +40,14 @@ public class Stru01RecordFactory {
         final String complexTypeName = "Stru01Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolZonedDecimalType < java.lang.Long > comNumber =
-                new CobolZonedDecimalType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolZonedDecimalType < Long > comNumber =
+                new CobolZonedDecimalType.Builder < Long >(Long.class)
                         .totalDigits(6)
                         .build();
         fields.put("comNumber", comNumber);
 
-        CobolStringType comName =
-                new CobolStringType.Builder()
+        CobolStringType < String > comName =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(20)
                         .build();
         fields.put("comName", comName);

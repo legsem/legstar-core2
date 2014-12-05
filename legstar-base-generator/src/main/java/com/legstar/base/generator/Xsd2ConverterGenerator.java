@@ -31,6 +31,8 @@ import com.github.jknack.handlebars.Template;
  */
 public class Xsd2ConverterGenerator {
 
+    public static final String JAVA_CLASS_NAME_SUFFIX = "Factory";
+
     public static final String JAVA_CLASS_TEMPLATE_NAME = "java.class.hbs";
 
     /** Handlebars template for a java class. */
@@ -113,21 +115,21 @@ public class Xsd2ConverterGenerator {
      * code) used to convert mainframe data at runtime.
      * 
      * @param xmlSchema the COBOL-annotated XML schema (see legstar-cob2xsd)
-     * @param packageName the java package the generated classes should reside
+     * @param targetPackageName the java package the generated classes should reside
      *            in
      * @return a map of java class names to their source code
      * @throws Xsd2ConverterException if generation fails
      */
     public Map < String, String > generate(XmlSchema xmlSchema,
-            String packageName) throws Xsd2ConverterException {
+            String targetPackageName) throws Xsd2ConverterException {
         try {
             Map < String, String > code = new HashMap < String, String >();
             for (Entry < String, Xsd2ConverterModelBuilder.CompositeTypes > entry : modelBuilder
                     .build(xmlSchema).entrySet()) {
-                String className = entry.getKey() + "Factory";
+                String className = entry.getKey() + JAVA_CLASS_NAME_SUFFIX;
                 Map < String, Object > model = new HashMap < String, Object >();
-                if (packageName != null && packageName.length() > 0) {
-                    model.put("package_name", packageName);
+                if (targetPackageName != null && targetPackageName.length() > 0) {
+                    model.put("target_package_name", targetPackageName);
                 }
                 model.put("class_name", className);
                 model.put("root_type_name", entry.getKey());

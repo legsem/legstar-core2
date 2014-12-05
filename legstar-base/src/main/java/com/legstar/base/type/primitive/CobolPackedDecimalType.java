@@ -14,8 +14,8 @@ public class CobolPackedDecimalType<T extends Number> extends
     public static final int MAX_TOTAL_DIGITS = 31;
 
     /** {@inheritDoc} */
-    protected boolean isValidInternal(CobolContext cobolContext,
-            Class < T > clazz, byte[] hostData, int start) {
+    protected boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext,
+            byte[] hostData, int start) {
 
         int length = start + getBytesLen();
 
@@ -51,8 +51,8 @@ public class CobolPackedDecimalType<T extends Number> extends
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(CobolContext cobolContext, Class < T > clazz,
-            byte[] hostData, int start) {
+    protected T fromHostInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
         int length = start + getBytesLen();
 
@@ -96,11 +96,11 @@ public class CobolPackedDecimalType<T extends Number> extends
         }
 
         try {
-            return valueOf(clazz, sb.toString());
+            return valueOf(javaClass, sb.toString());
         } catch (NumberFormatException e) {
             throw new FromHostException("Host " + getBytesLen()
                     + " bytes numeric converts to '" + sb.toString()
-                    + "' which is not a valid " + clazz.getName(), hostData,
+                    + "' which is not a valid " + javaClass.getName(), hostData,
                     start);
         }
     }

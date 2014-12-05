@@ -20,8 +20,8 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     private final int bufferLen;
 
     /** {@inheritDoc} */
-    protected boolean isValidInternal(CobolContext cobolContext,
-            Class < T > clazz, byte[] hostData, int start) {
+    protected boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext,
+            byte[] hostData, int start) {
         // Unsigned numeric must have sign bit turned off
         if (!isSigned() && isNegative(hostData[start])) {
             return false;
@@ -31,10 +31,10 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(CobolContext cobolContext, Class < T > clazz,
-            byte[] hostData, int start) {
-        ByteBuffer bb = getByteBuffer(clazz, hostData, start);
-        return valueOf(clazz, bb, getFractionDigits());
+    protected T fromHostInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
+        ByteBuffer bb = getByteBuffer(javaClass, hostData, start);
+        return valueOf(javaClass, bb, getFractionDigits());
     }
 
     /**
@@ -151,11 +151,11 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
 
         // Determine the byte buffer length needed to hold the 2's complement
         // value for this java type
-        if (getClazz().equals(Short.class)) {
+        if (builder.javaClass.equals(Short.class)) {
             bufferLen = 2;
-        } else if (getClazz().equals(Integer.class)) {
+        } else if (builder.javaClass.equals(Integer.class)) {
             bufferLen = 4;
-        } else if (getClazz().equals(Long.class)) {
+        } else if (builder.javaClass.equals(Long.class)) {
             bufferLen = 8;
         } else {
             bufferLen = 8 + (isSigned() ? 0 : 1);

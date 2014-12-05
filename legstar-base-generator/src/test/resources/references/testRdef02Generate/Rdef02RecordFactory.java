@@ -20,8 +20,8 @@ public class Rdef02RecordFactory {
 
         fields.put("rdef02Item1Choice", createRdef02Item1Choice());
 
-        CobolBinaryType < java.lang.Integer > comSelect =
-                new CobolBinaryType.Builder < java.lang.Integer >(java.lang.Integer.class)
+        CobolBinaryType < Integer > comSelect =
+                new CobolBinaryType.Builder < Integer >(Integer.class)
                         .totalDigits(4)
                         .build();
         fields.put("comSelect", comSelect);
@@ -35,8 +35,8 @@ public class Rdef02RecordFactory {
         final String complexTypeName = "ComDetail1";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType comName =
-                new CobolStringType.Builder()
+        CobolStringType < String > comName =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(10)
                         .build();
         fields.put("comName", comName);
@@ -57,8 +57,8 @@ public class Rdef02RecordFactory {
                         .build();
         fields.put("comAmount", comAmount);
 
-        CobolStringType filler13 =
-                new CobolStringType.Builder()
+        CobolStringType < String > filler13 =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(6)
                         .build();
         fields.put("filler13", filler13);
@@ -92,15 +92,15 @@ public class Rdef02RecordFactory {
         final String choiceTypeName = "Rdef02Item1Choice";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolPackedDecimalType < java.lang.Long > rdef02Item1 =
-                new CobolPackedDecimalType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolPackedDecimalType < Long > rdef02Item1 =
+                new CobolPackedDecimalType.Builder < Long >(Long.class)
                         .signed(true)
                         .totalDigits(10)
                         .build();
         fields.put("rdef02Item1", rdef02Item1);
 
-        CobolStringType rdef02Item2 =
-                new CobolStringType.Builder()
+        CobolStringType < String > rdef02Item2 =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(6)
                         .build();
         fields.put("rdef02Item2", rdef02Item2);

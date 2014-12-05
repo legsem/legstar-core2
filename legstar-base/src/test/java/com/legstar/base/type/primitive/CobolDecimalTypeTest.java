@@ -154,12 +154,12 @@ public class CobolDecimalTypeTest {
             bytesLen = builder.bytesLen;
         }
 
-        protected boolean isValidInternal(CobolContext cobolContext, Class < BigDecimal > clazz,
+        protected boolean isValidInternal(Class <BigDecimal> javaClass, CobolContext cobolContext,
                 byte[] hostData, int start) {
             return valid;
         }
 
-        protected BigDecimal fromHostInternal(CobolContext cobolContext, Class < BigDecimal > clazz,
+        protected BigDecimal fromHostInternal(Class <BigDecimal> javaClass, CobolContext cobolContext,
                 byte[] hostData, int start) throws FromHostException {
             return fromHost;
         }

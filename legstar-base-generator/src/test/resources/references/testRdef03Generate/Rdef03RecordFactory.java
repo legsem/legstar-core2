@@ -18,8 +18,8 @@ public class Rdef03RecordFactory {
         final String complexTypeName = "ComDetail1";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType comName =
-                new CobolStringType.Builder()
+        CobolStringType < String > comName =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(10)
                         .build();
         fields.put("comName", comName);
@@ -49,8 +49,8 @@ public class Rdef03RecordFactory {
         final String complexTypeName = "ComDetail3";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolZonedDecimalType < java.lang.Long > comNumber =
-                new CobolZonedDecimalType.Builder < java.lang.Long >(java.lang.Long.class)
+        CobolZonedDecimalType < Long > comNumber =
+                new CobolZonedDecimalType.Builder < Long >(Long.class)
                         .totalDigits(5)
                         .build();
         fields.put("comNumber", comNumber);
@@ -64,8 +64,8 @@ public class Rdef03RecordFactory {
         final String complexTypeName = "Rdef03Record";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolBinaryType < java.lang.Integer > comSelect =
-                new CobolBinaryType.Builder < java.lang.Integer >(java.lang.Integer.class)
+        CobolBinaryType < Integer > comSelect =
+                new CobolBinaryType.Builder < Integer >(Integer.class)
                         .totalDigits(4)
                         .build();
         fields.put("comSelect", comSelect);

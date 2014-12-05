@@ -30,7 +30,8 @@ public class Rdef01Factory {
 
     public static CobolComplexType createComDetail1() {
         LinkedHashMap < String, CobolType > children = new LinkedHashMap < String, CobolType >();
-        children.put("comName", new CobolStringType.Builder().charNum(10)
+        children.put("comName", new CobolStringType.Builder <String>(String.class)
+                .charNum(10)
                 .build());
         return new CobolComplexType("ComDetail1", children);
     }
