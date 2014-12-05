@@ -167,10 +167,10 @@ public class Xsd2ConverterModelBuilder {
      * 
      * @param xsdChoice the XML schema choice
      * @param compositeTypes the lists of composite types being populated
-     * @param complexTypeName the name to use for this complex type
+     * @param choiceTypeName the name to use for this choice type
      */
     private void visit(XmlSchemaChoice xsdChoice,
-            CompositeTypes compositeTypes, String complexTypeName) {
+            CompositeTypes compositeTypes, String choiceTypeName) {
         Map < String, Object > alternatives = new LinkedHashMap < String, Object >();
         int fieldIndex = 0;
         for (XmlSchemaChoiceMember alternative : xsdChoice.getItems()) {
@@ -179,7 +179,7 @@ public class Xsd2ConverterModelBuilder {
                 fieldIndex++;
             }
         }
-        compositeTypes.choiceTypes.put(complexTypeName, alternatives);
+        compositeTypes.choiceTypes.put(choiceTypeName, alternatives);
 
     }
 
@@ -219,13 +219,14 @@ public class Xsd2ConverterModelBuilder {
     private Map < String, Object > getProps(int fieldIndex,
             XmlSchemaChoice xsdChoice, CompositeTypes compositeTypes) {
 
-        String complexTypeName = getComplexTypeName(xsdChoice);
-        visit(xsdChoice, compositeTypes, complexTypeName);
+        String choiceTypeName = getComplexTypeName(xsdChoice);
+        visit(xsdChoice, compositeTypes, choiceTypeName);
 
         Map < String, Object > props = new HashMap < String, Object >();
         props.put("fieldIndex", fieldIndex);
         props.put("choiceType", true);
-        props.put("complexTypeName", complexTypeName);
+        props.put("choiceTypeName", choiceTypeName);
+        props.put("alternatives", compositeTypes.choiceTypes.get(choiceTypeName));
 
         return props;
 

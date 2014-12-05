@@ -6,40 +6,36 @@ import com.legstar.base.visitor.InvalidComplexTypeName;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
-@SuppressWarnings("unchecked")
 public class Flat02RecordJaxbFactory implements JaxbWrapperFactory {
 
     public JaxbWrapper<?> create(CobolComplexType type) {
         if ("Flat02Record".equals(type.getName())) {
-            return new Flat02RecordWrapper();
-        } else {
-            throw new InvalidComplexTypeName(type.getName());
+            return new Flat02RecordJaxb();
         }
+        throw new InvalidComplexTypeName(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
         if ("Flat02Record".equals(type.getName())) {
-            return new Flat02RecordWrapper((legstar.test.jaxb.flat02.Flat02Record) jaxb);
-        } else {
-            throw new InvalidComplexTypeName(type.getName());
+            return new Flat02RecordJaxb((legstar.test.jaxb.flat02.Flat02Record) jaxb);
         }
+        throw new InvalidComplexTypeName(type.getName());
     }
 
-    public class Flat02RecordWrapper extends JaxbWrapper<legstar.test.jaxb.flat02.Flat02Record> {
+    public class Flat02RecordJaxb extends JaxbWrapper<legstar.test.jaxb.flat02.Flat02Record> {
 
-        public Flat02RecordWrapper() {
+        public Flat02RecordJaxb() {
             this(new legstar.test.jaxb.flat02.Flat02Record());
         }
 
-        public Flat02RecordWrapper(legstar.test.jaxb.flat02.Flat02Record jaxb) {
+        public Flat02RecordJaxb(legstar.test.jaxb.flat02.Flat02Record jaxb) {
             super(jaxb);
         }
 
         public void set(int index, Object value) {
-
             switch (index) {
             case 0:
-                getJaxb().setComNumber(((Number) value).longValue());
+                getJaxb().setComNumber((Long) value);
                 break;
             case 1:
                 getJaxb().setComName((String) value);
@@ -53,13 +49,12 @@ public class Flat02RecordJaxbFactory implements JaxbWrapperFactory {
             default:
                 throw new InvalidComplexTypeFieldIndex("Flat02Record", index);
             }
-
         }
 
         public Object get(int index) {
             switch (index) {
             case 0:
-                return Long.valueOf(getJaxb().getComNumber());
+                return getJaxb().getComNumber();
             case 1:
                 return getJaxb().getComName();
             case 2:
@@ -70,6 +65,7 @@ public class Flat02RecordJaxbFactory implements JaxbWrapperFactory {
                 throw new InvalidComplexTypeFieldIndex("Flat02Record", index);
             }
         }
+
         @Override
         public String toString() {
             if (getJaxb() == null) {
@@ -90,7 +86,8 @@ public class Flat02RecordJaxbFactory implements JaxbWrapperFactory {
             builder.append(getJaxb().getComArray());
             builder.append("}");
             return builder.toString();
-        }   
+        }
 
     }
+
 }

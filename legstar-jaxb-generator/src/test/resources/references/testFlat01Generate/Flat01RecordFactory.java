@@ -1,4 +1,4 @@
-package com.legstar.jaxb.converter.gen;
+package test.example;
 
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
@@ -83,4 +83,3 @@ public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
     }
 
 }
-

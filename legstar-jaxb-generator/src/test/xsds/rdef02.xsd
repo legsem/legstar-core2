@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://jaxb.test.legstar/rdef02" elementFormDefault="qualified" targetNamespace="http://jaxb.test.legstar/rdef02">
+    <complexType name="Rdef02Record">
+        <sequence>
+            <element name="rdef02Key" type="tns:Rdef02Key">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="RDEF02-KEY" levelNumber="5" srceLine="2" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <choice>
+                <element name="comDetail1" type="tns:ComDetail1">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="COM-DETAIL1" isRedefined="true" levelNumber="5" srceLine="9" type="GROUP_ITEM" unmarshalChoiceStrategyClassName=""/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="comDetail2" type="tns:ComDetail2">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="COM-DETAIL2" levelNumber="5" redefines="COM-DETAIL1" srceLine="11" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+            <element name="comItem3">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM3" fractionDigits="2" levelNumber="5" picture="9(5)V99" signed="false" srceLine="14" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Rdef02Key">
+        <sequence>
+            <choice>
+                <element name="rdef02Item1">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="RDEF02-ITEM1" isRedefined="true" levelNumber="7" picture="S9(10)" signed="true" srceLine="3" totalDigits="10" type="PACKED_DECIMAL_ITEM" unmarshalChoiceStrategyClassName="" usage="PACKED-DECIMAL"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="long">
+                            <totalDigits value="10"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="rdef02Item2">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="RDEF02-ITEM2" levelNumber="7" picture="X(6)" redefines="RDEF02-ITEM1" srceLine="4" type="ALPHANUMERIC_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="string">
+                            <maxLength value="6"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+            <element name="comSelect">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-SELECT" levelNumber="7" picture="9(4)" signed="false" srceLine="6" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComDetail1">
+        <sequence>
+            <element name="comName">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-NAME" levelNumber="7" picture="X(10)" srceLine="10" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComDetail2">
+        <sequence>
+            <element name="comAmount">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-AMOUNT" fractionDigits="2" levelNumber="7" picture="9(5)V99" signed="false" srceLine="12" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="filler13">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="7" picture="X(6)" srceLine="13" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="6"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="rdef02Record" type="tns:Rdef02Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="RDEF02-RECORD" levelNumber="1" srceLine="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

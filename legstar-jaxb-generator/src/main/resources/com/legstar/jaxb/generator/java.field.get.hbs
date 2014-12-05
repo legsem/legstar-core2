@@ -1,0 +1,24 @@
+            case {{fieldIndex}}:
+{{~#if complexType}}
+{{~#if maxOccurs}}
+                java.util.List < {{capFirst @key}}Jaxb > {{@key}} = new java.util.ArrayList < {{capFirst @key}}Jaxb >();
+                for ({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{capFirst @key}} jaxbItem : getJaxb().get{{capFirst @key}}()) {
+                    {{@key}}.add(new {{capFirst @key}}Jaxb(jaxbItem));
+                }
+                return {{@key}};
+{{~else}}
+                return new {{capFirst @key}}Jaxb(getJaxb().get{{capFirst @key}}());
+{{~/if ~}}{{!-- maxOccurs --}}
+{{~else}}
+{{~#if choiceType}}
+{{~#each alternatives}}
+               {{#unless @first}} } else{{/unless}} if (getJaxb().get{{capFirst @key}}() != null) {
+                    return new {{capFirst @key}}Jaxb(getJaxb().get{{capFirst @key}}());
+{{~/each}}{{!-- this: fields in choice type --}}
+                } else {
+                    throw new NoAlternativeForChoiceType("{{choiceTypeName}}");
+                }
+{{~else}}
+                return getJaxb().get{{capFirst @key}}();
+{{~/if ~}}{{!-- choiceType --}}
+{{~/if ~}}{{!-- complexType --}}

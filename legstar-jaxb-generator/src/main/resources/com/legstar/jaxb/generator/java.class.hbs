@@ -1,0 +1,82 @@
+{{#if target_package_name}}package {{target_package_name}};{{/if}}
+
+import com.legstar.base.type.composite.CobolComplexType;
+{{~#each choice_types}}
+{{~#if @first}}
+import com.legstar.base.visitor.InvalidChoiceTypeAlternative;
+import com.legstar.base.visitor.NoAlternativeForChoiceType;
+{{~/if}}
+{{~/each}}{{!-- choice_types --}}
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
+import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.jaxb.converter.JaxbWrapper;
+import com.legstar.jaxb.converter.JaxbWrapperFactory;
+
+public class {{class_name}} implements JaxbWrapperFactory {
+
+    public JaxbWrapper<?> create(CobolComplexType type) {
+{{~#each complex_types}}
+        if ("{{@key}}".equals(type.getName())) {
+            return new {{@key}}Jaxb();
+        }
+{{~/each}}{{!-- complex_types --}}
+        throw new InvalidComplexTypeName(type.getName());
+    }
+
+    public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
+{{~#each complex_types}}
+        if ("{{@key}}".equals(type.getName())) {
+            return new {{@key}}Jaxb(({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}) jaxb);
+        }
+{{~/each}}{{!-- complex_types --}}
+        throw new InvalidComplexTypeName(type.getName());
+    }
+{{#each complex_types}}
+    public class {{@key}}Jaxb extends JaxbWrapper<{{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}> {
+
+        public {{@key}}Jaxb() {
+            this(new {{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}());
+        }
+
+        public {{@key}}Jaxb({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}} jaxb) {
+            super(jaxb);
+        }
+
+        public void set(int index, Object value) {
+            switch (index) {
+{{~#each this}}
+{{> com/legstar/jaxb/generator/java.field.set}}
+{{~/each}}{{!-- this: fields in complex type --}}
+            default:
+                throw new InvalidComplexTypeFieldIndex("{{@key}}", index);
+            }
+        }
+
+        public Object get(int index) {
+            switch (index) {
+{{~#each this}}
+{{> com/legstar/jaxb/generator/java.field.get}}
+{{~/each}}{{!-- this: fields in complex type --}}
+            default:
+                throw new InvalidComplexTypeFieldIndex("{{@key}}", index);
+            }
+        }
+
+        @Override
+        public String toString() {
+            if (getJaxb() == null) {
+                return "{}";
+            }
+            StringBuilder builder = new StringBuilder();
+            builder.append("{");
+{{~#each this}}
+{{> com/legstar/jaxb/generator/java.field.tostring}}
+{{~/each}}{{!-- this: fields in complex type --}}
+            builder.append("}");
+            return builder.toString();
+        }
+
+    }
+{{~/each}}{{!-- complex_types --}}
+
+}

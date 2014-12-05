@@ -1,4 +1,4 @@
-package com.legstar.jaxb.converter.gen;
+package test.example;
 
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
@@ -6,35 +6,35 @@ import com.legstar.base.visitor.InvalidComplexTypeName;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
-public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
+public class Stru01RecordJaxbFactory implements JaxbWrapperFactory {
 
     public JaxbWrapper<?> create(CobolComplexType type) {
-        if ("ComArray".equals(type.getName())) {
-            return new ComArrayJaxb();
+        if ("ComSubRecord".equals(type.getName())) {
+            return new ComSubRecordJaxb();
         }
-        if ("Stru03Record".equals(type.getName())) {
-            return new Stru03RecordJaxb();
+        if ("Stru01Record".equals(type.getName())) {
+            return new Stru01RecordJaxb();
         }
         throw new InvalidComplexTypeName(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
-        if ("ComArray".equals(type.getName())) {
-            return new ComArrayJaxb((legstar.test.jaxb.stru03.ComArray) jaxb);
+        if ("ComSubRecord".equals(type.getName())) {
+            return new ComSubRecordJaxb((legstar.test.jaxb.stru01.ComSubRecord) jaxb);
         }
-        if ("Stru03Record".equals(type.getName())) {
-            return new Stru03RecordJaxb((legstar.test.jaxb.stru03.Stru03Record) jaxb);
+        if ("Stru01Record".equals(type.getName())) {
+            return new Stru01RecordJaxb((legstar.test.jaxb.stru01.Stru01Record) jaxb);
         }
         throw new InvalidComplexTypeName(type.getName());
     }
 
-    public class ComArrayJaxb extends JaxbWrapper<legstar.test.jaxb.stru03.ComArray> {
+    public class ComSubRecordJaxb extends JaxbWrapper<legstar.test.jaxb.stru01.ComSubRecord> {
 
-        public ComArrayJaxb() {
-            this(new legstar.test.jaxb.stru03.ComArray());
+        public ComSubRecordJaxb() {
+            this(new legstar.test.jaxb.stru01.ComSubRecord());
         }
 
-        public ComArrayJaxb(legstar.test.jaxb.stru03.ComArray jaxb) {
+        public ComSubRecordJaxb(legstar.test.jaxb.stru01.ComSubRecord jaxb) {
             super(jaxb);
         }
 
@@ -47,7 +47,7 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
                 getJaxb().setComItem2((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComArray", index);
+                throw new InvalidComplexTypeFieldIndex("ComSubRecord", index);
             }
         }
 
@@ -58,7 +58,7 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
             case 1:
                 return getJaxb().getComItem2();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComArray", index);
+                throw new InvalidComplexTypeFieldIndex("ComSubRecord", index);
             }
         }
 
@@ -79,13 +79,13 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
         }
 
     }
-    public class Stru03RecordJaxb extends JaxbWrapper<legstar.test.jaxb.stru03.Stru03Record> {
+    public class Stru01RecordJaxb extends JaxbWrapper<legstar.test.jaxb.stru01.Stru01Record> {
 
-        public Stru03RecordJaxb() {
-            this(new legstar.test.jaxb.stru03.Stru03Record());
+        public Stru01RecordJaxb() {
+            this(new legstar.test.jaxb.stru01.Stru01Record());
         }
 
-        public Stru03RecordJaxb(legstar.test.jaxb.stru03.Stru03Record jaxb) {
+        public Stru01RecordJaxb(legstar.test.jaxb.stru01.Stru01Record jaxb) {
             super(jaxb);
         }
 
@@ -101,14 +101,10 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
             case 3:
-                java.util.List < legstar.test.jaxb.stru03.ComArray > comArray = new java.util.ArrayList < legstar.test.jaxb.stru03.ComArray >();
-                for (ComArrayJaxb wrapperItem : (java.util.List < ComArrayJaxb >) value) {
-                    comArray.add(wrapperItem.getJaxb());
-                }
-                getJaxb().getComArray().addAll(comArray);
+                getJaxb().setComSubRecord(((ComSubRecordJaxb) value).getJaxb());
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Stru03Record", index);
+                throw new InvalidComplexTypeFieldIndex("Stru01Record", index);
             }
         }
 
@@ -121,13 +117,9 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getComAmount();
             case 3:
-                java.util.List < ComArrayJaxb > comArray = new java.util.ArrayList < ComArrayJaxb >();
-                for (legstar.test.jaxb.stru03.ComArray jaxbItem : getJaxb().getComArray()) {
-                    comArray.add(new ComArrayJaxb(jaxbItem));
-                }
-                return comArray;
+                return new ComSubRecordJaxb(getJaxb().getComSubRecord());
             default:
-                throw new InvalidComplexTypeFieldIndex("Stru03Record", index);
+                throw new InvalidComplexTypeFieldIndex("Stru01Record", index);
             }
         }
 
@@ -147,12 +139,8 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
             builder.append("comAmount=");
             builder.append(getJaxb().getComAmount());
             builder.append(", ");
-            builder.append("comArray=");
-            java.util.List < ComArrayJaxb > comArray = new java.util.ArrayList < ComArrayJaxb >();
-            for (legstar.test.jaxb.stru03.ComArray jaxbItem : getJaxb().getComArray()) {
-                comArray.add(new ComArrayJaxb(jaxbItem));
-            }
-            builder.append(comArray);
+            builder.append("comSubRecord=");
+            builder.append(new ComSubRecordJaxb(getJaxb().getComSubRecord()));
             builder.append("}");
             return builder.toString();
         }

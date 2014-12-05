@@ -7,9 +7,9 @@
 {{~else}}
 {{~#if choiceType}}
 {{~#if maxOccurs}}
-        fields.put("{{@key}}", new CobolArrayType(create{{complexTypeName}}(), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+        fields.put("{{@key}}", new CobolArrayType(create{{choiceTypeName}}(), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
 {{~else}}
-        fields.put("{{@key}}", create{{complexTypeName}}());
+        fields.put("{{@key}}", create{{choiceTypeName}}());
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
         {{cobolTypeName}}{{#if javaTypeName}} < {{javaTypeName}} >{{/if}} {{@key}} =

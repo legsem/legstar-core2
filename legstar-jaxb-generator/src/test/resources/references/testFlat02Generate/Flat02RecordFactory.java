@@ -1,4 +1,4 @@
-package com.legstar.jaxb.converter.gen;
+package test.example;
 
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
@@ -6,29 +6,29 @@ import com.legstar.base.visitor.InvalidComplexTypeName;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
-public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
+public class Flat02RecordJaxbFactory implements JaxbWrapperFactory {
 
     public JaxbWrapper<?> create(CobolComplexType type) {
-        if ("Flat01Record".equals(type.getName())) {
-            return new Flat01RecordJaxb();
+        if ("Flat02Record".equals(type.getName())) {
+            return new Flat02RecordJaxb();
         }
         throw new InvalidComplexTypeName(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
-        if ("Flat01Record".equals(type.getName())) {
-            return new Flat01RecordJaxb((legstar.test.jaxb.flat01.Flat01Record) jaxb);
+        if ("Flat02Record".equals(type.getName())) {
+            return new Flat02RecordJaxb((legstar.test.jaxb.flat02.Flat02Record) jaxb);
         }
         throw new InvalidComplexTypeName(type.getName());
     }
 
-    public class Flat01RecordJaxb extends JaxbWrapper<legstar.test.jaxb.flat01.Flat01Record> {
+    public class Flat02RecordJaxb extends JaxbWrapper<legstar.test.jaxb.flat02.Flat02Record> {
 
-        public Flat01RecordJaxb() {
-            this(new legstar.test.jaxb.flat01.Flat01Record());
+        public Flat02RecordJaxb() {
+            this(new legstar.test.jaxb.flat02.Flat02Record());
         }
 
-        public Flat01RecordJaxb(legstar.test.jaxb.flat01.Flat01Record jaxb) {
+        public Flat02RecordJaxb(legstar.test.jaxb.flat02.Flat02Record jaxb) {
             super(jaxb);
         }
 
@@ -43,8 +43,11 @@ public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
             case 2:
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
+            case 3:
+                getJaxb().getComArray().addAll((java.util.List <Short>) value);
+                break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Flat01Record", index);
+                throw new InvalidComplexTypeFieldIndex("Flat02Record", index);
             }
         }
 
@@ -56,8 +59,10 @@ public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
                 return getJaxb().getComName();
             case 2:
                 return getJaxb().getComAmount();
+            case 3:
+                return getJaxb().getComArray();
             default:
-                throw new InvalidComplexTypeFieldIndex("Flat01Record", index);
+                throw new InvalidComplexTypeFieldIndex("Flat02Record", index);
             }
         }
 
@@ -76,6 +81,9 @@ public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
             builder.append(", ");
             builder.append("comAmount=");
             builder.append(getJaxb().getComAmount());
+            builder.append(", ");
+            builder.append("comArray=");
+            builder.append(getJaxb().getComArray());
             builder.append("}");
             return builder.toString();
         }
@@ -83,4 +91,3 @@ public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
     }
 
 }
-

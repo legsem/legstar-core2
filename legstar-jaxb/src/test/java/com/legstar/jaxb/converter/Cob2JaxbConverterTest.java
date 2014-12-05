@@ -92,7 +92,7 @@ public class Cob2JaxbConverterTest {
                 HexUtils.decodeHex("0000D5C1D4C5F0F0F0F0F0F500010250000F"),
                 0, new Rdef01RecordJaxbFactory());
         visitor.visit(type);
-        assertEquals("{comSelect=0, comDetail1={comName=NAME000005}, comDetail2={}}",
+        assertEquals("{comSelect=0, comDetail1Choice=comDetail1={comName=NAME000005}}",
                 visitor.getLastObject().toString());
         assertEquals(12, visitor.getLastPos());
 
@@ -100,7 +100,7 @@ public class Cob2JaxbConverterTest {
                 HexUtils.decodeHex("0000D5C1D4C5F0F0F0F0F0F500010250000F"),
                 12, new Rdef01RecordJaxbFactory());
         visitor.visit(type);
-        assertEquals("{comSelect=1, comDetail1={}, comDetail2={comAmount=2500.00}}",
+        assertEquals("{comSelect=1, comDetail1Choice=comDetail2={comAmount=2500.00}}",
                 visitor.getLastObject().toString());
         assertEquals(18, visitor.getLastPos());
     }
@@ -137,7 +137,7 @@ public class Cob2JaxbConverterTest {
                 }, Arrays.asList(new String[] {"comSelect"}));
         visitor.visit(Rdef01RecordFactory.create());
         assertEquals(
-                "{comSelect=1, comDetail1={}, comDetail2={comAmount=2500.00}}",
+                "{comSelect=1, comDetail1Choice=comDetail2={comAmount=2500.00}}",
                 visitor.getLastObject().toString());
         assertEquals(6, visitor.getLastPos());
 

@@ -93,6 +93,7 @@
       <module>legstar-base</module>
       <module>legstar-base-generator</module>
       <module>legstar-jaxb</module>
+      <module>legstar-jaxb-generator</module>
   </modules>
 
   <dependencyManagement>
@@ -133,6 +134,18 @@
           <groupId>org.apache.ws.xmlschema</groupId>
           <artifactId>xmlschema-core</artifactId>
           <version>2.2.0</version>
+      </dependency>
+
+      <!-- JAXB XJC utility -->
+      <dependency>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-core</artifactId>
+          <version>2.2.11</version>
+      </dependency>
+      <dependency>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-xjc</artifactId>
+          <version>2.2.11</version>
       </dependency>
 
       <!-- Handlebars Templating -->
