@@ -31,6 +31,12 @@ public class Cob2JaxbConverter extends FromCobolVisitor {
     /** Last java object produced by visiting an item. */
     private Object lastObject;
 
+    /**
+     * When a choice is encountered and an alternative is selected, this gives
+     * the index of the chosen alternative in its parent choice.
+     */
+    private int lastAlternativeIndex = -1;
+
     // -----------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------
@@ -96,7 +102,8 @@ public class Cob2JaxbConverter extends FromCobolVisitor {
 
         public boolean postVisit(String fieldName, int fieldIndex,
                 CobolType child) {
-            complexJaxbWrapper.set(fieldIndex, lastObject);
+            complexJaxbWrapper.set(fieldIndex, lastObject, lastAlternativeIndex);
+            lastAlternativeIndex = -1;
             return true;
         }
     }
@@ -121,6 +128,7 @@ public class Cob2JaxbConverter extends FromCobolVisitor {
 
         public void postVisit(String alternativeName, int alternativeIndex,
                 CobolType alternative) {
+            lastAlternativeIndex = alternativeIndex;
         }
 
     }

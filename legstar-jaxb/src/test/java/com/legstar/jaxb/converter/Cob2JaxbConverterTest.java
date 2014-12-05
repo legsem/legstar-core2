@@ -8,6 +8,7 @@ import java.util.Map;
 import legstar.test.converter.Flat01RecordFactory;
 import legstar.test.converter.Flat02RecordFactory;
 import legstar.test.converter.Rdef01RecordFactory;
+import legstar.test.converter.Rdef02RecordFactory;
 import legstar.test.converter.Stru01RecordFactory;
 import legstar.test.converter.Stru03RecordFactory;
 
@@ -25,6 +26,7 @@ import com.legstar.jaxb.converter.Cob2JaxbConverter;
 import com.legstar.jaxb.converter.gen.Flat01RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Flat02RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Rdef01RecordJaxbFactory;
+import com.legstar.jaxb.converter.gen.Rdef02RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Stru01RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Stru03RecordJaxbFactory;
 
@@ -142,4 +144,27 @@ public class Cob2JaxbConverterTest {
         assertEquals(6, visitor.getLastPos());
 
     }
+
+    @Test
+    public void testConvertRdef02DefaultStrategy() {
+        CobolComplexType type = Rdef02RecordFactory.create();
+        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+                HexUtils.decodeHex("C1C2C3D1D2D30000D5C1D4C5F0F0F0F0F0F50260000F"),
+                0, new Rdef02RecordJaxbFactory());
+        visitor.visit(type);
+        assertEquals("{rdef02Key={rdef02Item1Choice=rdef02Item2=ABCJKL, comSelect=0}, comDetail1Choice=comDetail1={comName=NAME000005}, comItem3=2600.00}",
+                visitor.getLastObject().toString());
+        assertEquals(22, visitor.getLastPos());
+
+        visitor = new Cob2JaxbConverter(cobolContext,
+                HexUtils.decodeHex("00001361588C0001D5C1D4C5F0F0F0F0F0F50261588F"),
+                0, new Rdef02RecordJaxbFactory());
+        visitor.visit(type);
+        assertEquals("{rdef02Key={rdef02Item1Choice=rdef02Item1=1361588, comSelect=1}, comDetail1Choice=comDetail1={comName=NAME000005}, comItem3=2615.88}",
+                visitor.getLastObject().toString());
+        assertEquals(22, visitor.getLastPos());
+    }
+
+
+
 }

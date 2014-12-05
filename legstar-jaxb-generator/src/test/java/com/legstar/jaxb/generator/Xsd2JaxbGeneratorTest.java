@@ -21,27 +21,32 @@ public class Xsd2JaxbGeneratorTest extends AbstractTest {
 
     @Test
     public void testFlat01Generate() throws Exception {
-        check(generate("flat01", "Flat01Record"), "Flat01RecordFactory.java");
+        check(generate("flat01", "Flat01Record"), "Flat01RecordJaxbFactory.java");
     }
 
     @Test
     public void testFlat02Generate() throws Exception {
-        check(generate("flat02", "Flat02Record"), "Flat02RecordFactory.java");
+        check(generate("flat02", "Flat02Record"), "Flat02RecordJaxbFactory.java");
     }
 
     @Test
     public void testStru01Generate() throws Exception {
-        check(generate("stru01", "Stru01Record"), "Stru01RecordFactory.java");
+        check(generate("stru01", "Stru01Record"), "Stru01RecordJaxbFactory.java");
     }
 
     @Test
     public void testStru03Generate() throws Exception {
-        check(generate("stru03", "Stru03Record"), "Stru03RecordFactory.java");
+        check(generate("stru03", "Stru03Record"), "Stru03RecordJaxbFactory.java");
     }
 
     @Test
     public void testRdef01Generate() throws Exception {
-        check(generate("rdef01", "Rdef01Record"), "Rdef01RecordFactory.java");
+        check(generate("rdef01", "Rdef01Record"), "Rdef01RecordJaxbFactory.java");
+    }
+
+    @Test
+    public void testRdef02Generate() throws Exception {
+        check(generate("rdef02", "Rdef02Record"), "Rdef02RecordJaxbFactory.java");
     }
 
     private String generate(String schemaName, String recordName)

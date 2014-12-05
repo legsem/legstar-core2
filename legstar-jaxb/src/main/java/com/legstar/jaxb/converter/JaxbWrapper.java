@@ -21,8 +21,12 @@ public abstract class JaxbWrapper<J> {
      * 
      * @param index the position of this field in its parent complex type
      * @param value the value to assign to that property
+     * @param alternativeIndex when value is part of a choice, this gives the
+     *            index of the corresponding alternative (the one that was
+     *            selected) in the choice. -1 if this valu is not part of a
+     *            choice.
      */
-    public abstract void set(int index, Object value);
+    public abstract void set(int index, Object value, int alternativeIndex);
 
     /**
      * Get the JAXB property value.

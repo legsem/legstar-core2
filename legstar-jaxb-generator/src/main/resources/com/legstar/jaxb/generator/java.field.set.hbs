@@ -11,12 +11,19 @@
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
 {{~#if choiceType}}
+                switch (alternativeIndex) {
 {{~#each alternatives}}
-               {{#unless @first}} } else{{/unless}} if (value instanceof {{capFirst @key}}Jaxb) {
+                case {{fieldIndex}}:
+{{~#if complexType}}
                     getJaxb().set{{capFirst @key}}((({{capFirst @key}}Jaxb) value).getJaxb());
+{{~else}}
+                    getJaxb().set{{capFirst @key}}(({{javaTypeName}}) value);
+{{~/if ~}}{{!-- complexType in choiceType--}}
+                    break;
 {{~/each}}{{!-- this: fields in choice type --}}
-                } else {
-                    throw new InvalidChoiceTypeAlternative("{{choiceTypeName}}", value.getClass());
+                default:
+                    throw new InvalidChoiceTypeAlternative("{{choiceTypeName}}",
+                            alternativeIndex);
                 }
 {{~else}}
 {{~#if maxOccurs}}

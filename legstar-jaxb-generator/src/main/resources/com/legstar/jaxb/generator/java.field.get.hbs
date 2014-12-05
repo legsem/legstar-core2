@@ -13,7 +13,11 @@
 {{~#if choiceType}}
 {{~#each alternatives}}
                {{#unless @first}} } else{{/unless}} if (getJaxb().get{{capFirst @key}}() != null) {
+{{~#if complexType}}
                     return new {{capFirst @key}}Jaxb(getJaxb().get{{capFirst @key}}());
+{{~else}}
+                    return getJaxb().get{{capFirst @key}}();
+{{~/if ~}}{{!-- complexType in choiceType--}}
 {{~/each}}{{!-- this: fields in choice type --}}
                 } else {
                     throw new NoAlternativeForChoiceType("{{choiceTypeName}}");

@@ -46,7 +46,7 @@ public class Rdef01RecordJaxbFactory implements JaxbWrapperFactory {
             super(jaxb);
         }
 
-        public void set(int index, Object value) {
+        public void set(int index, Object value, int alternativeIndex) {
             switch (index) {
             case 0:
                 getJaxb().setComName((String) value);
@@ -89,7 +89,7 @@ public class Rdef01RecordJaxbFactory implements JaxbWrapperFactory {
             super(jaxb);
         }
 
-        public void set(int index, Object value) {
+        public void set(int index, Object value, int alternativeIndex) {
             switch (index) {
             case 0:
                 getJaxb().setComAmount((java.math.BigDecimal) value);
@@ -132,18 +132,22 @@ public class Rdef01RecordJaxbFactory implements JaxbWrapperFactory {
             super(jaxb);
         }
 
-        public void set(int index, Object value) {
+        public void set(int index, Object value, int alternativeIndex) {
             switch (index) {
             case 0:
                 getJaxb().setComSelect((Integer) value);
                 break;
             case 1:
-                if (value instanceof ComDetail1Jaxb) {
+                switch (alternativeIndex) {
+                case 0:
                     getJaxb().setComDetail1(((ComDetail1Jaxb) value).getJaxb());
-                } else if (value instanceof ComDetail2Jaxb) {
+                    break;
+                case 1:
                     getJaxb().setComDetail2(((ComDetail2Jaxb) value).getJaxb());
-                } else {
-                    throw new InvalidChoiceTypeAlternative("ComDetail1Choice", value.getClass());
+                    break;
+                default:
+                    throw new InvalidChoiceTypeAlternative("ComDetail1Choice",
+                            alternativeIndex);
                 }
                 break;
             default:

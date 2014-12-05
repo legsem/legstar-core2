@@ -36,7 +36,7 @@ public class Flat01RecordJaxbFactory implements JaxbWrapperFactory {
             super(jaxb);
         }
 
-        public void set(int index, Object value) {
+        public void set(int index, Object value, int alternativeIndex) {
             switch (index) {
             case 0:
                 getJaxb().setComNumber((Long) value);

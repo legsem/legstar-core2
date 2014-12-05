@@ -15,7 +15,11 @@
 {{~#each alternatives}}
             if (getJaxb().get{{capFirst @key}}() != null) {
                 builder.append("{{@key}}=");
+{{~#if complexType}}
                 builder.append(new {{capFirst @key}}Jaxb(getJaxb().get{{capFirst @key}}()));
+{{~else}}
+                builder.append(getJaxb().get{{capFirst @key}}());
+{{~/if ~}}{{!-- complexType in choiceType--}}
             }
 {{~/each}}{{!-- this: fields in choice type --}}
 {{~else}}
