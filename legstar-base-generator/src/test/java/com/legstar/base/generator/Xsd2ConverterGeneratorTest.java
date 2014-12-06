@@ -67,6 +67,11 @@ public class Xsd2ConverterGeneratorTest extends AbstractTest {
         check(generate("custdat", "CustomerData"), "CustomerDataFactory.java");
     }
     
+    @Test
+    public void testStru04Generate() throws Exception {
+        check(generate("stru04", "Stru04Record"), "Stru04RecordFactory.java");
+    }
+    
     private String generate(String schemaName, String recordName) throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");
         Xsd2ConverterGenerator gen = new Xsd2ConverterGenerator();

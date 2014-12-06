@@ -18,6 +18,7 @@ import com.legstar.base.type.gen.Flat02RecordFactory;
 import com.legstar.base.type.gen.Rdef03RecordFactory;
 import com.legstar.base.type.gen.Stru01RecordFactory;
 import com.legstar.base.type.gen.Stru03RecordFactory;
+import com.legstar.base.type.gen.Stru04RecordFactory;
 import com.legstar.base.utils.HexUtils;
 import com.legstar.base.visitor.Rdef03ObjectFromHostChoiceStrategy;
 
@@ -254,6 +255,19 @@ public class Cob2ObjectConverterTest {
                 "{customerId=1, personalData={customerName=JOHN SMITH, customerAddress=CAMBRIDGE UNIVERSITY, customerPhone=44012565}, transactions={transactionNbr=2, transaction=[{transactionDateChoice={transactionDate=10/04/11}, transactionAmount=235.56, transactionComment=*********}, {transactionDateChoice={transactionDate=10/04/11}, transactionAmount=235.56, transactionComment=*********}]}}",
                 visitor.getLastObject().toString());
         assertEquals(108, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertStru04() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("0190000F00090006C2C5C5C2C4C40001900FC2C2C5C4C5C30000950F0003000000020013000CC2C4C2C1C5C40003800FC1C5C2C2C4C10001900F000600000005001C0013C1C5C2C5C1C30005700FC4C2C3C3C3C20002850F0009000000080023750F"),
+                0);
+        visitor.visit(Stru04RecordFactory.createStru04Record());
+        assertEquals(
+                "{comItem1=1900.00, comArray1=[{comItem2=9, comGroup1={comItem3=6, comArray2=[{comItem4=B, comArray3=[E, E, B, D, D], comItem5=19.00}, {comItem4=B, comArray3=[B, E, D, E, C], comItem5=9.50}], comItem6=3}, comItem7=2}, {comItem2=19, comGroup1={comItem3=12, comArray2=[{comItem4=B, comArray3=[D, B, A, E, D], comItem5=38.00}, {comItem4=A, comArray3=[E, B, B, D, A], comItem5=19.00}], comItem6=6}, comItem7=5}, {comItem2=28, comGroup1={comItem3=19, comArray2=[{comItem4=A, comArray3=[E, B, E, A, C], comItem5=57.00}, {comItem4=D, comArray3=[B, C, C, C, B], comItem5=28.50}], comItem6=9}, comItem7=8}], comItem8=237.50}",
+                visitor.getLastObject().toString());
+        assertEquals(98, visitor.getLastPos());
 
     }
 
