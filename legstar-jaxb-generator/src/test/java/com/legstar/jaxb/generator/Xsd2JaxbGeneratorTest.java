@@ -54,6 +54,16 @@ public class Xsd2JaxbGeneratorTest extends AbstractTest {
         check(generate("rdef03", "Rdef03Record"), "Rdef03RecordJaxbFactory.java");
     }
 
+    @Test
+    public void testArd01Generate() throws Exception {
+        check(generate("ardo01", "Ardo01Record"), "Ardo01RecordJaxbFactory.java");
+    }
+
+    @Test
+    public void testCustdatGenerate() throws Exception {
+        check(generate("custdat", "CustomerData"), "CustomerDataJaxbFactory.java");
+    }
+
     private String generate(String schemaName, String recordName)
             throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");

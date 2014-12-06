@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/stru04" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/stru04">
+    <complexType name="Stru04Record">
+        <sequence>
+            <element name="ComItem1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM1" fractionDigits="2" levelNumber="5" picture="9(5)V99" signed="false" srceLine="2" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="ComArray1" type="tns:ComArray1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ARRAY1" levelNumber="5" maxOccurs="3" minOccurs="3" srceLine="3" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="ComItem8">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM8" fractionDigits="2" levelNumber="5" picture="9(5)V99" signed="false" srceLine="13" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComArray1">
+        <sequence>
+            <element name="ComItem2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM2" levelNumber="10" picture="S9(4)" signed="true" srceLine="4" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComGroup1" type="tns:ComGroup1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-GROUP1" levelNumber="10" srceLine="5" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="ComItem7">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM7" levelNumber="10" picture="S9(8)" signed="true" srceLine="12" totalDigits="8" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="8"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComGroup1">
+        <sequence>
+            <element name="ComItem3">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM3" levelNumber="15" picture="S9(4)" signed="true" srceLine="6" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="ComArray2" type="tns:ComArray2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ARRAY2" levelNumber="15" maxOccurs="2" minOccurs="2" srceLine="7" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="ComItem6">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM6" levelNumber="15" picture="S9(4)" signed="true" srceLine="11" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComArray2">
+        <sequence>
+            <element name="ComItem4">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM4" levelNumber="20" picture="X" srceLine="8" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="5" minOccurs="5" name="ComArray3">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ARRAY3" levelNumber="20" maxOccurs="5" minOccurs="5" picture="X" srceLine="9" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="ComItem5">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM5" fractionDigits="2" levelNumber="20" picture="9(5)V99" signed="false" srceLine="10" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Stru04Record" type="tns:Stru04Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="STRU04-RECORD" levelNumber="1" srceLine="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

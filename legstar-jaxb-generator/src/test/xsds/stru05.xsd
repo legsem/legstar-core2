@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/stru05" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/stru05">
+    <complexType name="Stru05Record">
+        <sequence>
+            <element name="ComItemA" type="tns:ComItemA">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-A" levelNumber="5" srceLine="2" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element maxOccurs="3" minOccurs="3" name="ComItemC" type="tns:ComItemC">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-C" levelNumber="5" maxOccurs="3" minOccurs="3" srceLine="4" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="ComItemD" type="tns:ComItemD">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-D" levelNumber="5" srceLine="6" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComItemA">
+        <sequence>
+            <element name="ComItemB">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-B" fractionDigits="2" levelNumber="10" picture="9(5)V99" signed="false" srceLine="3" totalDigits="7" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="7"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComItemC">
+        <sequence>
+            <element name="ComItemB">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-B" levelNumber="10" picture="S9(4)" signed="true" srceLine="5" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComItemD">
+        <sequence>
+            <element name="ComItemE" type="tns:ComItemE">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-E" levelNumber="10" srceLine="7" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="ComItemE">
+        <sequence>
+            <element name="ComItemB">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="COM-ITEM-B" levelNumber="15" picture="X(4)" srceLine="8" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Stru05Record" type="tns:Stru05Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="STRU05-RECORD" levelNumber="1" srceLine="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>
