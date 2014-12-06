@@ -15,7 +15,7 @@ import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.converter.Cob2ObjectConverter;
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.type.gen.CustdatFactory;
+import com.legstar.base.type.gen.CustomerDataFactory;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 
 public class Cob2ObjectConverterLoadText {
@@ -35,12 +35,12 @@ public class Cob2ObjectConverterLoadText {
     public void testLoad() throws Exception {
 
         MaxBytesLenCobolVisitor macLenCalculator = new MaxBytesLenCobolVisitor();
-        macLenCalculator.visit(CustdatFactory
-                .createCustomerDataCobolType());
+        macLenCalculator.visit(CustomerDataFactory
+                .createCustomerData());
         byte[] record = new byte[macLenCalculator.getMaxBytesLen()];
 
-        CobolComplexType cobolType = CustdatFactory
-                .createCustomerDataCobolType();
+        CobolComplexType cobolType = CustomerDataFactory
+                .createCustomerData();
 
         FileInputStream is = new FileInputStream(new File(
                 "src/test/data/ZOS.FCUSTDAT.RDW.bin"));

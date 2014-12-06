@@ -132,7 +132,7 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     // Getters
     // -----------------------------------------------------------------------------
-    public Object getObject() {
+    public Object getLastObject() {
         return lastObject;
     }
 

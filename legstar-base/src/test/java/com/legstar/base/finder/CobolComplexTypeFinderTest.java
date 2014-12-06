@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.finder.CobolComplexTypeFinder;
-import com.legstar.base.type.gen.Flat01Factory;
+import com.legstar.base.type.gen.Flat01RecordFactory;
 import com.legstar.base.utils.HexUtils;
 
 public class CobolComplexTypeFinderTest {
@@ -22,7 +22,7 @@ public class CobolComplexTypeFinderTest {
 
     @Test
     public void testFindFlat01OneField() {
-        CobolComplexTypeFinder finder = new CobolComplexTypeFinder(cobolContext, Flat01Factory.create(), "comNumber");
+        CobolComplexTypeFinder finder = new CobolComplexTypeFinder(cobolContext, Flat01RecordFactory.create(), "comNumber");
         
         assertEquals(0, finder.indexOf(HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 30));
         assertEquals(1, finder.indexOf(HexUtils.decodeHex("ABF0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 31));
@@ -40,7 +40,7 @@ public class CobolComplexTypeFinderTest {
 
     @Test
     public void testFindFlat01TwoFields() {
-        CobolComplexTypeFinder finder = new CobolComplexTypeFinder(cobolContext, Flat01Factory.create(), "comName");
+        CobolComplexTypeFinder finder = new CobolComplexTypeFinder(cobolContext, Flat01RecordFactory.create(), "comName");
         
         assertEquals(0, finder.indexOf(HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 30));
         assertEquals(1, finder.indexOf(HexUtils.decodeHex("ABF0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 31));
@@ -58,7 +58,7 @@ public class CobolComplexTypeFinderTest {
 
     @Test
     public void testFindFlat01AllFields() {
-        CobolComplexTypeFinder finder = new CobolComplexTypeFinder(cobolContext, Flat01Factory.create(), null);
+        CobolComplexTypeFinder finder = new CobolComplexTypeFinder(cobolContext, Flat01RecordFactory.create(), null);
         
         assertEquals(0, finder.indexOf(HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 30));
         assertEquals(1, finder.indexOf(HexUtils.decodeHex("ABF0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 31));

@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.finder.RdwCobolComplexTypeFinder;
-import com.legstar.base.type.gen.Flat01Factory;
+import com.legstar.base.type.gen.Flat01RecordFactory;
 import com.legstar.base.utils.HexUtils;
 
 public class RdwCobolComplexTypeFinderTest {
@@ -22,7 +22,7 @@ public class RdwCobolComplexTypeFinderTest {
     
     @Test
     public void testFlat01() {
-        RdwCobolComplexTypeFinder finder = new RdwCobolComplexTypeFinder(cobolContext, Flat01Factory.create(), "comNumber");
+        RdwCobolComplexTypeFinder finder = new RdwCobolComplexTypeFinder(cobolContext, Flat01RecordFactory.create(), "comNumber");
         
         // No RDW
         assertEquals(-1, finder.indexOf(HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"), 0, 30));

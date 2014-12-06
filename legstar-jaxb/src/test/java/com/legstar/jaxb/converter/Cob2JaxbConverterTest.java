@@ -9,6 +9,7 @@ import legstar.test.converter.Flat01RecordFactory;
 import legstar.test.converter.Flat02RecordFactory;
 import legstar.test.converter.Rdef01RecordFactory;
 import legstar.test.converter.Rdef02RecordFactory;
+import legstar.test.converter.Rdef03RecordFactory;
 import legstar.test.converter.Stru01RecordFactory;
 import legstar.test.converter.Stru03RecordFactory;
 
@@ -27,6 +28,7 @@ import com.legstar.jaxb.converter.gen.Flat01RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Flat02RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Rdef01RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Rdef02RecordJaxbFactory;
+import com.legstar.jaxb.converter.gen.Rdef03RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Stru01RecordJaxbFactory;
 import com.legstar.jaxb.converter.gen.Stru03RecordJaxbFactory;
 
@@ -165,6 +167,19 @@ public class Cob2JaxbConverterTest {
         assertEquals(22, visitor.getLastPos());
     }
 
+
+    @Test
+    public void testConvertRdef03DefaultStrategyFirstAlternative() {
+        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+                HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
+                0, new Rdef03RecordJaxbFactory());
+        visitor.visit(Rdef03RecordFactory.createRdef03Record());
+        assertEquals(
+                "{comSelect=2, comDetail1Choice=comDetail1={comName=12345}}",
+                visitor.getLastObject().toString());
+        assertEquals(12, visitor.getLastPos());
+
+    }
 
 
 }
