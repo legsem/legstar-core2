@@ -44,7 +44,14 @@ public class Flat02RecordJaxbFactory implements JaxbWrapperFactory {
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
             case 3:
-                getJaxb().getComArray().addAll((java.util.List <Short>) value);
+                getJaxb().getComArray().clear();
+                if (value instanceof java.util.List) {
+                    for (Object item : (java.util.List<?>) value) {
+                        if (item instanceof Short){
+                            getJaxb().getComArray().add((Short) item);
+                        }
+                    }
+                }
                 break;
             default:
                 throw new InvalidComplexTypeFieldIndex("Flat02Record", index);

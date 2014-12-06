@@ -101,11 +101,14 @@ public class Stru03RecordJaxbFactory implements JaxbWrapperFactory {
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
             case 3:
-                java.util.List < legstar.test.jaxb.stru03.ComArray > comArray = new java.util.ArrayList < legstar.test.jaxb.stru03.ComArray >();
-                for (ComArrayJaxb wrapperItem : (java.util.List < ComArrayJaxb >) value) {
-                    comArray.add(wrapperItem.getJaxb());
+                getJaxb().getComArray().clear();
+                if (value instanceof java.util.List) {
+                    for (Object wrapperItem : (java.util.List<?>) value) {
+                        if (wrapperItem instanceof ComArrayJaxb){
+                            getJaxb().getComArray().add(((ComArrayJaxb) wrapperItem).getJaxb());
+                        }
+                    }
                 }
-                getJaxb().getComArray().addAll(comArray);
                 break;
             default:
                 throw new InvalidComplexTypeFieldIndex("Stru03Record", index);
