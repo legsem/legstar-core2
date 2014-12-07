@@ -2,6 +2,7 @@ package com.legstar.base.generator;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -382,6 +383,8 @@ public class Xsd2ConverterModelBuilder {
             List < XmlSchemaFacet > facets = restriction.getFacets();
             if (xsdTypeName.equals(Constants.XSD_STRING)) {
                 return getCobolAlphanumType(facets);
+            } else if (xsdTypeName.equals(Constants.XSD_HEXBIN)) {
+                return getCobolOctetStreamType(facets);
             } else if (xsdTypeName.equals(Constants.XSD_INT)) {
                 return getCobolDecimalType(cobolAnnotations, Integer.class);
             } else if (xsdTypeName.equals(Constants.XSD_LONG)) {
@@ -390,17 +393,17 @@ public class Xsd2ConverterModelBuilder {
                 return getCobolDecimalType(cobolAnnotations, Short.class);
             } else if (xsdTypeName.equals(Constants.XSD_DECIMAL)) {
                 return getCobolDecimalType(cobolAnnotations, BigDecimal.class);
-                // } else if (xsdTypeName.equals(Constants.XSD_FLOAT)) {
-                // return float.class;
-                // } else if (xsdTypeName.equals(Constants.XSD_DOUBLE)) {
-                // return double.class;
-                // } else if (xsdTypeName.equals(Constants.XSD_HEXBIN)) {
-                // return byte[].class;
+            } else if (xsdTypeName.equals(Constants.XSD_FLOAT)) {
+                return getCobolDecimalType(cobolAnnotations, Float.class);
+            } else if (xsdTypeName.equals(Constants.XSD_DOUBLE)) {
+                return getCobolDecimalType(cobolAnnotations, Double.class);
             } else if (xsdTypeName.equals(Constants.XSD_UNSIGNEDINT)) {
                 return getCobolDecimalType(cobolAnnotations, Long.class);
             } else if (xsdTypeName.equals(Constants.XSD_UNSIGNEDSHORT)) {
                 return getCobolDecimalType(cobolAnnotations, Integer.class);
             } else if (xsdTypeName.equals(Constants.XSD_UNSIGNEDLONG)) {
+                return getCobolDecimalType(cobolAnnotations, BigInteger.class);
+            } else if (xsdTypeName.equals(Constants.XSD_INTEGER)) {
                 return getCobolDecimalType(cobolAnnotations, BigInteger.class);
             } else {
                 throw new Xsd2ConverterException("Unsupported xsd type "
@@ -426,6 +429,21 @@ public class Xsd2ConverterModelBuilder {
         props.put("cobolTypeName", "CobolStringType");
         props.put("charNum", getMaxLength(facets));
         props.put("javaTypeName", getShortTypeName(String.class));
+        return props;
+    }
+
+    /**
+     * Retrieve the properties of an octet stream type.
+     * 
+     * @param facets the XSD facets
+     * @return the properties of an octet stream type
+     */
+    private <T extends Number> Map < String, Object > getCobolOctetStreamType(
+            List < XmlSchemaFacet > facets) {
+        Map < String, Object > props = new HashMap < String, Object >();
+        props.put("cobolTypeName", "CobolStringType");
+        props.put("charNum", getMaxLength(facets));
+        props.put("javaTypeName", getShortTypeName(ByteBuffer.class));
         return props;
     }
 
@@ -474,6 +492,12 @@ public class Xsd2ConverterModelBuilder {
             props.put("cobolTypeName", "CobolBinaryType");
             props.put("minInclusive", "");
             props.put("maxInclusive", "");
+            break;
+        case SINGLE_FLOAT_ITEM:
+            props.put("cobolTypeName", "CobolFloatType");
+            break;
+        case DOUBLE_FLOAT_ITEM:
+            props.put("cobolTypeName", "CobolDoubleType");
             break;
         default:
             throw new Xsd2ConverterException("Unsupported COBOL numeric type "

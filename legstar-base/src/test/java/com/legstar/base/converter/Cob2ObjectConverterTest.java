@@ -11,6 +11,7 @@ import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.converter.Cob2ObjectConverter;
 import com.legstar.base.type.ConversionException;
+import com.legstar.base.type.gen.AlltypesFactory;
 import com.legstar.base.type.gen.Ardo01RecordFactory;
 import com.legstar.base.type.gen.CustomerDataFactory;
 import com.legstar.base.type.gen.Flat01RecordFactory;
@@ -268,6 +269,57 @@ public class Cob2ObjectConverterTest {
                 "{comItem1=1900.00, comArray1=[{comItem2=9, comGroup1={comItem3=6, comArray2=[{comItem4=B, comArray3=[E, E, B, D, D], comItem5=19.00}, {comItem4=B, comArray3=[B, E, D, E, C], comItem5=9.50}], comItem6=3}, comItem7=2}, {comItem2=19, comGroup1={comItem3=12, comArray2=[{comItem4=B, comArray3=[D, B, A, E, D], comItem5=38.00}, {comItem4=A, comArray3=[E, B, B, D, A], comItem5=19.00}], comItem6=6}, comItem7=5}, {comItem2=28, comGroup1={comItem3=19, comArray2=[{comItem4=A, comArray3=[E, B, E, A, C], comItem5=57.00}, {comItem4=D, comArray3=[B, C, C, C, B], comItem5=28.50}], comItem6=9}, comItem7=8}], comItem8=237.50}",
                 visitor.getLastObject().toString());
         assertEquals(98, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertAlltypes() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex(                "c1c2c3c4"
+                        + "01020000"
+                        + "fc5c"
+                        + "000f"
+                        + "0001343a"
+                        + "000001c4"
+                        + "0000000000004532456d"
+                        + "0000000000007800056f"
+                        + "0000000000000000087554907654321c"
+                        + "0000000000000000000564678008321f"
+                        + "000007545f"
+                        + "45543ae9"
+                        + "361677a4590fab60"
+                        + "c1c2c3c4"
+                        + "c1c2c3c4"
+                        + "40404040"
+                        + "40404040"
+                        + "fc5c"
+                        + "fc5c"
+                        + "000f"
+                        + "000f"
+                        + "0001343a"
+                        + "0001343a"
+                        + "000001c4"
+                        + "000001c4"
+                        + "0000000000004532456d"
+                        + "0000000000004532456d"
+                        + "0000000000007800056f"
+                        + "0000000000007800056f"
+                        + "0000000000000000087554907654321c"
+                        + "0000000000000000087554907654321c"
+                        + "0000000000000000000564678008321f"
+                        + "0000000000000000000564678008321f"
+                        + "000007545f"
+                        + "000007545f"
+                        + "45543ae9"
+                        + "45543ae9"
+                        + "361677a4590fab60"
+                        + "361677a4590fab60"),
+                0);
+        visitor.visit(AlltypesFactory.create());
+        assertEquals(
+                "{SString=ABCD, SBinary=java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], SShort=-932, SUshort=15, SInt=78906, SUint=452, SLong=-4532456, SUlong=7800056, SXlong=87554907654321, SUxlong=564678008321, SDec=75.45, SFloat=345006.56, SDouble=7.982006699999985E-14, AString=[ABCD, ABCD], ABinary=[java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], java.nio.HeapByteBuffer[pos=0 lim=4 cap=4]], AShort=[-932, -932], AUshort=[15, 15], AInt=[78906, 78906], AUint=[452, 452], ALong=[-4532456, -4532456], AUlong=[7800056, 7800056], AXlong=[87554907654321, 87554907654321], AUxlong=[564678008321, 564678008321], ADec=[75.45, 75.45], AFloat=[345006.56, 345006.56], ADouble=[7.982006699999985E-14, 7.982006699999985E-14]}",
+                visitor.getLastObject().toString());
+        assertEquals(267, visitor.getLastPos());
 
     }
 

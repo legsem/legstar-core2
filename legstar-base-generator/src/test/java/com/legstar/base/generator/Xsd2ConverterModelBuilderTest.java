@@ -73,6 +73,11 @@ public class Xsd2ConverterModelBuilderTest extends AbstractTest {
         check(build("custdat"), "custdat.map");
     }
 
+    @Test
+    public void testAlltypeBuild() throws Exception {
+        check(build("alltypes"), "alltypes.map");
+    }
+
     private String build(String schemaName) throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");
 

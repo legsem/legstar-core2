@@ -178,6 +178,7 @@ public class CobolStringType<T> extends CobolPrimitiveType < T > {
 
         ByteBuffer result = ByteBuffer.allocate(bytesLen);
         result.put(hostData, start, bytesLen);
+        result.rewind();
         return new FromHostResult < ByteBuffer >(bytesLen, result);
     }
 

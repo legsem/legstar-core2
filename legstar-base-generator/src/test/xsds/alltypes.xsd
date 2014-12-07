@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/alltypes" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/alltypes">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element name="SString">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-STRING" levelNumber="5" picture="X(4)" srceLine="24" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SBinary">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-BINARY" levelNumber="5" picture="X(4)" srceLine="25" type="OCTET_STREAM_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SShort">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-SHORT" levelNumber="5" picture="S9(4)" signed="true" srceLine="26" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SUshort">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-USHORT" levelNumber="5" picture="9(4)" signed="false" srceLine="27" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SInt">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-INT" levelNumber="5" picture="S9(9)" signed="true" srceLine="28" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SUint">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-UINT" levelNumber="5" picture="9(9)" signed="false" srceLine="29" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SLong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-LONG" levelNumber="5" picture="S9(18)" signed="true" srceLine="30" totalDigits="18" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="long">
+                        <totalDigits value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SUlong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-ULONG" levelNumber="5" picture="9(18)" signed="false" srceLine="31" totalDigits="18" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong">
+                        <maxInclusive value="999999999999999999"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SXlong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-XLONG" levelNumber="5" picture="S9(31)" signed="true" srceLine="32" totalDigits="31" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="integer">
+                        <totalDigits value="31"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SUxlong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-UXLONG" levelNumber="5" picture="9(31)" signed="false" srceLine="33" totalDigits="31" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="integer">
+                        <totalDigits value="31"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SDec">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-DEC" fractionDigits="2" levelNumber="5" picture="9(7)V99" signed="false" srceLine="34" totalDigits="9" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="9"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="SFloat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-FLOAT" levelNumber="5" srceLine="35" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element name="SDouble">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="S-DOUBLE" levelNumber="5" srceLine="36" type="DOUBLE_FLOAT_ITEM" usage="COMP-2"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="double"/>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AString">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-STRING" levelNumber="5" maxOccurs="2" minOccurs="2" picture="X(4)" srceLine="38" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="ABinary">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-BINARY" levelNumber="5" maxOccurs="2" minOccurs="2" picture="X(4)" srceLine="39" type="OCTET_STREAM_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="hexBinary">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AShort">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-SHORT" levelNumber="5" maxOccurs="2" minOccurs="2" picture="S9(4)" signed="true" srceLine="40" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="short">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AUshort">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-USHORT" levelNumber="5" maxOccurs="2" minOccurs="2" picture="9(4)" signed="false" srceLine="41" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AInt">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-INT" levelNumber="5" maxOccurs="2" minOccurs="2" picture="S9(9)" signed="true" srceLine="42" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="int">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AUint">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-UINT" levelNumber="5" maxOccurs="2" minOccurs="2" picture="9(9)" signed="false" srceLine="43" totalDigits="9" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="ALong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-LONG" levelNumber="5" maxOccurs="2" minOccurs="2" picture="S9(18)" signed="true" srceLine="44" totalDigits="18" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="long">
+                        <totalDigits value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AUlong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-ULONG" levelNumber="5" maxOccurs="2" minOccurs="2" picture="9(18)" signed="false" srceLine="45" totalDigits="18" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedLong">
+                        <maxInclusive value="999999999999999999"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AXlong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-XLONG" levelNumber="5" maxOccurs="2" minOccurs="2" picture="S9(31)" signed="true" srceLine="46" totalDigits="31" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="integer">
+                        <totalDigits value="31"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AUxlong">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-UXLONG" levelNumber="5" maxOccurs="2" minOccurs="2" picture="9(31)" signed="false" srceLine="47" totalDigits="31" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="integer">
+                        <totalDigits value="31"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="ADec">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-DEC" fractionDigits="2" levelNumber="5" maxOccurs="2" minOccurs="2" picture="9(7)V99" signed="false" srceLine="48" totalDigits="9" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="9"/>
+                        <fractionDigits value="2"/>
+                        <minInclusive value="0"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="AFloat">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-FLOAT" levelNumber="5" maxOccurs="2" minOccurs="2" srceLine="49" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="float"/>
+                </simpleType>
+            </element>
+            <element maxOccurs="2" minOccurs="2" name="ADouble">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="A-DOUBLE" levelNumber="5" maxOccurs="2" minOccurs="2" srceLine="50" type="DOUBLE_FLOAT_ITEM" usage="COMP-2"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="double"/>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="DFHCOMMAREA" levelNumber="1" srceLine="23" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

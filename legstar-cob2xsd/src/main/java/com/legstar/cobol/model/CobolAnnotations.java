@@ -99,7 +99,7 @@ public class CobolAnnotations {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.TOTAL_DIGITS);
         if (StringUtils.isBlank(val)) {
-            return -1;
+            return 0;
         }
         return Integer.parseInt(val);
 
