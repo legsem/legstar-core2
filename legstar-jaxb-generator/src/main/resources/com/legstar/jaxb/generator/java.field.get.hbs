@@ -1,20 +1,20 @@
             case {{fieldIndex}}:
 {{~#if complexType}}
 {{~#if maxOccurs}}
-                java.util.List < {{capFirst @key}}Jaxb > {{@key}} = new java.util.ArrayList < {{capFirst @key}}Jaxb >();
+                java.util.List < {{capFirst @key}}JaxbWrapper > {{@key}} = new java.util.ArrayList < {{capFirst @key}}JaxbWrapper >();
                 for ({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{capFirst @key}} jaxbItem : getJaxb().get{{capFirst @key}}()) {
-                    {{@key}}.add(new {{capFirst @key}}Jaxb(jaxbItem));
+                    {{@key}}.add(new {{capFirst @key}}JaxbWrapper(jaxbItem));
                 }
                 return {{@key}};
 {{~else}}
-                return new {{capFirst @key}}Jaxb(getJaxb().get{{capFirst @key}}());
+                return new {{capFirst @key}}JaxbWrapper(getJaxb().get{{capFirst @key}}());
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
 {{~#if choiceType}}
 {{~#each alternatives}}
                {{#unless @first}} } else{{/unless}} if (getJaxb().get{{capFirst @key}}() != null) {
 {{~#if complexType}}
-                    return new {{capFirst @key}}Jaxb(getJaxb().get{{capFirst @key}}());
+                    return new {{capFirst @key}}JaxbWrapper(getJaxb().get{{capFirst @key}}());
 {{~else}}
                     return getJaxb().get{{capFirst @key}}();
 {{~/if ~}}{{!-- complexType in choiceType--}}

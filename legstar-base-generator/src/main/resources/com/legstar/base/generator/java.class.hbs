@@ -7,32 +7,30 @@ import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.*;
 import com.legstar.base.type.primitive.*;
 
-public class {{class_name}} {
+public class {{class_name}} extends CobolComplexType {
 
-    public static CobolComplexType create() {
-        return create{{root_type_name}}();
+    public {{class_name}}() {
+        super("{{root_type_name}}", create{{root_type_name}}Fields());
     }
 {{#each complex_types}}
-    public static CobolComplexType create{{@key}}() {
+    private static Map < String, CobolType > create{{@key}}Fields() {
 
-        final String complexTypeName = "{{@key}}";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 {{#each this ~}}
 {{> com/legstar/base/generator/java.field}}
 {{~/each}}{{!-- this: fields in complex type --}}
-        return new CobolComplexType(complexTypeName, fields);
+        return fields;
 
     }
 {{/each}}{{!-- complex_types --}}
 {{~#each choice_types}}
-    public static CobolChoiceType create{{@key}}() {
+    private static Map < String, CobolType > create{{@key}}Fields() {
 
-        final String choiceTypeName = "{{@key}}";
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 {{#each this ~}}
 {{> com/legstar/base/generator/java.field}}
 {{~/each}}{{!-- this: fields in choice type --}}
-        return new CobolChoiceType(choiceTypeName, fields);
+        return fields;
 
     }
 {{/each}}{{!-- choice_types --}}

@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.legstar.base.type.gen.Ardo01RecordFactory;
-import com.legstar.base.type.gen.CustomerDataFactory;
-import com.legstar.base.type.gen.Flat01RecordFactory;
-import com.legstar.base.type.gen.Flat02RecordFactory;
-import com.legstar.base.type.gen.Rdef01RecordFactory;
-import com.legstar.base.type.gen.Rdef02RecordFactory;
-import com.legstar.base.type.gen.Stru03RecordFactory;
+import com.legstar.base.type.gen.CobolArdo01Record;
+import com.legstar.base.type.gen.CobolCustomerData;
+import com.legstar.base.type.gen.CobolFlat01Record;
+import com.legstar.base.type.gen.CobolFlat02Record;
+import com.legstar.base.type.gen.CobolRdef01Record;
+import com.legstar.base.type.gen.CobolRdef02Record;
+import com.legstar.base.type.gen.CobolStru03Record;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 
 public class MaxBytesLenCobolVisitorTest {
@@ -18,7 +18,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenFlat01() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(Flat01RecordFactory.create());
+        visitor.visit(new CobolFlat01Record());
         assertEquals(30, visitor.getMaxBytesLen());
 
     }
@@ -26,7 +26,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenFlat02() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(Flat02RecordFactory.create());
+        visitor.visit(new CobolFlat02Record());
         assertEquals(40, visitor.getMaxBytesLen());
 
     }
@@ -34,7 +34,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenStru03() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(Stru03RecordFactory.createStru03Record());
+        visitor.visit(new CobolStru03Record());
         assertEquals(50, visitor.getMaxBytesLen());
 
     }
@@ -42,7 +42,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenRdef01() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(Rdef01RecordFactory.create());
+        visitor.visit(new CobolRdef01Record());
         assertEquals(12, visitor.getMaxBytesLen());
 
     }
@@ -50,7 +50,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenRdef02() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(Rdef02RecordFactory.create());
+        visitor.visit(new CobolRdef02Record());
         assertEquals(22, visitor.getMaxBytesLen());
 
     }
@@ -58,7 +58,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenArdo01() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(Ardo01RecordFactory.create());
+        visitor.visit(new CobolArdo01Record());
         assertEquals(68, visitor.getMaxBytesLen());
 
     }
@@ -66,7 +66,7 @@ public class MaxBytesLenCobolVisitorTest {
     @Test
     public void testCalcMaxBytesLenCustdat() {
         MaxBytesLenCobolVisitor visitor = new MaxBytesLenCobolVisitor();
-        visitor.visit(CustomerDataFactory.create());
+        visitor.visit(new CobolCustomerData());
         assertEquals(183, visitor.getMaxBytesLen());
 
     }

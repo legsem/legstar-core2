@@ -17,7 +17,7 @@ public class {{class_name}} implements JaxbWrapperFactory {
     public JaxbWrapper<?> create(CobolComplexType type) {
 {{~#each complex_types}}
         if ("{{@key}}".equals(type.getName())) {
-            return new {{@key}}Jaxb();
+            return new {{@key}}JaxbWrapper();
         }
 {{~/each}}{{!-- complex_types --}}
         throw new InvalidComplexTypeName(type.getName());
@@ -26,19 +26,19 @@ public class {{class_name}} implements JaxbWrapperFactory {
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
 {{~#each complex_types}}
         if ("{{@key}}".equals(type.getName())) {
-            return new {{@key}}Jaxb(({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}) jaxb);
+            return new {{@key}}JaxbWrapper(({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}) jaxb);
         }
 {{~/each}}{{!-- complex_types --}}
         throw new InvalidComplexTypeName(type.getName());
     }
 {{#each complex_types}}
-    public class {{@key}}Jaxb extends JaxbWrapper<{{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}> {
+    public class {{@key}}JaxbWrapper extends JaxbWrapper<{{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}> {
 
-        public {{@key}}Jaxb() {
+        public {{@key}}JaxbWrapper() {
             this(new {{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}}());
         }
 
-        public {{@key}}Jaxb({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}} jaxb) {
+        public {{@key}}JaxbWrapper({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{@key}} jaxb) {
             super(jaxb);
         }
 

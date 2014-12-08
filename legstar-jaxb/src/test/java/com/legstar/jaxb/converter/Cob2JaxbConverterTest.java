@@ -5,16 +5,16 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.Map;
 
-import legstar.test.converter.Ardo01RecordFactory;
-import legstar.test.converter.CustomerDataFactory;
-import legstar.test.converter.Flat01RecordFactory;
-import legstar.test.converter.Flat02RecordFactory;
-import legstar.test.converter.Rdef01RecordFactory;
-import legstar.test.converter.Rdef02RecordFactory;
-import legstar.test.converter.Rdef03RecordFactory;
-import legstar.test.converter.Stru01RecordFactory;
-import legstar.test.converter.Stru03RecordFactory;
-import legstar.test.converter.Stru04RecordFactory;
+import legstar.test.jaxb.ardo01.CobolArdo01Record;
+import legstar.test.jaxb.cusdat.CobolCustomerData;
+import legstar.test.jaxb.flat01.CobolFlat01Record;
+import legstar.test.jaxb.flat02.CobolFlat02Record;
+import legstar.test.jaxb.rdef01.CobolRdef01Record;
+import legstar.test.jaxb.rdef02.CobolRdef02Record;
+import legstar.test.jaxb.rdef03.CobolRdef03Record;
+import legstar.test.jaxb.stru01.CobolStru01Record;
+import legstar.test.jaxb.stru03.CobolStru03Record;
+import legstar.test.jaxb.stru04.CobolStru04Record;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,16 +27,16 @@ import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.utils.HexUtils;
 import com.legstar.base.visitor.FromCobolChoiceStrategy;
 import com.legstar.jaxb.converter.Cob2JaxbConverter;
-import com.legstar.jaxb.converter.gen.Ardo01RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.CustomerDataJaxbFactory;
-import com.legstar.jaxb.converter.gen.Flat01RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Flat02RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Rdef01RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Rdef02RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Rdef03RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Stru01RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Stru03RecordJaxbFactory;
-import com.legstar.jaxb.converter.gen.Stru04RecordJaxbFactory;
+import com.legstar.jaxb.converter.gen.ardo01.Ardo01RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.custdat.CustomerDataJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.flat01.Flat01RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.flat02.Flat02RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.rdef01.Rdef01RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.rdef02.Rdef02RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.rdef03.Rdef03RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.stru01.Stru01RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.stru03.Stru03RecordJaxbWrapperFactory;
+import com.legstar.jaxb.converter.gen.stru04.Stru04RecordJaxbWrapperFactory;
 
 public class Cob2JaxbConverterTest {
 
@@ -52,8 +52,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
-                0, new Flat01RecordJaxbFactory());
-        visitor.visit(Flat01RecordFactory.create());
+                0, new Flat01RecordJaxbWrapperFactory());
+        visitor.visit(new CobolFlat01Record());
         assertEquals("{comNumber=1043, comName=NAME000043, comAmount=2150.00}",
                 visitor.getLastObject().toString());
         assertEquals(30, visitor.getLastPos());
@@ -65,8 +65,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E001F0014000F000C"),
-                0, new Flat02RecordJaxbFactory());
-        visitor.visit(Flat02RecordFactory.create());
+                0, new Flat02RecordJaxbWrapperFactory());
+        visitor.visit(new CobolFlat02Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comArray=[62, 31, 20, 15, 12]}",
                 visitor.getLastObject().toString());
@@ -79,8 +79,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2"),
-                0, new Stru01RecordJaxbFactory());
-        visitor.visit(Stru01RecordFactory.create());
+                0, new Stru01RecordJaxbWrapperFactory());
+        visitor.visit(new CobolStru01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comSubRecord={comItem1=62, comItem2=AB}}",
                 visitor.getLastObject().toString());
@@ -93,8 +93,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C2000FC1C2000CC1C2"),
-                0, new Stru03RecordJaxbFactory());
-        visitor.visit(Stru03RecordFactory.create());
+                0, new Stru03RecordJaxbWrapperFactory());
+        visitor.visit(new CobolStru03Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comArray=[{comItem1=62, comItem2=AB}, {comItem1=31, comItem2=AB}, {comItem1=20, comItem2=AB}, {comItem1=15, comItem2=AB}, {comItem1=12, comItem2=AB}]}",
                 visitor.getLastObject().toString());
@@ -104,10 +104,10 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertRdef01DefaultStrategy() {
-        CobolComplexType type = Rdef01RecordFactory.create();
+        CobolComplexType type = new CobolRdef01Record();
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("0000D5C1D4C5F0F0F0F0F0F500010250000F"), 0,
-                new Rdef01RecordJaxbFactory());
+                new Rdef01RecordJaxbWrapperFactory());
         visitor.visit(type);
         assertEquals(
                 "{comSelect=0, comDetail1Choice=comDetail1={comName=NAME000005}}",
@@ -116,7 +116,7 @@ public class Cob2JaxbConverterTest {
 
         visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("0000D5C1D4C5F0F0F0F0F0F500010250000F"), 12,
-                new Rdef01RecordJaxbFactory());
+                new Rdef01RecordJaxbWrapperFactory());
         visitor.visit(type);
         assertEquals(
                 "{comSelect=1, comDetail1Choice=comDetail2={comAmount=2500.00}}",
@@ -129,7 +129,7 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("00010250000F40404040404000010260000F404040404040"),
-                0, new Rdef01RecordJaxbFactory(),
+                0, new Rdef01RecordJaxbWrapperFactory(),
                 new FromCobolChoiceStrategy() {
 
                     public CobolType choose(String choiceFieldName,
@@ -154,7 +154,7 @@ public class Cob2JaxbConverterTest {
 
                     }
                 }, Arrays.asList(new String[] { "comSelect" }));
-        visitor.visit(Rdef01RecordFactory.create());
+        visitor.visit(new CobolRdef01Record());
         assertEquals(
                 "{comSelect=1, comDetail1Choice=comDetail2={comAmount=2500.00}}",
                 visitor.getLastObject().toString());
@@ -164,11 +164,11 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertRdef02DefaultStrategy() {
-        CobolComplexType type = Rdef02RecordFactory.create();
+        CobolComplexType type = new CobolRdef02Record();
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("C1C2C3D1D2D30000D5C1D4C5F0F0F0F0F0F50260000F"),
-                0, new Rdef02RecordJaxbFactory());
+                0, new Rdef02RecordJaxbWrapperFactory());
         visitor.visit(type);
         assertEquals(
                 "{rdef02Key={rdef02Item1Choice=rdef02Item2=ABCJKL, comSelect=0}, comDetail1Choice=comDetail1={comName=NAME000005}, comItem3=2600.00}",
@@ -178,7 +178,7 @@ public class Cob2JaxbConverterTest {
         visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("00001361588C0001D5C1D4C5F0F0F0F0F0F50261588F"),
-                0, new Rdef02RecordJaxbFactory());
+                0, new Rdef02RecordJaxbWrapperFactory());
         visitor.visit(type);
         assertEquals(
                 "{rdef02Key={rdef02Item1Choice=rdef02Item1=1361588, comSelect=1}, comDetail1Choice=comDetail1={comName=NAME000005}, comItem3=2615.88}",
@@ -190,8 +190,8 @@ public class Cob2JaxbConverterTest {
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"), 0,
-                new Rdef03RecordJaxbFactory());
-        visitor.visit(Rdef03RecordFactory.createRdef03Record());
+                new Rdef03RecordJaxbWrapperFactory());
+        visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice=comDetail1={comName=12345}}",
                 visitor.getLastObject().toString());
@@ -203,8 +203,8 @@ public class Cob2JaxbConverterTest {
     public void testConvertRdef03DefaultStrategySecondAlternative() {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("00010250000F"), 0,
-                new Rdef03RecordJaxbFactory());
-        visitor.visit(Rdef03RecordFactory.createRdef03Record());
+                new Rdef03RecordJaxbWrapperFactory());
+        visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=1, comDetail1Choice=comDetail2={comAmount=2500.00}}",
                 visitor.getLastObject().toString());
@@ -216,10 +216,10 @@ public class Cob2JaxbConverterTest {
     public void testConvertRdef03CustomStrategyWithVariables() {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"), 0,
-                new Rdef03RecordJaxbFactory(),
+                new Rdef03RecordJaxbWrapperFactory(),
                 new Rdef03ObjectFromHostChoiceStrategy(),
                 Arrays.asList(new String[] { "comSelect" }));
-        visitor.visit(Rdef03RecordFactory.createRdef03Record());
+        visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice=comDetail3={comNumber=12345}}",
                 visitor.getLastObject().toString());
@@ -232,8 +232,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400000"),
-                0, new Ardo01RecordJaxbFactory());
-        visitor.visit(Ardo01RecordFactory.createArdo01Record());
+                0, new Ardo01RecordJaxbWrapperFactory());
+        visitor.visit(new CobolArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=0, comArray=[]}",
                 visitor.getLastObject().toString());
@@ -246,8 +246,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400001000000000023556C"),
-                0, new Ardo01RecordJaxbFactory());
-        visitor.visit(Ardo01RecordFactory.createArdo01Record());
+                0, new Ardo01RecordJaxbWrapperFactory());
+        visitor.visit(new CobolArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=1, comArray=[235.56]}",
                 visitor.getLastObject().toString());
@@ -260,8 +260,8 @@ public class Cob2JaxbConverterTest {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400005000000000023556C000000000023656C000000000023756C000000000023856C000000000023956C"),
-                0, new Ardo01RecordJaxbFactory());
-        visitor.visit(Ardo01RecordFactory.createArdo01Record());
+                0, new Ardo01RecordJaxbWrapperFactory());
+        visitor.visit(new CobolArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=5, comArray=[235.56, 236.56, 237.56, 238.56, 239.56]}",
                 visitor.getLastObject().toString());
@@ -274,8 +274,8 @@ public class Cob2JaxbConverterTest {
     public void testConvertCustdat() {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F1D1D6C8D540E2D4C9E3C840404040404040404040C3C1D4C2D9C9C4C7C540E4D5C9E5C5D9E2C9E3E8F4F4F0F1F2F5F6F500000002F1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5CF1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5C"),
-                0, new CustomerDataJaxbFactory());
-        visitor.visit(CustomerDataFactory.createCustomerData());
+                0, new CustomerDataJaxbWrapperFactory());
+        visitor.visit(new CobolCustomerData());
         assertEquals(
                 "{customerId=1, personalData={customerName=JOHN SMITH, customerAddress=CAMBRIDGE UNIVERSITY, customerPhone=44012565}, transactions={transactionNbr=2, transaction=[{transactionDateChoice=transactionDate=10/04/11, transactionAmount=235.56, transactionComment=*********}, {transactionDateChoice=transactionDate=10/04/11, transactionAmount=235.56, transactionComment=*********}]}}",
                 visitor.getLastObject().toString());
@@ -287,8 +287,8 @@ public class Cob2JaxbConverterTest {
     public void testConvertStru04() {
         Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
                 HexUtils.decodeHex("0190000F00090006C2C5C5C2C4C40001900FC2C2C5C4C5C30000950F0003000000020013000CC2C4C2C1C5C40003800FC1C5C2C2C4C10001900F000600000005001C0013C1C5C2C5C1C30005700FC4C2C3C3C3C20002850F0009000000080023750F"),
-                0, new Stru04RecordJaxbFactory());
-        visitor.visit(Stru04RecordFactory.createStru04Record());
+                0, new Stru04RecordJaxbWrapperFactory());
+        visitor.visit(new CobolStru04Record());
         assertEquals(
                 "{comItem1=1900.00, comArray1=[{comItem2=9, comGroup1={comItem3=6, comArray2=[{comItem4=B, comArray3=[E, E, B, D, D], comItem5=19.00}, {comItem4=B, comArray3=[B, E, D, E, C], comItem5=9.50}], comItem6=3}, comItem7=2}, {comItem2=19, comGroup1={comItem3=12, comArray2=[{comItem4=B, comArray3=[D, B, A, E, D], comItem5=38.00}, {comItem4=A, comArray3=[E, B, B, D, A], comItem5=19.00}], comItem6=6}, comItem7=5}, {comItem2=28, comGroup1={comItem3=19, comArray2=[{comItem4=A, comArray3=[E, B, E, A, C], comItem5=57.00}, {comItem4=D, comArray3=[B, C, C, C, B], comItem5=28.50}], comItem6=9}, comItem7=8}], comItem8=237.50}",
                 visitor.getLastObject().toString());

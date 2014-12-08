@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
-import com.legstar.base.generator.Xsd2ConverterGenerator;
+import com.legstar.base.generator.Xsd2CobolTypesGenerator;
 import com.sun.codemodel.JCodeModel;
 import com.sun.tools.xjc.AbortException;
 import com.sun.tools.xjc.ErrorReceiver;
@@ -46,7 +46,7 @@ public class AppTest {
 
     private void xsd2Convert(String name) throws Exception {
         File xsdFile = new File(SRC_TEST_XSDS + name + ".xsd");
-        Xsd2ConverterGenerator gen = new Xsd2ConverterGenerator();
+        Xsd2CobolTypesGenerator gen = new Xsd2CobolTypesGenerator();
         Map < String, String > code = gen.generate(xsdFile, "UTF-8",
                 "legstar.jaxb.test.converter");
         String className = StringUtils.capitalize(name) + "RecordFactory";

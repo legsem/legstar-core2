@@ -1,15 +1,15 @@
 {{~#if complexType}}
 {{~#if maxOccurs}}
-        fields.put("{{@key}}", new CobolArrayType(create{{complexTypeName}}(), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+        fields.put("{{@key}}", new CobolArrayType(new CobolComplexType("{{complexTypeName}}",  create{{complexTypeName}}Fields()), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
 {{~else}}
-        fields.put("{{@key}}", create{{complexTypeName}}());
+        fields.put("{{@key}}", new CobolComplexType("{{complexTypeName}}",  create{{complexTypeName}}Fields()));
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
 {{~#if choiceType}}
 {{~#if maxOccurs}}
-        fields.put("{{@key}}", new CobolArrayType(create{{choiceTypeName}}(), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+        fields.put("{{@key}}", new CobolArrayType(new CobolChoiceType("{{choiceTypeName}}",  create{{choiceTypeName}}Fields()), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
 {{~else}}
-        fields.put("{{@key}}", create{{choiceTypeName}}());
+        fields.put("{{@key}}", new CobolChoiceType("{{choiceTypeName}}",  create{{choiceTypeName}}Fields()));
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
         {{cobolTypeName}}{{#if javaTypeName}} < {{javaTypeName}} >{{/if}} {{@key}} =

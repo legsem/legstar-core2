@@ -4,13 +4,13 @@
                 getJaxb().get{{capFirst @key}}().clear();
                 if (value instanceof java.util.List) {
                     for (Object wrapperItem : (java.util.List<?>) value) {
-                        if (wrapperItem instanceof {{capFirst @key}}Jaxb){
-                            getJaxb().get{{capFirst @key}}().add((({{capFirst @key}}Jaxb) wrapperItem).getJaxb());
+                        if (wrapperItem instanceof {{capFirst @key}}JaxbWrapper){
+                            getJaxb().get{{capFirst @key}}().add((({{capFirst @key}}JaxbWrapper) wrapperItem).getJaxb());
                         }
                     }
                 }
 {{~else}}
-                getJaxb().set{{capFirst @key}}((({{capFirst @key}}Jaxb) value).getJaxb());
+                getJaxb().set{{capFirst @key}}((({{capFirst @key}}JaxbWrapper) value).getJaxb());
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
 {{~#if choiceType}}
@@ -18,7 +18,7 @@
 {{~#each alternatives}}
                 case {{fieldIndex}}:
 {{~#if complexType}}
-                    getJaxb().set{{capFirst @key}}((({{capFirst @key}}Jaxb) value).getJaxb());
+                    getJaxb().set{{capFirst @key}}((({{capFirst @key}}JaxbWrapper) value).getJaxb());
 {{~else}}
                     getJaxb().set{{capFirst @key}}(({{javaTypeName}}) value);
 {{~/if ~}}{{!-- complexType in choiceType--}}

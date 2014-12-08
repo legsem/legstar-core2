@@ -61,7 +61,7 @@
 
       <plugins>
     
-          <!-- Invoke Cob2ConverterGenerator for copybooks translation to Java converters -->
+          <!-- Invoke Cob2CobolTypesGenerator for copybooks translation to Java Cobol Types -->
           <!-- Invoke Cob2XsdMain for copybooks translation to XML Schema (input to XJC ) -->
           <plugin>
               <groupId>org.codehaus.mojo</groupId>
@@ -74,14 +74,14 @@
                           <goal>java</goal>
                       </goals>
                       <configuration>
-                          <mainClass>com.legstar.base.generator.Cob2ConverterGeneratorMain</mainClass>
+                          <mainClass>com.legstar.base.generator.Cob2CobolTypesGeneratorMain</mainClass>
                           <arguments>
                               <argument>-i</argument>
                               <argument>${basedir}/src/test/cobol</argument>
                               <argument>-o</argument>
                               <argument>${project.build.directory}/generated-sources/java</argument>
                               <argument>-p</argument>
-                              <argument>legstar.test.converter</argument>
+                              <argument>legstar.test.jaxb</argument>
                           </arguments>
                           <systemProperties>
                               <systemProperty>
@@ -134,7 +134,7 @@
                           <schemaDirectory>${project.build.directory}/generated-sources/xsds</schemaDirectory>
                           <generateDirectory>${project.build.directory}/generated-sources/java</generateDirectory>
                           <packageLevelAnnotations>false</packageLevelAnnotations>
-                          <cleanPackageDirectories>true</cleanPackageDirectories>
+                          <cleanPackageDirectories>false</cleanPackageDirectories>
                           <forceRegenerate >true</forceRegenerate >
                       </configuration>
                   </execution>
