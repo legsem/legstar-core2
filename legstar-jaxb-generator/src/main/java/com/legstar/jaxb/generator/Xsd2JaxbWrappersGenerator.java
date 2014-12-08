@@ -28,13 +28,14 @@ import com.legstar.base.utils.NamespaceUtils;
 /**
  * Given a COBOL-annotated XML schema, generates wrapper code for JAXB.
  * <p/>
- * Wrappers to get/set JAXB instances properties. They are a faster alternative to using reflection.
+ * Wrappers to get/set JAXB instances properties. They are a faster alternative
+ * to using reflection.
  * <p/>
  * 
  */
 public class Xsd2JaxbWrappersGenerator {
 
-    public static final String JAVA_CLASS_NAME_SUFFIX = "JaxbWrapperFactory";
+    public static final String JAVA_CLASS_NAME_SUFFIX = "Jaxb";
 
     public static final String JAVA_CLASS_TEMPLATE_NAME = "java.class.hbs";
 

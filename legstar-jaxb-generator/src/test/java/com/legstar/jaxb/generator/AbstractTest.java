@@ -38,7 +38,7 @@ public class AbstractTest {
      */
     public void check(final String resultText, String refFileName)
             throws Exception {
-        File refFile = new File(SRC_REF_DIR, name.getMethodName() + "/"
+        File refFile = new File(SRC_REF_DIR, getClass().getSimpleName() + "/" + name.getMethodName() + "/"
                 + refFileName);
         if (isCreateReferences()) {
             FileUtils.writeStringToFile(refFile, resultText, Charsets.UTF_8);

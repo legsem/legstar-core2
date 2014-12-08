@@ -26,7 +26,7 @@ public class Cob2CobolTypesGeneratorTest extends AbstractTest {
 
     @Test
     public void testFlat01Generate() throws Exception {
-        generateAndCheck("flat01", "Flat01Record");
+        generateAndCheck("FLAT01", "Flat01Record");
     }
     
     private void generateAndCheck(String programName, String recordName) throws Exception {

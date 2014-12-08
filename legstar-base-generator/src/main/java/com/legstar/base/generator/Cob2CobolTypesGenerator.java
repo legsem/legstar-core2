@@ -29,11 +29,11 @@ public class Cob2CobolTypesGenerator {
 
     private final Cob2Xsd cob2xsd;
 
-    private final Xsd2CobolTypesGenerator xsd2Converter;
+    private final Xsd2CobolTypesGenerator xsd2CobolTypes;
 
     public Cob2CobolTypesGenerator(Properties configProps) {
         cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-        xsd2Converter = new Xsd2CobolTypesGenerator();
+        xsd2CobolTypes = new Xsd2CobolTypesGenerator();
     }
 
     /**
@@ -88,11 +88,10 @@ public class Cob2CobolTypesGenerator {
     public Map < String, String > generate(Reader cobolReader,
             String targetPackageName) {
 
-        // The XML schema is an intermediary result which we do not keep. The
-        // target namespace is not useful in this case
+        // The XML schema is an intermediary result which we do not keep.
         String xmlSchemaSource = cob2xsd.translate(cobolReader,
                 NamespaceUtils.toNamespace(targetPackageName));
-        return xsd2Converter.generate(xmlSchemaSource, targetPackageName);
+        return xsd2CobolTypes.generate(xmlSchemaSource, targetPackageName);
 
     }
 
