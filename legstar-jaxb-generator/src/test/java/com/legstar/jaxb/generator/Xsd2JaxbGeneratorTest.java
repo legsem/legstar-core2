@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Xsd2JaxbWrappersGeneratorTest extends AbstractTest {
+public class Xsd2JaxbGeneratorTest extends AbstractTest {
 
     private static final boolean CREATE_REFERENCE = false;
 
@@ -69,21 +69,22 @@ public class Xsd2JaxbWrappersGeneratorTest extends AbstractTest {
         generateAndCheck("stru04", "Stru04Record");
     }
 
-    private void generateAndCheck(String programName, String recordName) throws Exception {
-        check(generate(programName, recordName), getJavaClassName(recordName) + ".java");
-    }
-
-    private String generate(String schemaName, String recordName)
+    private void generateAndCheck(String schemaName, String recordName)
             throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");
-        Xsd2JaxbWrappersGenerator gen = new Xsd2JaxbWrappersGenerator();
+        Xsd2JaxbGenerator gen = new Xsd2JaxbGenerator();
         Map < String, String > code = gen.generate(xsdFile,
                 LEGSTAR_XSD_FILE_ENCODING, "test.example");
-        assertEquals(1, code.size());
-        return code.get(getJavaClassName(recordName));
+        assertEquals(2, code.size());
+        check(code.get(getJaxbWrappersFactoryJavaClassName(recordName)), getJaxbWrappersFactoryJavaClassName(recordName) + ".java");
+        check(code.get(getJaxbConverterJavaClassName(recordName)), getJaxbConverterJavaClassName(recordName) + ".java");
     }
 
-    private String getJavaClassName(String recordName) {
-        return recordName + Xsd2JaxbWrappersGenerator.JAVA_CLASS_NAME_SUFFIX ;
+    private String getJaxbWrappersFactoryJavaClassName(String recordName) {
+        return recordName + Xsd2JaxbGenerator.JAXB_WRAPPER_FACTORY_CLASS_NAME_SUFFIX ;
+    }
+
+    private String getJaxbConverterJavaClassName(String recordName) {
+        return Xsd2JaxbGenerator.JAXB_CONVERTER_CLASS_NAME_PREFIX + recordName;
     }
 }

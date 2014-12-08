@@ -26,34 +26,51 @@ import com.legstar.base.generator.Xsd2CobolTypesModelBuilder;
 import com.legstar.base.utils.NamespaceUtils;
 
 /**
- * Given a COBOL-annotated XML schema, generates wrapper code for JAXB.
+ * Given a COBOL-annotated XML schema, generates converter code for JAXB.
  * <p/>
- * Wrappers to get/set JAXB instances properties. They are a faster alternative
- * to using reflection.
- * <p/>
+ * Produces the following artifacts:
+ * <ul>
+ * <li>Wrappers to get/set JAXB instances properties. They are a faster alternative
+ * to using reflection</li>
+ * <li>A conversion class ready to be invoked </li>
+ * </ul>
  * 
  */
-public class Xsd2JaxbWrappersGenerator {
+public class Xsd2JaxbGenerator {
 
-    public static final String JAVA_CLASS_NAME_SUFFIX = "Jaxb";
+    public static final String JAXB_WRAPPER_FACTORY_CLASS_NAME_SUFFIX = "Jaxb";
 
-    public static final String JAVA_CLASS_TEMPLATE_NAME = "java.class.hbs";
+    public static final String JAXB_WRAPPER_FACTORY_CLASS_TEMPLATE_NAME = "jaxb.wrappers.factory.class.hbs";
 
-    /** Handlebars template for a java class. */
-    private final Template hbtJavaClass;
+    public static final String JAXB_CONVERTER_CLASS_NAME_PREFIX = "Cob2";
+
+    public static final String JAXB_CONVERTER_CLASS_TEMPLATE_NAME = "jaxb.converter.class.hbs";
+
+    /** Handlebars template for a jaxb wrappers factory class. */
+    private final Template hbtJaxbWrapperFactoryClass;
+
+    /** Handlebars template for a jaxb converter class. */
+    private final Template hbtJaxbConverterClass;
 
     private final Xsd2CobolTypesModelBuilder modelBuilder;
 
-    public Xsd2JaxbWrappersGenerator() {
+    public Xsd2JaxbGenerator() {
+        Handlebars handlebars = new Handlebars();
+        handlebars.registerHelper("capFirst", StringHelpers.capitalize);
+        handlebars.registerHelper("each",
+                new com.legstar.jaxb.generator.EachHelper());
+        hbtJaxbWrapperFactoryClass = loadTemplate(handlebars,
+                JAXB_WRAPPER_FACTORY_CLASS_TEMPLATE_NAME);
+        hbtJaxbConverterClass = loadTemplate(handlebars,
+                JAXB_CONVERTER_CLASS_TEMPLATE_NAME);
+        modelBuilder = new Xsd2CobolTypesModelBuilder();
+    }
+
+    private Template loadTemplate(Handlebars handlebars, String resourceName) {
         try {
             String text = IOUtils.toString(getClass().getResourceAsStream(
-                    JAVA_CLASS_TEMPLATE_NAME));
-            Handlebars handlebars = new Handlebars();
-            handlebars.registerHelper("capFirst", StringHelpers.capitalize);
-            handlebars.registerHelper("each",
-                    new com.legstar.jaxb.generator.EachHelper());
-            hbtJavaClass = handlebars.compileInline(text);
-            modelBuilder = new Xsd2CobolTypesModelBuilder();
+                    resourceName));
+            return handlebars.compileInline(text);
         } catch (IOException e) {
             throw new Xsd2ConverterException(e);
         }
@@ -136,7 +153,8 @@ public class Xsd2JaxbWrappersGenerator {
             Map < String, String > code = new HashMap < String, String >();
             for (Entry < String, Xsd2CobolTypesModelBuilder.CompositeTypes > entry : modelBuilder
                     .build(xmlSchema).entrySet()) {
-                String className = entry.getKey() + JAVA_CLASS_NAME_SUFFIX;
+                String jaxbWrappersFactoryclassName = entry.getKey()
+                        + JAXB_WRAPPER_FACTORY_CLASS_NAME_SUFFIX;
                 Map < String, Object > model = new HashMap < String, Object >();
                 if (targetPackageName != null && targetPackageName.length() > 0) {
                     model.put("target_package_name", targetPackageName);
@@ -146,11 +164,17 @@ public class Xsd2JaxbWrappersGenerator {
                 if (jaxbPackageName != null && jaxbPackageName.length() > 0) {
                     model.put("jaxb_package_name", jaxbPackageName);
                 }
-                model.put("class_name", className);
+                model.put("class_name", jaxbWrappersFactoryclassName);
                 model.put("root_type_name", entry.getKey());
                 model.put("complex_types", entry.getValue().complexTypes);
                 model.put("choice_types", entry.getValue().choiceTypes);
-                code.put(className, hbtJavaClass.apply(model));
+                code.put(jaxbWrappersFactoryclassName, hbtJaxbWrapperFactoryClass.apply(model));
+                
+                String jaxbConverterClassName = JAXB_CONVERTER_CLASS_NAME_PREFIX + entry.getKey();
+                model.put("class_name", jaxbConverterClassName);
+                model.put("jaxb_wrappers_factory_class_name", jaxbWrappersFactoryclassName);
+                code.put(jaxbConverterClassName, hbtJaxbConverterClass.apply(model));
+                
             }
             return code;
         } catch (IOException e) {

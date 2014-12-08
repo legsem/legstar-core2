@@ -38,12 +38,12 @@ public class Cob2JaxbGenerator {
 
     private final Xsd2CobolTypesGenerator xsd2CobolTypes;
 
-    private final Xsd2JaxbWrappersGenerator xsd2JaxbWrappers;
+    private final Xsd2JaxbGenerator xsd2JaxbWrappers;
 
     public Cob2JaxbGenerator(Properties configProps) {
         cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
         xsd2CobolTypes = new Xsd2CobolTypesGenerator();
-        xsd2JaxbWrappers = new Xsd2JaxbWrappersGenerator();
+        xsd2JaxbWrappers = new Xsd2JaxbGenerator();
     }
 
     /**

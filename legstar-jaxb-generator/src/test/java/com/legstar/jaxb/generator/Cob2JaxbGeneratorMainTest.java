@@ -40,6 +40,7 @@ public class Cob2JaxbGeneratorMainTest extends AbstractTest {
         check(getCode(subFolder, "Cobol" + recordName), "Cobol" + recordName  + ".java");
         check(getCode(subFolder, recordName), recordName  + ".java");
         check(getCode(subFolder, recordName + "Jaxb"), recordName + "Jaxb"  + ".java");
+        check(getCode(subFolder, "Cob2" + recordName), "Cob2" + recordName  + ".java");
     }
 
     private String getCode(String subFolder, String className) throws IOException {

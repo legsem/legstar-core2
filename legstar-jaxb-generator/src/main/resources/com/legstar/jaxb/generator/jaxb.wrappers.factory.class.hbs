@@ -45,7 +45,7 @@ public class {{class_name}} implements JaxbWrapperFactory {
         public void set(int index, Object value, int alternativeIndex) {
             switch (index) {
 {{~#each this}}
-{{> com/legstar/jaxb/generator/java.field.set}}
+{{> com/legstar/jaxb/generator/jaxb.wrappers.factory.field.set}}
 {{~/each}}{{!-- this: fields in complex type --}}
             default:
                 throw new InvalidComplexTypeFieldIndex("{{@key}}", index);
@@ -55,7 +55,7 @@ public class {{class_name}} implements JaxbWrapperFactory {
         public Object get(int index) {
             switch (index) {
 {{~#each this}}
-{{> com/legstar/jaxb/generator/java.field.get}}
+{{> com/legstar/jaxb/generator/jaxb.wrappers.factory.field.get}}
 {{~/each}}{{!-- this: fields in complex type --}}
             default:
                 throw new InvalidComplexTypeFieldIndex("{{@key}}", index);
@@ -70,7 +70,7 @@ public class {{class_name}} implements JaxbWrapperFactory {
             StringBuilder builder = new StringBuilder();
             builder.append("{");
 {{~#each this}}
-{{> com/legstar/jaxb/generator/java.field.tostring}}
+{{> com/legstar/jaxb/generator/jaxb.wrappers.factory.field.tostring}}
 {{~/each}}{{!-- this: fields in complex type --}}
             builder.append("}");
             return builder.toString();
