@@ -1,0 +1,38 @@
+<project name="cob2jaxb-sample" default="generate" basedir=".">
+
+    <!-- Generates samples                                          -->
+
+    <property name="libdir" location="../lib"/>
+    <property name="cobdir" location="cobol"/>
+    <property name="config" location="conf/cob2xsd.properties"/>
+    <property name="logconfig" location="conf/log4j.properties"/>
+    <property name="gendir" location="gen/java"/>
+    <property name="packageprefix" value="legstar.samples"/>
+
+    <!-- Classpath for generation -->
+    <path id="project.class.path">
+        <fileset dir="${libdir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <property name="project.classpath" refid="project.class.path"/>
+
+    <target name="init">
+        <mkdir dir="${gendir}"/>
+    </target>
+
+    <target name="generate" depends="init">
+        <java classname="com.legstar.jaxb.generator.Cob2JaxbGeneratorMain" fork="true" failonerror="true">
+            <classpath path="${project.classpath}"/>
+            <arg line="-i ${cobdir} -o ${gendir} -c ${config} -p ${packageprefix}"/>
+            <jvmarg value="-Dlog4j.configuration=file:///${logconfig}"/>
+        </java>
+    </target>
+
+    <target name="clean" description="Clean output directory">
+        <delete dir="${gendir}" verbose="true" />
+    </target>
+
+    <target name="clean-and-generate" depends="clean,generate" />
+
+</project>

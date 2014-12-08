@@ -30,9 +30,6 @@ Assembly descriptor for the distribution.
         <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <scope>runtime</scope>
-            <excludes>
-              <exclude>org.antlr:antlr</exclude>
-            </excludes>
         </dependencySet>
      </dependencySets>
 </assembly>

@@ -113,6 +113,12 @@
           <groupId>com.legsem.legstar</groupId>
           <artifactId>legstar-cob2xsd</artifactId>
           <version>${project.version}</version>
+          <exclusions>
+            <exclusion>  <!-- projects depending on cob2xsd don't need antlr -->
+              <groupId>org.antlr</groupId>
+              <artifactId>antlr</artifactId>
+            </exclusion>
+          </exclusions> 
       </dependency>
 
       <!-- LegStar Converter Generator -->
