@@ -14,7 +14,7 @@
 
   <name>legstar-core2</name>
   <description>Translates COBOL structures to a java model. Converts Mainframe data to Java objects.</description>
-  <url>https://github.com/legsem/legstar-core</url>
+  <url>https://github.com/legsem/legstar-core2</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,14 +26,14 @@
 
   <issueManagement>
       <system>Github Issue Tracking</system>
-      <url>https://github.com/legsem/legstar-core/issues</url>
+      <url>https://github.com/legsem/legstar-core2/issues</url>
   </issueManagement>
 
   <!-- Source control GIT on github -->
   <scm>
-      <connection>scm:git:https://legsem@github.com/legsem/legstar-core.git</connection>
-      <developerConnection>scm:git:https://legsem@github.com/legsem/legstar-core.git</developerConnection>
-      <url>https://github.com/legsem/legstar-core.git</url>
+      <connection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</connection>
+      <developerConnection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</developerConnection>
+      <url>https://github.com/legsem/legstar-core2.git</url>
       <tag>HEAD</tag>
   </scm> 
 
