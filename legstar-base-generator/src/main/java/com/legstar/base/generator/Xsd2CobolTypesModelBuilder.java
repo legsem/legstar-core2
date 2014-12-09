@@ -490,8 +490,9 @@ public class Xsd2CobolTypesModelBuilder {
             break;
         case NATIVE_BINARY_ITEM:
             props.put("cobolTypeName", "CobolBinaryType");
-            props.put("minInclusive", "");
-            props.put("maxInclusive", "");
+            // TODO create a CobolNativeBinaryType
+//            props.put("minInclusive", "");
+//            props.put("maxInclusive", "");
             break;
         case SINGLE_FLOAT_ITEM:
             props.put("cobolTypeName", "CobolFloatType");

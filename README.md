@@ -11,7 +11,11 @@ A new take on the [original legstar project](https://code.google.com/p/legstar/)
 
 * Provide a faster alternative to legstar for use cases that require massive conversions (Hadoop, ETL, ...)
 
-* Provide a simpler API than legstar, using java generics and explicit thread safety.
+* Provide a simpler API than legstar, using java generics, explicit thread safety and use Builder pattern/Fluent interfaces
+
+* Extract out dependency on JAXB. While still supporting JAXB, the API should be usable in environments that has no JAXB at all
+
+* Provide a validation API that allows checking preemptively that host data is compatible with a given COBOL copybook
 
 ## Non objectives
 
@@ -19,7 +23,7 @@ A new take on the [original legstar project](https://code.google.com/p/legstar/)
 
 * Complete functional equivalence to legstar. Rarely used legstar features will not be ported to V2.
 
-* Recognizes the IBM COBOL for z/OS syntax only. It may or may not work for other COBOL compilers.
+* Recognizes the [IBM COBOL for z/OS](http://www-01.ibm.com/support/docview.wss?uid=swg27036733) syntax only. It may or may not work for other COBOL compilers.
 
 ## Requirements
 
