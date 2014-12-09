@@ -16,9 +16,10 @@ import com.legstar.base.visitor.MinBytesLenCobolVisitor;
  * type's 'signature'.
  * <p/>
  * Note that some Cobol types are easier to recognize than others, for instance
- * {@link CobolPackedDecimalType} and {@link CobolZonedDecimalType} impose
- * severe limitation on their content and therefore are unlikely to be missed
- * for some other type. So you want to have as many as possible of these in your
+ * {@link com.legstar.base.type.primitive.CobolPackedDecimalType} and
+ * {@link com.legstar.base.type.primitive.CobolZonedDecimalType} impose severe
+ * limitation on their content and therefore are unlikely to be missed for some
+ * other type. So you want to have as many as possible of these in your
  * signature.
  * <p/>
  * Decimal types can be defined with boundaries (minInclusive and maxInclusive)
@@ -86,8 +87,8 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
     /** {@inheritDoc} */
     public boolean match(byte[] hostData, int start, int length) {
 
-        Cob2ObjectValidator visitor = new Cob2ObjectValidator(
-                cobolContext, hostData, start, stopFieldInclusive);
+        Cob2ObjectValidator visitor = new Cob2ObjectValidator(cobolContext,
+                hostData, start, stopFieldInclusive);
         visitor.visit(cobolComplexType);
         return visitor.isValid();
 

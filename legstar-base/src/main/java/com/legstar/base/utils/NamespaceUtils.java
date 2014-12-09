@@ -39,7 +39,7 @@ public class NamespaceUtils {
     /**
      * Create a java package name out of an XML namespace.
      * 
-     * @param xmlSchema
+     * @param nsUri the namespace URI
      * @return null if unable to derive a package name
      */
     public static String toPackageName(String nsUri) {

@@ -206,9 +206,9 @@ public class Cob2XsdConfig {
     private final boolean _quoteIsQuote;
 
     /**
-     * Construct from a properties object.
+     * Construct configuration from a properties object.
      * 
-     * @param props the property file
+     * @param configProps the properties object
      */
     public Cob2XsdConfig(final Properties configProps) {
         

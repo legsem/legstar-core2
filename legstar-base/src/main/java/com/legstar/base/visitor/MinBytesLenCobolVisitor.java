@@ -20,7 +20,6 @@ import com.legstar.base.type.primitive.CobolPrimitiveType;
  * Optionally calculation can stop on a field in the middle of the structure
  * (calculates partial length).
  * 
- * @return the minimum number of bytes for a corresponding mainframe buffer
  */
 public class MinBytesLenCobolVisitor implements CobolVisitor {
 

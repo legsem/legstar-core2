@@ -86,7 +86,6 @@ public abstract class AbstractCob2JavaGeneratorMain {
      * command line options are invalid.
      * 
      * @param args generator options
-     * @return true if execution succeeded
      */
     public void execute(final String[] args) {
         log.info("Generation started");
@@ -327,7 +326,7 @@ public abstract class AbstractCob2JavaGeneratorMain {
     }
 
     /**
-     * @param config the optional configuration file path
+     * @param configFilePath the path to the optional configuration file
      */
     public void setConfigProps(final String configFilePath) {
         if (configFilePath == null) {

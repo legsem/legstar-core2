@@ -7,7 +7,7 @@ import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
 
 /**
- * Visitor walk a COBOL complex structure described by linked {@link CobolType}
+ * Visitor walk a COBOL complex structure described by linked {@link com.legstar.base.type.CobolType}
  * in a depth-first way (visit child before sibling).
  * <p/>
  * Visitors are mutable objects keeping contextual data during traversal. They

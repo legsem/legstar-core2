@@ -29,7 +29,7 @@ public class CobolChoiceType extends CobolCompositeType {
      * @param name a unique name for this choice
      * @param alternatives the mapping of alternatives to their names. It is
      *            important that this structure preserves insertion order (such
-     *            as {@link LinkedHashMap} )
+     *            as {@link java.util.LinkedHashMap} )
      */
     public CobolChoiceType(String name, Map < String, CobolType > alternatives) {
         this.name = name;

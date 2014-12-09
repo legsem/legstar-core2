@@ -78,13 +78,7 @@ import com.legstar.cobol.model.CobolDataItem;
  * All options are bundled in {@link Cob2XsdModel} instance that is received at
  * construction time.
  * <p/>
- * To invoke the translator, you normally call one of:
- * <ul>
- * <li>{@link #translate(String)}</li>
- * <li>{@link #translate(File, File)}</li>
- * <li>{@link #translate(File, String, File)}</li>
- * </ul>
- * methods.
+ * To invoke the translator, you normally call the translate method.
  * <p/>
  * Any error encountered and recovered from is available in
  * {@link #getErrorHistory()}.

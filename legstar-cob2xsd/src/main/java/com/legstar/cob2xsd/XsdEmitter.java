@@ -45,7 +45,7 @@ import com.legstar.cobol.utils.ValueUtil;
  * <p/>
  * This class uses Apache XmlSchema to produce the XML schema.
  * <p/>
- * All execution parameters are bundled in {@link Cob2XsdContext}.
+ * All execution parameters are bundled in {@link Cob2XsdConfig}.
  * 
  */
 public class XsdEmitter {
