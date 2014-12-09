@@ -12,10 +12,20 @@ Assembly descriptor for the distribution.
         <fileSet>
             <directory>src/test/cobol</directory>
             <outputDirectory>/samples/cobol</outputDirectory>
+            <includes>
+                <include>CUSTDAT</include>
+            </includes>
         </fileSet>
         <fileSet>
             <directory>src/main/ant</directory>
             <outputDirectory>/samples</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/test/java</directory>
+            <outputDirectory>/samples/java</outputDirectory>
+            <includes>
+                <include>**/CustdatSample.java</include>
+            </includes>
         </fileSet>
         <fileSet>
             <directory>src/test/data</directory>
