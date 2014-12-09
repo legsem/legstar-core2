@@ -3,9 +3,9 @@ package com.legstar.base.type.primitive;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
+import com.legstar.base.FromHostException;
+import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
-import com.legstar.base.type.FromHostException;
-import com.legstar.base.type.FromHostResult;
 
 /**
  * A PIC X.

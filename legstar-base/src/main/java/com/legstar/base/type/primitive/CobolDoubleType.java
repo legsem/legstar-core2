@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
+import com.legstar.base.FromHostException;
+import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
-import com.legstar.base.type.FromHostException;
-import com.legstar.base.type.FromHostResult;
 
 /**
  * COBOL Double type.

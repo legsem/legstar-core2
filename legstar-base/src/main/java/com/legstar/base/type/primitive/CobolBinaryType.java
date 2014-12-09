@@ -2,8 +2,8 @@ package com.legstar.base.type.primitive;
 
 import java.nio.ByteBuffer;
 
+import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
-import com.legstar.base.type.FromHostException;
 
 /**
  * Binary (COMP)

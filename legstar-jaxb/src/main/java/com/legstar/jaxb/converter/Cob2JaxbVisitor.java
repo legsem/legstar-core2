@@ -3,9 +3,10 @@ package com.legstar.jaxb.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.legstar.base.ConversionException;
+import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
-import com.legstar.base.type.ConversionException;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
@@ -21,7 +22,7 @@ import com.legstar.base.visitor.FromCobolVisitor;
  * and {@link JaxbWrapper} classes to map COBOL fields to JAXB properties.
  * 
  */
-public class Cob2JaxbConverter extends FromCobolVisitor {
+public class Cob2JaxbVisitor extends FromCobolVisitor {
 
     private final JaxbPrimitiveTypeHandler primitiveTypeHandler;
     private final JaxbChoiceTypeAlternativeHandler choiceTypeAlternativeHandler;
@@ -40,19 +41,19 @@ public class Cob2JaxbConverter extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------
-    public Cob2JaxbConverter(CobolContext cobolContext, byte[] hostData,
+    public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
             int start, JaxbWrapperFactory jaxbWrapperFactory) {
         this(cobolContext, hostData, start, jaxbWrapperFactory, null);
     }
 
-    public Cob2JaxbConverter(CobolContext cobolContext, byte[] hostData,
+    public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
             int start, JaxbWrapperFactory jaxbWrapperFactory,
             FromCobolChoiceStrategy customChoiceStrategy) {
         this(cobolContext, hostData, start, jaxbWrapperFactory,
                 customChoiceStrategy, null);
     }
 
-    public Cob2JaxbConverter(CobolContext cobolContext, byte[] hostData,
+    public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
             int start, JaxbWrapperFactory jaxbWrapperFactory,
             FromCobolChoiceStrategy customChoiceStrategy,
             List < String > customVariables) {
@@ -146,6 +147,16 @@ public class Cob2JaxbConverter extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     public Object getLastObject() {
         return lastObject;
+    }
+
+    public <T> T getLastObject(Class < T > clazz) {
+        if (clazz.isAssignableFrom(lastObject.getClass())) {
+            return clazz.cast(lastObject);
+        } else {
+            throw new FromHostException("Object of class "
+                    + lastObject.getClass() + " is not assignable from "
+                    + clazz, getHostData(), getLastPos());
+        }
     };
 
 }

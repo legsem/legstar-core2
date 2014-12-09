@@ -1,4 +1,4 @@
-package com.legstar.base.type;
+package com.legstar.base;
 
 /**
  * Aggregate result of converting host bytes to java.

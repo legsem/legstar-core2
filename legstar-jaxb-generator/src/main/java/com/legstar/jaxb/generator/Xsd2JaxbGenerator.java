@@ -21,6 +21,7 @@ import org.apache.ws.commons.schema.XmlSchemaCollection;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.StringHelpers;
+import com.legstar.base.generator.Xsd2CobolTypesGenerator;
 import com.legstar.base.generator.Xsd2ConverterException;
 import com.legstar.base.generator.Xsd2CobolTypesModelBuilder;
 import com.legstar.base.utils.NamespaceUtils;
@@ -30,9 +31,9 @@ import com.legstar.base.utils.NamespaceUtils;
  * <p/>
  * Produces the following artifacts:
  * <ul>
- * <li>Wrappers to get/set JAXB instances properties. They are a faster alternative
- * to using reflection</li>
- * <li>A conversion class ready to be invoked </li>
+ * <li>Wrappers to get/set JAXB instances properties. They are a faster
+ * alternative to using reflection</li>
+ * <li>A conversion class ready to be invoked</li>
  * </ul>
  * 
  */
@@ -168,13 +169,21 @@ public class Xsd2JaxbGenerator {
                 model.put("root_type_name", entry.getKey());
                 model.put("complex_types", entry.getValue().complexTypes);
                 model.put("choice_types", entry.getValue().choiceTypes);
-                code.put(jaxbWrappersFactoryclassName, hbtJaxbWrapperFactoryClass.apply(model));
-                
-                String jaxbConverterClassName = JAXB_CONVERTER_CLASS_NAME_PREFIX + entry.getKey();
+                code.put(jaxbWrappersFactoryclassName,
+                        hbtJaxbWrapperFactoryClass.apply(model));
+
+                String jaxbConverterClassName = JAXB_CONVERTER_CLASS_NAME_PREFIX
+                        + entry.getKey();
                 model.put("class_name", jaxbConverterClassName);
-                model.put("jaxb_wrappers_factory_class_name", jaxbWrappersFactoryclassName);
-                code.put(jaxbConverterClassName, hbtJaxbConverterClass.apply(model));
-                
+                model.put(
+                        "complex_type_class_name",
+                        Xsd2CobolTypesGenerator.JAVA_CLASS_NAME_PREFIX
+                                + entry.getKey());
+                model.put("jaxb_wrappers_factory_class_name",
+                        jaxbWrappersFactoryclassName);
+                code.put(jaxbConverterClassName,
+                        hbtJaxbConverterClass.apply(model));
+
             }
             return code;
         } catch (IOException e) {

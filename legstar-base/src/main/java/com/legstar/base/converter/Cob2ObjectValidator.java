@@ -1,9 +1,9 @@
 package com.legstar.base.converter;
 
+import com.legstar.base.ConversionException;
+import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
-import com.legstar.base.type.ConversionException;
-import com.legstar.base.type.FromHostResult;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;

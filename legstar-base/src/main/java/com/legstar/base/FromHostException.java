@@ -1,4 +1,4 @@
-package com.legstar.base.type;
+package com.legstar.base;
 
 import com.legstar.base.utils.HexUtils;
 

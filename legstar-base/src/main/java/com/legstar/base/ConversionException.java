@@ -1,4 +1,4 @@
-package com.legstar.base.type;
+package com.legstar.base;
 
 /**
  * Some anomaly at runtime when trying to convert to or from mainframe data.

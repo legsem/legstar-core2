@@ -1,6 +1,6 @@
 package com.legstar.base.visitor;
 
-import com.legstar.base.type.ConversionException;
+import com.legstar.base.ConversionException;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;

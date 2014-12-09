@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
-import com.legstar.base.type.ConversionException;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;

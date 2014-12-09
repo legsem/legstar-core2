@@ -7,10 +7,10 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.converter.Cob2ObjectConverter;
-import com.legstar.base.type.ConversionException;
 import com.legstar.base.type.gen.*;
 import com.legstar.base.utils.HexUtils;
 import com.legstar.base.visitor.Rdef03ObjectFromHostChoiceStrategy;

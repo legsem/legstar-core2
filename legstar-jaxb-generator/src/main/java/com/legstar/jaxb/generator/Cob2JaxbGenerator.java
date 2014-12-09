@@ -136,7 +136,6 @@ public class Cob2JaxbGenerator {
             File tempXsdFile = File.createTempFile("legstar", ".xsd");
             FileUtils.writeStringToFile(tempXsdFile, xmlSchemaSource);
             
-            // TODO: I don't know if I should send output to stdout
             ErrorReceiver errorReceiver = new ErrorReceiverImpl();
 
             Options options = new Options();

@@ -1,9 +1,9 @@
 package com.legstar.jaxb.converter.gen.flat01;
 
+import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.type.FromHostResult;
-import com.legstar.jaxb.converter.Cob2JaxbConverter;
+import com.legstar.jaxb.converter.Cob2JaxbVisitor;
 
 public class Cob2Flat01Record {
     
@@ -15,7 +15,7 @@ public class Cob2Flat01Record {
     
     public FromHostResult < legstar.test.jaxb.flat01.Flat01Record > convert(
             byte[] hostData, int start) {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 hostData, start, new Flat01RecordJaxb());
         visitor.visit(new legstar.test.jaxb.flat01.CobolFlat01Record());
         return new FromHostResult < legstar.test.jaxb.flat01.Flat01Record >(

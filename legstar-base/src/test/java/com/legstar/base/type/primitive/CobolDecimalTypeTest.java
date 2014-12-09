@@ -7,9 +7,9 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.type.FromHostException;
 import com.legstar.base.type.primitive.CobolDecimalType;
 import com.legstar.base.utils.HexUtils;
 

@@ -1,26 +1,15 @@
 package test.example;
 
-import com.legstar.base.context.CobolContext;
-import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.type.FromHostResult;
-import com.legstar.jaxb.converter.Cob2JaxbConverter;
+import com.legstar.jaxb.converter.Cob2Jaxb;
 
-public class Cob2Rdef02Record {
-    
-    private final CobolContext cobolContext;
-    
+public class Cob2Rdef02Record extends Cob2Jaxb<legstar.test.jaxb.rdef02.Rdef02Record> {
+
     public Cob2Rdef02Record() {
-        cobolContext = new EbcdicCobolContext();
+        super(
+            new CobolRdef02Record(),
+            new Rdef02RecordJaxb(),
+            legstar.test.jaxb.rdef02.Rdef02Record.class
+        );
     }
-    
-    public FromHostResult < legstar.test.jaxb.rdef02.Rdef02Record > convert(
-            byte[] hostData, int start) {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
-                hostData, start, new Rdef02RecordJaxb());
-        visitor.visit(new CobolRdef02Record());
-        return new FromHostResult < legstar.test.jaxb.rdef02.Rdef02Record >(
-                visitor.getLastPos(),
-                (legstar.test.jaxb.rdef02.Rdef02Record) visitor.getLastObject());
-    }    
 
 }

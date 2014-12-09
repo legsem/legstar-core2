@@ -26,7 +26,7 @@ import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.utils.HexUtils;
 import com.legstar.base.visitor.FromCobolChoiceStrategy;
-import com.legstar.jaxb.converter.Cob2JaxbConverter;
+import com.legstar.jaxb.converter.Cob2JaxbVisitor;
 import com.legstar.jaxb.converter.gen.ardo01.Ardo01RecordJaxb;
 import com.legstar.jaxb.converter.gen.custdat.CustomerDataJaxb;
 import com.legstar.jaxb.converter.gen.flat01.Flat01RecordJaxb;
@@ -38,7 +38,7 @@ import com.legstar.jaxb.converter.gen.stru01.Stru01RecordJaxb;
 import com.legstar.jaxb.converter.gen.stru03.Stru03RecordJaxb;
 import com.legstar.jaxb.converter.gen.stru04.Stru04RecordJaxb;
 
-public class Cob2JaxbConverterTest {
+public class Cob2JaxbVisitorTest {
 
     private CobolContext cobolContext;
 
@@ -49,7 +49,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertFlat01() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                 0, new Flat01RecordJaxb());
@@ -62,7 +62,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertFlat02() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E001F0014000F000C"),
                 0, new Flat02RecordJaxb());
@@ -76,7 +76,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertStru01() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2"),
                 0, new Stru01RecordJaxb());
@@ -90,7 +90,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertStru03() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C2000FC1C2000CC1C2"),
                 0, new Stru03RecordJaxb());
@@ -105,7 +105,7 @@ public class Cob2JaxbConverterTest {
     @Test
     public void testConvertRdef01DefaultStrategy() {
         CobolComplexType type = new CobolRdef01Record();
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("0000D5C1D4C5F0F0F0F0F0F500010250000F"), 0,
                 new Rdef01RecordJaxb());
         visitor.visit(type);
@@ -114,7 +114,7 @@ public class Cob2JaxbConverterTest {
                 visitor.getLastObject().toString());
         assertEquals(12, visitor.getLastPos());
 
-        visitor = new Cob2JaxbConverter(cobolContext,
+        visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("0000D5C1D4C5F0F0F0F0F0F500010250000F"), 12,
                 new Rdef01RecordJaxb());
         visitor.visit(type);
@@ -126,7 +126,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertRdef01CustomStrategy() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("00010250000F40404040404000010260000F404040404040"),
                 0, new Rdef01RecordJaxb(),
@@ -165,7 +165,7 @@ public class Cob2JaxbConverterTest {
     @Test
     public void testConvertRdef02DefaultStrategy() {
         CobolComplexType type = new CobolRdef02Record();
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("C1C2C3D1D2D30000D5C1D4C5F0F0F0F0F0F50260000F"),
                 0, new Rdef02RecordJaxb());
@@ -175,7 +175,7 @@ public class Cob2JaxbConverterTest {
                 visitor.getLastObject().toString());
         assertEquals(22, visitor.getLastPos());
 
-        visitor = new Cob2JaxbConverter(
+        visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("00001361588C0001D5C1D4C5F0F0F0F0F0F50261588F"),
                 0, new Rdef02RecordJaxb());
@@ -188,7 +188,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"), 0,
                 new Rdef03RecordJaxb());
         visitor.visit(new CobolRdef03Record());
@@ -201,7 +201,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertRdef03DefaultStrategySecondAlternative() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("00010250000F"), 0,
                 new Rdef03RecordJaxb());
         visitor.visit(new CobolRdef03Record());
@@ -214,7 +214,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertRdef03CustomStrategyWithVariables() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"), 0,
                 new Rdef03RecordJaxb(),
                 new Rdef03ObjectFromHostChoiceStrategy(),
@@ -229,7 +229,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertArdo01EmptyVariableArray() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400000"),
                 0, new Ardo01RecordJaxb());
@@ -243,7 +243,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertArdo01OneItemVariableArray() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400001000000000023556C"),
                 0, new Ardo01RecordJaxb());
@@ -257,7 +257,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertArdo01FullVariableArray() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(
                 cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400005000000000023556C000000000023656C000000000023756C000000000023856C000000000023956C"),
                 0, new Ardo01RecordJaxb());
@@ -272,7 +272,7 @@ public class Cob2JaxbConverterTest {
     
     @Test
     public void testConvertCustdat() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F1D1D6C8D540E2D4C9E3C840404040404040404040C3C1D4C2D9C9C4C7C540E4D5C9E5C5D9E2C9E3E8F4F4F0F1F2F5F6F500000002F1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5CF1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5C"),
                 0, new CustomerDataJaxb());
         visitor.visit(new CobolCustomerData());
@@ -285,7 +285,7 @@ public class Cob2JaxbConverterTest {
 
     @Test
     public void testConvertStru04() {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
+        Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("0190000F00090006C2C5C5C2C4C40001900FC2C2C5C4C5C30000950F0003000000020013000CC2C4C2C1C5C40003800FC1C5C2C2C4C10001900F000600000005001C0013C1C5C2C5C1C30005700FC4C2C3C3C3C20002850F0009000000080023750F"),
                 0, new Stru04RecordJaxb());
         visitor.visit(new CobolStru04Record());

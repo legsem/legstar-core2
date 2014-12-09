@@ -1,7 +1,7 @@
 package com.legstar.base.type.primitive;
 
+import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
-import com.legstar.base.type.FromHostException;
 
 /**
  * A Packed Decimal (COMP-3).

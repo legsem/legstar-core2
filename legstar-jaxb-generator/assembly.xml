@@ -18,6 +18,10 @@ Assembly descriptor for the distribution.
             <outputDirectory>/samples</outputDirectory>
         </fileSet>
         <fileSet>
+            <directory>src/test/data</directory>
+            <outputDirectory>/samples/data</outputDirectory>
+        </fileSet>
+        <fileSet>
             <directory>src/main/resources</directory>
             <outputDirectory>/samples/conf</outputDirectory>
             <excludes>

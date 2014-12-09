@@ -1,26 +1,15 @@
 {{#if target_package_name}}package {{target_package_name}};{{/if}}
 
-import com.legstar.base.context.CobolContext;
-import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.type.FromHostResult;
-import com.legstar.jaxb.converter.Cob2JaxbConverter;
+import com.legstar.jaxb.converter.Cob2Jaxb;
 
-public class {{class_name}} {
-    
-    private final CobolContext cobolContext;
-    
+public class {{class_name}} extends Cob2Jaxb<{{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{root_type_name}}> {
+
     public {{class_name}}() {
-        cobolContext = new EbcdicCobolContext();
+        super(
+            new {{complex_type_class_name}}(),
+            new {{jaxb_wrappers_factory_class_name}}(),
+            {{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{root_type_name}}.class
+        );
     }
-    
-    public FromHostResult < {{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{root_type_name}} > convert(
-            byte[] hostData, int start) {
-        Cob2JaxbConverter visitor = new Cob2JaxbConverter(cobolContext,
-                hostData, start, new {{jaxb_wrappers_factory_class_name}}());
-        visitor.visit(new Cobol{{root_type_name}}());
-        return new FromHostResult < {{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{root_type_name}} >(
-                visitor.getLastPos(),
-                ({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{root_type_name}}) visitor.getLastObject());
-    }    
 
 }
