@@ -3,6 +3,7 @@ package com.legstar.base.converter;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +12,11 @@ import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.converter.Cob2ObjectConverter;
+import com.legstar.base.type.CobolType;
+import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.gen.*;
 import com.legstar.base.utils.HexUtils;
+import com.legstar.base.visitor.FromCobolChoiceStrategy;
 import com.legstar.base.visitor.Rdef03ObjectFromHostChoiceStrategy;
 
 public class Cob2ObjectConverterTest {
@@ -235,6 +239,47 @@ public class Cob2ObjectConverterTest {
                 "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
                 visitor.getLastObject().toString());
         assertEquals(7, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertRdef04DefaultStrategyFirstAlternative() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("c1c2c340404040404040e9"),
+                0);
+        visitor.visit(new CobolRdef04Record());
+        assertEquals(
+                "{outerRedefinesLongChoice={outerRedefinesLong=ABC}, footer=Z}",
+                visitor.getLastObject().toString());
+        assertEquals(11, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertRdef04CustomStrategyWithVariables() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("c1c2c300000000000000e9"), 0,
+                new FromCobolChoiceStrategy() {
+
+                    public CobolType choose(String choiceFieldName,
+                            CobolChoiceType choiceType,
+                            Map < String, Object > variables, byte[] hostData,
+                            int start) {
+                        if ("outerRedefinesLongChoice".equals(choiceFieldName)) {
+                            return choiceType.getAlternatives().get(
+                                    "outerRedefinesShort");
+                        } else {
+                            return choiceType.getAlternatives().get(
+                                    "innerRedefinesShort");
+                        }
+                    }
+
+                }, Arrays.asList(new String[] { "comSelect" }));
+        visitor.visit(new CobolRdef04Record());
+        assertEquals(
+                "{outerRedefinesLongChoice={outerRedefinesShort={innerRedefinesLongChoice={innerRedefinesShort=ABC}}}, footer=Z}",
+                visitor.getLastObject().toString());
+        assertEquals(11, visitor.getLastPos());
 
     }
 

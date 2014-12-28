@@ -50,17 +50,17 @@ public class CobolZonedDecimalTypeTest {
         assertEquals(1, new CobolZonedDecimalType.Builder < BigDecimal >(
                 BigDecimal.class).signed(false).signLeading(false)
                 .signSeparate(false).totalDigits(1).fractionDigits(0).build()
-                .getBytesLen());
+                .getMaxBytesLen());
         assertEquals(2,
                 new CobolZonedDecimalType.Builder < BigDecimal >(
                         BigDecimal.class).signed(true).signLeading(false)
                         .signSeparate(true).totalDigits(1).fractionDigits(0)
-                        .build().getBytesLen());
+                        .build().getMaxBytesLen());
         assertEquals(2,
                 new CobolZonedDecimalType.Builder < BigDecimal >(
                         BigDecimal.class).signed(true).signLeading(true)
                         .signSeparate(true).totalDigits(1).fractionDigits(0)
-                        .build().getBytesLen());
+                        .build().getMaxBytesLen());
     }
 
     @Test

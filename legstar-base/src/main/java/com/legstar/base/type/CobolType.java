@@ -21,4 +21,11 @@ public abstract class CobolType {
     public abstract void accept(CobolVisitor visitor);
 
 
+    /**
+     * Determine the maximum length in bytes of the mainframe representation of this
+     * type.
+     * 
+     * @return the maximum size in bytes needed to store this type
+     */
+    public abstract int getMaxBytesLen();
 }

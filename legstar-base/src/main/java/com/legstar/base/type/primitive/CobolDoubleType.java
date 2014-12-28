@@ -30,7 +30,7 @@ public class CobolDoubleType<T extends Number> extends CobolPrimitiveType < T > 
             CobolContext cobolContext, byte[] hostData, int start)
             throws FromHostException {
 
-        int bytesLen = getBytesLen();
+        int bytesLen = getMaxBytesLen();
         if (hostData.length < start + bytesLen) {
             throw new FromHostException("Length provided "
                     + (hostData.length - start)
@@ -112,7 +112,7 @@ public class CobolDoubleType<T extends Number> extends CobolPrimitiveType < T > 
 
     public boolean isValid(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) {
-        int bytesLen = getBytesLen();
+        int bytesLen = getMaxBytesLen();
 
         // Is buffer large enough to contain this type?
         // TODO last field in a record might be truncated if all low-values or
@@ -124,7 +124,7 @@ public class CobolDoubleType<T extends Number> extends CobolPrimitiveType < T > 
         return true;
     }
 
-    public int getBytesLen() {
+    public int getMaxBytesLen() {
         return 8;
     }
 

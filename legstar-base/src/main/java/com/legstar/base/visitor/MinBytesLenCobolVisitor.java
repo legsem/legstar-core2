@@ -85,7 +85,7 @@ public class MinBytesLenCobolVisitor implements CobolVisitor {
     }
 
     public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
-        minBytesLen += type.getBytesLen();
+        minBytesLen += type.getMaxBytesLen();
     }
 
     public int getMinBytesLen() {

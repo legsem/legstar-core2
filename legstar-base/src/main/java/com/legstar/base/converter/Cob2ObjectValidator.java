@@ -119,7 +119,7 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
                 putVariable(getCurFieldName(), result.getValue());
                 setLastPos(getLastPos() + result.getBytesProcessed());
             } else {
-                setLastPos(getLastPos() + type.getBytesLen());
+                setLastPos(getLastPos() + type.getMaxBytesLen());
             }
 
         } else {

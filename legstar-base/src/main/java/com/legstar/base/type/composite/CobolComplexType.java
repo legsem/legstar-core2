@@ -20,10 +20,20 @@ public class CobolComplexType extends CobolCompositeType {
      * List of fields mapping to their COBOL type.
      */
     private final Map < String, CobolType > fields;
+    
+    /**
+     * Maximum size in bytes.
+     */
+    private final int maxBytesLen;
 
     public CobolComplexType(String name, Map < String, CobolType > children) {
         this.name = name;
         this.fields = children;
+        int maxBytesLen = 0;
+        for (CobolType child : children.values()) {
+            maxBytesLen += child.getMaxBytesLen();
+        }
+        this.maxBytesLen = maxBytesLen;
     }
 
     public Map < String, CobolType > getFields() {
@@ -37,6 +47,11 @@ public class CobolComplexType extends CobolCompositeType {
     /** {@inheritDoc} */
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxBytesLen() {
+        return maxBytesLen;
     }
 
 }

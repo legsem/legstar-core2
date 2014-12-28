@@ -24,7 +24,7 @@ public class CobolStringType<T> extends CobolPrimitiveType < T > {
     public boolean isValid(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) {
 
-        int bytesLen = getBytesLen();
+        int bytesLen = getMaxBytesLen();
 
         // Is buffer large enough to contain this type?
         // TODO last field in a record might be truncated if all low-values or
@@ -55,7 +55,7 @@ public class CobolStringType<T> extends CobolPrimitiveType < T > {
     protected boolean isValidString(CobolContext cobolContext, byte[] hostData,
             int start) {
 
-        int length = start + getBytesLen();
+        int length = start + getMaxBytesLen();
 
         for (int i = start; i < length; i++) {
             int code = hostData[i] & 0xFF;
@@ -71,7 +71,7 @@ public class CobolStringType<T> extends CobolPrimitiveType < T > {
     public FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) throws FromHostException {
 
-        int bytesLen = getBytesLen();
+        int bytesLen = getMaxBytesLen();
 
         // For strings it is acceptable that host is sending over less data
         // than expected. This happens when trailing low values are chopped
@@ -182,7 +182,7 @@ public class CobolStringType<T> extends CobolPrimitiveType < T > {
         return new FromHostResult < ByteBuffer >(bytesLen, result);
     }
 
-    public int getBytesLen() {
+    public int getMaxBytesLen() {
         return charNum;
     }
 

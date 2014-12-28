@@ -75,19 +75,19 @@ public class CobolPackedDecimalTypeTest {
     public void testBytesLength() {
         assertEquals(1, new CobolPackedDecimalType.Builder < BigDecimal >(
                  BigDecimal.class).signed(true).totalDigits(1)
-                .fractionDigits(0).build().getBytesLen());
+                .fractionDigits(0).build().getMaxBytesLen());
         assertEquals(2, new CobolPackedDecimalType.Builder < BigDecimal >(
                  BigDecimal.class).signed(true).totalDigits(2)
-                .fractionDigits(0).build().getBytesLen());
+                .fractionDigits(0).build().getMaxBytesLen());
         assertEquals(3, new CobolPackedDecimalType.Builder < BigDecimal >(
                  BigDecimal.class).signed(true).totalDigits(5)
-                .fractionDigits(0).build().getBytesLen());
+                .fractionDigits(0).build().getMaxBytesLen());
         assertEquals(4, new CobolPackedDecimalType.Builder < BigDecimal >(
                  BigDecimal.class).signed(true).totalDigits(6)
-                .fractionDigits(0).build().getBytesLen());
+                .fractionDigits(0).build().getMaxBytesLen());
         assertEquals(4, new CobolPackedDecimalType.Builder < BigDecimal >(
                  BigDecimal.class).signed(true).totalDigits(7)
-                .fractionDigits(0).build().getBytesLen());
+                .fractionDigits(0).build().getMaxBytesLen());
     }
 
     @Test

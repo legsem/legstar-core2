@@ -21,6 +21,11 @@ public class CobolArrayType extends CobolCompositeType {
 
     private final String dependingOn;
 
+    /**
+     * Maximum size in bytes.
+     */
+    private final int maxBytesLen;
+
     public CobolArrayType(CobolType itemType, int maxOccurs) {
         this(itemType, maxOccurs, null);
     }
@@ -29,6 +34,7 @@ public class CobolArrayType extends CobolCompositeType {
         this.maxOccurs = maxOccurs;
         this.itemType = itemType;
         this.dependingOn = dependingOn;
+        this.maxBytesLen = maxOccurs * itemType.getMaxBytesLen();
     }
 
     /** {@inheritDoc} */
@@ -52,4 +58,8 @@ public class CobolArrayType extends CobolCompositeType {
         return StringUtils.isNotBlank(dependingOn);
     }
 
+    /** {@inheritDoc} */
+    public int getMaxBytesLen() {
+        return maxBytesLen;
+    }
 }

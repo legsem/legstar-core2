@@ -83,4 +83,18 @@ public class Cob2CobolTypesGeneratorMainTest extends AbstractTest {
     }
 
 
+    @Test
+    public void testGenerateFromMultipleFiles() {
+        try {
+            main.execute(new String[] {  "-i",
+                    TEST_COBOL_FOLDER + "", "-o",
+                    tempFolder.getAbsolutePath() });
+            File result = new File(tempFolder + "/flat01/CobolFlat01Record.java");
+            assertTrue(result.exists());
+            check(FileUtils.readFileToString(result), "CobolFlat01Record.java");
+            result.deleteOnExit();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }

@@ -24,6 +24,11 @@ public class CobolChoiceType extends CobolCompositeType {
     private final Map < String, CobolType > alternatives;
 
     /**
+     * Maximum size in bytes.
+     */
+    private final int maxBytesLen;
+
+    /**
      * Builds a choice from a series of named alternatives.
      * 
      * @param name a unique name for this choice
@@ -34,6 +39,12 @@ public class CobolChoiceType extends CobolCompositeType {
     public CobolChoiceType(String name, Map < String, CobolType > alternatives) {
         this.name = name;
         this.alternatives = alternatives;
+        int maxBytesLen = 0;
+        for (CobolType alternative : alternatives.values()) {
+            maxBytesLen = maxBytesLen < alternative.getMaxBytesLen() ? alternative
+                    .getMaxBytesLen() : maxBytesLen;
+        }
+        this.maxBytesLen = maxBytesLen;
     }
 
     public void accept(CobolVisitor visitor) {
@@ -79,4 +90,8 @@ public class CobolChoiceType extends CobolCompositeType {
         return -1;
     }
 
+    /** {@inheritDoc} */
+    public int getMaxBytesLen() {
+        return maxBytesLen;
+    }
 }

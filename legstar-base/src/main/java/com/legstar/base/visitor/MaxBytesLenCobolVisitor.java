@@ -81,7 +81,7 @@ public class MaxBytesLenCobolVisitor implements CobolVisitor {
     }
 
     public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
-        maxBytesLen += type.getBytesLen();
+        maxBytesLen += type.getMaxBytesLen();
     }
 
     public int getMaxBytesLen() {

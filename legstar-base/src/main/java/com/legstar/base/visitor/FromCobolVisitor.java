@@ -85,6 +85,13 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * in the incoming mainframe data buffer that was processed.
      */
     private int lastPos;
+    
+    /**
+     * Items following choices must start at fixed positions even if the chosen
+     * alternative is shorter than the largest one. This situation results in an
+     * extra offset that will be used to position such items.
+     */
+    private int extraOffset;
 
     // -----------------------------------------------------------------------------
     // Constructors
@@ -168,12 +175,12 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * must be selected.
      * <p/>
      * 
-     * @param type the choice type
+     * @param choiceType the choice type
      * @param callback a function that is invoked after the selected alternative
      *            has been visited
      * @throws ConversionException
      */
-    public void visitCobolChoiceType(CobolChoiceType type,
+    public void visitCobolChoiceType(CobolChoiceType choiceType,
             ChoiceTypeAlternativeHandler callback) throws ConversionException {
 
         CobolType alternative = null;
@@ -181,13 +188,13 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         // If we have a user provided strategy give it a chance to select a
         // alternative
         if (customChoiceStrategy != null) {
-            alternative = customChoiceStrategy.choose(curFieldName, type,
+            alternative = customChoiceStrategy.choose(curFieldName, choiceType,
                     getVariables(), getHostData(), getLastPos());
         }
 
         // If user strategy did not succeed, try the default one
         if (alternative == null) {
-            alternative = defaultChoiceStrategy.choose(curFieldName, type,
+            alternative = defaultChoiceStrategy.choose(curFieldName, choiceType,
                     getVariables(), getHostData(), getLastPos());
         }
 
@@ -199,7 +206,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         }
 
         // Make sure the strategy is returning a known alternative
-        String alternativeName = type.getAlternativeName(alternative);
+        String alternativeName = choiceType.getAlternativeName(alternative);
         if (alternativeName == null) {
             throw new FromHostException(
                     "Alternative does not correspond to a known alternative for choice "
@@ -207,14 +214,24 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         }
 
         alternative.accept(this);
+        
+        // If the alternative chosen is not the largest one, add the difference
+        // to an extra offset that will be used if a fixed position item follows
+        // this choice
+        if (alternative.getMaxBytesLen() < choiceType.getMaxBytesLen()) {
+            extraOffset += choiceType.getMaxBytesLen() - alternative.getMaxBytesLen();
+        }
 
         callback.postVisit(alternativeName,
-                type.getAlternativeIndex(alternativeName), alternative);
+                choiceType.getAlternativeIndex(alternativeName), alternative);
 
     }
 
     /**
      * Visit a primitive type performing the actual conversion to a java object.
+     * <p/>
+     * If there is an extra offset left over by a previous item, adjust the
+     * position accordingly.
      * 
      * @param type the primitive type
      * @param callback a function that is invoked after the primitive type has
@@ -223,6 +240,11 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void visitCobolPrimitiveType(CobolPrimitiveType < ? > type,
             PrimitiveTypeHandler callback) throws ConversionException {
+
+        if (extraOffset > 0) {
+            this.lastPos += extraOffset;
+            extraOffset = 0;
+        }
 
         FromHostResult < ? > result = type.fromHost(cobolContext,
                 getHostData(), getLastPos());

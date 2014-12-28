@@ -84,14 +84,6 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     public abstract FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start)
             throws FromHostException;
 
-    /**
-     * Determine the length in bytes of the mainframe representation of this
-     * type.
-     * 
-     * @return the size in bytes needed to store this type
-     */
-    public abstract int getBytesLen();
-
     /** {@inheritDoc} */
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
