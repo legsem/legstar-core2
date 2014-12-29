@@ -1,0 +1,17 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CFLT01.
+       ENVIRONMENT DIVISION.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01  CFLT-RECORD.
+           05 CFLT-PARENT1.       
+              10 CFLT-INFO.
+                15 CFLT-ID                              PIC X(18).
+                15 CFLT-TYP-CD                          PIC X(05).
+           05 CFLT-PARENT2.       
+              10 CFLT-INFO.
+                15 CFLT-ID-CT                           PIC X(18).
+                15 CFLT-TYP-CD-CT                       PIC X(05).
+       PROCEDURE DIVISION.
+           GOBACK.

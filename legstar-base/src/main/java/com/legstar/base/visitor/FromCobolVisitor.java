@@ -1,9 +1,9 @@
 package com.legstar.base.visitor;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.legstar.base.ConversionException;
 import com.legstar.base.FromHostException;
@@ -61,7 +61,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * TODO custom variable names are not namespaced within a structure and
      * there is a conflict risk
      */
-    private final List < String > customVariables;
+    private final Set < String > customVariables;
 
     /**
      * By default, this is the strategy for choice alternative selection.
@@ -108,7 +108,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
     public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
             int start, FromCobolChoiceStrategy customChoiceStrategy,
-            List < String > customVariables) {
+            Set < String > customVariables) {
         if (hostData == null) {
             throw new IllegalArgumentException("Mainframe data buffer is null");
         }
@@ -334,6 +334,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     // -----------------------------------------------------------------------------
     // Internal methods
     // -----------------------------------------------------------------------------
+    
     /**
      * Retrieve the size of an array.
      * <p/>
@@ -425,7 +426,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     
     /**
      * A primitive type is a custom variable if it has been marked as so via one
-     * of the available mechanisms.
+     * of the available mechanisms or is needed to make choice decisions.
      * 
      * @param type the primitive type
      * @param name the variable name
@@ -436,6 +437,11 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             return true;
         }
         if (customVariables != null && customVariables.contains(name)) {
+            return true;
+        }
+        if (customChoiceStrategy != null
+                && customChoiceStrategy.getVariableNames() != null
+                && customChoiceStrategy.getVariableNames().contains(name)) {
             return true;
         }
         return false;

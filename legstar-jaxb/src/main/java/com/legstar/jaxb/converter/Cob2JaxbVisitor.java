@@ -2,6 +2,7 @@ package com.legstar.jaxb.converter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.legstar.base.ConversionException;
 import com.legstar.base.FromHostException;
@@ -56,7 +57,7 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
     public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
             int start, JaxbWrapperFactory jaxbWrapperFactory,
             FromCobolChoiceStrategy customChoiceStrategy,
-            List < String > customVariables) {
+            Set < String > customVariables) {
         super(cobolContext, hostData, start, customChoiceStrategy,
                 customVariables);
         primitiveTypeHandler = new JaxbPrimitiveTypeHandler();

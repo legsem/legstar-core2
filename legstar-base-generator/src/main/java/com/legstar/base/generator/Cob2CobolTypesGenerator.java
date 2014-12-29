@@ -10,6 +10,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.legstar.base.utils.NamespaceUtils;
 import com.legstar.cob2xsd.Cob2Xsd;
 import com.legstar.cob2xsd.Cob2XsdConfig;
@@ -30,6 +33,9 @@ public class Cob2CobolTypesGenerator {
     private final Cob2Xsd cob2xsd;
 
     private final Xsd2CobolTypesGenerator xsd2CobolTypes;
+
+    private static Logger log = LoggerFactory
+            .getLogger(Cob2CobolTypesGenerator.class);
 
     public Cob2CobolTypesGenerator(Properties configProps) {
         cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
@@ -91,6 +97,10 @@ public class Cob2CobolTypesGenerator {
         // The XML schema is an intermediary result which we do not keep.
         String xmlSchemaSource = cob2xsd.translate(cobolReader,
                 NamespaceUtils.toNamespace(targetPackageName));
+        if (log.isDebugEnabled()) {
+            log.debug("Generated Cobol-annotated XML Schema: ");
+            log.debug(xmlSchemaSource);
+        }
         return xsd2CobolTypes.generate(xmlSchemaSource, targetPackageName);
 
     }

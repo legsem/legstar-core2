@@ -78,6 +78,16 @@ public class Xsd2CobolTypesModelBuilderTest extends AbstractTest {
         check(build("alltypes"), "alltypes.map");
     }
 
+    @Test
+    public void testOptl01Build() throws Exception {
+        check(build("optl01"), "optl01.map");
+    }
+
+    @Test
+    public void testCflt01Build() throws Exception {
+        check(build("cflt01"), "cflt01.map");
+    }
+
     private String build(String schemaName) throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");
 

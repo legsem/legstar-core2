@@ -2,8 +2,9 @@ package com.legstar.base.converter;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -233,7 +234,7 @@ public class Cob2ObjectConverterTest {
     public void testConvertRdef03CustomStrategyWithVariables() {
         Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
-                0, new Rdef03ObjectFromHostChoiceStrategy(), Arrays.asList(new String[] {"comSelect"}));
+                0, new Rdef03ObjectFromHostChoiceStrategy());
         visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
@@ -274,7 +275,11 @@ public class Cob2ObjectConverterTest {
                         }
                     }
 
-                }, Arrays.asList(new String[] { "comSelect" }));
+                    public Set < String > getVariableNames() {
+                        return null;
+                    }
+
+                });
         visitor.visit(new CobolRdef04Record());
         assertEquals(
                 "{outerRedefinesLongChoice={outerRedefinesShort={innerRedefinesLongChoice={innerRedefinesShort=ABC}}}, footer=Z}",
@@ -352,12 +357,113 @@ public class Cob2ObjectConverterTest {
                         + "361677a4590fab60"
                         + "361677a4590fab60"),
                 0);
-        visitor.visit(new CobolDfhcommarea());
+        visitor.visit(new com.legstar.base.type.gen.alltypes.CobolDfhcommarea());
         assertEquals(
                 "{SString=ABCD, SBinary=java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], SShort=-932, SUshort=15, SInt=78906, SUint=452, SLong=-4532456, SUlong=7800056, SXlong=87554907654321, SUxlong=564678008321, SDec=75.45, SFloat=345006.56, SDouble=7.982006699999985E-14, AString=[ABCD, ABCD], ABinary=[java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], java.nio.HeapByteBuffer[pos=0 lim=4 cap=4]], AShort=[-932, -932], AUshort=[15, 15], AInt=[78906, 78906], AUint=[452, 452], ALong=[-4532456, -4532456], AUlong=[7800056, 7800056], AXlong=[87554907654321, 87554907654321], AUxlong=[564678008321, 564678008321], ADec=[75.45, 75.45], AFloat=[345006.56, 345006.56], ADouble=[7.982006699999985E-14, 7.982006699999985E-14]}",
                 visitor.getLastObject().toString());
         assertEquals(267, visitor.getLastPos());
 
     }
+
+    @Test
+    public void testConvertDplarcht() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex(                "0000"
+                        + "5c404040"
+                        + "4040404040404040"
+                        + "000000000f"
+                        + "0000"
+                        + "00000001"
+                        + "c1c2c3c4c1c2c3c4"
+                        + "c4404040404040404040"
+                        + "c4404040404040404040"
+                        + "c4404040404040404040"
+                        + "c4404040404040404040"
+                        + "40404040"
+                        + "c1c1c1c1c2c2c2c2c3c3c3c3"),
+                0);
+        visitor.visit(new com.legstar.base.type.gen.dplarcht.CobolDfhcommarea());
+        assertEquals(
+                "{lsRequest={lsRequestType=0, lsAllItemsChoice={lsAllItems=*}, lsSearchCriteria={lsStartwith=, lsStartwithLen=0}}, lsReply={lsReplyType=0, lsReplyData={lsItemsCount=1, lsItemsArray=[{lsFilesDataChoice={lsFilesData={lsFileName=ABCDABCD, lsFileDsname=D         D         D         D, lsFileEnablestatus=AAAABBBBCCCC}}}]}}}",
+                visitor.getLastObject().toString());
+        assertEquals(89, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertDplarchtTransactionChoice() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex(                "0002"
+                        + "5c404040"
+                        + "4040404040404040"
+                        + "000000000f"
+                        + "0001"
+                        + "00000001"
+                        + "c1c1c1c1c1c1c1c1"
+                        + "c2c2c2c2c2c2c2c2"
+                        + "c3c3c3c3c3c3c3c3c3c3c3c3"
+                        + "404040404040404040404040404040404040404040404040404040404040404040404040"),
+                0,
+                new DplarchtChoiceStrategy());
+        visitor.visit(new com.legstar.base.type.gen.dplarcht.CobolDfhcommarea());
+        assertEquals(
+                "{lsRequest={lsRequestType=2, lsAllItemsChoice={lsAllItems=*}, lsSearchCriteria={lsStartwith=, lsStartwithLen=0}}, lsReply={lsReplyType=1, lsReplyData={lsItemsCount=1, lsItemsArray=[{lsFilesDataChoice={lsTransactionsData={lsTransactionName=AAAAAAAA, lsTransactionProgram=BBBBBBBB, lsTransactionStatus=CCCCCCCCCCCC, filler119=}}}]}}}",
+                visitor.getLastObject().toString());
+        assertEquals(89, visitor.getLastPos());
+
+    }
+    
+    @Test
+    public void testConvertDplarchtProgramChoice() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex(                "0001"
+                        + "5c404040"
+                        + "4040404040404040"
+                        + "000000000f"
+                        + "0000"
+                        + "00000001"
+                        + "c2c9d5c1d9c3c8e3"
+                        + "d7d9d6c7d9c1d44040404040"
+                        + "d5d6e3c4c5c6c9d5c5c44040"
+                        + "000016a0"
+                        + "00000002"
+                        + "404040404040404040404040404040404040404040404040"),
+                0,
+                new DplarchtChoiceStrategy());
+        visitor.visit(new com.legstar.base.type.gen.dplarcht.CobolDfhcommarea());
+        assertEquals(
+                "{lsRequest={lsRequestType=1, lsAllItemsChoice={lsAllItems=*}, lsSearchCriteria={lsStartwith=, lsStartwithLen=0}}, lsReply={lsReplyType=0, lsReplyData={lsItemsCount=1, lsItemsArray=[{lsFilesDataChoice={lsProgramsData={lsProgramName=BINARCHT, lsProgramType=PROGRAM, lsProgramLanguage=NOTDEFINED, lsProgramLength=5792, lsProgramUsecount=2, filler113=}}}]}}}",
+                visitor.getLastObject().toString());
+        assertEquals(89, visitor.getLastPos());
+
+    }
+    
+    private class DplarchtChoiceStrategy implements FromCobolChoiceStrategy {
+        public CobolType choose(String choiceFieldName,
+                CobolChoiceType choiceType, Map < String, Object > variables,
+                byte[] hostData, int start) {
+            int select = ((Number) variables.get("lsRequestType")).intValue();
+
+            switch (select) {
+            case 0:
+                return choiceType.getAlternatives().get("lsFilesData");
+            case 1:
+                return choiceType.getAlternatives().get("lsProgramsData");
+            case 2:
+                return choiceType.getAlternatives().get("lsTransactionsData");
+            default:
+                return null;
+
+            }
+        }
+
+        public Set < String > getVariableNames() {
+            Set < String > varNames = new HashSet < String >();
+            varNames.add("lsRequestType");
+            return varNames;
+        }
+    }
+
+
 
 }

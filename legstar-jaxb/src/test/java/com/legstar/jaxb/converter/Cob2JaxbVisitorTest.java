@@ -2,8 +2,9 @@ package com.legstar.jaxb.converter;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import legstar.test.jaxb.ardo01.CobolArdo01Record;
 import legstar.test.jaxb.cusdat.CobolCustomerData;
@@ -153,7 +154,13 @@ public class Cob2JaxbVisitorTest {
                         }
 
                     }
-                }, Arrays.asList(new String[] { "comSelect" }));
+
+                    public Set < String > getVariableNames() {
+                        Set < String > varNames = new HashSet < String >();
+                        varNames.add("comSelect");
+                        return varNames;
+                    }
+                });
         visitor.visit(new CobolRdef01Record());
         assertEquals(
                 "{comSelect=1, comDetail1Choice=comDetail2={comAmount=2500.00}}",
@@ -217,8 +224,7 @@ public class Cob2JaxbVisitorTest {
         Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"), 0,
                 new Rdef03RecordJaxb(),
-                new Rdef03ObjectFromHostChoiceStrategy(),
-                Arrays.asList(new String[] { "comSelect" }));
+                new Rdef03ObjectFromHostChoiceStrategy());
         visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice=comDetail3={comNumber=12345}}",
@@ -316,6 +322,12 @@ public class Cob2JaxbVisitorTest {
                 return null;
 
             }
+        }
+
+        public Set < String > getVariableNames() {
+            Set < String > varNames = new HashSet < String >();
+            varNames.add("comSelect");
+            return varNames;
         }
 
     }

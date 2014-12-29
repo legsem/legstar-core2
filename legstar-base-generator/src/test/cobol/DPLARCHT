@@ -1,0 +1,497 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DPLARCHT.
+      *****************************************************************
+      * AUTHOR                                                        *
+      * ------                                                        *
+      * Fady Moussallam   fady@legsem.com                             *
+      *                                                               *
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * DPL program using spi commands to provide simplistic query    *
+      * capabilities for files, programs and transactions defined to  *
+      * a CICS region.                                                *
+      * this program illustrates various commarea layout cases        *
+      * including:                                                    *
+      *   Mix of different numeric types and strings                  *
+      *   Deep (more than 3 levels) structures                        *
+      *   Multiple execution types yielding different output layouts  *
+      *   Dynamic remapping of a data element                         *
+      *   Levels 88 with ranges                                       *
+      *   Redefines of different simple types                         *
+      *   Redefines of complex types                                  *
+      *   Variable size arrays                                        *
+      *                                                               *
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+      *****************************************************************
+      *        W O R K I N G    S T O R A G E    S E C T I O N        *
+      *****************************************************************
+       WORKING-STORAGE SECTION.
+       
+       01  WS-MAX-ITEMS               PIC 9(9) COMP-5 VALUE 500.
+       01  WS-MAX-ITEMS-D             PIC 9(9) VALUE ZERO.
+
+       01  WS-ERROR-STATUS            PIC 9(4) COMP VALUE ZERO.
+           88 NO-ERRORS  VALUE ZERO.
+           88 ERRORS     VALUE 1.
+       01  WS-ITEMS-SELECTION         PIC 9(4) COMP VALUE ZERO.
+           88 LIMITED-ITEMS  VALUE ZERO.
+           88 ALL-ITEMS      VALUE 1.
+       01  WS-SEARCH-STATUS           PIC 9(4) COMP VALUE ZERO.
+           88 SEARCH-ENDED       VALUE ZERO.
+           88 SEARCH-CONTINUE    VALUE 1.
+           88 SEARCH-FOUND       VALUE 2.
+           
+       01  WS-ERROR-DESCRIPTION       PIC X(256) VALUE SPACES.
+
+       01  WS-FILE-DESCRIPTION.
+           05 WS-FILE-START           PIC X(8) VALUE SPACES.
+           05 WS-FILE-NAME            PIC X(8) VALUE SPACES.
+           05 WS-FILE-DSNAME          PIC X(44) VALUE SPACES.
+           05 WS-FILE-ENABLESTATUS    PIC 9(8) COMP VALUE ZERO.
+           
+       01  WS-PROGRAM-DESCRIPTION.
+           05 WS-PROGRAM-START        PIC X(8) VALUE SPACES.
+           05 WS-PROGRAM-NAME         PIC X(8) VALUE SPACES.
+           05 WS-PROGRAM-TYPE         PIC 9(8) COMP VALUE ZERO.
+           05 WS-PROGRAM-LANGUAGE     PIC 9(8) COMP VALUE ZERO.
+           05 WS-PROGRAM-LENGTH       PIC S9(9) COMP.
+           05 WS-PROGRAM-USECOUNT     PIC S9(9) COMP.
+
+       01  WS-TRANSACTION-DESCRIPTION.
+           05 WS-TRANSACTION-START    PIC X(8) VALUE SPACES.
+           05 WS-TRANSACTION-NAME     PIC X(8) VALUE SPACES.
+           05 WS-TRANSACTION-PROGRAM  PIC X(8) VALUE SPACES.
+           05 WS-TRANSACTION-STATUS   PIC 9(8) COMP VALUE ZERO.
+       
+       01  WS-RESP                    PIC S9(8) COMP VALUE ZERO.
+       01  WS-RESP2                   PIC S9(8) COMP VALUE ZERO.
+
+      *****************************************************************
+      *            L I N K A G E       S E C T I O N                  *
+      *****************************************************************
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+          05 LS-REQUEST.
+             10 LS-REQUEST-TYPE                  PIC 9(4) COMP.
+                   88 FILES-REQUESTED        VALUE 0.
+                   88 PROGRAMS-REQUESTED     VALUE 1.
+                   88 TRANSACTIONS-REQUESTED VALUE 2 THROUGH 9999.
+             10 LS-ALL-ITEMS                     PIC X(4).
+             10 LS-MAX-ITEMS REDEFINES LS-ALL-ITEMS
+                                                 PIC 9(4).
+             10 LS-SEARCH-CRITERIA.
+                15 LS-STARTWITH                  PIC X(8).
+                15 LS-STARTWITH-LEN              PIC 9(9) COMP-3.
+    
+          05 LS-REPLY.
+             10 LS-REPLY-TYPE                    PIC 9(4) COMP.
+                   88 ITEMS-FOUND        VALUE 0.
+                   88 NO-ITEMS-FOUND     VALUE 1.
+                   88 ERROR-FOUND        VALUE 2.
+             10 LS-REPLY-DATA.
+                15 LS-ITEMS-COUNT                PIC 9(9) COMP-5.
+                15 LS-ITEMS-ARRAY OCCURS 1 TO 500
+                               DEPENDING ON LS-ITEMS-COUNT.
+                   20 LS-FILES-DATA. 
+                      25 LS-FILE-NAME            PIC X(8).
+                      25 LS-FILE-DSNAME          PIC X(44).
+                      25 LS-FILE-ENABLESTATUS    PIC X(12).
+                
+                   20 LS-PROGRAMS-DATA REDEFINES LS-FILES-DATA.
+                      25 LS-PROGRAM-NAME         PIC X(8).
+                      25 LS-PROGRAM-TYPE         PIC X(12).
+                      25 LS-PROGRAM-LANGUAGE     PIC X(12).
+                      25 LS-PROGRAM-LENGTH       PIC S9(9) COMP.
+                      25 LS-PROGRAM-USECOUNT     PIC S9(9) COMP.
+                      25                         PIC X(24).
+                
+                   20 LS-TRANSACTIONS-DATA REDEFINES LS-FILES-DATA.
+                      25 LS-TRANSACTION-NAME     PIC X(8).
+                      25 LS-TRANSACTION-PROGRAM  PIC X(8).
+                      25 LS-TRANSACTION-STATUS   PIC X(12).
+                      25                         PIC X(36).
+
+      * In case of failure, error-description will be mapped to
+      * ls-reply-data
+       01  LS-ERROR-DESCRIPTION                  PIC X(256).
+          
+      *****************************************************************
+      *    P R O C E D U R E  D I V I S I O N   S E C T I O N         *
+      *****************************************************************
+       PROCEDURE DIVISION.
+
+           PERFORM CHECK-REQUEST THRU END-CHECK-REQUEST.
+           IF ERRORS PERFORM ERROR-EXIT THRU END-ERROR-EXIT.
+
+           EVALUATE TRUE
+              WHEN FILES-REQUESTED
+                   PERFORM INQUIRE-FILES THRU
+                       END-INQUIRE-FILES
+              WHEN PROGRAMS-REQUESTED
+                   PERFORM INQUIRE-PROGRAMS THRU
+                       END-INQUIRE-PROGRAMS
+              WHEN TRANSACTIONS-REQUESTED
+                   PERFORM INQUIRE-TRANSACTIONS THRU
+                       END-INQUIRE-TRANSACTIONS
+           END-EVALUATE.
+           
+           PERFORM NORMAL-EXIT THRU END-NORMAL-EXIT.
+           GOBACK.
+           
+      *****************************************************************
+      * Perform verifications on the incoming data                    *
+      *****************************************************************
+       CHECK-REQUEST.
+       
+           IF (LS-ALL-ITEMS(1:1) = "*")
+              SET ALL-ITEMS TO TRUE
+           ELSE
+              IF LS-MAX-ITEMS > WS-MAX-ITEMS
+                 COMPUTE WS-MAX-ITEMS-D = WS-MAX-ITEMS
+                 STRING "Maximum items cannot exceed " WS-MAX-ITEMS-D
+                   DELIMITED BY SIZE
+                   INTO WS-ERROR-DESCRIPTION
+                 SET ERRORS TO TRUE
+                 GO TO END-CHECK-REQUEST
+              END-IF
+              SET LIMITED-ITEMS TO TRUE
+           END-IF.
+
+           IF LS-STARTWITH-LEN > 8
+              MOVE "search prefix cannot exceed 8"
+                TO WS-ERROR-DESCRIPTION
+              SET ERRORS TO TRUE
+              GO TO END-CHECK-REQUEST
+           END-IF.
+              
+       END-CHECK-REQUEST.    EXIT.
+
+      *****************************************************************
+      * Select files requested                                        *
+      *****************************************************************
+       INQUIRE-FILES.
+       
+           MOVE ZERO TO LS-ITEMS-COUNT.
+           SET SEARCH-CONTINUE TO TRUE.
+
+      * For files, cics browse does not support the at keyword so we
+      * have to start browsing from the beginning
+
+           EXEC CICS INQUIRE FILE START
+                   RESP         (WS-RESP)
+                   RESP2        (WS-RESP2)
+           END-EXEC.
+           
+           PERFORM UNTIL (WS-RESP NOT = DFHRESP(NORMAL) OR
+                          SEARCH-ENDED)
+               EXEC CICS INQUIRE FILE(WS-FILE-NAME) NEXT
+                    DSNAME       (WS-FILE-DSNAME)
+                    ENABLESTATUS (WS-FILE-ENABLESTATUS)
+                    RESP         (WS-RESP)
+                    RESP2        (WS-RESP2)
+               END-EXEC 
+               IF (WS-RESP = DFHRESP(NORMAL))
+                   IF (LS-STARTWITH-LEN > 0)
+
+      *            Stop search if we are past the requested prefix
+                       IF (WS-FILE-NAME(1:LS-STARTWITH-LEN) >
+                           LS-STARTWITH(1:LS-STARTWITH-LEN))
+                           SET SEARCH-ENDED TO TRUE
+                       ELSE
+
+      *            Ignore item if it does not start with requested prefix
+                           IF (WS-FILE-NAME(1:LS-STARTWITH-LEN) =
+                               LS-STARTWITH(1:LS-STARTWITH-LEN))
+                               SET SEARCH-CONTINUE TO TRUE
+                           ELSE
+                               SET SEARCH-FOUND TO TRUE
+                           END-IF
+                       END-IF
+                   ELSE
+                       SET SEARCH-FOUND TO TRUE
+                   END-IF
+               ELSE
+                   SET SEARCH-ENDED TO TRUE
+               END-IF
+
+      * When item found, translate cvda values and populate reply array
+               IF SEARCH-FOUND
+                   ADD 1 TO LS-ITEMS-COUNT
+                   MOVE WS-FILE-NAME   TO LS-FILE-NAME(LS-ITEMS-COUNT)
+                   MOVE WS-FILE-DSNAME
+                     TO LS-FILE-DSNAME(LS-ITEMS-COUNT)
+                   EVALUATE WS-FILE-ENABLESTATUS
+                       WHEN DFHVALUE(DISABLED)
+                            MOVE "DISABLED"
+                              TO LS-FILE-ENABLESTATUS(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(DISABLING)
+                            MOVE "DISABLING"
+                              TO LS-FILE-ENABLESTATUS(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(ENABLED)
+                            MOVE "ENABLED"
+                              TO LS-FILE-ENABLESTATUS(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(UNENABLED)
+                            MOVE "UNENABLED"
+                              TO LS-FILE-ENABLESTATUS(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(UNENABLING)
+                            MOVE "UNENABLING"
+                              TO LS-FILE-ENABLESTATUS(LS-ITEMS-COUNT)
+                       WHEN OTHER
+                            MOVE "UNKNOWN"
+                              TO LS-FILE-ENABLESTATUS(LS-ITEMS-COUNT)
+                   END-EVALUATE
+
+      * Check if maximum requested number of items is reached
+                   IF (LIMITED-ITEMS AND LS-ITEMS-COUNT = LS-MAX-ITEMS)
+                       SET SEARCH-ENDED TO TRUE
+                   END-IF
+                   IF (ALL-ITEMS AND LS-ITEMS-COUNT = WS-MAX-ITEMS)
+                       SET SEARCH-ENDED TO TRUE
+                   END-IF
+               END-IF
+           END-PERFORM.
+           
+           EXEC CICS INQUIRE FILE END END-EXEC.
+                         
+       END-INQUIRE-FILES.    EXIT.
+       
+      *****************************************************************
+      * Select programs requested                                     *
+      *****************************************************************
+       INQUIRE-PROGRAMS.
+
+           MOVE ZERO TO LS-ITEMS-COUNT.
+           SET SEARCH-CONTINUE TO TRUE.
+
+      * For programs, cics browse supports the at keyword so we can
+      * immediatly start browsing on elements with requested prefix
+
+           IF LS-STARTWITH-LEN > 0
+               MOVE LS-STARTWITH(1:LS-STARTWITH-LEN)
+                 TO WS-PROGRAM-START
+               EXEC CICS INQUIRE PROGRAM START AT(WS-PROGRAM-START)
+                   RESP         (WS-RESP)
+                   RESP2        (WS-RESP2)
+               END-EXEC
+           ELSE
+               EXEC CICS INQUIRE PROGRAM START
+                   RESP         (WS-RESP)
+                   RESP2        (WS-RESP2)
+               END-EXEC
+           END-IF.
+           
+           PERFORM UNTIL (WS-RESP NOT = DFHRESP(NORMAL) OR
+                          SEARCH-ENDED)
+               EXEC CICS INQUIRE PROGRAM(WS-PROGRAM-NAME) NEXT
+                    PROGTYPE     (WS-PROGRAM-TYPE)
+                    LANGUAGE     (WS-PROGRAM-LANGUAGE)
+                    LENGTH       (WS-PROGRAM-LENGTH)
+                    USECOUNT     (WS-PROGRAM-USECOUNT)
+                    RESP         (WS-RESP)
+                    RESP2        (WS-RESP2)
+               END-EXEC 
+               IF (WS-RESP = DFHRESP(NORMAL))
+
+      * Check that item starts with the requested prefix
+                   IF ((LS-STARTWITH-LEN > 0) AND
+                        WS-PROGRAM-NAME(1:LS-STARTWITH-LEN) NOT =
+                        LS-STARTWITH(1:LS-STARTWITH-LEN))
+                        SET SEARCH-ENDED TO TRUE
+                   ELSE
+                        SET SEARCH-FOUND TO TRUE
+                   END-IF
+               ELSE
+                   SET SEARCH-ENDED TO TRUE
+               END-IF
+
+      * When item found, translate cvda values and populate reply array
+               IF SEARCH-FOUND
+                   ADD 1 TO LS-ITEMS-COUNT
+                   MOVE WS-PROGRAM-NAME
+                     TO LS-PROGRAM-NAME(LS-ITEMS-COUNT)
+
+                   EVALUATE WS-PROGRAM-TYPE
+                       WHEN DFHVALUE(MAPSET)
+                            MOVE "MAPSET"
+                              TO LS-PROGRAM-TYPE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(PARTITIONSET)
+                            MOVE "PARTITIONSET"
+                              TO LS-PROGRAM-TYPE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(PROGRAM)
+                            MOVE "PROGRAM"
+                              TO LS-PROGRAM-TYPE(LS-ITEMS-COUNT)
+                       WHEN OTHER
+                            MOVE "UNKNOWN"
+                              TO LS-PROGRAM-TYPE(LS-ITEMS-COUNT)
+                   END-EVALUATE
+
+                   EVALUATE WS-PROGRAM-LANGUAGE
+                       WHEN DFHVALUE(ASSEMBLER)
+                            MOVE "ASSEMBLER"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(C)
+                            MOVE "C"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(COBOL)
+                            MOVE "COBOL"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(LE370)
+                            MOVE "LE370"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(NOTAPPLIC)
+                            MOVE "NOTAPPLIC"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(NOTDEFINED)
+                            MOVE "NOTDEFINED"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(PLI)
+                            MOVE "PLI"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                       WHEN OTHER
+                            MOVE "UNKNOWN"
+                              TO LS-PROGRAM-LANGUAGE(LS-ITEMS-COUNT)
+                   END-EVALUATE
+                   
+                   COMPUTE LS-PROGRAM-LENGTH(LS-ITEMS-COUNT)
+                         = WS-PROGRAM-LENGTH
+                   COMPUTE LS-PROGRAM-USECOUNT(LS-ITEMS-COUNT)
+                         = WS-PROGRAM-USECOUNT
+
+      * Check if maximum requested number of items is reached
+                   IF (LIMITED-ITEMS AND LS-ITEMS-COUNT = LS-MAX-ITEMS)
+                       SET SEARCH-ENDED TO TRUE
+                   END-IF
+                   IF (ALL-ITEMS AND LS-ITEMS-COUNT = WS-MAX-ITEMS)
+                       SET SEARCH-ENDED TO TRUE
+                   END-IF
+               END-IF
+           END-PERFORM.
+           
+           EXEC CICS INQUIRE PROGRAM END END-EXEC.
+                         
+       END-INQUIRE-PROGRAMS.    EXIT.
+       
+      *****************************************************************
+      * Select transactions requested                                 *
+      *****************************************************************
+       INQUIRE-TRANSACTIONS.
+       
+           MOVE ZERO TO LS-ITEMS-COUNT.
+           SET SEARCH-CONTINUE TO TRUE.
+
+      * For transactions, cics browse supports the at keyword so we can
+      * immediatly start browsing on elements with requested prefix
+      
+           IF LS-STARTWITH-LEN > 0
+               MOVE LS-STARTWITH(1:LS-STARTWITH-LEN)
+                 TO WS-TRANSACTION-START
+               EXEC CICS INQUIRE TRANSACTION
+                    START AT(WS-TRANSACTION-START)
+                   RESP         (WS-RESP)
+                   RESP2        (WS-RESP2)
+               END-EXEC
+           ELSE
+               EXEC CICS INQUIRE TRANSACTION START
+                   RESP         (WS-RESP)
+                   RESP2        (WS-RESP2)
+               END-EXEC
+           END-IF.
+           
+           PERFORM UNTIL (WS-RESP NOT = DFHRESP(NORMAL) OR
+                          SEARCH-ENDED)
+               EXEC CICS INQUIRE TRANSACTION(WS-TRANSACTION-NAME) NEXT
+                    PROGRAM      (WS-TRANSACTION-PROGRAM)
+                    STATUS       (WS-TRANSACTION-STATUS)
+                    RESP         (WS-RESP)
+                    RESP2        (WS-RESP2)
+               END-EXEC 
+               IF (WS-RESP = DFHRESP(NORMAL))
+ 
+      * Check that item starts with the requested prefix
+                   IF ((LS-STARTWITH-LEN > 0) AND
+                        WS-TRANSACTION-NAME(1:LS-STARTWITH-LEN) NOT =
+                        LS-STARTWITH(1:LS-STARTWITH-LEN))
+                        SET SEARCH-ENDED TO TRUE
+                   ELSE
+                        SET SEARCH-FOUND TO TRUE
+                   END-IF
+               ELSE
+                   SET SEARCH-ENDED TO TRUE
+               END-IF
+
+      * When item found, translate cvda values and populate reply array
+               IF SEARCH-FOUND
+                   ADD 1 TO LS-ITEMS-COUNT
+                   MOVE WS-TRANSACTION-NAME
+                     TO LS-TRANSACTION-NAME(LS-ITEMS-COUNT)
+                   MOVE WS-TRANSACTION-PROGRAM
+                     TO LS-TRANSACTION-PROGRAM(LS-ITEMS-COUNT)
+
+                   EVALUATE WS-TRANSACTION-STATUS
+                       WHEN DFHVALUE(DISABLED)
+                            MOVE "DISABLED"
+                              TO LS-TRANSACTION-STATUS(LS-ITEMS-COUNT)
+                       WHEN DFHVALUE(ENABLED)
+                            MOVE "ENABLED"
+                              TO LS-TRANSACTION-STATUS(LS-ITEMS-COUNT)
+                       WHEN OTHER
+                            MOVE "UNKNOWN"
+                              TO LS-TRANSACTION-STATUS(LS-ITEMS-COUNT)
+                   END-EVALUATE
+
+      * Check if maximum requested number of items is reached
+                   IF (LIMITED-ITEMS AND LS-ITEMS-COUNT = LS-MAX-ITEMS)
+                       SET SEARCH-ENDED TO TRUE
+                   END-IF
+                   IF (ALL-ITEMS AND LS-ITEMS-COUNT = WS-MAX-ITEMS)
+                       SET SEARCH-ENDED TO TRUE
+                   END-IF
+               END-IF
+           END-PERFORM.
+           
+           EXEC CICS INQUIRE TRANSACTION END END-EXEC.
+
+       END-INQUIRE-TRANSACTIONS.    EXIT.
+       
+      *****************************************************************
+      * Finalize the commarea and return to cics                      *
+      *****************************************************************
+       NORMAL-EXIT.
+
+      * Specify which reply type should be returned.
+           IF LS-ITEMS-COUNT > 0
+              SET ITEMS-FOUND TO TRUE
+           ELSE
+              SET NO-ITEMS-FOUND TO TRUE
+           END-IF.
+
+           EXEC CICS RETURN END-EXEC.
+           
+       END-NORMAL-EXIT.    EXIT.
+
+      *****************************************************************
+      * Signal error in commarea and return to cics                   *
+      *****************************************************************
+       ERROR-EXIT.
+
+      * Errors are signaled with a special reply type.
+           SET ERROR-FOUND TO TRUE.
+
+      * Error message becomes the content of the reply data. This is
+      * an example of a dynamic remapping for a data element
+           SET ADDRESS OF LS-ERROR-DESCRIPTION
+            TO ADDRESS OF LS-REPLY-DATA.
+           MOVE WS-ERROR-DESCRIPTION TO LS-ERROR-DESCRIPTION.
+
+           EXEC CICS RETURN END-EXEC.
+           
+       END-ERROR-EXIT.    EXIT.
+       
+       END PROGRAM DPLARCHT.

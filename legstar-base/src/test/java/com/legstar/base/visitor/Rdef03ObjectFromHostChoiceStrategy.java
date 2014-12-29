@@ -1,6 +1,8 @@
 package com.legstar.base.visitor;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolChoiceType;
@@ -29,6 +31,12 @@ public class Rdef03ObjectFromHostChoiceStrategy implements
             return null;
 
         }
+    }
+
+    public Set < String > getVariableNames() {
+        Set <String> varNames = new HashSet < String >();
+        varNames.add("comSelect");
+        return varNames;
     }
 
 }

@@ -2,6 +2,7 @@ package com.legstar.base.visitor;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
@@ -66,6 +67,10 @@ public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
         }
         return visitor.isValid();
 
+    }
+
+    public Set < String > getVariableNames() {
+        return null;
     }
 
 }

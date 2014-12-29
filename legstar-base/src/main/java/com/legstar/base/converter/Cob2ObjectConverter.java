@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
@@ -47,7 +48,7 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     }
 
     public Cob2ObjectConverter(CobolContext cobolContext, byte[] hostData,
-            int start, FromCobolChoiceStrategy customChoiceStrategy, List < String > customVariables) {
+            int start, FromCobolChoiceStrategy customChoiceStrategy, Set < String > customVariables) {
         super(cobolContext, hostData, start, customChoiceStrategy, customVariables);
         primitiveTypeHandler = new ObjectPrimitiveTypeHandler();
         choiceTypeAlternativeHandler = new ObjectChoiceTypeAlternativeHandler();

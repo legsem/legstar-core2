@@ -1,4 +1,4 @@
-package com.legstar.base.type.gen;
+package com.legstar.base.type.gen.alltypes;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

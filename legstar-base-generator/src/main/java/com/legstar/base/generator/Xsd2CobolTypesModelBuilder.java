@@ -44,6 +44,46 @@ import com.legstar.cobol.model.CobolTypes;
  */
 public class Xsd2CobolTypesModelBuilder {
 
+    private static final String FRACTION_DIGITS_PROP_NAME = "fractionDigits";
+
+    private static final String TOTAL_DIGITS_PROP_NAME = "totalDigits";
+
+    private static final String SIGNED_PROP_NAME = "signed";
+
+    private static final String SIGN_SEPARATE_PROP_NAME = "signSeparate";
+
+    private static final String SIGN_LEADING_PROP_NAME = "signLeading";
+
+    private static final String JAVA_TYPE_NAME_PROP_NAME = "javaTypeName";
+
+    private static final String CHAR_NUM_PROP_NAME = "charNum";
+
+    private static final String COBOL_TYPE_NAME_PROP_NAME = "cobolTypeName";
+
+    private static final String DEPENDING_ON_PROP_NAME = "dependingOn";
+
+    private static final String MAX_INCLUSIVE_PROP_NAME = "maxInclusive";
+
+    private static final String MIN_INCLUSIVE_PROP_NAME = "minInclusive";
+
+    private static final String MAX_OCCURS_PROP_NAME = "maxOccurs";
+
+    private static final String MIN_OCCURS_PROP_NAME = "minOccurs";
+
+    private static final String ODO_OBJECT_PROP_NAME = "odoObject";
+
+    private static final String COMPLEX_TYPE_NAME_PROP_NAME = "complexTypeName";
+
+    private static final String COMPLEX_TYPE_PROP_NAME = "complexType";
+
+    private static final String ALTERNATIVES_PROP_NAME = "alternatives";
+
+    private static final String CHOICE_TYPE_NAME_PROP_NAME = "choiceTypeName";
+
+    private static final String CHOICE_TYPE_PROP_NAME = "choiceType";
+
+    private static final String FIELD_INDEX_PROP_NAME = "fieldIndex";
+
     private static final String CHOICE_FIELD_NAME_SUFFIX = "Choice";
 
     /** Logging. */
@@ -224,10 +264,10 @@ public class Xsd2CobolTypesModelBuilder {
         visit(xsdChoice, compositeTypes, choiceTypeName);
 
         Map < String, Object > props = new HashMap < String, Object >();
-        props.put("fieldIndex", fieldIndex);
-        props.put("choiceType", true);
-        props.put("choiceTypeName", choiceTypeName);
-        props.put("alternatives", compositeTypes.choiceTypes.get(choiceTypeName));
+        props.put(FIELD_INDEX_PROP_NAME, fieldIndex);
+        props.put(CHOICE_TYPE_PROP_NAME, true);
+        props.put(CHOICE_TYPE_NAME_PROP_NAME, choiceTypeName);
+        props.put(ALTERNATIVES_PROP_NAME, compositeTypes.choiceTypes.get(choiceTypeName));
 
         return props;
 
@@ -249,8 +289,8 @@ public class Xsd2CobolTypesModelBuilder {
         visit(xsdComplexType, compositeTypes, complexTypeName);
 
         Map < String, Object > props = new HashMap < String, Object >();
-        props.put("complexType", true);
-        props.put("complexTypeName", complexTypeName);
+        props.put(COMPLEX_TYPE_PROP_NAME, true);
+        props.put(COMPLEX_TYPE_NAME_PROP_NAME, complexTypeName);
 
         return props;
 
@@ -268,7 +308,7 @@ public class Xsd2CobolTypesModelBuilder {
         } else if (xsdElement.getSchemaType() instanceof XmlSchemaSimpleType) {
             props = getProps((XmlSchemaSimpleType) xsdElement.getSchemaType(),
                     cobolAnnotations);
-            if (props.get("odoObject") != null) {
+            if (props.get(ODO_OBJECT_PROP_NAME) != null) {
                 odoObjectNames.put(cobolAnnotations.getCobolName(),
                         getFieldName(xsdElement));
             }
@@ -282,8 +322,12 @@ public class Xsd2CobolTypesModelBuilder {
         if (xsdElement.getMaxOccurs() > 1) {
             addArrayProps(xsdElement, cobolAnnotations, props);
         }
+        
+        if (xsdElement.getMinOccurs() == 0 &&  xsdElement.getMaxOccurs() == 1) {
+            addOptionalProps(xsdElement, cobolAnnotations, props);
+        }
 
-        props.put("fieldIndex", fieldIndex);
+        props.put(FIELD_INDEX_PROP_NAME, fieldIndex);
         return props;
 
     }
@@ -352,18 +396,33 @@ public class Xsd2CobolTypesModelBuilder {
     @SuppressWarnings("unchecked")
     private void addArrayProps(XmlSchemaElement xsdElement,
             CobolAnnotations cobolAnnotations, Map < String, Object > props) {
-        props.put("minOccurs", xsdElement.getMinOccurs());
-        props.put("maxOccurs", xsdElement.getMaxOccurs());
+        props.put(MIN_OCCURS_PROP_NAME, xsdElement.getMinOccurs());
+        props.put(MAX_OCCURS_PROP_NAME, xsdElement.getMaxOccurs());
         String dependingOn = cobolAnnotations.getDependingOn();
         if (dependingOn != null) {
             Map < String, Object > depProps = (Map < String, Object >) odoObjects
                     .get(dependingOn);
-            depProps.put("minInclusive",
+            depProps.put(MIN_INCLUSIVE_PROP_NAME,
                     Long.toString(xsdElement.getMinOccurs()));
-            depProps.put("maxInclusive",
+            depProps.put(MAX_INCLUSIVE_PROP_NAME,
                     Long.toString(xsdElement.getMaxOccurs()));
 
-            props.put("dependingOn", odoObjectNames.get(dependingOn));
+            props.put(DEPENDING_ON_PROP_NAME, odoObjectNames.get(dependingOn));
+        }
+    }
+
+    /**
+     * Optional items are declared with a minOccurs of 0 and a maxOccurs of one. Usually, there is a depending on clause.
+     * 
+     * @param xsdElement the xsd element marked as optional
+     * @param cobolAnnotations the xsd element COBOL annotations
+     * @param props the corresponding set of properties
+     */
+    private void addOptionalProps(XmlSchemaElement xsdElement,
+            CobolAnnotations cobolAnnotations, Map < String, Object > props) {
+        String dependingOn = cobolAnnotations.getDependingOn();
+        if (dependingOn != null) {
+            props.put(DEPENDING_ON_PROP_NAME, odoObjectNames.get(dependingOn));
         }
     }
 
@@ -426,9 +485,9 @@ public class Xsd2CobolTypesModelBuilder {
     private <T extends Number> Map < String, Object > getCobolAlphanumType(
             List < XmlSchemaFacet > facets) {
         Map < String, Object > props = new HashMap < String, Object >();
-        props.put("cobolTypeName", "CobolStringType");
-        props.put("charNum", getMaxLength(facets));
-        props.put("javaTypeName", getShortTypeName(String.class));
+        props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolStringType");
+        props.put(CHAR_NUM_PROP_NAME, getMaxLength(facets));
+        props.put(JAVA_TYPE_NAME_PROP_NAME, getShortTypeName(String.class));
         return props;
     }
 
@@ -441,9 +500,9 @@ public class Xsd2CobolTypesModelBuilder {
     private <T extends Number> Map < String, Object > getCobolOctetStreamType(
             List < XmlSchemaFacet > facets) {
         Map < String, Object > props = new HashMap < String, Object >();
-        props.put("cobolTypeName", "CobolStringType");
-        props.put("charNum", getMaxLength(facets));
-        props.put("javaTypeName", getShortTypeName(ByteBuffer.class));
+        props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolStringType");
+        props.put(CHAR_NUM_PROP_NAME, getMaxLength(facets));
+        props.put(JAVA_TYPE_NAME_PROP_NAME, getShortTypeName(ByteBuffer.class));
         return props;
     }
 
@@ -478,39 +537,39 @@ public class Xsd2CobolTypesModelBuilder {
 
         switch (CobolTypes.valueOf(cobolType)) {
         case ZONED_DECIMAL_ITEM:
-            props.put("cobolTypeName", "CobolZonedDecimalType");
-            props.put("signLeading", cobolAnnotations.signLeading());
-            props.put("signSeparate", cobolAnnotations.signSeparate());
+            props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolZonedDecimalType");
+            props.put(SIGN_LEADING_PROP_NAME, cobolAnnotations.signLeading());
+            props.put(SIGN_SEPARATE_PROP_NAME, cobolAnnotations.signSeparate());
             break;
         case PACKED_DECIMAL_ITEM:
-            props.put("cobolTypeName", "CobolPackedDecimalType");
+            props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolPackedDecimalType");
             break;
         case BINARY_ITEM:
-            props.put("cobolTypeName", "CobolBinaryType");
+            props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolBinaryType");
             break;
         case NATIVE_BINARY_ITEM:
-            props.put("cobolTypeName", "CobolBinaryType");
+            props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolBinaryType");
             // TODO create a CobolNativeBinaryType
 //            props.put("minInclusive", "");
 //            props.put("maxInclusive", "");
             break;
         case SINGLE_FLOAT_ITEM:
-            props.put("cobolTypeName", "CobolFloatType");
+            props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolFloatType");
             break;
         case DOUBLE_FLOAT_ITEM:
-            props.put("cobolTypeName", "CobolDoubleType");
+            props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolDoubleType");
             break;
         default:
             throw new Xsd2ConverterException("Unsupported COBOL numeric type "
                     + cobolType);
         }
-        props.put("signed", cobolAnnotations.signed());
-        props.put("totalDigits", cobolAnnotations.totalDigits());
-        props.put("fractionDigits", cobolAnnotations.fractionDigits());
-        props.put("javaTypeName", getShortTypeName(clazz));
+        props.put(SIGNED_PROP_NAME, cobolAnnotations.signed());
+        props.put(TOTAL_DIGITS_PROP_NAME, cobolAnnotations.totalDigits());
+        props.put(FRACTION_DIGITS_PROP_NAME, cobolAnnotations.fractionDigits());
+        props.put(JAVA_TYPE_NAME_PROP_NAME, getShortTypeName(clazz));
 
         if (cobolAnnotations.odoObject()) {
-            props.put("odoObject", true);
+            props.put(ODO_OBJECT_PROP_NAME, true);
             odoObjects.put(cobolAnnotations.getCobolName(), props);
         }
 

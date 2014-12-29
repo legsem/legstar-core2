@@ -1,0 +1,84 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://optl01" elementFormDefault="qualified" targetNamespace="http://optl01">
+    <complexType name="OptlRecord">
+        <sequence>
+            <element name="optlStructInd">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="OPTL-STRUCT-IND" isODOObject="true" levelNumber="5" picture="9(3)" signed="false" srceLine="8" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="optlItemInd">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="OPTL-ITEM-IND" isODOObject="true" levelNumber="5" picture="9(3)" signed="false" srceLine="9" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element minOccurs="0" name="optlStruct" type="tns:OptlStruct">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="OPTL-STRUCT" dependingOn="OPTL-STRUCT-IND" levelNumber="5" maxOccurs="1" minOccurs="0" srceLine="10" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="optlItem">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="OPTL-ITEM" dependingOn="OPTL-ITEM-IND" levelNumber="5" maxOccurs="1" minOccurs="0" picture="X(32)" srceLine="14" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="32"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="OptlStruct">
+        <sequence>
+            <element name="optlStructField1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="OPTL-STRUCT-FIELD1" levelNumber="10" picture="X(18)" srceLine="12" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="optlStructField2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="OPTL-STRUCT-FIELD2" levelNumber="10" picture="X(05)" srceLine="13" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="optlRecord" type="tns:OptlRecord">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="OPTL-RECORD" levelNumber="1" srceLine="7" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>
