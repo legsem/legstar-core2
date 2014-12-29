@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour Flat01Record complex type.
+ * <p>Java class for Flat01Record complex type.
  * 
- * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="Flat01Record"&gt;
@@ -65,7 +65,7 @@ public class Flat01Record {
     protected BigDecimal comAmount;
 
     /**
-     * Obtient la valeur de la propriété comNumber.
+     * Gets the value of the comNumber property.
      * 
      */
     public long getComNumber() {
@@ -73,7 +73,7 @@ public class Flat01Record {
     }
 
     /**
-     * Définit la valeur de la propriété comNumber.
+     * Sets the value of the comNumber property.
      * 
      */
     public void setComNumber(long value) {
@@ -81,7 +81,7 @@ public class Flat01Record {
     }
 
     /**
-     * Obtient la valeur de la propriété comName.
+     * Gets the value of the comName property.
      * 
      * @return
      *     possible object is
@@ -93,7 +93,7 @@ public class Flat01Record {
     }
 
     /**
-     * Définit la valeur de la propriété comName.
+     * Sets the value of the comName property.
      * 
      * @param value
      *     allowed object is
@@ -105,7 +105,7 @@ public class Flat01Record {
     }
 
     /**
-     * Obtient la valeur de la propriété comAmount.
+     * Gets the value of the comAmount property.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class Flat01Record {
     }
 
     /**
-     * Définit la valeur de la propriété comAmount.
+     * Sets the value of the comAmount property.
      * 
      * @param value
      *     allowed object is
