@@ -3,6 +3,7 @@ package com.legstar.base.type.primitive;
 import com.legstar.base.FromHostException;
 import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
+import com.legstar.base.type.CobolOptionalType;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.visitor.CobolVisitor;
 
@@ -14,7 +15,7 @@ import com.legstar.base.visitor.CobolVisitor;
  * 
  * @param <T> the underlying java type
  */
-public abstract class CobolPrimitiveType<T> extends CobolType {
+public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOptionalType {
 
     /**
      * The target java type.

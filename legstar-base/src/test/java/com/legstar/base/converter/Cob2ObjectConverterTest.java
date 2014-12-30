@@ -465,5 +465,55 @@ public class Cob2ObjectConverterTest {
     }
 
 
+    @Test
+    public void testConvertOpt01AllAbsent() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F0F0"),
+                0);
+        visitor.visit(new CobolOptl01Record());
+        assertEquals(
+                "{optlStructInd=0, optlItemInd=0, optlStruct={}, optlItem=null}",
+                visitor.getLastObject().toString());
+        assertEquals(6, visitor.getLastPos());
 
+    }
+
+    @Test
+    public void testConvertOpt01StructPresentStringAbsent() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("F0F0F1F0F0F0F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8C1C2C3C4C5"),
+                0);
+        visitor.visit(new CobolOptl01Record());
+        assertEquals(
+                "{optlStructInd=1, optlItemInd=0, optlStruct={optlStructField1=123456789012345678, optlStructField2=ABCDE}, optlItem=null}",
+                visitor.getLastObject().toString());
+        assertEquals(29, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertOpt01StructAbsentStringPresent() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F0F1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D2D3"),
+                0);
+        visitor.visit(new CobolOptl01Record());
+        assertEquals(
+                "{optlStructInd=0, optlItemInd=1, optlStruct={}, optlItem=JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKL}",
+                visitor.getLastObject().toString());
+        assertEquals(38, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertOpt01StructPresentStringPresent() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("F0F0F1F0F0F1F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8C1C2C3C4C5D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D2D3"),
+                0);
+        visitor.visit(new CobolOptl01Record());
+        assertEquals(
+                "{optlStructInd=1, optlItemInd=1, optlStruct={optlStructField1=123456789012345678, optlStructField2=ABCDE}, optlItem=JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKL}",
+                visitor.getLastObject().toString());
+        assertEquals(61, visitor.getLastPos());
+
+    }
 }

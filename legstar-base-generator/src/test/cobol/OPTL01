@@ -4,7 +4,7 @@
        DATA DIVISION.
        WORKING-STORAGE SECTION.
        LINKAGE SECTION.
-       01  OPTL-RECORD.
+       01  OPTL01-RECORD.
            05 OPTL-STRUCT-IND                           PIC 9(3).
            05 OPTL-ITEM-IND                             PIC 9(3).
            05 OPTL-STRUCT OCCURS 0 TO 1 TIMES

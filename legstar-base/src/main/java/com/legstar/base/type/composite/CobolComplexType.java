@@ -2,6 +2,7 @@ package com.legstar.base.type.composite;
 
 import java.util.Map;
 
+import com.legstar.base.type.CobolOptionalType;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.visitor.CobolVisitor;
 
@@ -9,7 +10,7 @@ import com.legstar.base.visitor.CobolVisitor;
  * A COBOl Group item.
  * 
  */
-public class CobolComplexType extends CobolCompositeType {
+public class CobolComplexType extends CobolCompositeType implements CobolOptionalType {
     
     /**
      * A unique name for this complex type.

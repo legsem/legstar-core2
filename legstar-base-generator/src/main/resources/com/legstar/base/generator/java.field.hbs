@@ -56,8 +56,8 @@
                         .maxInclusive({{javaTypeName}}.valueOf("{{maxInclusive}}")){{/if}}
                         {{~#if odoObject}}
                         .odoObject(true){{/if}}
-                        .build();
 {{~#if maxOccurs}}
+                        .build();
         CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
                         .itemType({{@key}})
                         .minOccurs({{minOccurs}})
@@ -67,6 +67,9 @@
                         .build();
         fields.put("{{@key}}", {{@key}}Array);
 {{~else}}
+                        {{~#if dependingOn}}
+                        .dependingOn("{{dependingOn}}"){{/if}}
+                        .build();
         fields.put("{{@key}}", {{@key}});
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~/if ~}}{{!-- choiceType --}}

@@ -9,6 +9,7 @@ import com.legstar.base.ConversionException;
 import com.legstar.base.FromHostException;
 import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
+import com.legstar.base.type.CobolOptionalType;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
@@ -139,6 +140,11 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void visitComplexType(CobolComplexType type,
             ComplexTypeChildHandler callback) {
+
+        if (!isPresent(type)) {
+            return;
+        }
+
         int index = 0;
         for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             curFieldName = child.getKey();
@@ -240,6 +246,11 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void visitCobolPrimitiveType(CobolPrimitiveType < ? > type,
             PrimitiveTypeHandler callback) throws ConversionException {
+
+        if (!isPresent(type)) {
+            callback.postVisit(type, null);
+            return;
+        }
 
         if (extraOffset > 0) {
             this.lastPos += extraOffset;
@@ -346,21 +357,36 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     private int getOccurs(CobolArrayType type) {
         if (type.isVariableSize()) {
-            Object odoValue = variables.get(type.getDependingOn());
-            if (odoValue == null) {
-                throw new FromHostException("No value available for ODOObject "
-                        + type.getDependingOn()
-                        + ". Variable size array cannot be sized",
-                        getHostData(), getLastPos());
-            } else if (odoValue instanceof Number) {
-                return ((Number) odoValue).intValue();
-            } else {
-                throw new FromHostException("The value " + odoValue.toString()
-                        + " for ODOObject " + type.getDependingOn()
-                        + " si not numeric.", getHostData(), getLastPos());
-            }
+            return getOdoValue(type.getDependingOn());
         } else {
             return type.getMaxOccurs();
+        }
+    }
+    
+    /**
+     * Check if an optional type is present.
+     * 
+     * @param optionalType the optional type
+     * @return true if the optional type is present
+     */
+    private boolean isPresent(CobolOptionalType optionalType) {
+        if (optionalType.getDependingOn() != null) {
+            return getOdoValue(optionalType.getDependingOn()) > 0;
+        }
+        return true;
+    }
+    
+    private int getOdoValue(String dependingOn) {
+        Object odoValue = variables.get(dependingOn);
+        if (odoValue == null) {
+            throw new FromHostException("No value available for ODOObject "
+                    + dependingOn + ".", getHostData(), getLastPos());
+        } else if (odoValue instanceof Number) {
+            return ((Number) odoValue).intValue();
+        } else {
+            throw new FromHostException("The value " + odoValue.toString()
+                    + " for ODOObject " + dependingOn + " si not numeric.",
+                    getHostData(), getLastPos());
         }
     }
 
