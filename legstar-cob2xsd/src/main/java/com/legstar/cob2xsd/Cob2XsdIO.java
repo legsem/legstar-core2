@@ -38,13 +38,15 @@ public class Cob2XsdIO extends Cob2Xsd {
      * @param targetNamespacePrefix used as a prefix prepended to the cobol file
      *            base name to form a unique target namespace for the generated
      *            XML schema
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @return the XML Schema
      * @throws RecognizerException if parser fails
      * @throws XsdGenerationException if COBOL model interpretation fails
      */
     public File translate(final File cobolFile, final String cobolFileEncoding,
-            final File target, final String targetNamespacePrefix)
-            throws RecognizerException, XsdGenerationException {
+            final File target, final String targetNamespacePrefix,
+            final String xsltFileName) throws RecognizerException,
+            XsdGenerationException {
 
         try {
             if (_log.isDebugEnabled()) {
@@ -61,7 +63,8 @@ public class Cob2XsdIO extends Cob2Xsd {
                     new FileInputStream(cobolFile), cobolFileEncoding);
 
             String xsdString = translate(cobolReader,
-                    getUniqueTargetNamespace(targetNamespacePrefix, baseName));
+                    getUniqueTargetNamespace(targetNamespacePrefix, baseName),
+                    xsltFileName);
             File xsdFile = null;
             if (target.isDirectory()) {
                 String xsdFileName = cobolFile.getName() + ".xsd";

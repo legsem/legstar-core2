@@ -98,9 +98,6 @@ public class Cob2XsdConfig {
     /** True if we should ignore primitive data items without a parent group. */
     public static final String IGNORE_ORPHAN_PRIMITIVE_ELEMENTS = "ignoreOrphanPrimitiveElements";
 
-    /** An optional XSLT transform for XML schema customization. */
-    public static final String CUSTOM_XSLT_FILENAME = "customXsltFileName";
-
     /** Whether we should generate COBOL/JAXB annotations. */
     public static final String ADD_LEGSTAR_ANNOTATIONS = "addLegStarAnnotations";
 
@@ -162,9 +159,6 @@ public class Cob2XsdConfig {
      * LegStar 1.2).
      */
     private final boolean _elementNamesStartWithUppercase;
-
-    /** An optional XSLT transform for XML schema customization. */
-    private final String _customXsltFileName;
 
     /**
      * Ignore primitive data items which are not attached to a parent group.
@@ -230,7 +224,6 @@ public class Cob2XsdConfig {
                 .getProperty(ELEMENT_NAMES_START_WITH_UPPERCASE, "false"));
         _ignoreOrphanPrimitiveElements = Boolean.parseBoolean(props
                 .getProperty(IGNORE_ORPHAN_PRIMITIVE_ELEMENTS, "true"));
-        _customXsltFileName = props.getProperty(CUSTOM_XSLT_FILENAME);
         _addLegStarAnnotations = Boolean.parseBoolean(props.getProperty(
                 ADD_LEGSTAR_ANNOTATIONS, "true"));
         _currencySign = props.getProperty(CURRENCY_SIGN, DEFAULT_CURRENCY_SIGN);
@@ -325,15 +318,6 @@ public class Cob2XsdConfig {
      */
     public boolean mapConditionsToFacets() {
         return _mapConditionsToFacets;
-    }
-
-    /**
-     * An optional XSLT transform for XML schema customization.
-     * 
-     * @return an optional XSLT transform for XML schema customization
-     */
-    public String getCustomXsltFileName() {
-        return _customXsltFileName;
     }
 
     /**
@@ -451,8 +435,6 @@ public class Cob2XsdConfig {
         builder.append(_nameConflictPrependParentName);
         builder.append(", _elementNamesStartWithUppercase=");
         builder.append(_elementNamesStartWithUppercase);
-        builder.append(", _customXsltFileName=");
-        builder.append(_customXsltFileName);
         builder.append(", _ignoreOrphanPrimitiveElements=");
         builder.append(_ignoreOrphanPrimitiveElements);
         builder.append(", _addLegStarAnnotations=");

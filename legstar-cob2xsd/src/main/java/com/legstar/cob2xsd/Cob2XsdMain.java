@@ -75,6 +75,11 @@ public class Cob2XsdMain {
      */
     private String _targetNamespacePrefix;
 
+    /**
+     * An optional xslt to apply on the XML Schema before it is returned to caller.
+     */
+    private String _xsltFileName;
+
     /** Set of options to use. */
     private Cob2XsdConfig _config;
 
@@ -107,7 +112,7 @@ public class Cob2XsdMain {
                 setDefaults();
                 loadConfig();
                 execute(getInput(), getInputEncoding(), getOutput(),
-                        getTargetNamespacePrefix());
+                        getTargetNamespacePrefix(), getXsltFileName());
             }
         } catch (Exception e) {
             _log.error("COBOL to Xsd translation failure", e);
@@ -201,6 +206,10 @@ public class Cob2XsdMain {
                 true, "target namespace prefix for translated XML schema");
         options.addOption(targetNamespacePrefix);
 
+        Option xsltFileName = new Option("x", "xsltFileName",
+                true, "an xslt to apply on the XML Schema before it is returned");
+        options.addOption(xsltFileName);
+
         return options;
     }
 
@@ -238,6 +247,10 @@ public class Cob2XsdMain {
             setTargetNamespacePrefix(line.getOptionValue(
                     "targetNamespacePrefix").trim());
         }
+        if (line.hasOption("xsltFileName")) {
+            setXsltFileName(line.getOptionValue(
+                    "xsltFileName").trim());
+        }
 
         return true;
     }
@@ -251,10 +264,12 @@ public class Cob2XsdMain {
      * @param target the output folder or file where XML schema file must go
      * @param targetNamespacePrefix the output XML schemas target namespace
      *            prefix
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @throws XsdGenerationException if XML schema cannot be generated
      */
     protected void execute(final File input, final String cobolFileEncoding,
-            final File target, final String targetNamespacePrefix)
+            final File target, final String targetNamespacePrefix,
+            final String xsltFileName)
             throws XsdGenerationException {
 
         try {
@@ -264,6 +279,7 @@ public class Cob2XsdMain {
                     : cobolFileEncoding);
             _log.info("Output XML Schema to        : " + target);
             _log.info("XML Schema namespace prefix : " + targetNamespacePrefix);
+            _log.info("XSLT transform to apply     : " + xsltFileName);
             _log.info("Options in effect           : " + getConfig().toString());
 
             if (input.isFile()) {
@@ -271,13 +287,13 @@ public class Cob2XsdMain {
                     FileUtils.forceMkdir(target);
                 }
                 translate(input, cobolFileEncoding, target,
-                        targetNamespacePrefix);
+                        targetNamespacePrefix, xsltFileName);
             } else {
                 FileUtils.forceMkdir(target);
                 for (File cobolFile : input.listFiles()) {
                     if (cobolFile.isFile()) {
                         translate(cobolFile, cobolFileEncoding, target,
-                                targetNamespacePrefix);
+                                targetNamespacePrefix, xsltFileName);
                     }
                 }
             }
@@ -296,15 +312,17 @@ public class Cob2XsdMain {
      * @param target target file or folder
      * @param targetNamespacePrefix the output XML schemas target namespace
      *            prefix
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @throws XsdGenerationException if parser fails
      */
     protected void translate(final File cobolFile,
             final String cobolFileEncoding, final File target,
-            final String targetNamespacePrefix) throws XsdGenerationException {
+            final String targetNamespacePrefix,
+            final String xsltFileName) throws XsdGenerationException {
         try {
             Cob2XsdIO cob2XsdIO = new Cob2XsdIO(getConfig());
             cob2XsdIO.translate(cobolFile, cobolFileEncoding, target,
-                    targetNamespacePrefix);
+                    targetNamespacePrefix, xsltFileName);
         } catch (RecognizerException e) {
             throw new XsdGenerationException(e);
         }
@@ -415,6 +433,10 @@ public class Cob2XsdMain {
         _targetNamespacePrefix = targetNamespacePrefix;
     }
 
+    public void setXsltFileName(String xsltFileName) {
+        _xsltFileName = xsltFileName;
+    }
+
     /**
      * Gather all parameters into a config object.
      * 
@@ -440,6 +462,10 @@ public class Cob2XsdMain {
 
     public String getTargetNamespacePrefix() {
         return _targetNamespacePrefix;
+    }
+
+    public String getXsltFileName() {
+        return _xsltFileName;
     }
 
 }

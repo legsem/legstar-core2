@@ -29,12 +29,18 @@ public abstract class AbstractTest {
     }
 
     public String translate(String cobolSource) {
-        return translate(cobolSource, "http://www.mycompany.com/test");
+        return translate(cobolSource, "http://www.mycompany.com/test", null);
         
     }
-    public String translate(String cobolSource, String targetNamespace) {
+
+    public String translate(String cobolSource, String xsltFileName) {
+        return translate(cobolSource, "http://www.mycompany.com/test", xsltFileName);
+        
+    }
+
+    public String translate(String cobolSource, String targetNamespace, String xsltFileName) {
         Cob2Xsd cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
-        return cob2xsd.translate(new StringReader(cobolSource), targetNamespace);
+        return cob2xsd.translate(new StringReader(cobolSource), targetNamespace, xsltFileName);
         
     }
 

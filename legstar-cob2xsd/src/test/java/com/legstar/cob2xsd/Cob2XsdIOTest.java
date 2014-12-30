@@ -48,11 +48,6 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
             if (cobolFile.isFile()) {
                 _log.debug("Translating " + cobolFile);
                 String name = cobolFile.getName().toLowerCase();
-                File custmXslt = new File(XSLT_SAMPLES_DIR, name + ".xsl");
-                if (custmXslt.exists()) {
-                    configProps.put(Cob2XsdConfig.CUSTOM_XSLT_FILENAME,
-                            custmXslt.getPath());
-                }
                 configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS,
                         Boolean.toString(true));
 
@@ -65,8 +60,9 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
 
                 Cob2XsdIO translator = new Cob2XsdIO(new Cob2XsdConfig(
                         configProps));
+                File custmXslt = new File(XSLT_SAMPLES_DIR, name + ".xsl");
                 File xsdFile = translator.translate(cobolFile, "ISO-8859-1",
-                        tempDir, "http://legstar.com/test/coxb");
+                        tempDir, "http://legstar.com/test/coxb", custmXslt.exists() ? custmXslt.getPath() : null);
                 if (_log.isDebugEnabled()) {
                     _log.debug("Result:\n"
                             + FileUtils.readFileToString(xsdFile));
@@ -105,7 +101,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                     "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.",
                     "UTF8");
             File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", tempDir,
-                    "http://www.mycompany.com/test");
+                    "http://www.mycompany.com/test", null);
 
             for (String line : FileUtils.readLines(xmlSchema, "UTF8")) {
                 if (line.contains("cobolName=\"B\"")) {

@@ -108,18 +108,21 @@ public class Cob2Xsd {
      * @param cobolReader reads the raw COBOL source
      * @param targetNamespace the generated XML schema target namespace (null
      *            for no namespace)
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @return the XML Schema
      * @throws XsdGenerationException if XML schema generation process fails
      */
     public String translate(final Reader cobolReader,
-            final String targetNamespace) throws XsdGenerationException {
+            final String targetNamespace, final String xsltFileName)
+            throws XsdGenerationException {
         try {
             if (_log.isDebugEnabled()) {
                 _log.debug("Translating with options: {}", getConfig()
                         .toString());
                 _log.debug("Target namespace: {}", targetNamespace);
             }
-            return xsdToString(emitXsd(toModel(cobolReader), targetNamespace));
+            return xsdToString(emitXsd(toModel(cobolReader), targetNamespace),
+                    xsltFileName);
         } catch (RecognizerException e) {
             throw new XsdGenerationException(e);
         }
@@ -286,10 +289,11 @@ public class Cob2Xsd {
      * XMLSchema.
      * 
      * @param xsd the XML Schema before customization
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @return a string serialization of the customized XML Schema
      * @throws XsdGenerationException if customization fails
      */
-    public String xsdToString(final XmlSchema xsd)
+    public String xsdToString(final XmlSchema xsd, final String xsltFileName)
             throws XsdGenerationException {
 
         if (_log.isDebugEnabled()) {
@@ -311,7 +315,6 @@ public class Cob2Xsd {
             Source source = new DOMSource(xsd.getAllSchemas()[0]);
             Result result = new StreamResult(writer);
             Transformer transformer;
-            String xsltFileName = getConfig().getCustomXsltFileName();
             if (xsltFileName == null || xsltFileName.trim().length() == 0) {
                 transformer = tFactory.newTransformer();
             } else {

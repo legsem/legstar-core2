@@ -98,8 +98,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.XSD_ENCODING,
                     "ISO-8859-1");
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(true));
-            configProps.put(Cob2XsdConfig.CUSTOM_XSLT_FILENAME, XSLT_SAMPLES_DIR + "/alltypes.xsl");
-            String xmlSchema = translate("       01 A.\n           02 S-BINARY PIC X.");
+            String xmlSchema = translate("       01 A.\n           02 S-BINARY PIC X.", XSLT_SAMPLES_DIR + "/alltypes.xsl");
             compare("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>"
 
                     + "<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
@@ -443,7 +442,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
                             + "01  WS71-HEADER.\n"
                             + "      05  WS71-HEADER-ID        PIC X(4)  VALUE '$HD$'.\n"
                             + "      05  WS73-INVOICE-NO.\n"
-                            + "          07  WS73-INVOICE-PREF     PIC X(4).\n", null);
+                            + "          07  WS73-INVOICE-PREF     PIC X(4).\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
                     + " elementFormDefault=\"unqualified\">"
@@ -491,7 +490,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
                     + "RECORDING MODE IS V\n" + "BLOCK CONTAINS 2 RECORDS\n"
                     + "RECORD CONTAINS 58 TO 183 CHARACTERS.\n"
                     + "COPY ABCD.01  CUSTOMER-DATA.\n"
-                    + "  COPY EFG .  05 CUSTOMER-ID             PIC 9(6).\n", null);
+                    + "  COPY EFG .  05 CUSTOMER-ID             PIC 9(6).\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
                     + " elementFormDefault=\"unqualified\">"
@@ -525,7 +524,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             String xmlSchema = translate("*\n"
                     + "01  A                         COMP-3.\n"
-                    + "    05  B     PIC S9(13)V99.\n", null);
+                    + "    05  B     PIC S9(13)V99.\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
                     + " elementFormDefault=\"unqualified\">"
@@ -560,7 +559,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
                     + "       ID DIVISION.\n"
                     + "       DATE-WRITTEN.              04 GENNAIO 2005.\n"
                     + "       DATA DIVISION.\n"
-                    + "       01 A. 02  B     PIC S9(13)V99.\n", null);
+                    + "       01 A. 02  B     PIC S9(13)V99.\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
                     + " elementFormDefault=\"unqualified\">"
@@ -592,7 +591,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             String xmlSchema = translate("*\n"
-                            + "       01 A. 02  B     PIC X(56) VALUE 'CONTO N. W '.\n", null);
+                            + "       01 A. 02  B     PIC X(56) VALUE 'CONTO N. W '.\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
                     + " elementFormDefault=\"unqualified\">"
@@ -623,7 +622,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             String xmlSchema = translate("*\n"
-                    + "       01 FILLER. 02  F PIC X. 02  F PIC X.\n", null);
+                    + "       01 FILLER. 02  F PIC X. 02  F PIC X.\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\""
                     + " elementFormDefault=\"unqualified\">"
@@ -662,7 +661,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
             configProps.put(Cob2XsdConfig.ADD_LEGSTAR_ANNOTATIONS, Boolean.toString(false));
             configProps.put(Cob2XsdConfig.IGNORE_ORPHAN_PRIMITIVE_ELEMENTS, Boolean.toString(false));
             String xmlSchema = translate("        10  A PIC S9(4) COMP.\n"
-                            + "        10  B PIC S9(04) COMP.\n", null);
+                            + "        10  B PIC S9(04) COMP.\n", null, null);
             compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
                     + "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"unqualified\">"
                     + "    <xsd:element name=\"a\">"
@@ -698,7 +697,7 @@ public class Cob2XsdSpecialTest extends AbstractXsdTester {
                             + "        05  PIB-SECURITY-CODE PIC 9(3) COMP-4.\n"
                             + "        88  PIB-TECH-USER               VALUE  1.\n"
                             + "        88  PIB-MASTER-USER             VALUE  1 THRU   9.\n"
-                            + "        88  PIB-SYSTEM-USER             VALUE 10 THRU  19.\n", null);
+                            + "        88  PIB-SYSTEM-USER             VALUE 10 THRU  19.\n", null, null);
             compare("<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"unqualified\">"
                     + "    <xsd:complexType name=\"Commarea\">"
                     + "        <xsd:sequence>"
