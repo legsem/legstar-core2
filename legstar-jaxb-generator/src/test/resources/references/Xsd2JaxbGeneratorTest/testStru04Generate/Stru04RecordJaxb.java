@@ -106,6 +106,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class ComGroup1JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.stru04.ComGroup1> {
 
         public ComGroup1JaxbWrapper() {
@@ -180,6 +181,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class ComArray1JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.stru04.ComArray1> {
 
         public ComArray1JaxbWrapper() {
@@ -239,6 +241,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class Stru04RecordJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.stru04.Stru04Record> {
 
         public Stru04RecordJaxbWrapper() {

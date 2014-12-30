@@ -107,6 +107,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class Filler12JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.cusdat.Filler12> {
 
         public Filler12JaxbWrapper() {
@@ -182,6 +183,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class TransactionJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.cusdat.Transaction> {
 
         public TransactionJaxbWrapper() {
@@ -264,6 +266,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class TransactionsJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.cusdat.Transactions> {
 
         public TransactionsJaxbWrapper() {
@@ -330,6 +333,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class CustomerDataJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.cusdat.CustomerData> {
 
         public CustomerDataJaxbWrapper() {

@@ -79,6 +79,7 @@ public class Stru01RecordJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class Stru01RecordJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.stru01.Stru01Record> {
 
         public Stru01RecordJaxbWrapper() {

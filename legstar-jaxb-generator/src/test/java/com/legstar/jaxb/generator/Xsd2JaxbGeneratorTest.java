@@ -69,6 +69,11 @@ public class Xsd2JaxbGeneratorTest extends AbstractTest {
         generateAndCheck("stru04", "Stru04Record");
     }
 
+    @Test
+    public void testCflt01Generate() throws Exception {
+        generateAndCheck("cflt01", "Cflt01Record");
+    }
+
     private void generateAndCheck(String schemaName, String recordName)
             throws Exception {
         File xsdFile = new File(TEST_XSD_FOLDER, schemaName + ".xsd");

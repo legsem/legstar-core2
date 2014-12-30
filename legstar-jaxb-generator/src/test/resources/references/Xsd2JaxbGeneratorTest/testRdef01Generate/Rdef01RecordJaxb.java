@@ -79,6 +79,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class ComDetail2JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.rdef01.ComDetail2> {
 
         public ComDetail2JaxbWrapper() {
@@ -122,6 +123,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
         }
 
     }
+
     public class Rdef01RecordJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.rdef01.Rdef01Record> {
 
         public Rdef01RecordJaxbWrapper() {

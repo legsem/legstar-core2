@@ -36,6 +36,12 @@ public class Cob2JaxbGeneratorTest extends AbstractTest {
         check("Flat01Record");
     }
 
+    @Test
+    public void testCflt01Generate() throws Exception {
+        generate("CFLT01");
+        check("Cflt01Record");
+    }
+
 
     private void generate(String programName) {
         File cobolFile = new File(TEST_COBOL_FOLDER, programName);

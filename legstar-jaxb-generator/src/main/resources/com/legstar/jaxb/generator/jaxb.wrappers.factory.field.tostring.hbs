@@ -2,13 +2,13 @@
 {{/unless}}            builder.append("{{@key}}=");
 {{~#if complexType}}
 {{~#if maxOccurs}}
-            java.util.List < {{capFirst @key}}JaxbWrapper > {{@key}} = new java.util.ArrayList < {{capFirst @key}}JaxbWrapper >();
+            java.util.List < {{complexTypeName}}JaxbWrapper > {{@key}} = new java.util.ArrayList < {{complexTypeName}}JaxbWrapper >();
             for ({{#if jaxb_package_name}}{{jaxb_package_name}}.{{/if}}{{capFirst @key}} jaxbItem : getJaxb().get{{capFirst @key}}()) {
-                {{@key}}.add(new {{capFirst @key}}JaxbWrapper(jaxbItem));
+                {{@key}}.add(new {{complexTypeName}}JaxbWrapper(jaxbItem));
             }
             builder.append({{@key}});
 {{~else}}
-            builder.append(new {{capFirst @key}}JaxbWrapper(getJaxb().get{{capFirst @key}}()));
+            builder.append(new {{complexTypeName}}JaxbWrapper(getJaxb().get{{capFirst @key}}()));
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
 {{~#if choiceType}}
@@ -16,7 +16,7 @@
             if (getJaxb().get{{capFirst @key}}() != null) {
                 builder.append("{{@key}}=");
 {{~#if complexType}}
-                builder.append(new {{capFirst @key}}JaxbWrapper(getJaxb().get{{capFirst @key}}()));
+                builder.append(new {{complexTypeName}}JaxbWrapper(getJaxb().get{{capFirst @key}}()));
 {{~else}}
                 builder.append(getJaxb().get{{capFirst @key}}());
 {{~/if ~}}{{!-- complexType in choiceType--}}

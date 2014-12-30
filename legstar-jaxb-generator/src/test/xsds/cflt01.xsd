@@ -1,0 +1,105 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://test/example" elementFormDefault="qualified" targetNamespace="http://test/example">
+    <complexType name="Cflt01Record">
+        <sequence>
+            <element name="cfltParent1" type="tns:CfltParent1">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-PARENT1" levelNumber="5" srceLine="8" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="cfltParent2" type="tns:CfltParent2">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-PARENT2" levelNumber="5" srceLine="12" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CfltParent1">
+        <sequence>
+            <element name="cfltInfo" type="tns:CfltInfo9">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-INFO" levelNumber="10" srceLine="9" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CfltInfo9">
+        <sequence>
+            <element name="cfltId">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-ID" levelNumber="15" picture="X(18)" srceLine="10" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="cfltTypCd">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-TYP-CD" levelNumber="15" picture="X(05)" srceLine="11" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CfltParent2">
+        <sequence>
+            <element name="cfltInfo" type="tns:CfltInfo13">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-INFO" levelNumber="10" srceLine="13" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CfltInfo13">
+        <sequence>
+            <element name="cfltIdCt">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-ID-CT" levelNumber="15" picture="X(18)" srceLine="14" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="18"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="cfltTypCdCt">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="CFLT-TYP-CD-CT" levelNumber="15" picture="X(05)" srceLine="15" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="cflt01Record" type="tns:Cflt01Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="CFLT01-RECORD" levelNumber="1" srceLine="7" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

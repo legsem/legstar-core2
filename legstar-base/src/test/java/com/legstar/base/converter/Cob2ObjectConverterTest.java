@@ -516,4 +516,19 @@ public class Cob2ObjectConverterTest {
         assertEquals(61, visitor.getLastPos());
 
     }
+
+    @Test
+    public void testConvertCflt01() {
+        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+                HexUtils.decodeHex("F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8C1C2C3C4C5C1C2C3C4C5C6C7C8C9C0C1C2C3C4C5C6C7C8D1D2D3D4D5"),
+                0);
+        visitor.visit(new CobolCflt01Record());
+        assertEquals(
+                "{cfltParent1={cfltInfo={cfltId=123456789012345678, cfltTypCd=ABCDE}}, cfltParent2={cfltInfo={cfltIdCt=ABCDEFGHI{ABCDEFGH, cfltTypCdCt=JKLMN}}}",
+                visitor.getLastObject().toString());
+        assertEquals(46, visitor.getLastPos());
+
+    }
+
+
 }
