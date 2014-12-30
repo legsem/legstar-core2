@@ -133,6 +133,8 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     // -----------------------------------------------------------------------------
     /**
      * Visit a complex type which visits each of its children in turn.
+     * <p/>
+     * Optional children may be skipped.
      * 
      * @param type the complex type to visit
      * @param callback a function that is invoked for each child in turn after
@@ -141,15 +143,17 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public void visitComplexType(CobolComplexType type,
             ComplexTypeChildHandler callback) {
 
-        if (!isPresent(type)) {
-            return;
-        }
-
         int index = 0;
         for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             curFieldName = child.getKey();
-            child.getValue().accept(this);
-            if (!callback.postVisit(child.getKey(), index, child.getValue())) {
+            CobolType childType = child.getValue();
+            if (childType instanceof CobolOptionalType
+                    && !isPresent((CobolOptionalType) childType)) {
+                index++;
+                continue;
+            }
+            childType.accept(this);
+            if (!callback.postVisit(child.getKey(), index, childType)) {
                 break;
             }
             index++;
@@ -246,11 +250,6 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public void visitCobolPrimitiveType(CobolPrimitiveType < ? > type,
             PrimitiveTypeHandler callback) throws ConversionException {
-
-        if (!isPresent(type)) {
-            callback.postVisit(type, null);
-            return;
-        }
 
         if (extraOffset > 0) {
             this.lastPos += extraOffset;

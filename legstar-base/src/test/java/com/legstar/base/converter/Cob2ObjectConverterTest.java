@@ -472,7 +472,7 @@ public class Cob2ObjectConverterTest {
                 0);
         visitor.visit(new CobolOptl01Record());
         assertEquals(
-                "{optlStructInd=0, optlItemInd=0, optlStruct={}, optlItem=null}",
+                "{optlStructInd=0, optlItemInd=0}",
                 visitor.getLastObject().toString());
         assertEquals(6, visitor.getLastPos());
 
@@ -485,7 +485,7 @@ public class Cob2ObjectConverterTest {
                 0);
         visitor.visit(new CobolOptl01Record());
         assertEquals(
-                "{optlStructInd=1, optlItemInd=0, optlStruct={optlStructField1=123456789012345678, optlStructField2=ABCDE}, optlItem=null}",
+                "{optlStructInd=1, optlItemInd=0, optlStruct={optlStructField1=123456789012345678, optlStructField2=ABCDE}}",
                 visitor.getLastObject().toString());
         assertEquals(29, visitor.getLastPos());
 
@@ -498,7 +498,7 @@ public class Cob2ObjectConverterTest {
                 0);
         visitor.visit(new CobolOptl01Record());
         assertEquals(
-                "{optlStructInd=0, optlItemInd=1, optlStruct={}, optlItem=JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKL}",
+                "{optlStructInd=0, optlItemInd=1, optlItem=JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKL}",
                 visitor.getLastObject().toString());
         assertEquals(38, visitor.getLastPos());
 
