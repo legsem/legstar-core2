@@ -33,6 +33,11 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     private final boolean customVariable;
 
     /**
+     * Optional types may depend on some other field.
+     */
+    private final String dependingOn;
+
+    /**
      * Check if a byte array contains valid mainframe data for this type
      * characteristics.
      * 
@@ -101,6 +106,10 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
         return customVariable;
     }
 
+    public String getDependingOn() {
+        return dependingOn;
+    }
+
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
@@ -112,6 +121,7 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
         // Optional
         protected boolean odoObject = false;
         protected boolean customVariable = false;
+        private String dependingOn;
 
         public Builder(Class < T > javaClass) {
             this.javaClass = javaClass;
@@ -127,6 +137,11 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
             return self();
         }
 
+        public B dependingOn(String dependingOn) {
+            this.dependingOn = dependingOn;
+            return self();
+        }
+
         protected abstract B self();
 
     }
@@ -137,6 +152,7 @@ public abstract class CobolPrimitiveType<T> extends CobolType {
     public CobolPrimitiveType(Builder < T, ? > builder) {
         javaClass = builder.javaClass;
         odoObject = builder.odoObject;
+        dependingOn = builder.dependingOn;
         customVariable = builder.customVariable;
 
     }

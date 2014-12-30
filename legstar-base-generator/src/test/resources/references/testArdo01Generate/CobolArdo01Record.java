@@ -49,6 +49,7 @@ public class CobolArdo01Record extends CobolComplexType {
                         .build();
         CobolArrayType comArrayArray = new CobolArrayType.Builder()
                         .itemType(comArray)
+                        .minOccurs(0)
                         .maxOccurs(5)
                         .dependingOn("comNbr")
                         .build();

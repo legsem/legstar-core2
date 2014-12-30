@@ -8,6 +8,7 @@
 {{~#if maxOccurs}}
         CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
                         .itemType({{@key}})
+                        .minOccurs({{minOccurs}})
                         .maxOccurs({{maxOccurs}})
                         {{~#if dependingOn}}
                         .dependingOn("{{dependingOn}}"){{/if}}
@@ -25,6 +26,7 @@
 {{~#if maxOccurs}}
         CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
                         .itemType({{@key}})
+                        .minOccurs({{minOccurs}})
                         .maxOccurs({{maxOccurs}})
                         {{~#if dependingOn}}
                         .dependingOn("{{dependingOn}}"){{/if}}
@@ -58,6 +60,7 @@
 {{~#if maxOccurs}}
         CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
                         .itemType({{@key}})
+                        .minOccurs({{minOccurs}})
                         .maxOccurs({{maxOccurs}})
                         {{~#if dependingOn}}
                         .dependingOn("{{dependingOn}}"){{/if}}

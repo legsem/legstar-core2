@@ -128,6 +128,7 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         CobolArrayType transactionArray = new CobolArrayType.Builder()
                         .itemType(transaction)
+                        .minOccurs(0)
                         .maxOccurs(5)
                         .dependingOn("transactionNbr")
                         .build();

@@ -1,7 +1,6 @@
 package com.legstar.base.type.composite;
 
 import com.legstar.base.type.CobolType;
-import com.legstar.base.utils.StringUtils;
 import com.legstar.base.visitor.CobolVisitor;
 
 /**
@@ -16,6 +15,8 @@ import com.legstar.base.visitor.CobolVisitor;
 public class CobolArrayType extends CobolCompositeType {
 
     private final CobolType itemType;
+
+    private final int minOccurs;
 
     private final int maxOccurs;
 
@@ -35,6 +36,10 @@ public class CobolArrayType extends CobolCompositeType {
         return itemType;
     }
 
+    public int getMinOccurs() {
+        return minOccurs;
+    }
+
     public int getMaxOccurs() {
         return maxOccurs;
     }
@@ -44,7 +49,7 @@ public class CobolArrayType extends CobolCompositeType {
     }
 
     public boolean isVariableSize() {
-        return StringUtils.isNotBlank(dependingOn);
+        return maxOccurs > minOccurs;
     }
 
     /** {@inheritDoc} */
@@ -58,11 +63,17 @@ public class CobolArrayType extends CobolCompositeType {
     public static class Builder {
 
         private CobolType itemType;
+        private int minOccurs;
         private int maxOccurs;
         private String dependingOn;
 
         public Builder itemType(CobolType itemType) {
             this.itemType = itemType;
+            return this;
+        }
+
+        public Builder minOccurs(int minOccurs) {
+            this.minOccurs = minOccurs;
             return this;
         }
 
@@ -92,6 +103,7 @@ public class CobolArrayType extends CobolCompositeType {
     private CobolArrayType(Builder builder) {
 
         itemType = builder.itemType;
+        minOccurs = builder.minOccurs;
         maxOccurs = builder.maxOccurs;
         dependingOn = builder.dependingOn;
         maxBytesLen = maxOccurs * itemType.getMaxBytesLen();

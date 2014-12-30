@@ -32,6 +32,7 @@ public class CobolStru04Record extends CobolComplexType {
                         .build();
         CobolArrayType comArray3Array = new CobolArrayType.Builder()
                         .itemType(comArray3)
+                        .minOccurs(5)
                         .maxOccurs(5)
                         .build();
         fields.put("comArray3", comArray3Array);
@@ -64,6 +65,7 @@ public class CobolStru04Record extends CobolComplexType {
                         .build();
         CobolArrayType comArray2Array = new CobolArrayType.Builder()
                         .itemType(comArray2)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("comArray2", comArray2Array);
@@ -124,6 +126,7 @@ public class CobolStru04Record extends CobolComplexType {
                         .build();
         CobolArrayType comArray1Array = new CobolArrayType.Builder()
                         .itemType(comArray1)
+                        .minOccurs(3)
                         .maxOccurs(3)
                         .build();
         fields.put("comArray1", comArray1Array);

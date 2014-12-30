@@ -107,6 +107,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aStringArray = new CobolArrayType.Builder()
                         .itemType(aString)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aString", aStringArray);
@@ -117,6 +118,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aBinaryArray = new CobolArrayType.Builder()
                         .itemType(aBinary)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aBinary", aBinaryArray);
@@ -128,6 +130,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aShortArray = new CobolArrayType.Builder()
                         .itemType(aShort)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aShort", aShortArray);
@@ -138,6 +141,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aUshortArray = new CobolArrayType.Builder()
                         .itemType(aUshort)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aUshort", aUshortArray);
@@ -149,6 +153,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aIntArray = new CobolArrayType.Builder()
                         .itemType(aInt)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aInt", aIntArray);
@@ -159,6 +164,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aUintArray = new CobolArrayType.Builder()
                         .itemType(aUint)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aUint", aUintArray);
@@ -170,6 +176,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aLongArray = new CobolArrayType.Builder()
                         .itemType(aLong)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aLong", aLongArray);
@@ -180,6 +187,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aUlongArray = new CobolArrayType.Builder()
                         .itemType(aUlong)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aUlong", aUlongArray);
@@ -191,6 +199,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aXlongArray = new CobolArrayType.Builder()
                         .itemType(aXlong)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aXlong", aXlongArray);
@@ -201,6 +210,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aUxlongArray = new CobolArrayType.Builder()
                         .itemType(aUxlong)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aUxlong", aUxlongArray);
@@ -212,6 +222,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aDecArray = new CobolArrayType.Builder()
                         .itemType(aDec)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aDec", aDecArray);
@@ -221,6 +232,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aFloatArray = new CobolArrayType.Builder()
                         .itemType(aFloat)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aFloat", aFloatArray);
@@ -230,6 +242,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         CobolArrayType aDoubleArray = new CobolArrayType.Builder()
                         .itemType(aDouble)
+                        .minOccurs(2)
                         .maxOccurs(2)
                         .build();
         fields.put("aDouble", aDoubleArray);
