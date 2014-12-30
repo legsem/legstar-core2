@@ -10,174 +10,229 @@ import com.legstar.base.type.primitive.*;
 public class CobolDfhcommarea extends CobolComplexType {
 
     public CobolDfhcommarea() {
-        super("Dfhcommarea", createDfhcommareaFields());
+        super(new CobolComplexType.Builder()
+                    .name("Dfhcommarea")
+                    .fields(createDfhcommareaFields())
+              );
     }
 
     private static Map < String, CobolType > createDfhcommareaFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType < String > SString =
+        CobolStringType < String > sString =
                 new CobolStringType.Builder < String >(String.class)
                         .charNum(4)
                         .build();
-        fields.put("SString", SString);
+        fields.put("sString", sString);
 
-        CobolStringType < java.nio.ByteBuffer > SBinary =
+        CobolStringType < java.nio.ByteBuffer > sBinary =
                 new CobolStringType.Builder < java.nio.ByteBuffer >(java.nio.ByteBuffer.class)
                         .charNum(4)
                         .build();
-        fields.put("SBinary", SBinary);
+        fields.put("sBinary", sBinary);
 
-        CobolBinaryType < Short > SShort =
+        CobolBinaryType < Short > sShort =
                 new CobolBinaryType.Builder < Short >(Short.class)
                         .signed(true)
                         .totalDigits(4)
                         .build();
-        fields.put("SShort", SShort);
+        fields.put("sShort", sShort);
 
-        CobolBinaryType < Integer > SUshort =
+        CobolBinaryType < Integer > sUshort =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
                         .totalDigits(4)
                         .build();
-        fields.put("SUshort", SUshort);
+        fields.put("sUshort", sUshort);
 
-        CobolBinaryType < Integer > SInt =
+        CobolBinaryType < Integer > sInt =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
                         .signed(true)
                         .totalDigits(9)
                         .build();
-        fields.put("SInt", SInt);
+        fields.put("sInt", sInt);
 
-        CobolBinaryType < Long > SUint =
+        CobolBinaryType < Long > sUint =
                 new CobolBinaryType.Builder < Long >(Long.class)
                         .totalDigits(9)
                         .build();
-        fields.put("SUint", SUint);
+        fields.put("sUint", sUint);
 
-        CobolPackedDecimalType < Long > SLong =
+        CobolPackedDecimalType < Long > sLong =
                 new CobolPackedDecimalType.Builder < Long >(Long.class)
                         .signed(true)
                         .totalDigits(18)
                         .build();
-        fields.put("SLong", SLong);
+        fields.put("sLong", sLong);
 
-        CobolPackedDecimalType < java.math.BigInteger > SUlong =
+        CobolPackedDecimalType < java.math.BigInteger > sUlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
                         .totalDigits(18)
                         .build();
-        fields.put("SUlong", SUlong);
+        fields.put("sUlong", sUlong);
 
-        CobolPackedDecimalType < java.math.BigInteger > SXlong =
+        CobolPackedDecimalType < java.math.BigInteger > sXlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
                         .signed(true)
                         .totalDigits(31)
                         .build();
-        fields.put("SXlong", SXlong);
+        fields.put("sXlong", sXlong);
 
-        CobolPackedDecimalType < java.math.BigInteger > SUxlong =
+        CobolPackedDecimalType < java.math.BigInteger > sUxlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
                         .totalDigits(31)
                         .build();
-        fields.put("SUxlong", SUxlong);
+        fields.put("sUxlong", sUxlong);
 
-        CobolPackedDecimalType < java.math.BigDecimal > SDec =
+        CobolPackedDecimalType < java.math.BigDecimal > sDec =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
                         .totalDigits(9)
                         .fractionDigits(2)
                         .build();
-        fields.put("SDec", SDec);
+        fields.put("sDec", sDec);
 
-        CobolFloatType < Float > SFloat =
+        CobolFloatType < Float > sFloat =
                 new CobolFloatType.Builder < Float >(Float.class)
                         .build();
-        fields.put("SFloat", SFloat);
+        fields.put("sFloat", sFloat);
 
-        CobolDoubleType < Double > SDouble =
+        CobolDoubleType < Double > sDouble =
                 new CobolDoubleType.Builder < Double >(Double.class)
                         .build();
-        fields.put("SDouble", SDouble);
+        fields.put("sDouble", sDouble);
 
-        CobolStringType < String > AString =
+        CobolStringType < String > aString =
                 new CobolStringType.Builder < String >(String.class)
                         .charNum(4)
                         .build();
-        fields.put("AString", new CobolArrayType(AString, 2));
+        CobolArrayType aStringArray = new CobolArrayType.Builder()
+                        .itemType(aString)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aString", aStringArray);
 
-        CobolStringType < java.nio.ByteBuffer > ABinary =
-                new CobolStringType.Builder < java.nio.ByteBuffer >(java.nio.ByteBuffer.class)
+        CobolStringType < String > aBinary =
+                new CobolStringType.Builder < String >(String.class)
                         .charNum(4)
                         .build();
-        fields.put("ABinary", new CobolArrayType(ABinary, 2));
+        CobolArrayType aBinaryArray = new CobolArrayType.Builder()
+                        .itemType(aBinary)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aBinary", aBinaryArray);
 
-        CobolBinaryType < Short > AShort =
+        CobolBinaryType < Short > aShort =
                 new CobolBinaryType.Builder < Short >(Short.class)
                         .signed(true)
                         .totalDigits(4)
                         .build();
-        fields.put("AShort", new CobolArrayType(AShort, 2));
+        CobolArrayType aShortArray = new CobolArrayType.Builder()
+                        .itemType(aShort)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aShort", aShortArray);
 
-        CobolBinaryType < Integer > AUshort =
+        CobolBinaryType < Integer > aUshort =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
                         .totalDigits(4)
                         .build();
-        fields.put("AUshort", new CobolArrayType(AUshort, 2));
+        CobolArrayType aUshortArray = new CobolArrayType.Builder()
+                        .itemType(aUshort)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aUshort", aUshortArray);
 
-        CobolBinaryType < Integer > AInt =
+        CobolBinaryType < Integer > aInt =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
                         .signed(true)
                         .totalDigits(9)
                         .build();
-        fields.put("AInt", new CobolArrayType(AInt, 2));
+        CobolArrayType aIntArray = new CobolArrayType.Builder()
+                        .itemType(aInt)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aInt", aIntArray);
 
-        CobolBinaryType < Long > AUint =
+        CobolBinaryType < Long > aUint =
                 new CobolBinaryType.Builder < Long >(Long.class)
                         .totalDigits(9)
                         .build();
-        fields.put("AUint", new CobolArrayType(AUint, 2));
+        CobolArrayType aUintArray = new CobolArrayType.Builder()
+                        .itemType(aUint)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aUint", aUintArray);
 
-        CobolPackedDecimalType < Long > ALong =
+        CobolPackedDecimalType < Long > aLong =
                 new CobolPackedDecimalType.Builder < Long >(Long.class)
                         .signed(true)
                         .totalDigits(18)
                         .build();
-        fields.put("ALong", new CobolArrayType(ALong, 2));
+        CobolArrayType aLongArray = new CobolArrayType.Builder()
+                        .itemType(aLong)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aLong", aLongArray);
 
-        CobolPackedDecimalType < java.math.BigInteger > AUlong =
+        CobolPackedDecimalType < java.math.BigInteger > aUlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
                         .totalDigits(18)
                         .build();
-        fields.put("AUlong", new CobolArrayType(AUlong, 2));
+        CobolArrayType aUlongArray = new CobolArrayType.Builder()
+                        .itemType(aUlong)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aUlong", aUlongArray);
 
-        CobolPackedDecimalType < java.math.BigInteger > AXlong =
+        CobolPackedDecimalType < java.math.BigInteger > aXlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
                         .signed(true)
                         .totalDigits(31)
                         .build();
-        fields.put("AXlong", new CobolArrayType(AXlong, 2));
+        CobolArrayType aXlongArray = new CobolArrayType.Builder()
+                        .itemType(aXlong)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aXlong", aXlongArray);
 
-        CobolPackedDecimalType < java.math.BigInteger > AUxlong =
+        CobolPackedDecimalType < java.math.BigInteger > aUxlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
                         .totalDigits(31)
                         .build();
-        fields.put("AUxlong", new CobolArrayType(AUxlong, 2));
+        CobolArrayType aUxlongArray = new CobolArrayType.Builder()
+                        .itemType(aUxlong)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aUxlong", aUxlongArray);
 
-        CobolPackedDecimalType < java.math.BigDecimal > ADec =
+        CobolPackedDecimalType < java.math.BigDecimal > aDec =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
                         .totalDigits(9)
                         .fractionDigits(2)
                         .build();
-        fields.put("ADec", new CobolArrayType(ADec, 2));
+        CobolArrayType aDecArray = new CobolArrayType.Builder()
+                        .itemType(aDec)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aDec", aDecArray);
 
-        CobolFloatType < Float > AFloat =
+        CobolFloatType < Float > aFloat =
                 new CobolFloatType.Builder < Float >(Float.class)
                         .build();
-        fields.put("AFloat", new CobolArrayType(AFloat, 2));
+        CobolArrayType aFloatArray = new CobolArrayType.Builder()
+                        .itemType(aFloat)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aFloat", aFloatArray);
 
-        CobolDoubleType < Double > ADouble =
+        CobolDoubleType < Double > aDouble =
                 new CobolDoubleType.Builder < Double >(Double.class)
                         .build();
-        fields.put("ADouble", new CobolArrayType(ADouble, 2));
+        CobolArrayType aDoubleArray = new CobolArrayType.Builder()
+                        .itemType(aDouble)
+                        .maxOccurs(2)
+                        .build();
+        fields.put("aDouble", aDoubleArray);
 
         return fields;
 

@@ -27,7 +27,8 @@ public class Cob2JaxbGeneratorMain extends AbstractCob2JavaGeneratorMain {
     }
 
     public void generate(Properties configProps, File cobolFile,
-            String cobolFileEncoding, File output, String packageNamePrefix) {
+            String cobolFileEncoding, File output, String packageNamePrefix,
+            final String xsltFileName) {
         log.info("Processing COBOL file " + cobolFile);
         Cob2JaxbGenerator gen = new Cob2JaxbGenerator(
                 configProps);
@@ -37,7 +38,7 @@ public class Cob2JaxbGeneratorMain extends AbstractCob2JavaGeneratorMain {
                 : (packageNamePrefix + "." + baseName);
 
         gen.generate(cobolFile,
-                cobolFileEncoding, packageName, output);
+                cobolFileEncoding, packageName, output, xsltFileName);
     }
 
 }

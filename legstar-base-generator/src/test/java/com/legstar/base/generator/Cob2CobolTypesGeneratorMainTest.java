@@ -86,10 +86,11 @@ public class Cob2CobolTypesGeneratorMainTest extends AbstractTest {
     @Test
     public void testGenerateFromMultipleFiles() {
         try {
-            main.execute(new String[] {  "-i",
-                    TEST_COBOL_FOLDER + "", "-o",
-                    tempFolder.getAbsolutePath() });
-            File result = new File(tempFolder + "/flat01/CobolFlat01Record.java");
+            main.execute(new String[] { "-i", TEST_COBOL_FOLDER + "", "-o",
+                    tempFolder.getAbsolutePath(), "-x",
+                    new File("src/test/xslt/alltypes.xsl").getAbsolutePath() });
+            File result = new File(tempFolder
+                    + "/flat01/CobolFlat01Record.java");
             assertTrue(result.exists());
             check(FileUtils.readFileToString(result), "CobolFlat01Record.java");
             result.deleteOnExit();

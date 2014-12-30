@@ -308,7 +308,7 @@ public class Cob2ObjectConverterTest {
                 0);
         visitor.visit(new CobolStru04Record());
         assertEquals(
-                "{ComItem1=1900.00, ComArray1=[{ComItem2=9, ComGroup1={ComItem3=6, ComArray2=[{ComItem4=B, ComArray3=[E, E, B, D, D], ComItem5=19.00}, {ComItem4=B, ComArray3=[B, E, D, E, C], ComItem5=9.50}], ComItem6=3}, ComItem7=2}, {ComItem2=19, ComGroup1={ComItem3=12, ComArray2=[{ComItem4=B, ComArray3=[D, B, A, E, D], ComItem5=38.00}, {ComItem4=A, ComArray3=[E, B, B, D, A], ComItem5=19.00}], ComItem6=6}, ComItem7=5}, {ComItem2=28, ComGroup1={ComItem3=19, ComArray2=[{ComItem4=A, ComArray3=[E, B, E, A, C], ComItem5=57.00}, {ComItem4=D, ComArray3=[B, C, C, C, B], ComItem5=28.50}], ComItem6=9}, ComItem7=8}], ComItem8=237.50}",
+                "{comItem1=1900.00, comArray1=[{comItem2=9, comGroup1={comItem3=6, comArray2=[{comItem4=B, comArray3=[E, E, B, D, D], comItem5=19.00}, {comItem4=B, comArray3=[B, E, D, E, C], comItem5=9.50}], comItem6=3}, comItem7=2}, {comItem2=19, comGroup1={comItem3=12, comArray2=[{comItem4=B, comArray3=[D, B, A, E, D], comItem5=38.00}, {comItem4=A, comArray3=[E, B, B, D, A], comItem5=19.00}], comItem6=6}, comItem7=5}, {comItem2=28, comGroup1={comItem3=19, comArray2=[{comItem4=A, comArray3=[E, B, E, A, C], comItem5=57.00}, {comItem4=D, comArray3=[B, C, C, C, B], comItem5=28.50}], comItem6=9}, comItem7=8}], comItem8=237.50}",
                 visitor.getLastObject().toString());
         assertEquals(98, visitor.getLastPos());
 
@@ -359,7 +359,7 @@ public class Cob2ObjectConverterTest {
                 0);
         visitor.visit(new com.legstar.base.type.gen.alltypes.CobolDfhcommarea());
         assertEquals(
-                "{SString=ABCD, SBinary=java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], SShort=-932, SUshort=15, SInt=78906, SUint=452, SLong=-4532456, SUlong=7800056, SXlong=87554907654321, SUxlong=564678008321, SDec=75.45, SFloat=345006.56, SDouble=7.982006699999985E-14, AString=[ABCD, ABCD], ABinary=[java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], java.nio.HeapByteBuffer[pos=0 lim=4 cap=4]], AShort=[-932, -932], AUshort=[15, 15], AInt=[78906, 78906], AUint=[452, 452], ALong=[-4532456, -4532456], AUlong=[7800056, 7800056], AXlong=[87554907654321, 87554907654321], AUxlong=[564678008321, 564678008321], ADec=[75.45, 75.45], AFloat=[345006.56, 345006.56], ADouble=[7.982006699999985E-14, 7.982006699999985E-14]}",
+                "{sString=ABCD, sBinary=java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], sShort=-932, sUshort=15, sInt=78906, sUint=452, sLong=-4532456, sUlong=7800056, sXlong=87554907654321, sUxlong=564678008321, sDec=75.45, sFloat=345006.56, sDouble=7.982006699999985E-14, aString=[ABCD, ABCD], aBinary=[, ], aShort=[-932, -932], aUshort=[15, 15], aInt=[78906, 78906], aUint=[452, 452], aLong=[-4532456, -4532456], aUlong=[7800056, 7800056], aXlong=[87554907654321, 87554907654321], aUxlong=[564678008321, 564678008321], aDec=[75.45, 75.45], aFloat=[345006.56, 345006.56], aDouble=[7.982006699999985E-14, 7.982006699999985E-14]}",
                 visitor.getLastObject().toString());
         assertEquals(267, visitor.getLastPos());
 

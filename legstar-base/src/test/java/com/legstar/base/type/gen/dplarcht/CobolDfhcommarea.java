@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class CobolDfhcommarea extends CobolComplexType {
 
     public CobolDfhcommarea() {
-        super("Dfhcommarea", createDfhcommareaFields());
+        super(new CobolComplexType.Builder()
+                    .name("Dfhcommarea")
+                    .fields(createDfhcommareaFields())
+              );
     }
 
     private static Map < String, CobolType > createLsSearchCriteriaFields() {
@@ -43,9 +46,17 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         fields.put("lsRequestType", lsRequestType);
 
-        fields.put("lsAllItemsChoice", new CobolChoiceType("LsAllItemsChoice",  createLsAllItemsChoiceFields()));
+        CobolChoiceType lsAllItemsChoice = new CobolChoiceType.Builder()
+                        .name("LsAllItemsChoice")
+                        .alternatives(createLsAllItemsChoiceFields())
+                        .build();
+        fields.put("lsAllItemsChoice", lsAllItemsChoice);
 
-        fields.put("lsSearchCriteria", new CobolComplexType("LsSearchCriteria",  createLsSearchCriteriaFields()));
+        CobolComplexType lsSearchCriteria = new CobolComplexType.Builder()
+                        .name("LsSearchCriteria")
+                        .fields(createLsSearchCriteriaFields())
+                        .build();
+        fields.put("lsSearchCriteria", lsSearchCriteria);
 
         return fields;
 
@@ -159,7 +170,11 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("lsFilesDataChoice", new CobolChoiceType("LsFilesDataChoice",  createLsFilesDataChoiceFields()));
+        CobolChoiceType lsFilesDataChoice = new CobolChoiceType.Builder()
+                        .name("LsFilesDataChoice")
+                        .alternatives(createLsFilesDataChoiceFields())
+                        .build();
+        fields.put("lsFilesDataChoice", lsFilesDataChoice);
 
         return fields;
 
@@ -178,7 +193,17 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         fields.put("lsItemsCount", lsItemsCount);
 
-        fields.put("lsItemsArray", new CobolArrayType(new CobolComplexType("LsItemsArray",  createLsItemsArrayFields()), 500, "lsItemsCount"));
+        CobolComplexType lsItemsArray = new CobolComplexType.Builder()
+                        .name("LsItemsArray")
+                        .fields(createLsItemsArrayFields())
+                        .dependingOn("lsItemsCount")
+                        .build();
+        CobolArrayType lsItemsArrayArray = new CobolArrayType.Builder()
+                        .itemType(lsItemsArray)
+                        .maxOccurs(500)
+                        .dependingOn("lsItemsCount")
+                        .build();
+        fields.put("lsItemsArray", lsItemsArrayArray);
 
         return fields;
 
@@ -194,7 +219,11 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         fields.put("lsReplyType", lsReplyType);
 
-        fields.put("lsReplyData", new CobolComplexType("LsReplyData",  createLsReplyDataFields()));
+        CobolComplexType lsReplyData = new CobolComplexType.Builder()
+                        .name("LsReplyData")
+                        .fields(createLsReplyDataFields())
+                        .build();
+        fields.put("lsReplyData", lsReplyData);
 
         return fields;
 
@@ -204,9 +233,17 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("lsRequest", new CobolComplexType("LsRequest",  createLsRequestFields()));
+        CobolComplexType lsRequest = new CobolComplexType.Builder()
+                        .name("LsRequest")
+                        .fields(createLsRequestFields())
+                        .build();
+        fields.put("lsRequest", lsRequest);
 
-        fields.put("lsReply", new CobolComplexType("LsReply",  createLsReplyFields()));
+        CobolComplexType lsReply = new CobolComplexType.Builder()
+                        .name("LsReply")
+                        .fields(createLsReplyFields())
+                        .build();
+        fields.put("lsReply", lsReply);
 
         return fields;
 
@@ -236,11 +273,23 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("lsFilesData", new CobolComplexType("LsFilesData",  createLsFilesDataFields()));
+        CobolComplexType lsFilesData = new CobolComplexType.Builder()
+                        .name("LsFilesData")
+                        .fields(createLsFilesDataFields())
+                        .build();
+        fields.put("lsFilesData", lsFilesData);
 
-        fields.put("lsProgramsData", new CobolComplexType("LsProgramsData",  createLsProgramsDataFields()));
+        CobolComplexType lsProgramsData = new CobolComplexType.Builder()
+                        .name("LsProgramsData")
+                        .fields(createLsProgramsDataFields())
+                        .build();
+        fields.put("lsProgramsData", lsProgramsData);
 
-        fields.put("lsTransactionsData", new CobolComplexType("LsTransactionsData",  createLsTransactionsDataFields()));
+        CobolComplexType lsTransactionsData = new CobolComplexType.Builder()
+                        .name("LsTransactionsData")
+                        .fields(createLsTransactionsDataFields())
+                        .build();
+        fields.put("lsTransactionsData", lsTransactionsData);
 
         return fields;
 

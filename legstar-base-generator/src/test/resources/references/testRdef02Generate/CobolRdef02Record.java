@@ -10,14 +10,21 @@ import com.legstar.base.type.primitive.*;
 public class CobolRdef02Record extends CobolComplexType {
 
     public CobolRdef02Record() {
-        super("Rdef02Record", createRdef02RecordFields());
+        super(new CobolComplexType.Builder()
+                    .name("Rdef02Record")
+                    .fields(createRdef02RecordFields())
+              );
     }
 
     private static Map < String, CobolType > createRdef02KeyFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("rdef02Item1Choice", new CobolChoiceType("Rdef02Item1Choice",  createRdef02Item1ChoiceFields()));
+        CobolChoiceType rdef02Item1Choice = new CobolChoiceType.Builder()
+                        .name("Rdef02Item1Choice")
+                        .alternatives(createRdef02Item1ChoiceFields())
+                        .build();
+        fields.put("rdef02Item1Choice", rdef02Item1Choice);
 
         CobolBinaryType < Integer > comSelect =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
@@ -68,9 +75,17 @@ public class CobolRdef02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("rdef02Key", new CobolComplexType("Rdef02Key",  createRdef02KeyFields()));
+        CobolComplexType rdef02Key = new CobolComplexType.Builder()
+                        .name("Rdef02Key")
+                        .fields(createRdef02KeyFields())
+                        .build();
+        fields.put("rdef02Key", rdef02Key);
 
-        fields.put("comDetail1Choice", new CobolChoiceType("ComDetail1Choice",  createComDetail1ChoiceFields()));
+        CobolChoiceType comDetail1Choice = new CobolChoiceType.Builder()
+                        .name("ComDetail1Choice")
+                        .alternatives(createComDetail1ChoiceFields())
+                        .build();
+        fields.put("comDetail1Choice", comDetail1Choice);
 
         CobolPackedDecimalType < java.math.BigDecimal > comItem3 =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
@@ -108,9 +123,17 @@ public class CobolRdef02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("comDetail1", new CobolComplexType("ComDetail1",  createComDetail1Fields()));
+        CobolComplexType comDetail1 = new CobolComplexType.Builder()
+                        .name("ComDetail1")
+                        .fields(createComDetail1Fields())
+                        .build();
+        fields.put("comDetail1", comDetail1);
 
-        fields.put("comDetail2", new CobolComplexType("ComDetail2",  createComDetail2Fields()));
+        CobolComplexType comDetail2 = new CobolComplexType.Builder()
+                        .name("ComDetail2")
+                        .fields(createComDetail2Fields())
+                        .build();
+        fields.put("comDetail2", comDetail2);
 
         return fields;
 

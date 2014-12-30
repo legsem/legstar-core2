@@ -47,14 +47,16 @@ public class Cob2CobolTypesGenerator {
      * to convert mainframe data (matching the copybook) at runtime.
      * 
      * @param cobolSource the COBOL copybook source
-     * @param targetPackageName the java package the generated classes should reside
-     *            in
+     * @param targetPackageName the java package the generated classes should
+     *            reside in
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @return a map of java class names to their source code
      */
     public Map < String, String > generate(String cobolSource,
-            String targetPackageName) {
+            String targetPackageName, final String xsltFileName) {
 
-        return generate(new StringReader(cobolSource), targetPackageName);
+        return generate(new StringReader(cobolSource), targetPackageName,
+                xsltFileName);
 
     }
 
@@ -64,17 +66,19 @@ public class Cob2CobolTypesGenerator {
      * 
      * @param cobolFile the COBOL copybook file
      * @param cobolFileEncoding the COBOL copybook file character encoding
-     * @param targetPackageName the java package the generated classes should reside
-     *            in
+     * @param targetPackageName the java package the generated classes should
+     *            reside in
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @return a map of java class names to their source code
      */
     public Map < String, String > generate(File cobolFile,
-            String cobolFileEncoding, String targetPackageName) {
+            String cobolFileEncoding, String targetPackageName,
+            final String xsltFileName) {
         try {
             Reader reader = cobolFileEncoding == null ? new InputStreamReader(
                     new FileInputStream(cobolFile)) : new InputStreamReader(
                     new FileInputStream(cobolFile), cobolFileEncoding);
-            return generate(reader, targetPackageName);
+            return generate(reader, targetPackageName, xsltFileName);
         } catch (UnsupportedEncodingException e) {
             throw new Xsd2ConverterException(e);
         } catch (FileNotFoundException e) {
@@ -89,14 +93,15 @@ public class Cob2CobolTypesGenerator {
      * @param cobolReader reads the COBOL copybook source
      * @param targetPackageName the java package the generated classes should
      *            reside in
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @return a map of java class names to their source code
      */
     public Map < String, String > generate(Reader cobolReader,
-            String targetPackageName) {
+            String targetPackageName, final String xsltFileName) {
 
         // The XML schema is an intermediary result which we do not keep.
         String xmlSchemaSource = cob2xsd.translate(cobolReader,
-                NamespaceUtils.toNamespace(targetPackageName));
+                NamespaceUtils.toNamespace(targetPackageName), xsltFileName);
         if (log.isDebugEnabled()) {
             log.debug("Generated Cobol-annotated XML Schema: ");
             log.debug(xmlSchemaSource);

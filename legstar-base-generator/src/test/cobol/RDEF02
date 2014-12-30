@@ -1,0 +1,14 @@
+       01  RDEF02-RECORD.
+           05  RDEF02-KEY.
+               07  RDEF02-ITEM1                 PIC S9(10)  COMP-3.
+               07  RDEF02-ITEM2 REDEFINES
+                   RDEF02-ITEM1                 PIC X(6).
+               07 COM-SELECT                    PIC 9(4) COMP.
+                  88 DETAIL1  VALUE 0.
+                  88 DETAIL2  VALUE 1.
+           05 COM-DETAIL1.
+               07 COM-NAME                      PIC X(10).
+           05 COM-DETAIL2 REDEFINES COM-DETAIL1.
+               07 COM-AMOUNT                    PIC 9(5)V99 COMP-3.
+               07 FILLER                        PIC X(6).
+           05 COM-ITEM3                         PIC 9(5)V99 COMP-3.

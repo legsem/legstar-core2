@@ -40,7 +40,7 @@ public class Cob2JaxbGeneratorTest extends AbstractTest {
     private void generate(String programName) {
         File cobolFile = new File(TEST_COBOL_FOLDER, programName);
         gen.generate(cobolFile,
-                LEGSTAR_COBOL_FILE_ENCODING, "test.example", OUTPUT_DIR);
+                LEGSTAR_COBOL_FILE_ENCODING, "test.example", OUTPUT_DIR, null);
     }
     
     private void check(String recordName) {

@@ -26,17 +26,6 @@ public class CobolArrayType extends CobolCompositeType {
      */
     private final int maxBytesLen;
 
-    public CobolArrayType(CobolType itemType, int maxOccurs) {
-        this(itemType, maxOccurs, null);
-    }
-
-    public CobolArrayType(CobolType itemType, int maxOccurs, String dependingOn) {
-        this.maxOccurs = maxOccurs;
-        this.itemType = itemType;
-        this.dependingOn = dependingOn;
-        this.maxBytesLen = maxOccurs * itemType.getMaxBytesLen();
-    }
-
     /** {@inheritDoc} */
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
@@ -62,4 +51,51 @@ public class CobolArrayType extends CobolCompositeType {
     public int getMaxBytesLen() {
         return maxBytesLen;
     }
+
+    // -----------------------------------------------------------------------------
+    // Builder section
+    // -----------------------------------------------------------------------------
+    public static class Builder {
+
+        private CobolType itemType;
+        private int maxOccurs;
+        private String dependingOn;
+
+        public Builder itemType(CobolType itemType) {
+            this.itemType = itemType;
+            return this;
+        }
+
+        public Builder maxOccurs(int maxOccurs) {
+            this.maxOccurs = maxOccurs;
+            return this;
+        }
+
+        public Builder dependingOn(String dependingOn) {
+            this.dependingOn = dependingOn;
+            return this;
+        }
+
+        public CobolArrayType build() {
+            return new CobolArrayType(this);
+        }
+
+        protected Builder self() {
+            return this;
+        }
+
+    }
+
+    // -----------------------------------------------------------------------------
+    // Constructor
+    // -----------------------------------------------------------------------------
+    private CobolArrayType(Builder builder) {
+
+        itemType = builder.itemType;
+        maxOccurs = builder.maxOccurs;
+        dependingOn = builder.dependingOn;
+        maxBytesLen = maxOccurs * itemType.getMaxBytesLen();
+    }
+
+
 }

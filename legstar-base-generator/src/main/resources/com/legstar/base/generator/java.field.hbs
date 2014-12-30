@@ -1,15 +1,37 @@
 {{~#if complexType}}
+        CobolComplexType {{@key}} = new CobolComplexType.Builder()
+                        .name("{{complexTypeName}}")
+                        .fields(create{{complexTypeName}}Fields())
+                        {{~#if dependingOn}}
+                        .dependingOn("{{dependingOn}}"){{/if}}
+                        .build();
 {{~#if maxOccurs}}
-        fields.put("{{@key}}", new CobolArrayType(new CobolComplexType("{{complexTypeName}}",  create{{complexTypeName}}Fields()), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+        CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
+                        .itemType({{@key}})
+                        .maxOccurs({{maxOccurs}})
+                        {{~#if dependingOn}}
+                        .dependingOn("{{dependingOn}}"){{/if}}
+                        .build();
+        fields.put("{{@key}}", {{@key}}Array);
 {{~else}}
-        fields.put("{{@key}}", new CobolComplexType("{{complexTypeName}}",  create{{complexTypeName}}Fields()));
+        fields.put("{{@key}}", {{@key}});
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
 {{~#if choiceType}}
+        CobolChoiceType {{@key}} = new CobolChoiceType.Builder()
+                        .name("{{choiceTypeName}}")
+                        .alternatives(create{{choiceTypeName}}Fields())
+                        .build();
 {{~#if maxOccurs}}
-        fields.put("{{@key}}", new CobolArrayType(new CobolChoiceType("{{choiceTypeName}}",  create{{choiceTypeName}}Fields()), {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+        CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
+                        .itemType({{@key}})
+                        .maxOccurs({{maxOccurs}})
+                        {{~#if dependingOn}}
+                        .dependingOn("{{dependingOn}}"){{/if}}
+                        .build();
+        fields.put("{{@key}}", {{@key}}Array);
 {{~else}}
-        fields.put("{{@key}}", new CobolChoiceType("{{choiceTypeName}}",  create{{choiceTypeName}}Fields()));
+        fields.put("{{@key}}", {{@key}});
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~else}}
         {{cobolTypeName}}{{#if javaTypeName}} < {{javaTypeName}} >{{/if}} {{@key}} =
@@ -34,7 +56,13 @@
                         .odoObject(true){{/if}}
                         .build();
 {{~#if maxOccurs}}
-        fields.put("{{@key}}", new CobolArrayType({{@key}}, {{maxOccurs}}{{#if dependingOn}}, "{{dependingOn}}"{{/if}}));
+        CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
+                        .itemType({{@key}})
+                        .maxOccurs({{maxOccurs}})
+                        {{~#if dependingOn}}
+                        .dependingOn("{{dependingOn}}"){{/if}}
+                        .build();
+        fields.put("{{@key}}", {{@key}}Array);
 {{~else}}
         fields.put("{{@key}}", {{@key}});
 {{~/if ~}}{{!-- maxOccurs --}}

@@ -29,7 +29,8 @@ public class Cob2CobolTypesGeneratorMain extends AbstractCob2JavaGeneratorMain {
     }
 
     public void generate(Properties configProps, File cobolFile,
-            String cobolFileEncoding, File output, String packageNamePrefix) {
+            String cobolFileEncoding, File output, String packageNamePrefix,
+            final String xsltFileName) {
         try {
             log.info("Processing COBOL file " + cobolFile);
             Cob2CobolTypesGenerator gen = new Cob2CobolTypesGenerator(
@@ -40,7 +41,7 @@ public class Cob2CobolTypesGeneratorMain extends AbstractCob2JavaGeneratorMain {
                     : (packageNamePrefix + "." + baseName);
 
             Map < String, String > code = gen.generate(cobolFile,
-                    cobolFileEncoding, packageName);
+                    cobolFileEncoding, packageName, xsltFileName);
             String subFolder = packageName == null ? "" : (packageName.replace(
                     ".", "/") + "/");
             for (Entry < String, String > entry : code.entrySet()) {

@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class CobolRdef01Record extends CobolComplexType {
 
     public CobolRdef01Record() {
-        super("Rdef01Record", createRdef01RecordFields());
+        super(new CobolComplexType.Builder()
+                    .name("Rdef01Record")
+                    .fields(createRdef01RecordFields())
+              );
     }
 
     private static Map < String, CobolType > createComDetail1Fields() {
@@ -52,7 +55,11 @@ public class CobolRdef01Record extends CobolComplexType {
                         .build();
         fields.put("comSelect", comSelect);
 
-        fields.put("comDetail1Choice", new CobolChoiceType("ComDetail1Choice",  createComDetail1ChoiceFields()));
+        CobolChoiceType comDetail1Choice = new CobolChoiceType.Builder()
+                        .name("ComDetail1Choice")
+                        .alternatives(createComDetail1ChoiceFields())
+                        .build();
+        fields.put("comDetail1Choice", comDetail1Choice);
 
         return fields;
 
@@ -62,9 +69,17 @@ public class CobolRdef01Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("comDetail1", new CobolComplexType("ComDetail1",  createComDetail1Fields()));
+        CobolComplexType comDetail1 = new CobolComplexType.Builder()
+                        .name("ComDetail1")
+                        .fields(createComDetail1Fields())
+                        .build();
+        fields.put("comDetail1", comDetail1);
 
-        fields.put("comDetail2", new CobolComplexType("ComDetail2",  createComDetail2Fields()));
+        CobolComplexType comDetail2 = new CobolComplexType.Builder()
+                        .name("ComDetail2")
+                        .fields(createComDetail2Fields())
+                        .build();
+        fields.put("comDetail2", comDetail2);
 
         return fields;
 

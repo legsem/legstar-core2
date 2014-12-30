@@ -28,25 +28,6 @@ public class CobolChoiceType extends CobolCompositeType {
      */
     private final int maxBytesLen;
 
-    /**
-     * Builds a choice from a series of named alternatives.
-     * 
-     * @param name a unique name for this choice
-     * @param alternatives the mapping of alternatives to their names. It is
-     *            important that this structure preserves insertion order (such
-     *            as {@link java.util.LinkedHashMap} )
-     */
-    public CobolChoiceType(String name, Map < String, CobolType > alternatives) {
-        this.name = name;
-        this.alternatives = alternatives;
-        int maxBytesLen = 0;
-        for (CobolType alternative : alternatives.values()) {
-            maxBytesLen = maxBytesLen < alternative.getMaxBytesLen() ? alternative
-                    .getMaxBytesLen() : maxBytesLen;
-        }
-        this.maxBytesLen = maxBytesLen;
-    }
-
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
     }
@@ -94,4 +75,50 @@ public class CobolChoiceType extends CobolCompositeType {
     public int getMaxBytesLen() {
         return maxBytesLen;
     }
+
+    // -----------------------------------------------------------------------------
+    // Builder section
+    // -----------------------------------------------------------------------------
+    public static class Builder {
+
+        private String name;
+        private Map < String, CobolType > alternatives;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder alternatives(Map < String, CobolType > alternatives) {
+            this.alternatives = alternatives;
+            return this;
+        }
+
+        public CobolChoiceType build() {
+            return new CobolChoiceType(this);
+        }
+
+        protected Builder self() {
+            return this;
+        }
+
+    }
+
+    // -----------------------------------------------------------------------------
+    // Constructor
+    // -----------------------------------------------------------------------------
+    private CobolChoiceType(Builder builder) {
+
+        name = builder.name;
+        alternatives = builder.alternatives;
+        int maxBytesLen = 0;
+        for (CobolType alternative : alternatives.values()) {
+            maxBytesLen = maxBytesLen < alternative.getMaxBytesLen() ? alternative
+                    .getMaxBytesLen() : maxBytesLen;
+        }
+        this.maxBytesLen = maxBytesLen;
+    }
+
+
+
 }

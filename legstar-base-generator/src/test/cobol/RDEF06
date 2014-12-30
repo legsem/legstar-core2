@@ -1,0 +1,17 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. OPTL01.
+       ENVIRONMENT DIVISION.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01  OPTL-RECORD.
+           05 OPTL-STRUCT-IND                           PIC 9(3).
+           05 OPTL-ITEM                                 PIC X(23).
+           05 OPTL-STRUCT
+             REDEFINES OPTL-ITEM
+             OCCURS 0 TO 1 TIMES
+             DEPENDING ON OPTL-STRUCT-IND.
+              10 OPTL-STRUCT-FIELD1                     PIC X(18).
+              10 OPTL-STRUCT-FIELD2                     PIC X(05).
+       PROCEDURE DIVISION.
+           GOBACK.

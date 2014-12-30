@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class CobolFlat01Record extends CobolComplexType {
 
     public CobolFlat01Record() {
-        super("Flat01Record", createFlat01RecordFields());
+        super(new CobolComplexType.Builder()
+                    .name("Flat01Record")
+                    .fields(createFlat01RecordFields())
+              );
     }
 
     private static Map < String, CobolType > createFlat01RecordFields() {

@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class CobolCustomerData extends CobolComplexType {
 
     public CobolCustomerData() {
-        super("CustomerData", createCustomerDataFields());
+        super(new CobolComplexType.Builder()
+                    .name("CustomerData")
+                    .fields(createCustomerDataFields())
+              );
     }
 
     private static Map < String, CobolType > createPersonalDataFields() {
@@ -81,7 +84,11 @@ public class CobolCustomerData extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("transactionDateChoice", new CobolChoiceType("TransactionDateChoice",  createTransactionDateChoiceFields()));
+        CobolChoiceType transactionDateChoice = new CobolChoiceType.Builder()
+                        .name("TransactionDateChoice")
+                        .alternatives(createTransactionDateChoiceFields())
+                        .build();
+        fields.put("transactionDateChoice", transactionDateChoice);
 
         CobolPackedDecimalType < java.math.BigDecimal > transactionAmount =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
@@ -114,7 +121,17 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         fields.put("transactionNbr", transactionNbr);
 
-        fields.put("transaction", new CobolArrayType(new CobolComplexType("Transaction",  createTransactionFields()), 5, "transactionNbr"));
+        CobolComplexType transaction = new CobolComplexType.Builder()
+                        .name("Transaction")
+                        .fields(createTransactionFields())
+                        .dependingOn("transactionNbr")
+                        .build();
+        CobolArrayType transactionArray = new CobolArrayType.Builder()
+                        .itemType(transaction)
+                        .maxOccurs(5)
+                        .dependingOn("transactionNbr")
+                        .build();
+        fields.put("transaction", transactionArray);
 
         return fields;
 
@@ -130,9 +147,17 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         fields.put("customerId", customerId);
 
-        fields.put("personalData", new CobolComplexType("PersonalData",  createPersonalDataFields()));
+        CobolComplexType personalData = new CobolComplexType.Builder()
+                        .name("PersonalData")
+                        .fields(createPersonalDataFields())
+                        .build();
+        fields.put("personalData", personalData);
 
-        fields.put("transactions", new CobolComplexType("Transactions",  createTransactionsFields()));
+        CobolComplexType transactions = new CobolComplexType.Builder()
+                        .name("Transactions")
+                        .fields(createTransactionsFields())
+                        .build();
+        fields.put("transactions", transactions);
 
         return fields;
 
@@ -148,7 +173,11 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         fields.put("transactionDate", transactionDate);
 
-        fields.put("filler12", new CobolComplexType("Filler12",  createFiller12Fields()));
+        CobolComplexType filler12 = new CobolComplexType.Builder()
+                        .name("Filler12")
+                        .fields(createFiller12Fields())
+                        .build();
+        fields.put("filler12", filler12);
 
         return fields;
 

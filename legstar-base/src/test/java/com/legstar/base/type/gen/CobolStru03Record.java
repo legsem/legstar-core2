@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class CobolStru03Record extends CobolComplexType {
 
     public CobolStru03Record() {
-        super("Stru03Record", createStru03RecordFields());
+        super(new CobolComplexType.Builder()
+                    .name("Stru03Record")
+                    .fields(createStru03RecordFields())
+              );
     }
 
     private static Map < String, CobolType > createComArrayFields() {
@@ -59,7 +62,15 @@ public class CobolStru03Record extends CobolComplexType {
                         .build();
         fields.put("comAmount", comAmount);
 
-        fields.put("comArray", new CobolArrayType(new CobolComplexType("ComArray",  createComArrayFields()), 5));
+        CobolComplexType comArray = new CobolComplexType.Builder()
+                        .name("ComArray")
+                        .fields(createComArrayFields())
+                        .build();
+        CobolArrayType comArrayArray = new CobolArrayType.Builder()
+                        .itemType(comArray)
+                        .maxOccurs(5)
+                        .build();
+        fields.put("comArray", comArrayArray);
 
         return fields;
 

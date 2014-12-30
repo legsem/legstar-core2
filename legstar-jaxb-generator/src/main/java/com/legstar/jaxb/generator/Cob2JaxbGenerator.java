@@ -56,14 +56,16 @@ public class Cob2JaxbGenerator {
      * @param targetPackageName the java package the generated classes should
      *            reside in
      * @param ouputDir the target folder
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      */
     public void generate(File cobolFile, String cobolFileEncoding,
-            String targetPackageName, File ouputDir) {
+            String targetPackageName, File ouputDir,
+            final String xsltFileName) {
         try {
             Reader reader = cobolFileEncoding == null ? new InputStreamReader(
                     new FileInputStream(cobolFile)) : new InputStreamReader(
                     new FileInputStream(cobolFile), cobolFileEncoding);
-            generate(reader, targetPackageName, ouputDir);
+            generate(reader, targetPackageName, ouputDir, xsltFileName);
         } catch (UnsupportedEncodingException e) {
             throw new Cob2JaxbGeneratorException(e);
         } catch (FileNotFoundException e) {
@@ -79,14 +81,16 @@ public class Cob2JaxbGenerator {
      * @param cobolReader the COBOL copybook reader
      * @param targetPackageName the java package the generated classes should
      *            reside in
+     * @param xsltFileName an optional xslt to apply on the XML Schema
      * @param ouputDir the target folder
      */
     public void generate(Reader cobolReader, String targetPackageName,
-            File ouputDir) {
+            File ouputDir,
+            final String xsltFileName) {
 
         log.info("Step 1: translate COBOL copybook to annotated XML schema");
         String xmlSchemaSource = cob2xsd.translate(cobolReader,
-                NamespaceUtils.toNamespace(targetPackageName));
+                NamespaceUtils.toNamespace(targetPackageName), xsltFileName);
 
         log.info("Step 2: invoke JAXB-XJC utility");
         xjc(xmlSchemaSource, ouputDir, targetPackageName);

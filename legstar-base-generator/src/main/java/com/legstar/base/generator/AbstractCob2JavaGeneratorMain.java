@@ -35,6 +35,8 @@ public abstract class AbstractCob2JavaGeneratorMain {
 
     private static final String OPTION_OUTPUT_PACKAGE_PREFIX = "packagePrefix";
 
+    private static final String OPTION_XSLT_FILE_NAME = "xsltFileName";
+
     private static final String OPTION_CONFIG = "config";
 
     private static final String OPTION_HELP = "help";
@@ -75,6 +77,11 @@ public abstract class AbstractCob2JavaGeneratorMain {
     private String packagePrefix;
 
     /**
+     * An optional xslt to apply on the XML Schema before it is used.
+     */
+    private String xsltFileName;
+
+    /**
      * An optional configuration properties set for the generator.
      */
     private Properties configProps;
@@ -97,11 +104,11 @@ public abstract class AbstractCob2JavaGeneratorMain {
                     for (File cobolFile : FileUtils
                             .listFiles(input, null, true)) {
                         generate(configProps, cobolFile, inputEncoding, output,
-                                packagePrefix);
+                                packagePrefix, xsltFileName);
                     }
                 } else {
                     generate(configProps, input, inputEncoding, output,
-                            packagePrefix);
+                            packagePrefix, xsltFileName);
                 }
             }
         } catch (Exception e) {
@@ -112,7 +119,8 @@ public abstract class AbstractCob2JavaGeneratorMain {
     }
 
     public abstract void generate(Properties configProps, File cobolFile,
-            String cobolFileEncoding, File output, String packageNamePrefix);
+            String cobolFileEncoding, File output, String packageNamePrefix,
+            final String xsltFileName);
 
     /**
      * @return the command line options
@@ -148,6 +156,10 @@ public abstract class AbstractCob2JavaGeneratorMain {
         Option config = new Option("c", OPTION_CONFIG, true,
                 "optional configuration file");
         options.addOption(config);
+
+        Option xsltFileName = new Option("x", OPTION_XSLT_FILE_NAME,
+                true, "an xslt to apply on the XML Schema before it is used");
+        options.addOption(xsltFileName);
 
         return options;
     }
@@ -211,6 +223,10 @@ public abstract class AbstractCob2JavaGeneratorMain {
         }
         if (line.hasOption(OPTION_CONFIG)) {
             setConfigProps(line.getOptionValue(OPTION_CONFIG).trim());
+        }
+        if (line.hasOption(OPTION_XSLT_FILE_NAME)) {
+            setXsltFileName(line.getOptionValue(
+                    OPTION_XSLT_FILE_NAME).trim());
         }
 
         return true;
@@ -354,6 +370,10 @@ public abstract class AbstractCob2JavaGeneratorMain {
         }
     }
 
+    public void setXsltFileName(String xsltFileName) {
+        this.xsltFileName = xsltFileName;
+    }
+
     public File getInput() {
         return input;
     }
@@ -372,6 +392,10 @@ public abstract class AbstractCob2JavaGeneratorMain {
 
     public Properties getConfigProps() {
         return configProps;
+    }
+
+    public String getXsltFileName() {
+        return xsltFileName;
     }
 
 }

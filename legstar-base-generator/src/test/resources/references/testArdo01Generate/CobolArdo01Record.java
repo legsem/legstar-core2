@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class CobolArdo01Record extends CobolComplexType {
 
     public CobolArdo01Record() {
-        super("Ardo01Record", createArdo01RecordFields());
+        super(new CobolComplexType.Builder()
+                    .name("Ardo01Record")
+                    .fields(createArdo01RecordFields())
+              );
     }
 
     private static Map < String, CobolType > createArdo01RecordFields() {
@@ -44,7 +47,12 @@ public class CobolArdo01Record extends CobolComplexType {
                         .totalDigits(15)
                         .fractionDigits(2)
                         .build();
-        fields.put("comArray", new CobolArrayType(comArray, 5, "comNbr"));
+        CobolArrayType comArrayArray = new CobolArrayType.Builder()
+                        .itemType(comArray)
+                        .maxOccurs(5)
+                        .dependingOn("comNbr")
+                        .build();
+        fields.put("comArray", comArrayArray);
 
         return fields;
 

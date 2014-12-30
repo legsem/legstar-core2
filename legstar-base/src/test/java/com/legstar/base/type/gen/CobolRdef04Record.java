@@ -10,14 +10,21 @@ import com.legstar.base.type.primitive.*;
 public class CobolRdef04Record extends CobolComplexType {
 
     public CobolRdef04Record() {
-        super("Rdef04Record", createRdef04RecordFields());
+        super(new CobolComplexType.Builder()
+                    .name("Rdef04Record")
+                    .fields(createRdef04RecordFields())
+              );
     }
 
     private static Map < String, CobolType > createOuterRedefinesShortFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("innerRedefinesLongChoice", new CobolChoiceType("InnerRedefinesLongChoice",  createInnerRedefinesLongChoiceFields()));
+        CobolChoiceType innerRedefinesLongChoice = new CobolChoiceType.Builder()
+                        .name("InnerRedefinesLongChoice")
+                        .alternatives(createInnerRedefinesLongChoiceFields())
+                        .build();
+        fields.put("innerRedefinesLongChoice", innerRedefinesLongChoice);
 
         return fields;
 
@@ -27,7 +34,11 @@ public class CobolRdef04Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        fields.put("outerRedefinesLongChoice", new CobolChoiceType("OuterRedefinesLongChoice",  createOuterRedefinesLongChoiceFields()));
+        CobolChoiceType outerRedefinesLongChoice = new CobolChoiceType.Builder()
+                        .name("OuterRedefinesLongChoice")
+                        .alternatives(createOuterRedefinesLongChoiceFields())
+                        .build();
+        fields.put("outerRedefinesLongChoice", outerRedefinesLongChoice);
 
         CobolStringType < String > footer =
                 new CobolStringType.Builder < String >(String.class)
@@ -69,7 +80,11 @@ public class CobolRdef04Record extends CobolComplexType {
                         .build();
         fields.put("outerRedefinesLong", outerRedefinesLong);
 
-        fields.put("outerRedefinesShort", new CobolComplexType("OuterRedefinesShort",  createOuterRedefinesShortFields()));
+        CobolComplexType outerRedefinesShort = new CobolComplexType.Builder()
+                        .name("OuterRedefinesShort")
+                        .fields(createOuterRedefinesShortFields())
+                        .build();
+        fields.put("outerRedefinesShort", outerRedefinesShort);
 
         return fields;
 

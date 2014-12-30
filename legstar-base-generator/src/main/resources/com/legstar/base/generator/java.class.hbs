@@ -10,7 +10,10 @@ import com.legstar.base.type.primitive.*;
 public class {{class_name}} extends CobolComplexType {
 
     public {{class_name}}() {
-        super("{{root_type_name}}", create{{root_type_name}}Fields());
+        super(new CobolComplexType.Builder()
+                    .name("{{root_type_name}}")
+                    .fields(create{{root_type_name}}Fields())
+              );
     }
 {{#each complex_types}}
     private static Map < String, CobolType > create{{@key}}Fields() {

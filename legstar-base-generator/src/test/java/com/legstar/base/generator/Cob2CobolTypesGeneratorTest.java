@@ -36,7 +36,7 @@ public class Cob2CobolTypesGeneratorTest extends AbstractTest {
     private String generate(String programName, String recordName) {
         File cobolFile = new File(TEST_COBOL_FOLDER, programName);
         Map < String, String > code = gen.generate(cobolFile,
-                LEGSTAR_COBOL_FILE_ENCODING, "test.example");
+                LEGSTAR_COBOL_FILE_ENCODING, "test.example", null);
         assertEquals(1, code.size());
         return code.get(getJavaClassName(recordName));
     }
