@@ -41,6 +41,18 @@ A new take on the [original legstar project](https://code.google.com/p/legstar/)
 
 >   `mvn clean install`
 
+## Run the base sample
+
+  If you built the project from sources, you will find the distribution *zip* file under *legstar-core2/legstar-base-generator/target*.
+
+  Otherwise you can get the latest released zip [here](http://search.maven.org/#search%7Cga%7C1%7Clegstar-base-generator).
+
+  Unzip the zip file in a location of your choice.
+
+  Go to the *samples* folder and type:
+
+>   `ant`
+
 ## Run the JAXB sample
 
   If you built the project from sources, you will find the distribution *zip* file under *legstar-core2/legstar-jaxb-generator/target*.

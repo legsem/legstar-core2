@@ -32,7 +32,7 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     private final ObjectChoiceTypeAlternativeHandler choiceTypeAlternativeHandler;
 
     /** Last java object produced by visiting an item. */
-    private Object lastObject;
+    private Object resultObject;
 
     // -----------------------------------------------------------------------------
     // Constructors
@@ -60,13 +60,13 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     public void visit(CobolComplexType type) throws ConversionException {
         final Map < String, Object > map = new LinkedHashMap < String, Object >();
         super.visitComplexType(type, new ObjectComplexTypeChildHandler(map));
-        lastObject = map;
+        resultObject = map;
     }
 
     public void visit(CobolArrayType type) throws ConversionException {
         final List < Object > list = new ArrayList < Object >();
         super.visitCobolArrayType(type, new ObjectArrayTypeItemHandler(list));
-        lastObject = list;
+        resultObject = list;
     }
 
     public void visit(CobolChoiceType type) throws ConversionException {
@@ -90,7 +90,7 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
         }
 
         public boolean postVisit(String fieldName, int fieldIndex, CobolType child) {
-            map.put(fieldName, lastObject);
+            map.put(fieldName, resultObject);
             return true;
         }
     }
@@ -104,7 +104,7 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
         }
 
         public boolean postVisit(int itemIndex, CobolType item) {
-            list.add(lastObject);
+            list.add(resultObject);
             return true;
         }
 
@@ -116,8 +116,8 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
         public void postVisit(String alternativeName, int alternativeIndex, CobolType alternative) {
             // Wrap the chosen alternative in a map
             final Map < String, Object > map = new LinkedHashMap < String, Object >();
-            map.put(alternativeName, lastObject);
-            lastObject = map;
+            map.put(alternativeName, resultObject);
+            resultObject = map;
         }
 
     }
@@ -125,7 +125,7 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     private class ObjectPrimitiveTypeHandler implements PrimitiveTypeHandler {
 
         public void postVisit(CobolType type, Object value) {
-            lastObject = value;
+            resultObject = value;
         }
 
     };
@@ -133,8 +133,8 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     // Getters
     // -----------------------------------------------------------------------------
-    public Object getLastObject() {
-        return lastObject;
+    public Object getResultObject() {
+        return resultObject;
     }
 
 }

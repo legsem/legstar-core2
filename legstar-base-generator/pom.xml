@@ -93,6 +93,31 @@
               </configuration>
           </plugin>
 
+          <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <id>make-assembly</id>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                      <configuration>
+                          <appendAssemblyId>false</appendAssemblyId>
+                          <descriptors>
+                              <descriptor>assembly.xml</descriptor>
+                          </descriptors>
+                          <archiverConfig>
+                              <duplicateBehavior>skip</duplicateBehavior>
+                              <fileMode>0644</fileMode>
+                              <directoryMode>0755</directoryMode>
+                              <defaultDirectoryMode>0755</defaultDirectoryMode>
+                          </archiverConfig>
+                      </configuration>
+                  </execution>
+               </executions>
+          </plugin>
+
       </plugins>
 
   </build>

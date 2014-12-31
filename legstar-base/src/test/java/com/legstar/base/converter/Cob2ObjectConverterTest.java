@@ -36,7 +36,7 @@ public class Cob2ObjectConverterTest {
                 0);
         visitor.visit(new CobolFlat01Record());
         assertEquals("{comNumber=1043, comName=NAME000043, comAmount=2150.00}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(30, visitor.getLastPos());
 
     }
@@ -65,7 +65,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolFlat02Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comArray=[62, 31, 20, 15, 12]}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(40, visitor.getLastPos());
 
     }
@@ -97,7 +97,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolStru01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comSubRecord={comItem1=62, comItem2=AB}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(34, visitor.getLastPos());
 
     }
@@ -128,7 +128,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolStru03Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comAmount=3100.00, comArray=[{comItem1=62, comItem2=AB}, {comItem1=31, comItem2=AB}, {comItem1=20, comItem2=AB}, {comItem1=15, comItem2=AB}, {comItem1=12, comItem2=AB}]}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(50, visitor.getLastPos());
 
     }
@@ -160,7 +160,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=0, comArray=[]}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(28, visitor.getLastPos());
 
     }
@@ -173,7 +173,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=1, comArray=[235.56]}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(36, visitor.getLastPos());
 
     }
@@ -186,7 +186,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolArdo01Record());
         assertEquals(
                 "{comNumber=62, comName=NAME000062, comNbr=5, comArray=[235.56, 236.56, 237.56, 238.56, 239.56]}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(68, visitor.getLastPos());
 
     }
@@ -199,7 +199,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail1={comName=12345}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(12, visitor.getLastPos());
 
     }
@@ -212,7 +212,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=1, comDetail1Choice={comDetail2={comAmount=2500.00}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(6, visitor.getLastPos());
 
     }
@@ -225,7 +225,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(7, visitor.getLastPos());
 
     }
@@ -238,7 +238,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolRdef03Record());
         assertEquals(
                 "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(7, visitor.getLastPos());
 
     }
@@ -251,7 +251,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolRdef04Record());
         assertEquals(
                 "{outerRedefinesLongChoice={outerRedefinesLong=ABC}, footer=Z}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(11, visitor.getLastPos());
 
     }
@@ -283,7 +283,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolRdef04Record());
         assertEquals(
                 "{outerRedefinesLongChoice={outerRedefinesShort={innerRedefinesLongChoice={innerRedefinesShort=ABC}}}, footer=Z}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(11, visitor.getLastPos());
 
     }
@@ -296,7 +296,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolCustomerData());
         assertEquals(
                 "{customerId=1, personalData={customerName=JOHN SMITH, customerAddress=CAMBRIDGE UNIVERSITY, customerPhone=44012565}, transactions={transactionNbr=2, transaction=[{transactionDateChoice={transactionDate=10/04/11}, transactionAmount=235.56, transactionComment=*********}, {transactionDateChoice={transactionDate=10/04/11}, transactionAmount=235.56, transactionComment=*********}]}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(108, visitor.getLastPos());
 
     }
@@ -309,7 +309,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolStru04Record());
         assertEquals(
                 "{comItem1=1900.00, comArray1=[{comItem2=9, comGroup1={comItem3=6, comArray2=[{comItem4=B, comArray3=[E, E, B, D, D], comItem5=19.00}, {comItem4=B, comArray3=[B, E, D, E, C], comItem5=9.50}], comItem6=3}, comItem7=2}, {comItem2=19, comGroup1={comItem3=12, comArray2=[{comItem4=B, comArray3=[D, B, A, E, D], comItem5=38.00}, {comItem4=A, comArray3=[E, B, B, D, A], comItem5=19.00}], comItem6=6}, comItem7=5}, {comItem2=28, comGroup1={comItem3=19, comArray2=[{comItem4=A, comArray3=[E, B, E, A, C], comItem5=57.00}, {comItem4=D, comArray3=[B, C, C, C, B], comItem5=28.50}], comItem6=9}, comItem7=8}], comItem8=237.50}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(98, visitor.getLastPos());
 
     }
@@ -360,7 +360,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new com.legstar.base.type.gen.alltypes.CobolDfhcommarea());
         assertEquals(
                 "{sString=ABCD, sBinary=java.nio.HeapByteBuffer[pos=0 lim=4 cap=4], sShort=-932, sUshort=15, sInt=78906, sUint=452, sLong=-4532456, sUlong=7800056, sXlong=87554907654321, sUxlong=564678008321, sDec=75.45, sFloat=345006.56, sDouble=7.982006699999985E-14, aString=[ABCD, ABCD], aBinary=[, ], aShort=[-932, -932], aUshort=[15, 15], aInt=[78906, 78906], aUint=[452, 452], aLong=[-4532456, -4532456], aUlong=[7800056, 7800056], aXlong=[87554907654321, 87554907654321], aUxlong=[564678008321, 564678008321], aDec=[75.45, 75.45], aFloat=[345006.56, 345006.56], aDouble=[7.982006699999985E-14, 7.982006699999985E-14]}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(267, visitor.getLastPos());
 
     }
@@ -385,7 +385,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new com.legstar.base.type.gen.dplarcht.CobolDfhcommarea());
         assertEquals(
                 "{lsRequest={lsRequestType=0, lsAllItemsChoice={lsAllItems=*}, lsSearchCriteria={lsStartwith=, lsStartwithLen=0}}, lsReply={lsReplyType=0, lsReplyData={lsItemsCount=1, lsItemsArray=[{lsFilesDataChoice={lsFilesData={lsFileName=ABCDABCD, lsFileDsname=D         D         D         D, lsFileEnablestatus=AAAABBBBCCCC}}}]}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(89, visitor.getLastPos());
 
     }
@@ -408,7 +408,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new com.legstar.base.type.gen.dplarcht.CobolDfhcommarea());
         assertEquals(
                 "{lsRequest={lsRequestType=2, lsAllItemsChoice={lsAllItems=*}, lsSearchCriteria={lsStartwith=, lsStartwithLen=0}}, lsReply={lsReplyType=1, lsReplyData={lsItemsCount=1, lsItemsArray=[{lsFilesDataChoice={lsTransactionsData={lsTransactionName=AAAAAAAA, lsTransactionProgram=BBBBBBBB, lsTransactionStatus=CCCCCCCCCCCC, filler119=}}}]}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(89, visitor.getLastPos());
 
     }
@@ -433,7 +433,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new com.legstar.base.type.gen.dplarcht.CobolDfhcommarea());
         assertEquals(
                 "{lsRequest={lsRequestType=1, lsAllItemsChoice={lsAllItems=*}, lsSearchCriteria={lsStartwith=, lsStartwithLen=0}}, lsReply={lsReplyType=0, lsReplyData={lsItemsCount=1, lsItemsArray=[{lsFilesDataChoice={lsProgramsData={lsProgramName=BINARCHT, lsProgramType=PROGRAM, lsProgramLanguage=NOTDEFINED, lsProgramLength=5792, lsProgramUsecount=2, filler113=}}}]}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(89, visitor.getLastPos());
 
     }
@@ -473,7 +473,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolOptl01Record());
         assertEquals(
                 "{optlStructInd=0, optlItemInd=0}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(6, visitor.getLastPos());
 
     }
@@ -486,7 +486,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolOptl01Record());
         assertEquals(
                 "{optlStructInd=1, optlItemInd=0, optlStruct={optlStructField1=123456789012345678, optlStructField2=ABCDE}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(29, visitor.getLastPos());
 
     }
@@ -499,7 +499,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolOptl01Record());
         assertEquals(
                 "{optlStructInd=0, optlItemInd=1, optlItem=JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKL}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(38, visitor.getLastPos());
 
     }
@@ -512,7 +512,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolOptl01Record());
         assertEquals(
                 "{optlStructInd=1, optlItemInd=1, optlStruct={optlStructField1=123456789012345678, optlStructField2=ABCDE}, optlItem=JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKL}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(61, visitor.getLastPos());
 
     }
@@ -525,7 +525,7 @@ public class Cob2ObjectConverterTest {
         visitor.visit(new CobolCflt01Record());
         assertEquals(
                 "{cfltParent1={cfltInfo={cfltId=123456789012345678, cfltTypCd=ABCDE}}, cfltParent2={cfltInfo={cfltIdCt=ABCDEFGHI{ABCDEFGH, cfltTypCdCt=JKLMN}}}",
-                visitor.getLastObject().toString());
+                visitor.getResultObject().toString());
         assertEquals(46, visitor.getLastPos());
 
     }
