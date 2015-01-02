@@ -102,6 +102,11 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
             this.complexJaxbWrapper = complexJaxbWrapper;
         }
 
+        public boolean preVisit(String fieldName, int fieldIndex,
+                CobolType child) {
+            return true;
+        }
+
         public boolean postVisit(String fieldName, int fieldIndex,
                 CobolType child) {
             complexJaxbWrapper.set(fieldIndex, lastObject, lastAlternativeIndex);
@@ -118,6 +123,10 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
             this.list = list;
         }
 
+        public boolean preVisit(int itemIndex, CobolType item) {
+            return true;
+        }
+
         public boolean postVisit(int itemIndex, CobolType item) {
             list.add(lastObject);
             return true;
@@ -128,6 +137,10 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
     private class JaxbChoiceTypeAlternativeHandler implements
             ChoiceTypeAlternativeHandler {
 
+        public void preVisit(String alternativeName, int alternativeIndex,
+                CobolType alternative) {
+        }
+
         public void postVisit(String alternativeName, int alternativeIndex,
                 CobolType alternative) {
             lastAlternativeIndex = alternativeIndex;
@@ -137,7 +150,11 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
 
     private class JaxbPrimitiveTypeHandler implements PrimitiveTypeHandler {
 
-        public void postVisit(CobolType type, Object value) {
+        public void preVisit(CobolPrimitiveType<?> type) {
+            
+        }
+
+        public void postVisit(CobolPrimitiveType<?> type, Object value) {
             lastObject = value;
         }
 

@@ -38,7 +38,7 @@ public class Cob2JaxbGeneratorMain extends AbstractCob2JavaGeneratorMain {
                 : (packageNamePrefix + "." + baseName);
 
         gen.generate(cobolFile,
-                cobolFileEncoding, packageName, output, xsltFileName);
+                cobolFileEncoding, output, packageName, xsltFileName);
     }
 
 }

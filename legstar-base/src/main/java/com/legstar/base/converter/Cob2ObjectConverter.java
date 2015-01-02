@@ -89,10 +89,16 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
             this.map = map;
         }
 
+        public boolean preVisit(String fieldName, int fieldIndex,
+                CobolType child) {
+            return true;
+        }
+
         public boolean postVisit(String fieldName, int fieldIndex, CobolType child) {
             map.put(fieldName, resultObject);
             return true;
         }
+
     }
 
     private class ObjectArrayTypeItemHandler implements ArrayTypeItemHandler {
@@ -101,6 +107,10 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
 
         public ObjectArrayTypeItemHandler(List < Object > list) {
             this.list = list;
+        }
+
+        public boolean preVisit(int itemIndex, CobolType item) {
+            return true;
         }
 
         public boolean postVisit(int itemIndex, CobolType item) {
@@ -113,6 +123,10 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
     private class ObjectChoiceTypeAlternativeHandler implements
             ChoiceTypeAlternativeHandler {
 
+        public void preVisit(String alternativeName, int alternativeIndex,
+                CobolType alternative) {
+        }
+
         public void postVisit(String alternativeName, int alternativeIndex, CobolType alternative) {
             // Wrap the chosen alternative in a map
             final Map < String, Object > map = new LinkedHashMap < String, Object >();
@@ -124,7 +138,11 @@ public class Cob2ObjectConverter extends FromCobolVisitor {
 
     private class ObjectPrimitiveTypeHandler implements PrimitiveTypeHandler {
 
-        public void postVisit(CobolType type, Object value) {
+        public void preVisit(CobolPrimitiveType<?> type) {
+            
+        }
+
+        public void postVisit(CobolPrimitiveType<?> type, Object value) {
             resultObject = value;
         }
 

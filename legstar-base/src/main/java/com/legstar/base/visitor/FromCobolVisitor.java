@@ -145,15 +145,19 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
         int index = 0;
         for (Entry < String, CobolType > child : type.getFields().entrySet()) {
-            curFieldName = child.getKey();
             CobolType childType = child.getValue();
+            String childName = child.getKey();
+            curFieldName = childName;
             if (childType instanceof CobolOptionalType
                     && !isPresent((CobolOptionalType) childType)) {
                 index++;
                 continue;
             }
+            if (!callback.preVisit(childName, index, childType)) {
+                break;
+            }
             childType.accept(this);
-            if (!callback.postVisit(child.getKey(), index, childType)) {
+            if (!callback.postVisit(childName, index, childType)) {
                 break;
             }
             index++;
@@ -173,6 +177,9 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public void visitCobolArrayType(CobolArrayType type,
             ArrayTypeItemHandler callback) {
         for (int i = 0; i < getOccurs(type); i++) {
+            if (!callback.preVisit(i, type)) {
+                break;
+            }
             type.getItemType().accept(this);
             if (!callback.postVisit(i, type)) {
                 break;
@@ -223,6 +230,9 @@ public abstract class FromCobolVisitor implements CobolVisitor {
                             + curFieldName, getHostData(), getLastPos());
         }
 
+        callback.preVisit(alternativeName,
+                choiceType.getAlternativeIndex(alternativeName), alternative);
+
         alternative.accept(this);
         
         // If the alternative chosen is not the largest one, add the difference
@@ -256,6 +266,8 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             extraOffset = 0;
         }
 
+        callback.preVisit(type);
+
         FromHostResult < ? > result = type.fromHost(cobolContext,
                 getHostData(), getLastPos());
         this.lastPos += result.getBytesProcessed();
@@ -279,6 +291,17 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public interface ComplexTypeChildHandler {
 
         /**
+         * Notify caller that a field is about to be visited
+         * 
+         * @param fieldName the visited field's name
+         * @param fieldIndex the visited field's name position in its parent
+         *            complex type
+         * @param child the visited field type
+         * @return if false, visiting should stop
+         */
+        boolean preVisit(String fieldName, int fieldIndex, CobolType child);
+
+        /**
          * Notify caller that a field was visited
          * 
          * @param fieldName the visited field's name
@@ -298,6 +321,15 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public interface ArrayTypeItemHandler {
 
         /**
+         * Notify caller that an item is about to be visited
+         * 
+         * @param itemIndex the visited item index in the array
+         * @param item the visited item type
+         * @return if false, visiting should stop
+         */
+        boolean preVisit(int itemIndex, CobolType item);
+
+        /**
          * Notify caller that an item was visited
          * 
          * @param itemIndex the visited item index in the array
@@ -312,6 +344,18 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * selected and visited
      */
     public interface ChoiceTypeAlternativeHandler {
+
+        /**
+         * Notify caller that an alternative is about to be visited
+         * 
+         * @param alternativeName the visited alternative field name in the
+         *            choice
+         * @param alternativeIndex the visited alternative position in the
+         *            choice
+         * @param alternative the visited alternative type
+         */
+        void preVisit(String alternativeName, int alternativeIndex,
+                CobolType alternative);
 
         /**
          * Notify caller that an alternative was visited
@@ -333,12 +377,19 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public interface PrimitiveTypeHandler {
 
         /**
+         * Notify caller that a primitive type is about to be visited
+         * 
+         * @param type the primitive type
+         */
+        void preVisit(CobolPrimitiveType<?> type);
+
+        /**
          * Notify caller that a primitive type was visited
          * 
          * @param type the primitive type
          * @param value the primitive type value converted from mainframe data
          */
-        void postVisit(CobolType type, Object value);
+        void postVisit(CobolPrimitiveType<?> type, Object value);
     }
 
     // -----------------------------------------------------------------------------

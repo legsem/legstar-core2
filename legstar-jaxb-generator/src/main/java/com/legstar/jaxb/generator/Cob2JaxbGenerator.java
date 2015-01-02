@@ -53,19 +53,19 @@ public class Cob2JaxbGenerator {
      * 
      * @param cobolFile the COBOL copybook file
      * @param cobolFileEncoding the COBOL copybook file character encoding
+     * @param targetFolder the target folder
      * @param targetPackageName the java package the generated classes should
      *            reside in
-     * @param ouputDir the target folder
      * @param xsltFileName an optional xslt to apply on the XML Schema
      */
-    public void generate(File cobolFile, String cobolFileEncoding,
-            String targetPackageName, File ouputDir,
+    public void generate(File cobolFile, String cobolFileEncoding, File targetFolder,
+            String targetPackageName,
             final String xsltFileName) {
         try {
             Reader reader = cobolFileEncoding == null ? new InputStreamReader(
                     new FileInputStream(cobolFile)) : new InputStreamReader(
                     new FileInputStream(cobolFile), cobolFileEncoding);
-            generate(reader, targetPackageName, ouputDir, xsltFileName);
+            generate(reader, targetFolder, targetPackageName, xsltFileName);
         } catch (UnsupportedEncodingException e) {
             throw new Cob2JaxbGeneratorException(e);
         } catch (FileNotFoundException e) {
@@ -79,13 +79,13 @@ public class Cob2JaxbGenerator {
      * instances.
      * 
      * @param cobolReader the COBOL copybook reader
+     * @param targetFolder the target folder
      * @param targetPackageName the java package the generated classes should
      *            reside in
      * @param xsltFileName an optional xslt to apply on the XML Schema
-     * @param ouputDir the target folder
      */
-    public void generate(Reader cobolReader, String targetPackageName,
-            File ouputDir,
+    public void generate(Reader cobolReader,
+            File targetFolder, String targetPackageName,
             final String xsltFileName) {
 
         log.info("Step 1: translate COBOL copybook to annotated XML schema");
@@ -93,26 +93,26 @@ public class Cob2JaxbGenerator {
                 NamespaceUtils.toNamespace(targetPackageName), xsltFileName);
 
         log.info("Step 2: invoke JAXB-XJC utility");
-        xjc(xmlSchemaSource, ouputDir, targetPackageName);
+        xjc(xmlSchemaSource, targetFolder, targetPackageName);
 
         Map < String, String > code = new HashMap < String, String >();
         code.putAll(xsd2CobolTypes.generate(xmlSchemaSource, targetPackageName));
         code.putAll(xsd2JaxbWrappers.generate(xmlSchemaSource,
                 targetPackageName));
-        outputCode(code, targetPackageName, ouputDir);
+        outputCode(code, targetFolder, targetPackageName);
 
     }
 
-    private void outputCode(Map < String, String > code,
-            String targetPackageName, File ouputDir) {
+    private void outputCode(Map < String, String > code, File targetFolder,
+            String targetPackageName) {
         try {
             String subFolder = targetPackageName == null ? ""
                     : (targetPackageName.replace(".", "/") + "/");
             for (Entry < String, String > entry : code.entrySet()) {
                 String className = entry.getKey() + ".java";
                 log.info("Writing java class " + className + " with package "
-                        + targetPackageName + " in " + ouputDir);
-                FileUtils.writeStringToFile(new File(ouputDir, subFolder
+                        + targetPackageName + " in " + targetFolder);
+                FileUtils.writeStringToFile(new File(targetFolder, subFolder
                         + className), entry.getValue());
             }
         } catch (IOException e) {
@@ -129,11 +129,11 @@ public class Cob2JaxbGenerator {
      * We then build a command line and invoke XJC.
      * 
      * @param xmlSchemaSource the input XML schema
-     * @param ouputDir the target folder for generated JAXB classes
+     * @param targetFolder the target folder for generated JAXB classes
      * @param packageName the package name for the JAXB classes
      * @throws Cob2JaxbGeneratorException
      */
-    private void xjc(String xmlSchemaSource, File ouputDir, String packageName)
+    private void xjc(String xmlSchemaSource, File targetFolder, String packageName)
             throws Cob2JaxbGeneratorException {
 
         try {
@@ -159,7 +159,7 @@ public class Cob2JaxbGenerator {
                         "JAXB-XJC failed to compile a schema");
             }
 
-            model.codeModel.build(ouputDir);
+            model.codeModel.build(targetFolder);
             tempXsdFile.deleteOnExit();
         } catch (IOException e) {
             throw new Cob2JaxbGeneratorException(e);
