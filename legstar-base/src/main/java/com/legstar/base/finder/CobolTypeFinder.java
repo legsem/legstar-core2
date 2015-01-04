@@ -24,7 +24,7 @@ public abstract class CobolTypeFinder {
      */
     public int indexOf(byte[] hostData, int start, int length) {
         int pos = start;
-        while (length - pos >= signatureLen()) {
+        while (length - pos >= getSignatureLen()) {
             if (match(hostData, pos, length)) {
                 return pos;
             }
@@ -50,5 +50,5 @@ public abstract class CobolTypeFinder {
      * @return the byte length of the signature (total number of bytes needed to
      *         match the type)
      */
-    public abstract int signatureLen();
+    public abstract int getSignatureLen();
 }

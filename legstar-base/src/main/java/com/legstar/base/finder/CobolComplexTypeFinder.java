@@ -95,7 +95,7 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
     }
 
     /** {@inheritDoc} */
-    public int signatureLen() {
+    public int getSignatureLen() {
         return signatureLen;
     }
 
@@ -105,10 +105,6 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
 
     public String getStopFieldInclusive() {
         return stopFieldInclusive;
-    }
-
-    public int getSignatureLen() {
-        return signatureLen;
     }
 
     public int getMinBytesLen() {

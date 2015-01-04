@@ -38,4 +38,7 @@ public class RdwCobolComplexTypeFinder extends CobolComplexTypeFinder {
         return buf.getShort();
     }
 
+    public int getSignatureLen() {
+        return super.getSignatureLen() + RDW_LEN;
+    }
 }
