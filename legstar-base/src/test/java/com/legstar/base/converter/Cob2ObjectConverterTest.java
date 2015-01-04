@@ -231,19 +231,6 @@ public class Cob2ObjectConverterTest {
     }
 
     @Test
-    public void testConvertRdef03CustomStrategyWithVariables() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
-                HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
-                0, new Rdef03ObjectFromHostChoiceStrategy());
-        visitor.visit(new CobolRdef03Record());
-        assertEquals(
-                "{comSelect=2, comDetail1Choice={comDetail3={comNumber=12345}}}",
-                visitor.getResultObject().toString());
-        assertEquals(7, visitor.getLastPos());
-
-    }
-
-    @Test
     public void testConvertRdef04DefaultStrategyFirstAlternative() {
         Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
                 HexUtils.decodeHex("c1c2c340404040404040e9"),
