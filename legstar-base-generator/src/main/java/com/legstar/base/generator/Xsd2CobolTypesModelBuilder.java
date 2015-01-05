@@ -141,7 +141,7 @@ public class Xsd2CobolTypesModelBuilder {
      * 
      * 
      */
-    public class CompositeTypes {
+    public static class CompositeTypes {
 
         public final Map < String, Object > complexTypes = new LinkedHashMap < String, Object >();
 

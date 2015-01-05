@@ -168,7 +168,7 @@ public class Cob2JaxbGenerator {
         }
     }
 
-    private class ErrorReceiverImpl extends ErrorReceiver {
+    private static class ErrorReceiverImpl extends ErrorReceiver {
 
         public void error(SAXParseException exception) throws AbortException {
             log.error("JAXB-XJC XML syntax error", exception);

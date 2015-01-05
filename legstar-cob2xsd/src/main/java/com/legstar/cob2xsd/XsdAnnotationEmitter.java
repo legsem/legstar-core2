@@ -34,8 +34,8 @@ import com.legstar.cobol.model.CobolTypes;
 import com.legstar.cobol.utils.ValueUtil;
 
 /**
- * This class is used to generate LegStar annotations to be included
- * in an XML schema.
+ * This class is used to generate LegStar annotations to be included in an XML
+ * schema.
  * <p/>
  * The COBOL annotations are at the element level and belong to the LegStar
  * namespace.
@@ -61,33 +61,28 @@ public class XsdAnnotationEmitter {
     private Cob2XsdConfig _config;
 
     /** Logger. */
-    private static final Logger _log = LoggerFactory.getLogger(XsdAnnotationEmitter.class);
-
+    private static final Logger _log = LoggerFactory
+            .getLogger(XsdAnnotationEmitter.class);
 
     /**
      * All annotations are externalized in a properties file loaded from the
-     * classpath.
-     * We also create a DOM document builder that is needed to create the custom
-     * annotations markup.
-     * Errors, which are unlikely, are signaled by logging appropriate messages
-     * but
-     * no exceptions are raised. Rather, the class disables itself and no
-     * annotations
-     * are produced.
+     * classpath. We also create a DOM document builder that is needed to create
+     * the custom annotations markup. Errors, which are unlikely, are signaled
+     * by logging appropriate messages but no exceptions are raised. Rather, the
+     * class disables itself and no annotations are produced.
      * 
      * @param xsd the XML Schema to be populated.
      * @param config the translator options in effect
      */
-    public XsdAnnotationEmitter(
-            final XmlSchema xsd,
-            final Cob2XsdConfig config) {
+    public XsdAnnotationEmitter(final XmlSchema xsd, final Cob2XsdConfig config) {
+
+        InputStream is = null;
         try {
             _xsd = xsd;
             _config = config;
 
-            InputStream is =
-                    XsdAnnotationEmitter.class
-                            .getResourceAsStream(ANNOTATIONS_FILE_NAME);
+            is = XsdAnnotationEmitter.class
+                    .getResourceAsStream(ANNOTATIONS_FILE_NAME);
             if (is == null) {
                 _log.error("Was unable to locate file " + ANNOTATIONS_FILE_NAME
                         + " from the classpath");
@@ -104,13 +99,20 @@ public class XsdAnnotationEmitter {
             _log.error("Unable to load file " + ANNOTATIONS_FILE_NAME, e);
         } catch (ParserConfigurationException e) {
             _log.error("Unable to get DOM document builder ", e);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    _log.error("Unable to close input stream ", e);
+                }
+            }
         }
     }
 
     /**
      * Create an XML Schema annotation with markup corresponding to the original
-     * COBOL
-     * data item attributes.
+     * COBOL data item attributes.
      * 
      * @param xsdDataItem COBOL data item decorated with XSD attributes
      * @return an XML schema annotation
@@ -124,15 +126,13 @@ public class XsdAnnotationEmitter {
 
         elc.setAttribute(CobolMarkup.LEVEL_NUMBER,
                 Integer.toString(xsdDataItem.getLevelNumber()));
-        elc.setAttribute(CobolMarkup.COBOL_NAME,
-                xsdDataItem.getCobolName());
-        elc.setAttribute(CobolMarkup.TYPE,
-                xsdDataItem.getCobolType().toString());
+        elc.setAttribute(CobolMarkup.COBOL_NAME, xsdDataItem.getCobolName());
+        elc.setAttribute(CobolMarkup.TYPE, xsdDataItem.getCobolType()
+                .toString());
 
         if (xsdDataItem.getCobolType() != CobolTypes.GROUP_ITEM) {
             if (xsdDataItem.getPicture() != null) {
-                elc.setAttribute(CobolMarkup.PICTURE,
-                        xsdDataItem.getPicture());
+                elc.setAttribute(CobolMarkup.PICTURE, xsdDataItem.getPicture());
             }
             if (xsdDataItem.getUsage() != null) {
                 elc.setAttribute(CobolMarkup.USAGE,
@@ -160,8 +160,8 @@ public class XsdAnnotationEmitter {
         }
 
         /*
-         * Annotations transfer the COBOL occurs semantic (as opposed to
-         * the XSD semantic). No depending on => fixed size array
+         * Annotations transfer the COBOL occurs semantic (as opposed to the XSD
+         * semantic). No depending on => fixed size array
          */
         if (xsdDataItem.getCobolMaxOccurs() > 0) {
             elc.setAttribute(CobolMarkup.MAX_OCCURS,
@@ -190,11 +190,9 @@ public class XsdAnnotationEmitter {
 
         if (xsdDataItem.getValue() != null
                 && xsdDataItem.getValue().length() > 0) {
-            elc.setAttribute(CobolMarkup.VALUE,
-                    ValueUtil.resolveFigurative(
-                            xsdDataItem.getValue(),
-                            xsdDataItem.getMaxStorageLength(),
-                            getConfig().quoteIsQuote()));
+            elc.setAttribute(CobolMarkup.VALUE, ValueUtil.resolveFigurative(
+                    xsdDataItem.getValue(), xsdDataItem.getMaxStorageLength(),
+                    getConfig().quoteIsQuote()));
         }
 
         if (xsdDataItem.getSrceLine() > 0) {
@@ -224,9 +222,8 @@ public class XsdAnnotationEmitter {
             prefixmap.add("", XMLConstants.W3C_XML_SCHEMA_NS_URI);
         } else {
             for (int i = 0; i < npl.getDeclaredPrefixes().length; i++) {
-                prefixmap.add(npl.getDeclaredPrefixes()[i], npl
-                        .getNamespaceURI(
-                        npl.getDeclaredPrefixes()[i]));
+                prefixmap.add(npl.getDeclaredPrefixes()[i],
+                        npl.getNamespaceURI(npl.getDeclaredPrefixes()[i]));
             }
         }
         prefixmap.add(getCOXBNamespacePrefix(), getCOXBNamespace());

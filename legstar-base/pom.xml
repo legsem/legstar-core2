@@ -12,6 +12,17 @@
 
   <name>legstar-base</name>
 
+
+  <dependencies>
+
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+  </dependencies>
+
   <build>
     <plugins>
 
@@ -29,15 +40,18 @@
 
   </build>
 
+  <reporting>
 
-  <dependencies>
+      <plugins>
 
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <scope>test</scope>
-      </dependency>
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>findbugs-maven-plugin</artifactId>
+              <version>2.5.5</version>
+          </plugin>
 
-  </dependencies>
+      </plugins>
+
+  </reporting>
 
 </project>

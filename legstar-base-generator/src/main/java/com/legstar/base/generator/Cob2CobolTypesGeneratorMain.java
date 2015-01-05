@@ -42,8 +42,7 @@ public class Cob2CobolTypesGeneratorMain extends AbstractCob2JavaGeneratorMain {
 
             Map < String, String > code = gen.generate(cobolFile,
                     cobolFileEncoding, packageName, xsltFileName);
-            String subFolder = packageName == null ? "" : (packageName.replace(
-                    ".", "/") + "/");
+            String subFolder = packageName.replace(".", "/") + "/";
             for (Entry < String, String > entry : code.entrySet()) {
                 String className = entry.getKey() + ".java";
                 log.info("Writing java class " + className + " with package "

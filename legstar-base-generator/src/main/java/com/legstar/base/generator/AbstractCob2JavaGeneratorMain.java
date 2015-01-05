@@ -239,8 +239,9 @@ public abstract class AbstractCob2JavaGeneratorMain {
      * @return the version number and build date
      */
     private String getVersion(boolean verbose) {
+        InputStream stream = null;
         try {
-            InputStream stream = getClass().getResourceAsStream(
+            stream = getClass().getResourceAsStream(
                     "/version.properties");
             Properties props = new Properties();
             props.load(stream);
@@ -254,6 +255,14 @@ public abstract class AbstractCob2JavaGeneratorMain {
         } catch (IOException e) {
             log.error("Unable to retrieve version", e);
             return "unknown";
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    log.error("Unable to close version resource", e);
+                }
+            }
         }
     }
 
@@ -356,13 +365,22 @@ public abstract class AbstractCob2JavaGeneratorMain {
                         + "' cannot be used as a configuration file");
             }
 
+            FileInputStream fis = null;
             try {
-                FileInputStream fis = new FileInputStream(configFile);
+                fis = new FileInputStream(configFile);
                 this.configProps = new Properties();
                 configProps.load(fis);
             } catch (IOException e) {
                 throw new IllegalArgumentException("Configuration file '"
                         + configFilePath + "' is not valid");
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        log.error("Unable to close configuration file", e);
+                    }
+                }
             }
         } else {
             throw new IllegalArgumentException("Configuration file '"
