@@ -28,7 +28,7 @@ public interface FromCobolChoiceStrategy {
      * the choice is reached. These values are needed to make the alternative
      * choice decision.
      * 
-     * @return
+     * @return list of variable names whose values are to be collected
      */
     Set < String > getVariableNames();
 

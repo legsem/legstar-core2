@@ -81,7 +81,7 @@ import com.legstar.cobol.model.CobolDataItem;
  * To invoke the translator, you normally call the translate method.
  * <p/>
  * Any error encountered and recovered from is available in
- * {@link #getErrorHistory()}.
+ * {@link Cob2Xsd#getErrorHistory()}.
  * 
  */
 public class Cob2Xsd {
