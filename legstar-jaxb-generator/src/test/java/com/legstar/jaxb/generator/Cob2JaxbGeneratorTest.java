@@ -27,7 +27,6 @@ public class Cob2JaxbGeneratorTest extends AbstractTest {
         setCreateReferences(CREATE_REFERENCE);
         gen = new Cob2JaxbGenerator(Cob2XsdConfig.getDefaultConfigProps());
         FileUtils.forceMkdir(OUTPUT_DIR);
-        FileUtils.cleanDirectory(OUTPUT_DIR);
     }
 
     @Test
