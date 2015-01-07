@@ -1,8 +1,8 @@
 package com.legstar.jaxb.converter.gen.ardo01;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -12,14 +12,14 @@ public class Ardo01RecordJaxb implements JaxbWrapperFactory {
         if ("Ardo01Record".equals(type.getName())) {
             return new Ardo01RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
         if ("Ardo01Record".equals(type.getName())) {
             return new Ardo01RecordJaxbWrapper((legstar.test.jaxb.ardo01.Ardo01Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class Ardo01RecordJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.ardo01.Ardo01Record> {
@@ -54,7 +54,7 @@ public class Ardo01RecordJaxb implements JaxbWrapperFactory {
                 }
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Ardo01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Ardo01Record", index);
             }
         }
 
@@ -69,7 +69,7 @@ public class Ardo01RecordJaxb implements JaxbWrapperFactory {
             case 3:
                 return getJaxb().getComArray();
             default:
-                throw new InvalidComplexTypeFieldIndex("Ardo01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Ardo01Record", index);
             }
         }
 

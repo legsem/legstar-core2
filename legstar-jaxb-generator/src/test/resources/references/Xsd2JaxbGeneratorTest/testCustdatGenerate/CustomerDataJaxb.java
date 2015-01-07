@@ -1,10 +1,10 @@
 package test.example;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidChoiceTypeAlternative;
-import com.legstar.base.visitor.NoAlternativeForChoiceType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidChoiceAlternativeException;
+import com.legstar.base.visitor.NoAlternativeForChoiceException;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -26,7 +26,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
         if ("CustomerData".equals(type.getName())) {
             return new CustomerDataJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
@@ -45,7 +45,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
         if ("CustomerData".equals(type.getName())) {
             return new CustomerDataJaxbWrapper((legstar.test.jaxb.cusdat.CustomerData) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class PersonalDataJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.cusdat.PersonalData> {
@@ -70,7 +70,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 getJaxb().setCustomerPhone((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("PersonalData", index);
+                throw new InvalidComplexTypeFieldIndexException("PersonalData", index);
             }
         }
 
@@ -83,7 +83,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getCustomerPhone();
             default:
-                throw new InvalidComplexTypeFieldIndex("PersonalData", index);
+                throw new InvalidComplexTypeFieldIndexException("PersonalData", index);
             }
         }
 
@@ -136,7 +136,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 getJaxb().setTransactionYear((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Filler12", index);
+                throw new InvalidComplexTypeFieldIndexException("Filler12", index);
             }
         }
 
@@ -153,7 +153,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
             case 4:
                 return getJaxb().getTransactionYear();
             default:
-                throw new InvalidComplexTypeFieldIndex("Filler12", index);
+                throw new InvalidComplexTypeFieldIndexException("Filler12", index);
             }
         }
 
@@ -205,7 +205,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                     getJaxb().setFiller12(((Filler12JaxbWrapper) value).getJaxb());
                     break;
                 default:
-                    throw new InvalidChoiceTypeAlternative("TransactionDateChoice",
+                    throw new InvalidChoiceAlternativeException("TransactionDateChoice",
                             alternativeIndex);
                 }
                 break;
@@ -216,7 +216,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 getJaxb().setTransactionComment((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Transaction", index);
+                throw new InvalidComplexTypeFieldIndexException("Transaction", index);
             }
         }
 
@@ -228,14 +228,14 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 } else if (getJaxb().getFiller12() != null) {
                     return new Filler12JaxbWrapper(getJaxb().getFiller12());
                 } else {
-                    throw new NoAlternativeForChoiceType("TransactionDateChoice");
+                    throw new NoAlternativeForChoiceException("TransactionDateChoice");
                 }
             case 1:
                 return getJaxb().getTransactionAmount();
             case 2:
                 return getJaxb().getTransactionComment();
             default:
-                throw new InvalidComplexTypeFieldIndex("Transaction", index);
+                throw new InvalidComplexTypeFieldIndexException("Transaction", index);
             }
         }
 
@@ -293,7 +293,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 }
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Transactions", index);
+                throw new InvalidComplexTypeFieldIndexException("Transactions", index);
             }
         }
 
@@ -308,7 +308,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 }
                 return transaction;
             default:
-                throw new InvalidComplexTypeFieldIndex("Transactions", index);
+                throw new InvalidComplexTypeFieldIndexException("Transactions", index);
             }
         }
 
@@ -356,7 +356,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
                 getJaxb().setTransactions(((TransactionsJaxbWrapper) value).getJaxb());
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("CustomerData", index);
+                throw new InvalidComplexTypeFieldIndexException("CustomerData", index);
             }
         }
 
@@ -369,7 +369,7 @@ public class CustomerDataJaxb implements JaxbWrapperFactory {
             case 2:
                 return new TransactionsJaxbWrapper(getJaxb().getTransactions());
             default:
-                throw new InvalidComplexTypeFieldIndex("CustomerData", index);
+                throw new InvalidComplexTypeFieldIndexException("CustomerData", index);
             }
         }
 

@@ -1,8 +1,8 @@
 package com.legstar.jaxb.converter.gen.stru04;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -21,7 +21,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
         if ("Stru04Record".equals(type.getName())) {
             return new Stru04RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
@@ -37,7 +37,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
         if ("Stru04Record".equals(type.getName())) {
             return new Stru04RecordJaxbWrapper((legstar.test.jaxb.stru04.Stru04Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class ComArray2JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.stru04.ComArray2> {
@@ -69,7 +69,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComItem5((java.math.BigDecimal) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComArray2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComArray2", index);
             }
         }
 
@@ -82,7 +82,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getComItem5();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComArray2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComArray2", index);
             }
         }
 
@@ -135,7 +135,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComItem6((Short) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComGroup1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComGroup1", index);
             }
         }
 
@@ -152,7 +152,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getComItem6();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComGroup1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComGroup1", index);
             }
         }
 
@@ -202,7 +202,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComItem7((Integer) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComArray1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComArray1", index);
             }
         }
 
@@ -215,7 +215,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getComItem7();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComArray1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComArray1", index);
             }
         }
 
@@ -268,7 +268,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComItem8((java.math.BigDecimal) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Stru04Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Stru04Record", index);
             }
         }
 
@@ -285,7 +285,7 @@ public class Stru04RecordJaxb implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getComItem8();
             default:
-                throw new InvalidComplexTypeFieldIndex("Stru04Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Stru04Record", index);
             }
         }
 

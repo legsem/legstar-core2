@@ -1,10 +1,10 @@
 package com.legstar.jaxb.converter.gen.rdef02;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidChoiceTypeAlternative;
-import com.legstar.base.visitor.NoAlternativeForChoiceType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidChoiceAlternativeException;
+import com.legstar.base.visitor.NoAlternativeForChoiceException;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -23,7 +23,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
         if ("Rdef02Record".equals(type.getName())) {
             return new Rdef02RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
@@ -39,7 +39,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
         if ("Rdef02Record".equals(type.getName())) {
             return new Rdef02RecordJaxbWrapper((legstar.test.jaxb.rdef02.Rdef02Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class Rdef02KeyJaxbWrapper extends JaxbWrapper<legstar.test.jaxb.rdef02.Rdef02Key> {
@@ -63,7 +63,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                     getJaxb().setRdef02Item2((String) value);
                     break;
                 default:
-                    throw new InvalidChoiceTypeAlternative("Rdef02Item1Choice",
+                    throw new InvalidChoiceAlternativeException("Rdef02Item1Choice",
                             alternativeIndex);
                 }
                 break;
@@ -71,7 +71,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComSelect((Integer) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef02Key", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef02Key", index);
             }
         }
 
@@ -83,12 +83,12 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                 } else if (getJaxb().getRdef02Item2() != null) {
                     return getJaxb().getRdef02Item2();
                 } else {
-                    throw new NoAlternativeForChoiceType("Rdef02Item1Choice");
+                    throw new NoAlternativeForChoiceException("Rdef02Item1Choice");
                 }
             case 1:
                 return getJaxb().getComSelect();
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef02Key", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef02Key", index);
             }
         }
 
@@ -132,7 +132,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComName((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail1", index);
             }
         }
 
@@ -141,7 +141,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return getJaxb().getComName();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail1", index);
             }
         }
 
@@ -178,7 +178,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setFiller13((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail2", index);
             }
         }
 
@@ -189,7 +189,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
             case 1:
                 return getJaxb().getFiller13();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail2", index);
             }
         }
 
@@ -234,7 +234,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                     getJaxb().setComDetail2(((ComDetail2JaxbWrapper) value).getJaxb());
                     break;
                 default:
-                    throw new InvalidChoiceTypeAlternative("ComDetail1Choice",
+                    throw new InvalidChoiceAlternativeException("ComDetail1Choice",
                             alternativeIndex);
                 }
                 break;
@@ -242,7 +242,7 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComItem3((java.math.BigDecimal) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef02Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef02Record", index);
             }
         }
 
@@ -256,12 +256,12 @@ public class Rdef02RecordJaxb implements JaxbWrapperFactory {
                 } else if (getJaxb().getComDetail2() != null) {
                     return new ComDetail2JaxbWrapper(getJaxb().getComDetail2());
                 } else {
-                    throw new NoAlternativeForChoiceType("ComDetail1Choice");
+                    throw new NoAlternativeForChoiceException("ComDetail1Choice");
                 }
             case 2:
                 return getJaxb().getComItem3();
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef02Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef02Record", index);
             }
         }
 

@@ -1,4 +1,4 @@
-package com.legstar.base.converter;
+package com.legstar.base.visitor;
 
 import static org.junit.Assert.*;
 
@@ -7,10 +7,9 @@ import org.junit.Test;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.converter.Cob2ObjectValidator;
 import com.legstar.base.type.gen.*;
 import com.legstar.base.utils.HexUtils;
-import com.legstar.base.visitor.Rdef03ObjectFromHostChoiceStrategy;
+import com.legstar.base.visitor.Cob2ObjectValidator;
 
 public class Cob2ObjectValidatorTest {
 

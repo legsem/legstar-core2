@@ -1,4 +1,4 @@
-package com.legstar.base.converter;
+package com.legstar.base.visitor;
 
 import static org.junit.Assert.*;
 
@@ -13,12 +13,12 @@ import org.junit.Test;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.converter.Cob2ObjectConverter;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.gen.CobolCustomerData;
+import com.legstar.base.visitor.Cob2ObjectVisitor;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 
-public class Cob2ObjectConverterLoadText {
+public class Cob2ObjectVisitorLoadText {
 
     public static final int RDW_LEN = 4;
 
@@ -47,7 +47,7 @@ public class Cob2ObjectConverterLoadText {
         int count = 0;
         while ((rdw = getRecLen(is)) > 0) {
             readFully(is, record, 0, rdw);
-            Cob2ObjectConverter visitor = new Cob2ObjectConverter(
+            Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(
                     cobolContext, record, 0);
             visitor.visit(cobolType);
             count++;

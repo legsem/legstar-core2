@@ -20,7 +20,7 @@
 {{~/if ~}}{{!-- complexType in choiceType--}}
 {{~/each}}{{!-- this: fields in choice type --}}
                 } else {
-                    throw new NoAlternativeForChoiceType("{{choiceTypeName}}");
+                    throw new NoAlternativeForChoiceException("{{choiceTypeName}}");
                 }
 {{~else}}
                 return getJaxb().get{{capFirst @key}}();

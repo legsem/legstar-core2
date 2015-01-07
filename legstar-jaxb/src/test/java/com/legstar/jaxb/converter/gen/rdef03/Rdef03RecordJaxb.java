@@ -1,10 +1,10 @@
 package com.legstar.jaxb.converter.gen.rdef03;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidChoiceTypeAlternative;
-import com.legstar.base.visitor.NoAlternativeForChoiceType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidChoiceAlternativeException;
+import com.legstar.base.visitor.NoAlternativeForChoiceException;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -23,7 +23,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
         if ("Rdef03Record".equals(type.getName())) {
             return new Rdef03RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
@@ -39,7 +39,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
         if ("Rdef03Record".equals(type.getName())) {
             return new Rdef03RecordJaxbWrapper((legstar.test.jaxb.rdef03.Rdef03Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class ComDetail1JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.rdef03.ComDetail1> {
@@ -58,7 +58,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComName((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail1", index);
             }
         }
 
@@ -67,7 +67,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return getJaxb().getComName();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail1", index);
             }
         }
 
@@ -101,7 +101,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail2", index);
             }
         }
 
@@ -110,7 +110,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return getJaxb().getComAmount();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail2", index);
             }
         }
 
@@ -144,7 +144,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComNumber((Long) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail3", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail3", index);
             }
         }
 
@@ -153,7 +153,7 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return getJaxb().getComNumber();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail3", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail3", index);
             }
         }
 
@@ -198,12 +198,12 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
                     getJaxb().setComDetail3(((ComDetail3JaxbWrapper) value).getJaxb());
                     break;
                 default:
-                    throw new InvalidChoiceTypeAlternative("ComDetail1Choice",
+                    throw new InvalidChoiceAlternativeException("ComDetail1Choice",
                             alternativeIndex);
                 }
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef03Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef03Record", index);
             }
         }
 
@@ -219,10 +219,10 @@ public class Rdef03RecordJaxb implements JaxbWrapperFactory {
                 } else if (getJaxb().getComDetail3() != null) {
                     return new ComDetail3JaxbWrapper(getJaxb().getComDetail3());
                 } else {
-                    throw new NoAlternativeForChoiceType("ComDetail1Choice");
+                    throw new NoAlternativeForChoiceException("ComDetail1Choice");
                 }
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef03Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef03Record", index);
             }
         }
 

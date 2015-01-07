@@ -1,8 +1,8 @@
 package flat01;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -12,14 +12,14 @@ public class Flat01RecordJaxb implements JaxbWrapperFactory {
         if ("Flat01Record".equals(type.getName())) {
             return new Flat01RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
         if ("Flat01Record".equals(type.getName())) {
             return new Flat01RecordJaxbWrapper((flat01.Flat01Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class Flat01RecordJaxbWrapper extends JaxbWrapper<flat01.Flat01Record> {
@@ -44,7 +44,7 @@ public class Flat01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Flat01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Flat01Record", index);
             }
         }
 
@@ -57,7 +57,7 @@ public class Flat01RecordJaxb implements JaxbWrapperFactory {
             case 2:
                 return getJaxb().getComAmount();
             default:
-                throw new InvalidComplexTypeFieldIndex("Flat01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Flat01Record", index);
             }
         }
 

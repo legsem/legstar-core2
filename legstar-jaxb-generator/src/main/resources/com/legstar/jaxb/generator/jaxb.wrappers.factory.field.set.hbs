@@ -25,7 +25,7 @@
                     break;
 {{~/each}}{{!-- this: fields in choice type --}}
                 default:
-                    throw new InvalidChoiceTypeAlternative("{{choiceTypeName}}",
+                    throw new InvalidChoiceAlternativeException("{{choiceTypeName}}",
                             alternativeIndex);
                 }
 {{~else}}

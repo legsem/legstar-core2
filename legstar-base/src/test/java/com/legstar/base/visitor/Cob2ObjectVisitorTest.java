@@ -1,4 +1,4 @@
-package com.legstar.base.converter;
+package com.legstar.base.visitor;
 
 import static org.junit.Assert.*;
 
@@ -12,15 +12,14 @@ import org.junit.Test;
 import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.converter.Cob2ObjectConverter;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.gen.*;
 import com.legstar.base.utils.HexUtils;
+import com.legstar.base.visitor.Cob2ObjectVisitor;
 import com.legstar.base.visitor.FromCobolChoiceStrategy;
-import com.legstar.base.visitor.Rdef03ObjectFromHostChoiceStrategy;
 
-public class Cob2ObjectConverterTest {
+public class Cob2ObjectVisitorTest {
 
     private CobolContext cobolContext;
 
@@ -31,7 +30,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertFlat01() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                 0);
         visitor.visit(new CobolFlat01Record());
@@ -44,7 +43,7 @@ public class Cob2ObjectConverterTest {
     @Test
     public void testConvertFlat01Invalid() {
         try {
-            Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+            Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                     HexUtils.decodeHex("ABF0F1F0F4F3D5C1D4C5F0F0F0F0F4F3404040404040404040400215000F"),
                     0);
             visitor.visit(new CobolFlat01Record());
@@ -59,7 +58,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertFlat02() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E001F0014000F000C"),
                 0);
         visitor.visit(new CobolFlat02Record());
@@ -72,9 +71,9 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertFlat02Invalid() {
-        Cob2ObjectConverter visitor;
+        Cob2ObjectVisitor visitor;
         try {
-            visitor = new Cob2ObjectConverter(cobolContext,
+            visitor = new Cob2ObjectVisitor(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003E0F1F0014000F000C"),
                     0);
             visitor.visit(new CobolFlat02Record());
@@ -91,7 +90,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertStru01() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2"),
                 0);
         visitor.visit(new CobolStru01Record());
@@ -105,7 +104,7 @@ public class Cob2ObjectConverterTest {
     @Test
     public void testConvertStru01Invalid() {
         try {
-            Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+            Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F023EC1C2"),
                     0);
             visitor.visit(new CobolStru01Record());
@@ -122,7 +121,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertStru03() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C2000FC1C2000CC1C2"),
                 0);
         visitor.visit(new CobolStru03Record());
@@ -136,7 +135,7 @@ public class Cob2ObjectConverterTest {
     @Test
     public void testConvertStru03Invalid() {
         try {
-            Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+            Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                     HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400310000F003EC1C2001FC1C20014C1C20F0FC1C2000CC1C2"),
                     0);
             visitor.visit(new CobolStru03Record());
@@ -154,7 +153,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertArdo01EmptyVariableArray() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400000"),
                 0);
         visitor.visit(new CobolArdo01Record());
@@ -167,7 +166,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertArdo01OneItemVariableArray() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400001000000000023556C"),
                 0);
         visitor.visit(new CobolArdo01Record());
@@ -180,7 +179,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertArdo01FullVariableArray() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F6F2D5C1D4C5F0F0F0F0F6F2404040404040404040400005000000000023556C000000000023656C000000000023756C000000000023856C000000000023956C"),
                 0);
         visitor.visit(new CobolArdo01Record());
@@ -193,7 +192,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0);
         visitor.visit(new CobolRdef03Record());
@@ -206,7 +205,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertRdef03DefaultStrategySecondAlternative() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("00010250000F"),
                 0);
         visitor.visit(new CobolRdef03Record());
@@ -219,7 +218,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertRdef03CustomStrategy() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
                 0, new Rdef03ObjectFromHostChoiceStrategy());
         visitor.visit(new CobolRdef03Record());
@@ -232,7 +231,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertRdef04DefaultStrategyFirstAlternative() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("c1c2c340404040404040e9"),
                 0);
         visitor.visit(new CobolRdef04Record());
@@ -245,7 +244,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertRdef04CustomStrategyWithVariables() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("c1c2c300000000000000e9"), 0,
                 new FromCobolChoiceStrategy() {
 
@@ -277,7 +276,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertCustdat() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F1D1D6C8D540E2D4C9E3C840404040404040404040C3C1D4C2D9C9C4C7C540E4D5C9E5C5D9E2C9E3E8F4F4F0F1F2F5F6F500000002F1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5CF1F061F0F461F1F1000000000023556C5C5C5C5C5C5C5C5C5C"),
                 0);
         visitor.visit(new CobolCustomerData());
@@ -290,7 +289,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertStru04() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("0190000F00090006C2C5C5C2C4C40001900FC2C2C5C4C5C30000950F0003000000020013000CC2C4C2C1C5C40003800FC1C5C2C2C4C10001900F000600000005001C0013C1C5C2C5C1C30005700FC4C2C3C3C3C20002850F0009000000080023750F"),
                 0);
         visitor.visit(new CobolStru04Record());
@@ -303,7 +302,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertAlltypes() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex(                "c1c2c3c4"
                         + "01020000"
                         + "fc5c"
@@ -354,7 +353,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertDplarcht() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex(                "0000"
                         + "5c404040"
                         + "4040404040404040"
@@ -379,7 +378,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertDplarchtTransactionChoice() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex(                "0002"
                         + "5c404040"
                         + "4040404040404040"
@@ -402,7 +401,7 @@ public class Cob2ObjectConverterTest {
     
     @Test
     public void testConvertDplarchtProgramChoice() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex(                "0001"
                         + "5c404040"
                         + "4040404040404040"
@@ -454,7 +453,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertOpt01AllAbsent() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F0"),
                 0);
         visitor.visit(new CobolOptl01Record());
@@ -467,7 +466,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertOpt01StructPresentStringAbsent() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F0F0F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8C1C2C3C4C5"),
                 0);
         visitor.visit(new CobolOptl01Record());
@@ -480,7 +479,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertOpt01StructAbsentStringPresent() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F0F0F0F1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D2D3"),
                 0);
         visitor.visit(new CobolOptl01Record());
@@ -493,7 +492,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertOpt01StructPresentStringPresent() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F0F0F1F0F0F1F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8C1C2C3C4C5D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D2D3"),
                 0);
         visitor.visit(new CobolOptl01Record());
@@ -506,7 +505,7 @@ public class Cob2ObjectConverterTest {
 
     @Test
     public void testConvertCflt01() {
-        Cob2ObjectConverter visitor = new Cob2ObjectConverter(cobolContext,
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("F1F2F3F4F5F6F7F8F9F0F1F2F3F4F5F6F7F8C1C2C3C4C5C1C2C3C4C5C6C7C8C9C0C1C2C3C4C5C6C7C8D1D2D3D4D5"),
                 0);
         visitor.visit(new CobolCflt01Record());

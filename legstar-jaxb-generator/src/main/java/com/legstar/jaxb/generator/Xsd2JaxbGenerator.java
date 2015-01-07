@@ -45,6 +45,8 @@ public class Xsd2JaxbGenerator {
 
     public static final String JAXB_CONVERTER_CLASS_NAME_PREFIX = "Cob2";
 
+    public static final String JAXB_CONVERTER_CLASS_NAME_SUFFIX = "Converter";
+
     public static final String JAXB_CONVERTER_CLASS_TEMPLATE_NAME = "jaxb.converter.class.hbs";
 
     /** Handlebars template for a jaxb wrappers factory class. */
@@ -173,7 +175,7 @@ public class Xsd2JaxbGenerator {
                         hbtJaxbWrapperFactoryClass.apply(model));
 
                 String jaxbConverterClassName = JAXB_CONVERTER_CLASS_NAME_PREFIX
-                        + entry.getKey();
+                        + entry.getKey() + JAXB_CONVERTER_CLASS_NAME_SUFFIX;
                 model.put("class_name", jaxbConverterClassName);
                 model.put(
                         "complex_type_class_name",

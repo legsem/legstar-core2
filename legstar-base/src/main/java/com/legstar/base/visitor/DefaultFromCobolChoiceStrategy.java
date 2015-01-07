@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
-import com.legstar.base.converter.Cob2ObjectValidator;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;

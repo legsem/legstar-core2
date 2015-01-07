@@ -1,4 +1,4 @@
-package com.legstar.base.converter;
+package com.legstar.base.visitor;
 
 import com.legstar.base.ConversionException;
 import com.legstar.base.FromHostResult;
@@ -8,8 +8,6 @@ import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
-import com.legstar.base.visitor.FromCobolChoiceStrategy;
-import com.legstar.base.visitor.FromCobolVisitor;
 
 /**
  * Validates that an incoming mainframe bytes array contains data that is

@@ -1,8 +1,8 @@
 package com.legstar.base.finder;
 
 import com.legstar.base.context.CobolContext;
-import com.legstar.base.converter.Cob2ObjectValidator;
 import com.legstar.base.type.composite.CobolComplexType;
+import com.legstar.base.visitor.Cob2ObjectValidator;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 import com.legstar.base.visitor.MinBytesLenCobolVisitor;
 

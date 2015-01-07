@@ -90,6 +90,6 @@ public class Xsd2JaxbGeneratorTest extends AbstractTest {
     }
 
     private String getJaxbConverterJavaClassName(String recordName) {
-        return Xsd2JaxbGenerator.JAXB_CONVERTER_CLASS_NAME_PREFIX + recordName;
+        return Xsd2JaxbGenerator.JAXB_CONVERTER_CLASS_NAME_PREFIX + recordName + Xsd2JaxbGenerator.JAXB_CONVERTER_CLASS_NAME_SUFFIX;
     }
 }

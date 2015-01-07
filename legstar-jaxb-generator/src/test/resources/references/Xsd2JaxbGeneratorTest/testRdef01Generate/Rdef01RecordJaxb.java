@@ -1,10 +1,10 @@
 package test.example;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidChoiceTypeAlternative;
-import com.legstar.base.visitor.NoAlternativeForChoiceType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidChoiceAlternativeException;
+import com.legstar.base.visitor.NoAlternativeForChoiceException;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -20,7 +20,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
         if ("Rdef01Record".equals(type.getName())) {
             return new Rdef01RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
@@ -33,7 +33,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
         if ("Rdef01Record".equals(type.getName())) {
             return new Rdef01RecordJaxbWrapper((legstar.test.jaxb.rdef01.Rdef01Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class ComDetail1JaxbWrapper extends JaxbWrapper<legstar.test.jaxb.rdef01.ComDetail1> {
@@ -52,7 +52,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComName((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail1", index);
             }
         }
 
@@ -61,7 +61,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return getJaxb().getComName();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail1", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail1", index);
             }
         }
 
@@ -96,7 +96,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setComAmount((java.math.BigDecimal) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail2", index);
             }
         }
 
@@ -105,7 +105,7 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return getJaxb().getComAmount();
             default:
-                throw new InvalidComplexTypeFieldIndex("ComDetail2", index);
+                throw new InvalidComplexTypeFieldIndexException("ComDetail2", index);
             }
         }
 
@@ -148,12 +148,12 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
                     getJaxb().setComDetail2(((ComDetail2JaxbWrapper) value).getJaxb());
                     break;
                 default:
-                    throw new InvalidChoiceTypeAlternative("ComDetail1Choice",
+                    throw new InvalidChoiceAlternativeException("ComDetail1Choice",
                             alternativeIndex);
                 }
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef01Record", index);
             }
         }
 
@@ -167,10 +167,10 @@ public class Rdef01RecordJaxb implements JaxbWrapperFactory {
                 } else if (getJaxb().getComDetail2() != null) {
                     return new ComDetail2JaxbWrapper(getJaxb().getComDetail2());
                 } else {
-                    throw new NoAlternativeForChoiceType("ComDetail1Choice");
+                    throw new NoAlternativeForChoiceException("ComDetail1Choice");
                 }
             default:
-                throw new InvalidComplexTypeFieldIndex("Rdef01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Rdef01Record", index);
             }
         }
 

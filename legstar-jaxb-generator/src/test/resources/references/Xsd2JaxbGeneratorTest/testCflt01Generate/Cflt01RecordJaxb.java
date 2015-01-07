@@ -1,8 +1,8 @@
 package test.example;
 
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.base.visitor.InvalidComplexTypeFieldIndex;
-import com.legstar.base.visitor.InvalidComplexTypeName;
+import com.legstar.base.visitor.InvalidComplexTypeFieldIndexException;
+import com.legstar.base.visitor.InvalidComplexTypeNameException;
 import com.legstar.jaxb.converter.JaxbWrapper;
 import com.legstar.jaxb.converter.JaxbWrapperFactory;
 
@@ -24,7 +24,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
         if ("Cflt01Record".equals(type.getName())) {
             return new Cflt01RecordJaxbWrapper();
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public JaxbWrapper < ? > create(CobolComplexType type, Object jaxb) {
@@ -43,7 +43,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
         if ("Cflt01Record".equals(type.getName())) {
             return new Cflt01RecordJaxbWrapper((test.example.Cflt01Record) jaxb);
         }
-        throw new InvalidComplexTypeName(type.getName());
+        throw new InvalidComplexTypeNameException(type.getName());
     }
 
     public class CfltInfo9JaxbWrapper extends JaxbWrapper<test.example.CfltInfo9> {
@@ -65,7 +65,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setCfltTypCd((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltInfo9", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltInfo9", index);
             }
         }
 
@@ -76,7 +76,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
             case 1:
                 return getJaxb().getCfltTypCd();
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltInfo9", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltInfo9", index);
             }
         }
 
@@ -114,7 +114,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setCfltInfo(((CfltInfo9JaxbWrapper) value).getJaxb());
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltParent1", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltParent1", index);
             }
         }
 
@@ -123,7 +123,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return new CfltInfo9JaxbWrapper(getJaxb().getCfltInfo());
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltParent1", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltParent1", index);
             }
         }
 
@@ -161,7 +161,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setCfltTypCdCt((String) value);
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltInfo13", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltInfo13", index);
             }
         }
 
@@ -172,7 +172,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
             case 1:
                 return getJaxb().getCfltTypCdCt();
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltInfo13", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltInfo13", index);
             }
         }
 
@@ -210,7 +210,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setCfltInfo(((CfltInfo13JaxbWrapper) value).getJaxb());
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltParent2", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltParent2", index);
             }
         }
 
@@ -219,7 +219,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
             case 0:
                 return new CfltInfo13JaxbWrapper(getJaxb().getCfltInfo());
             default:
-                throw new InvalidComplexTypeFieldIndex("CfltParent2", index);
+                throw new InvalidComplexTypeFieldIndexException("CfltParent2", index);
             }
         }
 
@@ -257,7 +257,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
                 getJaxb().setCfltParent2(((CfltParent2JaxbWrapper) value).getJaxb());
                 break;
             default:
-                throw new InvalidComplexTypeFieldIndex("Cflt01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Cflt01Record", index);
             }
         }
 
@@ -268,7 +268,7 @@ public class Cflt01RecordJaxb implements JaxbWrapperFactory {
             case 1:
                 return new CfltParent2JaxbWrapper(getJaxb().getCfltParent2());
             default:
-                throw new InvalidComplexTypeFieldIndex("Cflt01Record", index);
+                throw new InvalidComplexTypeFieldIndexException("Cflt01Record", index);
             }
         }
 
