@@ -116,7 +116,8 @@ public class XsdDataItem {
     private RecognizerErrorHandler _errorHandler;
 
     /** Logger. */
-    private static final Logger _log = LoggerFactory.getLogger(XsdDataItem.class);
+    private static final Logger _log = LoggerFactory
+            .getLogger(XsdDataItem.class);
 
     /**
      * COBOL data item is analyzed at construction time and all XSD attributes
@@ -180,7 +181,8 @@ public class XsdDataItem {
      *            detect name collisions
      */
     protected void setDataDescription(final CobolDataItem cobolDataItem,
-            final Cob2XsdConfig config, final List < String > nonUniqueCobolNames) {
+            final Cob2XsdConfig config,
+            final List < String > nonUniqueCobolNames) {
 
         /* Group items have non level 88 children */
         if (isGroup(cobolDataItem)) {
@@ -220,9 +222,15 @@ public class XsdDataItem {
             _cobolType = CobolTypes.GROUP_ITEM;
         }
 
-        /* Inform object upstream that someone depends on him. */
+        /* Inform ODO object upstream that an array size depends on him. */
         if (getDependingOn() != null && getParent() != null) {
-            getParent().updateDependency(getDependingOn());
+            boolean odoObjectMarked = markODOObjectInAncestor(getDependingOn());
+            if (!odoObjectMarked) {
+                addMessageToHistory(
+                        "Unable to locate ODO object named " + getDependingOn()
+                                + " for item " + cobolDataItem.toString(),
+                        "warn");
+            }
         }
 
         /* Inform object upstream that someone redefines him. */
@@ -332,25 +340,60 @@ public class XsdDataItem {
     }
 
     /**
-     * Called when some child (or child of a child) has a DEPENDING ON clause.
-     * We look up our children for an item matching the COBOL name of the
-     * depending on object. If found, we update its isODOObject member,
-     * otherwise we propagate the request to our own parent.
+     * Lookup our ancestors for the ODO object of an array.
+     * <p/>
+     * First we ask our direct parent to lookup in his children (stopping when
+     * he reaches us).
+     * <p/>
+     * If we can't find in the immediate parent, then we move up to the grand
+     * parent.
      * 
-     * @param cobolName the depending on object.
+     * @param odoObjectCobolName the depending on object name.
+     * @return true when the ODO object was found and marked
      */
-    public void updateDependency(final String cobolName) {
+    public boolean markODOObjectInAncestor(final String odoObjectCobolName) {
+        boolean found = false;
+        if (getParent() == null) {
+            return found;
+        }
+        found = getParent().markODOObjectInChildren(odoObjectCobolName,
+                getCobolName());
+        if (found) {
+            return found;
+        }
+        return getParent().markODOObjectInAncestor(odoObjectCobolName);
+    }
+
+    /**
+     * Lookup an ODO object in this item's children.
+     * <p/>
+     * Recurses through the grand children until found or no more children to
+     * lookup.
+     * 
+     * @param odoObjectCobolName the ODO Object we are looking for
+     * @param stopChildCobolName a child name past which it is not useful to
+     *            continue the lookup
+     * @return
+     */
+    public boolean markODOObjectInChildren(final String odoObjectCobolName,
+            final String stopChildCobolName) {
         boolean found = false;
         for (XsdDataItem child : getChildren()) {
-            if (child.getCobolName().equals(cobolName)) {
+            if (child.getCobolName().equals(stopChildCobolName)) {
+                break;
+            }
+            if (child.getCobolName().equals(odoObjectCobolName)) {
                 child.setIsODOObject(true);
                 found = true;
                 break;
             }
+            found = child.markODOObjectInChildren(odoObjectCobolName,
+                    stopChildCobolName);
+            if (found) {
+                break;
+            }
         }
-        if (!found && getParent() != null) {
-            getParent().updateDependency(cobolName);
-        }
+        return found;
     }
 
     /**
@@ -723,7 +766,8 @@ public class XsdDataItem {
      */
     public static String formatElementName(final CobolDataItem cobolDataItem,
             final List < String > nonUniqueCobolNames,
-            final Cob2XsdConfig config, final XsdDataItem parent, final int order) {
+            final Cob2XsdConfig config, final XsdDataItem parent,
+            final int order) {
 
         String cobolName = getXmlCompatibleCobolName(cobolDataItem
                 .getCobolName());
@@ -795,7 +839,8 @@ public class XsdDataItem {
     public static String formatTypeName(final String elementName,
             final CobolDataItem cobolDataItem,
             final List < String > nonUniqueCobolNames,
-            final Cob2XsdConfig config, final XsdDataItem parent, final int order) {
+            final Cob2XsdConfig config, final XsdDataItem parent,
+            final int order) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(Character.toUpperCase(elementName.charAt(0)));

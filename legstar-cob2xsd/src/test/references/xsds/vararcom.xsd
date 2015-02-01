@@ -12,7 +12,7 @@
                     <restriction base="short"/>
                 </simpleType>
             </element>
-            <element minOccurs="0" maxOccurs="250" name="CArray" type="tns:CArray">
+            <element maxOccurs="250" minOccurs="0" name="CArray" type="tns:CArray">
                 <annotation>
                     <appinfo>
                         <cb:cobolElement cobolName="C-ARRAY" dependingOn="C-ITEMS-NUMBER" levelNumber="5" maxOccurs="250" minOccurs="1" srceLine="23" type="GROUP_ITEM"/>

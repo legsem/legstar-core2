@@ -367,7 +367,7 @@
                     <restriction base="unsignedInt"/>
                 </simpleType>
             </element>
-            <element minOccurs="0" maxOccurs="500" name="LsItemsArray" type="tns:LsItemsArray">
+            <element maxOccurs="500" minOccurs="0" name="LsItemsArray" type="tns:LsItemsArray">
                 <annotation>
                     <appinfo>
                         <cb:cobolElement cobolName="LS-ITEMS-ARRAY" dependingOn="LS-ITEMS-COUNT" levelNumber="15" maxOccurs="500" minOccurs="1" srceLine="100" type="GROUP_ITEM"/>

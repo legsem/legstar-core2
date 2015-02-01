@@ -1,0 +1,10 @@
+      *
+      * https://github.com/legsem/legstar-core2/issues/8
+      *
+       01 ARDO02-RECORD.
+           03 ALTERNATIVE-A.
+               05  ODO-COUNTER       PIC 9(4) COMP.
+           03 ALTERNATIVE-B REDEFINES ALTERNATIVE-A.
+               05  FILLER            PIC XX.
+           03 ODO-ARRAY OCCURS 5 DEPENDING ON ODO-COUNTER.
+               05  FILLER            PIC X.
