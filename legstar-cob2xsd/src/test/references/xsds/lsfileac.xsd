@@ -132,7 +132,7 @@
                     </restriction>
                 </simpleType>
             </element>
-            <element maxOccurs="100" name="ReplyItem" type="tns:ReplyItem">
+            <element minOccurs="0" maxOccurs="100" name="ReplyItem" type="tns:ReplyItem">
                 <annotation>
                     <appinfo>
                         <cb:cobolElement cobolName="REPLY-ITEM" dependingOn="REPLY-ITEMSCOUNT" levelNumber="5" maxOccurs="100" minOccurs="1" srceLine="65" type="GROUP_ITEM"/>

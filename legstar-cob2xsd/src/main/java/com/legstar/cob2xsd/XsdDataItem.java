@@ -282,13 +282,17 @@ public class XsdDataItem {
 
         /*
          * Set XSD minOccurs/maxOccurs from COBOL. If no minOccurs set in COBOL,
-         * this is a fixed size array.
+         * this is a fixed size array (unless a depending on clause exists).
          */
         if (cobolDataItem.getMaxOccurs() > 0) {
             _maxOccurs = cobolDataItem.getMaxOccurs();
             _maxStorageLength = _maxStorageLength * _maxOccurs;
             if (cobolDataItem.getMinOccurs() > -1) {
-                _minOccurs = cobolDataItem.getMinOccurs();
+                if (cobolDataItem.getDependingOn() == null) {
+                    _minOccurs = cobolDataItem.getMinOccurs();
+                } else {
+                    _minOccurs = 0;
+                }
             } else {
                 _minOccurs = cobolDataItem.getMaxOccurs();
             }

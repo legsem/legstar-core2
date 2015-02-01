@@ -72,7 +72,7 @@
                     </restriction>
                 </simpleType>
             </element>
-            <element maxOccurs="100" name="Customer" type="tns:Customer">
+            <element minOccurs="0" maxOccurs="100" name="Customer" type="tns:Customer">
                 <annotation>
                     <appinfo>
                         <cb:cobolElement cobolName="CUSTOMER" dependingOn="REPLY-COUNT" levelNumber="10" maxOccurs="100" minOccurs="1" srceLine="42" type="GROUP_ITEM"/>

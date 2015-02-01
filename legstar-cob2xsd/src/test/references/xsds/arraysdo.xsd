@@ -49,7 +49,7 @@
                     </restriction>
                 </simpleType>
             </element>
-            <element maxOccurs="100" name="TableOdo">
+            <element minOccurs="0" maxOccurs="100" name="TableOdo">
                 <annotation>
                     <appinfo>
                         <cb:cobolElement cobolName="TABLE-ODO" dependingOn="TABLE-SIZE" levelNumber="5" maxOccurs="100" minOccurs="1" picture="X(5)" srceLine="27" type="ALPHANUMERIC_ITEM"/>
