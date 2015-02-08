@@ -295,16 +295,16 @@ public class XsdDataItem {
         if (cobolDataItem.getMaxOccurs() > 0) {
             _maxOccurs = cobolDataItem.getMaxOccurs();
             _maxStorageLength = _maxStorageLength * _maxOccurs;
-            if (cobolDataItem.getMinOccurs() > -1) {
-                if (cobolDataItem.getDependingOn() == null) {
+            if (cobolDataItem.getDependingOn() == null) {
+                if (cobolDataItem.getMinOccurs() > -1) {
                     _minOccurs = cobolDataItem.getMinOccurs();
                 } else {
-                    _minOccurs = 0;
+                    _minOccurs = cobolDataItem.getMaxOccurs();
                 }
             } else {
-                _minOccurs = cobolDataItem.getMaxOccurs();
+                _minOccurs = 0;
             }
-            _minStorageLength = _minStorageLength * _minOccurs;
+             _minStorageLength = _minStorageLength * _minOccurs;
         }
 
     }

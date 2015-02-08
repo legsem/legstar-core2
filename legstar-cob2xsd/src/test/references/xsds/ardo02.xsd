@@ -18,7 +18,7 @@
                     </annotation>
                 </element>
             </choice>
-            <element maxOccurs="5" minOccurs="5" name="OdoArray" type="tns:OdoArray">
+            <element maxOccurs="5" minOccurs="0" name="OdoArray" type="tns:OdoArray">
                 <annotation>
                     <appinfo>
                         <cb:cobolElement cobolName="ODO-ARRAY" dependingOn="ODO-COUNTER" levelNumber="3" maxOccurs="5" minOccurs="-1" srceLine="9" type="GROUP_ITEM"/>

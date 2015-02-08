@@ -191,6 +191,45 @@ public class Cob2ObjectVisitorTest {
     }
 
     @Test
+    public void testConvertArdo02OdoObjectInRedefineFirstAlternative() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("0003C1C2C3"),
+                0);
+        visitor.visit(new CobolArdo02Record());
+        assertEquals(
+                "{alternativeAChoice={alternativeA={odoCounter=3}}, odoArray=[{filler10=A}, {filler10=B}, {filler10=C}]}",
+                visitor.getResultObject().toString());
+        assertEquals(5, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertArdo02OdoObjectInRedefineSecondAlternative() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("C1C2"), 0, new FromCobolChoiceStrategy() {
+
+                    public CobolType choose(String choiceFieldName,
+                            CobolChoiceType choiceType,
+                            Map < String, Object > variables, byte[] hostData,
+                            int start) {
+                        return choiceType.getAlternatives().get(
+                                "alternativeB");
+                    }
+
+                    public Set < String > getVariableNames() {
+                        return null;
+                    }
+
+                });
+        visitor.visit(new CobolArdo02Record());
+        assertEquals(
+                "{alternativeAChoice={alternativeB={filler8=AB}}, odoArray=[]}",
+                visitor.getResultObject().toString());
+        assertEquals(2, visitor.getLastPos());
+
+    }
+
+    @Test
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
         Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),

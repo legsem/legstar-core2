@@ -426,11 +426,23 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         return true;
     }
     
+    /**
+     * Retrieve teh ODO object value for a variable size array.
+     * <p/>
+     * The IDO object has usually been populated before this method in voked in
+     * which case, its value has been stored as variable.
+     * <p/>
+     * If we can't find the ODO object in the variables hash, this means it was
+     * not populated. This is possible in case the ODO object is in a REDEFINE
+     * alternative where that alternative was not chosen.
+     * 
+     * @param dependingOn the ODO object name
+     * @return the value of the ODO object or zero if not found
+     */
     private int getOdoValue(String dependingOn) {
         Object odoValue = variables.get(dependingOn);
         if (odoValue == null) {
-            throw new FromHostException("No value available for ODOObject "
-                    + dependingOn + ".", getHostData(), getLastPos());
+            return 0;
         } else if (odoValue instanceof Number) {
             return ((Number) odoValue).intValue();
         } else {
