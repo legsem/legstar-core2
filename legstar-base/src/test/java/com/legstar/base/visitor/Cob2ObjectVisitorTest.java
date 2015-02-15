@@ -230,6 +230,84 @@ public class Cob2ObjectVisitorTest {
     }
 
     @Test
+    public void testConvertArdo03NoItemsAtAll() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F0"),
+                0);
+        visitor.visit(new CobolArdo03Record());
+        assertEquals(
+                "{odoCounter=0, odoArray=[]}",
+                visitor.getResultObject().toString());
+        assertEquals(5, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertArdo03OneOuterNoInners() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F1F0F0F0"),
+                0);
+        visitor.visit(new CobolArdo03Record());
+        assertEquals(
+                "{odoCounter=1, odoArray=[{odoSubCounter=0, odoSubArray=[]}]}",
+                visitor.getResultObject().toString());
+        assertEquals(8, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertArdo03OneOuterOneInner() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F1F0F0F1C1C2C3C4"),
+                0);
+        visitor.visit(new CobolArdo03Record());
+        assertEquals(
+                "{odoCounter=1, odoArray=[{odoSubCounter=1, odoSubArray=[{filler8=ABCD}]}]}",
+                visitor.getResultObject().toString());
+        assertEquals(12, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertArdo03OneOuterTwoInners() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F1F0F0F2C1C2C3C4C5C6C7C8"),
+                0);
+        visitor.visit(new CobolArdo03Record());
+        assertEquals(
+                "{odoCounter=1, odoArray=[{odoSubCounter=2, odoSubArray=[{filler8=ABCD}, {filler8=EFGH}]}]}",
+                visitor.getResultObject().toString());
+        assertEquals(16, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertArdo03TwoOutersOneInnerEach() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F2F0F0F1C1C2C3C4F0F0F1C5C6C7C8"),
+                0);
+        visitor.visit(new CobolArdo03Record());
+        assertEquals(
+                "{odoCounter=2, odoArray=[{odoSubCounter=1, odoSubArray=[{filler8=ABCD}]}, {odoSubCounter=1, odoSubArray=[{filler8=EFGH}]}]}",
+                visitor.getResultObject().toString());
+        assertEquals(19, visitor.getLastPos());
+
+    }
+
+    @Test
+    public void testConvertArdo03TwoOutersTwoInnersOneInner() {
+        Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                HexUtils.decodeHex("F0F0F0F0F2F0F0F2C1C2C3C4C5C6C7C8F0F0F1C9D1D2D3D4"),
+                0);
+        visitor.visit(new CobolArdo03Record());
+        assertEquals(
+                "{odoCounter=2, odoArray=[{odoSubCounter=2, odoSubArray=[{filler8=ABCD}, {filler8=EFGH}]}, {odoSubCounter=1, odoSubArray=[{filler8=IJKL}]}]}",
+                visitor.getResultObject().toString());
+        assertEquals(23, visitor.getLastPos());
+
+    }
+
+    @Test
     public void testConvertRdef03DefaultStrategyFirstAlternative() {
         Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
                 HexUtils.decodeHex("0002F1F2F3F4F50000000000"),
