@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/ardo03" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/ardo03">
+    <complexType name="Ardo03Record">
+        <sequence>
+            <element name="OdoCounter">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ODO-COUNTER" isODOObject="true" levelNumber="5" picture="9(5)" signed="false" srceLine="2" totalDigits="5" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedInt">
+                        <totalDigits value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="5" minOccurs="0" name="OdoArray" type="tns:OdoArray">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ODO-ARRAY" dependingOn="ODO-COUNTER" levelNumber="5" maxOccurs="5" minOccurs="-1" srceLine="3" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="OdoArray">
+        <sequence>
+            <element name="OdoSubCounter">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ODO-SUB-COUNTER" isODOObject="true" levelNumber="10" picture="9(3)" signed="false" srceLine="5" totalDigits="3" type="ZONED_DECIMAL_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="5" minOccurs="0" name="OdoSubArray" type="tns:OdoSubArray">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ODO-SUB-ARRAY" dependingOn="ODO-SUB-COUNTER" levelNumber="10" maxOccurs="5" minOccurs="-1" srceLine="6" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="OdoSubArray">
+        <sequence>
+            <element name="Filler8">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="15" picture="X(4)" srceLine="8" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Ardo03Record" type="tns:Ardo03Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="ARDO03-RECORD" levelNumber="1" srceLine="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

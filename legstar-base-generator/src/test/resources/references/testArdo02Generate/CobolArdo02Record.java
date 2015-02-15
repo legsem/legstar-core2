@@ -1,4 +1,4 @@
-package com.legstar.base.type.gen;
+package test.example;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,14 +20,14 @@ public class CobolArdo02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolBinaryType < Integer > odoCounter =
+        CobolBinaryType < Integer > OdoCounter =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
                         .totalDigits(4)
                         .minInclusive(Integer.valueOf("0"))
                         .maxInclusive(Integer.valueOf("5"))
                         .odoObject(true)
                         .build();
-        fields.put("odoCounter", odoCounter);
+        fields.put("OdoCounter", OdoCounter);
 
         return fields;
 
@@ -37,11 +37,11 @@ public class CobolArdo02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType < String > filler8 =
+        CobolStringType < String > Filler8 =
                 new CobolStringType.Builder < String >(String.class)
                         .charNum(2)
                         .build();
-        fields.put("filler8", filler8);
+        fields.put("Filler8", Filler8);
 
         return fields;
 
@@ -51,11 +51,11 @@ public class CobolArdo02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolStringType < String > filler10 =
+        CobolStringType < String > Filler10 =
                 new CobolStringType.Builder < String >(String.class)
                         .charNum(1)
                         .build();
-        fields.put("filler10", filler10);
+        fields.put("Filler10", Filler10);
 
         return fields;
 
@@ -65,24 +65,23 @@ public class CobolArdo02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolChoiceType alternativeAChoice = new CobolChoiceType.Builder()
+        CobolChoiceType AlternativeAChoice = new CobolChoiceType.Builder()
                         .name("AlternativeAChoice")
                         .alternatives(createAlternativeAChoiceFields())
                         .build();
-        fields.put("alternativeAChoice", alternativeAChoice);
+        fields.put("AlternativeAChoice", AlternativeAChoice);
 
-        CobolComplexType odoArray = new CobolComplexType.Builder()
+        CobolComplexType OdoArray = new CobolComplexType.Builder()
                         .name("OdoArray")
                         .fields(createOdoArrayFields())
-                        .dependingOn("odoCounter")
                         .build();
-        CobolArrayType odoArrayArray = new CobolArrayType.Builder()
-                        .itemType(odoArray)
+        CobolArrayType OdoArrayArray = new CobolArrayType.Builder()
+                        .itemType(OdoArray)
                         .minOccurs(0)
                         .maxOccurs(5)
-                        .dependingOn("odoCounter")
+                        .dependingOn("OdoCounter")
                         .build();
-        fields.put("odoArray", odoArrayArray);
+        fields.put("OdoArray", OdoArrayArray);
 
         return fields;
 
@@ -92,17 +91,17 @@ public class CobolArdo02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType alternativeA = new CobolComplexType.Builder()
+        CobolComplexType AlternativeA = new CobolComplexType.Builder()
                         .name("AlternativeA")
                         .fields(createAlternativeAFields())
                         .build();
-        fields.put("alternativeA", alternativeA);
+        fields.put("AlternativeA", AlternativeA);
 
-        CobolComplexType alternativeB = new CobolComplexType.Builder()
+        CobolComplexType AlternativeB = new CobolComplexType.Builder()
                         .name("AlternativeB")
                         .fields(createAlternativeBFields())
                         .build();
-        fields.put("alternativeB", alternativeB);
+        fields.put("AlternativeB", AlternativeB);
 
         return fields;
 

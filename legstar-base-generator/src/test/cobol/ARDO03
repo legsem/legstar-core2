@@ -1,0 +1,8 @@
+        01 ARDO03-RECORD.
+           05 ODO-COUNTER                 PIC 9(5).
+           05 ODO-ARRAY OCCURS 5 TIMES
+                        DEPENDING ON ODO-COUNTER.
+              10 ODO-SUB-COUNTER          PIC 9(3).
+              10 ODO-SUB-ARRAY OCCURS 5 TIMES
+                               DEPENDING ON ODO-SUB-COUNTER.
+                 15 FILLER                PIC X(4).

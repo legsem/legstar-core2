@@ -427,10 +427,10 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     }
     
     /**
-     * Retrieve teh ODO object value for a variable size array.
+     * Retrieve the ODO object value for a variable size array.
      * <p/>
-     * The IDO object has usually been populated before this method in voked in
-     * which case, its value has been stored as variable.
+     * The ODO object has usually been populated before this method in invoked in
+     * which case, its value has been stored as a variable.
      * <p/>
      * If we can't find the ODO object in the variables hash, this means it was
      * not populated. This is possible in case the ODO object is in a REDEFINE

@@ -48,6 +48,16 @@ public class Xsd2CobolTypesGeneratorTest extends AbstractTest {
     }
     
     @Test
+    public void testArdo02Generate() throws Exception {
+        generateAndCheck("ardo02", "Ardo02Record");
+    }
+    
+    @Test
+    public void testArdo03Generate() throws Exception {
+        generateAndCheck("ardo03", "Ardo03Record");
+    }
+    
+    @Test
     public void testRdef01Generate() throws Exception {
         generateAndCheck("rdef01", "Rdef01Record");
     }

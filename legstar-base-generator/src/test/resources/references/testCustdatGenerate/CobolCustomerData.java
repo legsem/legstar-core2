@@ -124,7 +124,6 @@ public class CobolCustomerData extends CobolComplexType {
         CobolComplexType transaction = new CobolComplexType.Builder()
                         .name("Transaction")
                         .fields(createTransactionFields())
-                        .dependingOn("transactionNbr")
                         .build();
         CobolArrayType transactionArray = new CobolArrayType.Builder()
                         .itemType(transaction)

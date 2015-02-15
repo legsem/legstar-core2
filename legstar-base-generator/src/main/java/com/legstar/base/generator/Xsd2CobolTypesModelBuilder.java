@@ -62,6 +62,8 @@ public class Xsd2CobolTypesModelBuilder {
 
     private static final String DEPENDING_ON_PROP_NAME = "dependingOn";
 
+    private static final String IS_OPTIONAL_PROP_NAME = "isOptional";
+
     private static final String MAX_INCLUSIVE_PROP_NAME = "maxInclusive";
 
     private static final String MIN_INCLUSIVE_PROP_NAME = "minInclusive";
@@ -422,6 +424,7 @@ public class Xsd2CobolTypesModelBuilder {
             CobolAnnotations cobolAnnotations, Map < String, Object > props) {
         String dependingOn = cobolAnnotations.getDependingOn();
         if (dependingOn != null) {
+            props.put(IS_OPTIONAL_PROP_NAME, true);
             props.put(DEPENDING_ON_PROP_NAME, odoObjectNames.get(dependingOn));
         }
     }

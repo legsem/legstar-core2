@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/ardo02" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/ardo02">
+    <complexType name="Ardo02Record">
+        <sequence>
+            <choice>
+                <element name="AlternativeA" type="tns:AlternativeA">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="ALTERNATIVE-A" isRedefined="true" levelNumber="3" srceLine="5" type="GROUP_ITEM" unmarshalChoiceStrategyClassName=""/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="AlternativeB" type="tns:AlternativeB">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="ALTERNATIVE-B" levelNumber="3" redefines="ALTERNATIVE-A" srceLine="7" type="GROUP_ITEM"/>
+                        </appinfo>
+                    </annotation>
+                </element>
+            </choice>
+            <element maxOccurs="5" minOccurs="0" name="OdoArray" type="tns:OdoArray">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ODO-ARRAY" dependingOn="ODO-COUNTER" levelNumber="3" maxOccurs="5" minOccurs="-1" srceLine="9" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="AlternativeA">
+        <sequence>
+            <element name="OdoCounter">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ODO-COUNTER" isODOObject="true" levelNumber="5" picture="9(4)" signed="false" srceLine="6" totalDigits="4" type="BINARY_ITEM" usage="BINARY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="unsignedShort">
+                        <totalDigits value="4"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="AlternativeB">
+        <sequence>
+            <element name="Filler8">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="5" picture="XX" srceLine="8" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="OdoArray">
+        <sequence>
+            <element name="Filler10">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FILLER" levelNumber="5" picture="X" srceLine="10" type="ALPHANUMERIC_ITEM"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="1"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Ardo02Record" type="tns:Ardo02Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="ARDO02-RECORD" levelNumber="1" srceLine="4" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

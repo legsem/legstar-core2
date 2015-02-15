@@ -2,8 +2,10 @@
         CobolComplexType {{@key}} = new CobolComplexType.Builder()
                         .name("{{complexTypeName}}")
                         .fields(create{{complexTypeName}}Fields())
+{{~#if isOptional}}
                         {{~#if dependingOn}}
                         .dependingOn("{{dependingOn}}"){{/if}}
+{{~/if ~}}{{!-- isOptional --}}
                         .build();
 {{~#if maxOccurs}}
         CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
@@ -56,8 +58,12 @@
                         .maxInclusive({{javaTypeName}}.valueOf("{{maxInclusive}}")){{/if}}
                         {{~#if odoObject}}
                         .odoObject(true){{/if}}
-{{~#if maxOccurs}}
+{{~#if isOptional}}
+                        {{~#if dependingOn}}
+                        .dependingOn("{{dependingOn}}"){{/if}}
+{{~/if ~}}{{!-- isOptional --}}
                         .build();
+{{~#if maxOccurs}}
         CobolArrayType {{@key}}Array = new CobolArrayType.Builder()
                         .itemType({{@key}})
                         .minOccurs({{minOccurs}})
@@ -67,9 +73,6 @@
                         .build();
         fields.put("{{@key}}", {{@key}}Array);
 {{~else}}
-                        {{~#if dependingOn}}
-                        .dependingOn("{{dependingOn}}"){{/if}}
-                        .build();
         fields.put("{{@key}}", {{@key}});
 {{~/if ~}}{{!-- maxOccurs --}}
 {{~/if ~}}{{!-- choiceType --}}
