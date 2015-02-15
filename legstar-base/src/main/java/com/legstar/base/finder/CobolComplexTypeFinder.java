@@ -5,7 +5,6 @@ import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.utils.NumUtils;
 import com.legstar.base.visitor.Cob2ObjectValidator;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
-import com.legstar.base.visitor.MinBytesLenCobolVisitor;
 
 /**
  * This finder implementation assumes a complex type starts with a number of
@@ -19,7 +18,7 @@ import com.legstar.base.visitor.MinBytesLenCobolVisitor;
  * Note that some Cobol types are easier to recognize than others, for instance
  * {@link com.legstar.base.type.primitive.CobolPackedDecimalType} and
  * {@link com.legstar.base.type.primitive.CobolZonedDecimalType} impose severe
- * limitation on their content and therefore are unlikely to be missed for some
+ * limitations on their content and therefore are unlikely to be missed for some
  * other type. So you want to have as many as possible of these in your
  * signature.
  * <p/>
