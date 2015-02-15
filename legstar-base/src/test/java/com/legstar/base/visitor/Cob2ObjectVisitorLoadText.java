@@ -15,6 +15,7 @@ import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.gen.CobolCustomerData;
+import com.legstar.base.utils.NumUtils;
 import com.legstar.base.visitor.Cob2ObjectVisitor;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 
@@ -35,11 +36,9 @@ public class Cob2ObjectVisitorLoadText {
     public void testLoad() throws Exception {
 
         CobolComplexType cobolType = new CobolCustomerData();
-
-        MaxBytesLenCobolVisitor macLenCalculator = new MaxBytesLenCobolVisitor();
-        macLenCalculator.visit(cobolType);
-        byte[] record = new byte[macLenCalculator.getMaxBytesLen()];
-
+        byte[] record = new byte[cobolType.getMaxBytesLen() > cobolContext
+                .getMaxCobolTypeBytesLen() ? cobolContext
+                .getMaxCobolTypeBytesLen() : (int) cobolType.getMaxBytesLen()];
 
         FileInputStream is = new FileInputStream(new File(
                 "src/test/data/ZOS.FCUSTDAT.RDW.bin"));
@@ -47,8 +46,8 @@ public class Cob2ObjectVisitorLoadText {
         int count = 0;
         while ((rdw = getRecLen(is)) > 0) {
             readFully(is, record, 0, rdw);
-            Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(
-                    cobolContext, record, 0);
+            Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
+                    record, 0);
             visitor.visit(cobolType);
             count++;
 

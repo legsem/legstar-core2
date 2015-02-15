@@ -2,6 +2,7 @@ package com.legstar.base.finder;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.composite.CobolComplexType;
+import com.legstar.base.utils.NumUtils;
 import com.legstar.base.visitor.Cob2ObjectValidator;
 import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 import com.legstar.base.visitor.MinBytesLenCobolVisitor;
@@ -46,10 +47,10 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
     private final int signatureLen;
 
     /** The complex type maximum size in host bytes */
-    private final int maxBytesLen;
+    private final long maxBytesLen;
 
     /** The complex type minimum size in host bytes */
-    private final int minBytesLen;
+    private final long minBytesLen;
 
     /**
      * Construct the finder.
@@ -68,19 +69,13 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
         this.cobolContext = cobolContext;
         this.cobolComplexType = cobolComplexType;
         this.stopFieldInclusive = stopFieldInclusive;
+        minBytesLen = cobolComplexType.getMinBytesLen();
+        maxBytesLen = cobolComplexType.getMaxBytesLen();
 
-        MinBytesLenCobolVisitor minLenVisitor = new MinBytesLenCobolVisitor();
-        minLenVisitor.visit(cobolComplexType);
-        minBytesLen = minLenVisitor.getMinBytesLen();
-
-        MaxBytesLenCobolVisitor maxLenVisitor = new MaxBytesLenCobolVisitor();
-        maxLenVisitor.visit(cobolComplexType);
-        maxBytesLen = maxLenVisitor.getMaxBytesLen();
-
-        MaxBytesLenCobolVisitor signatureLenvisitor = new MaxBytesLenCobolVisitor(
+        MaxBytesLenCobolVisitor maxBytesLenVisitor = new MaxBytesLenCobolVisitor(
                 stopFieldInclusive);
-        signatureLenvisitor.visit(cobolComplexType);
-        signatureLen = signatureLenvisitor.getMaxBytesLen();
+        maxBytesLenVisitor.visit(cobolComplexType);
+        signatureLen = NumUtils.longToInt(maxBytesLenVisitor.getMaxBytesLen());
 
     }
 
@@ -107,11 +102,11 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
         return stopFieldInclusive;
     }
 
-    public int getMinBytesLen() {
+    public long getMinBytesLen() {
         return minBytesLen;
     }
 
-    public int getMaxBytesLen() {
+    public long getMaxBytesLen() {
         return maxBytesLen;
     }
 

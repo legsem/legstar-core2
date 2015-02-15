@@ -45,6 +45,9 @@ public class AsciiCobolContext extends AbstractCobolContext {
         return ASCII_SPACE_CODE;
     }
 
+    public int getMaxCobolTypeBytesLen() {
+        return Integer.MAX_VALUE;
+    }
     public boolean isTruncateHostStringsTrailingSpaces() {
         return true;
     }

@@ -13,6 +13,10 @@ public class EbcdicCobolContext extends AbstractCobolContext {
     private static final int EBCDIC_MINUS_SIGN = 0x60;
     private static final int EBCDIC_SPACE_CODE = 0x40;
 
+    /** Maximum size of a level 01 data item. No CobolType can exceed that length. */
+    public static final int MAX_COBOL_TYPE_BYTES_LENGTH = 134217727;
+
+
     
     public EbcdicCobolContext() {
         this("IBM01140");
@@ -48,6 +52,10 @@ public class EbcdicCobolContext extends AbstractCobolContext {
 
     public boolean isTruncateHostStringsTrailingSpaces() {
         return true;
+    }
+
+    public int getMaxCobolTypeBytesLen() {
+        return MAX_COBOL_TYPE_BYTES_LENGTH;
     }
 
 }

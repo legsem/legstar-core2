@@ -43,5 +43,10 @@ public interface CobolContext {
      *         converted to java
      */
     public boolean isTruncateHostStringsTrailingSpaces();
+    
+    /**
+     * @return the maximum number of bytes a level 01 item can span
+     */
+    public int getMaxCobolTypeBytesLen();
 
 }

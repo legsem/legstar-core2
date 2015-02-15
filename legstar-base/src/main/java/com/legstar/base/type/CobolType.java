@@ -12,7 +12,7 @@ import com.legstar.base.visitor.CobolVisitor;
  * 
  */
 public abstract class CobolType {
-
+    
     /**
      * Propagate a visitor.
      * 
@@ -27,5 +27,14 @@ public abstract class CobolType {
      * 
      * @return the maximum size in bytes needed to store this type
      */
-    public abstract int getMaxBytesLen();
+    public abstract long getMaxBytesLen();
+    
+    /**
+     * Determine the minimum length in bytes of the mainframe representation of this
+     * type.
+     * 
+     * @return the minimum size in bytes needed to store this type
+     */
+    public abstract long getMinBytesLen();
+
 }

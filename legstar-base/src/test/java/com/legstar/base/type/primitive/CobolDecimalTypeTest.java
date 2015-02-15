@@ -164,7 +164,7 @@ public class CobolDecimalTypeTest {
             return fromHost;
         }
 
-        public int getMaxBytesLen() {
+        public int getBytesLen() {
             return bytesLen;
         }
 

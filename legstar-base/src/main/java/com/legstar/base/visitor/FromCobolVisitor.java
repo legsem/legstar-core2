@@ -487,7 +487,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     /**
      * Specialized implementations might need to advance the last position.
      * 
-     * @param lastPos last position in the inciming mainframe byte array
+     * @param lastPos last position in the incoming mainframe byte array
      */
     public void setLastPos(int lastPos) {
         this.lastPos = lastPos;

@@ -31,7 +31,7 @@ public class CobolFloatType<T extends Number> extends CobolPrimitiveType < T > {
             CobolContext cobolContext, byte[] hostData, int start)
             throws FromHostException {
 
-        int bytesLen = getMaxBytesLen();
+        int bytesLen = getBytesLen();
         if (hostData.length < start + bytesLen) {
             throw new FromHostException("Length provided "
                     + (hostData.length - start)
@@ -104,7 +104,7 @@ public class CobolFloatType<T extends Number> extends CobolPrimitiveType < T > {
 
     public boolean isValid(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) {
-        int bytesLen = getMaxBytesLen();
+        int bytesLen = getBytesLen();
 
         // Is buffer large enough to contain this type?
         // TODO last field in a record might be truncated if all low-values or
@@ -116,7 +116,7 @@ public class CobolFloatType<T extends Number> extends CobolPrimitiveType < T > {
         return true;
     }
 
-    public int getMaxBytesLen() {
+    public int getBytesLen() {
         return 4;
     }
 

@@ -26,7 +26,12 @@ public class CobolChoiceType extends CobolCompositeType {
     /**
      * Maximum size in bytes.
      */
-    private final int maxBytesLen;
+    private final long maxBytesLen;
+
+    /**
+     * Minimum size in bytes.
+     */
+    private final long minBytesLen;
 
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
@@ -72,7 +77,12 @@ public class CobolChoiceType extends CobolCompositeType {
     }
 
     /** {@inheritDoc} */
-    public int getMaxBytesLen() {
+    public long getMinBytesLen() {
+        return minBytesLen;
+    }
+
+    /** {@inheritDoc} */
+    public long getMaxBytesLen() {
         return maxBytesLen;
     }
 
@@ -111,14 +121,17 @@ public class CobolChoiceType extends CobolCompositeType {
 
         name = builder.name;
         alternatives = builder.alternatives;
-        int maxBytesLen = 0;
+        long minBl = Long.MAX_VALUE;
+        long maxBl = 0;
         for (CobolType alternative : alternatives.values()) {
-            maxBytesLen = maxBytesLen < alternative.getMaxBytesLen() ? alternative
-                    .getMaxBytesLen() : maxBytesLen;
+            maxBl = maxBl < alternative.getMaxBytesLen() ? alternative
+                    .getMaxBytesLen() : maxBl;
+            minBl = minBl > alternative.getMinBytesLen() ? alternative
+                    .getMinBytesLen() : minBl;
         }
-        this.maxBytesLen = maxBytesLen;
+        maxBytesLen = maxBl;
+        minBytesLen = minBl;
     }
-
 
 
 }

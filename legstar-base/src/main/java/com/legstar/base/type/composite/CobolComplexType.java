@@ -28,9 +28,14 @@ public class CobolComplexType extends CobolCompositeType implements CobolOptiona
     private final String dependingOn;
 
     /**
+     * Minimum size in bytes.
+     */
+    private final long minBytesLen;
+
+    /**
      * Maximum size in bytes.
      */
-    private final int maxBytesLen;
+    private final long maxBytesLen;
 
     public Map < String, CobolType > getFields() {
         return fields;
@@ -50,7 +55,12 @@ public class CobolComplexType extends CobolCompositeType implements CobolOptiona
     }
 
     /** {@inheritDoc} */
-    public int getMaxBytesLen() {
+    public long getMinBytesLen() {
+        return minBytesLen;
+    }
+
+    /** {@inheritDoc} */
+    public long getMaxBytesLen() {
         return maxBytesLen;
     }
 
@@ -96,10 +106,13 @@ public class CobolComplexType extends CobolCompositeType implements CobolOptiona
         name = builder.name;
         fields = builder.fields;
         dependingOn = builder.dependingOn;
-        int maxBytesLen = 0;
+        long minBl = 0;
+        long maxBl = 0;
         for (CobolType child : fields.values()) {
-            maxBytesLen += child.getMaxBytesLen();
+            minBl += child.getMinBytesLen();
+            maxBl += child.getMaxBytesLen();
         }
-        this.maxBytesLen = maxBytesLen;
+        minBytesLen = minBl;
+        maxBytesLen = maxBl;
     }
 }

@@ -113,7 +113,4 @@ public abstract class AbstractCob2ObjectConverter<T> implements
         return customVariables;
     }
 
-    public int getMaxBytesLen() {
-        return cobolComplexType.getMaxBytesLen();
-    }
 }

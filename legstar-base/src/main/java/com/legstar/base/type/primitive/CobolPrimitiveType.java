@@ -77,6 +77,24 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
         return fromHost(javaClass, cobolContext, hostData, start);
     }
 
+    /** {@inheritDoc} */
+    public long getMaxBytesLen() {
+        return getBytesLen();
+    }
+
+    /** {@inheritDoc} */
+    public long getMinBytesLen() {
+        return getBytesLen();
+    }
+
+    /**
+     * Determine the length in bytes of the mainframe representation of this
+     * type.
+     * 
+     * @return the size in bytes needed to store this type
+     */
+    public abstract int getBytesLen();
+
     /**
      * Convert mainframe data into a Java object.
      * 

@@ -8,5 +8,4 @@ import com.legstar.base.type.CobolType;
  */
 public abstract class CobolCompositeType extends CobolType {
 
-
 }

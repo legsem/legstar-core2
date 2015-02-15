@@ -19,7 +19,7 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     /** {@inheritDoc} */
     public boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start) {
 
-        int length = start + getMaxBytesLen();
+        int length = start + getBytesLen();
 
         int[] nibbles = new int[2];
 
@@ -65,7 +65,7 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     /** {@inheritDoc} */
     protected T fromHostInternal(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start) {
 
-        int length = start + getMaxBytesLen();
+        int length = start + getBytesLen();
 
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
@@ -108,13 +108,14 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     }
 
     /** {@inheritDoc} */
-    public int getMaxBytesLen() {
+    public int getBytesLen() {
         return getBytesLen(getTotalDigits(), isSignSeparate());
     }
 
     public static int getBytesLen(int totalDigits, boolean signSeparate) {
         return totalDigits + (signSeparate ? 1 : 0);
     }
+ 
     public boolean isSignLeading() {
         return signLeading;
     }

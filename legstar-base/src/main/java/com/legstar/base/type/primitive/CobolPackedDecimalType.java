@@ -17,7 +17,7 @@ public class CobolPackedDecimalType<T extends Number> extends
     protected boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) {
 
-        int length = start + getMaxBytesLen();
+        int length = start + getBytesLen();
 
         // examine nibbles in each byte in turn
         int[] nibbles = new int[2];
@@ -54,7 +54,7 @@ public class CobolPackedDecimalType<T extends Number> extends
     protected T fromHostInternal(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int length = start + getMaxBytesLen();
+        int length = start + getBytesLen();
 
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
@@ -106,7 +106,7 @@ public class CobolPackedDecimalType<T extends Number> extends
     }
 
     /** {@inheritDoc} */
-    public int getMaxBytesLen() {
+    public int getBytesLen() {
         return getBytesLen(getTotalDigits());
     }
 

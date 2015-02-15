@@ -29,14 +29,4 @@ public interface Cob2ObjectConverter<T> {
      */
     FromHostResult < T > convert(byte[] hostData, int start);
 
-
-    /**
-     * Evaluates the maximum number of bytes for host data corresponding to the
-     * COBOL type converted.
-     * 
-     * @return the maximum number of bytes for host data corresponding to the
-     *         COBOL type converted
-     */
-    int getMaxBytesLen();
-
 }

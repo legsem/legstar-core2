@@ -51,7 +51,7 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     private ByteBuffer getByteBuffer(Class < T > clazz, byte[] hostData,
             int start) {
 
-        int hostBytesLen = getMaxBytesLen();
+        int hostBytesLen = getBytesLen();
         int pos = start;
 
         ByteBuffer bb = ByteBuffer.allocate(bufferLen);
@@ -111,7 +111,7 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     }
 
     /** {@inheritDoc} */
-    public int getMaxBytesLen() {
+    public int getBytesLen() {
         return getBytesLen(getTotalDigits());
     }
 

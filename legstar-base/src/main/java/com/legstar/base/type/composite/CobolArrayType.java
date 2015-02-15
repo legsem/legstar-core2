@@ -23,9 +23,14 @@ public class CobolArrayType extends CobolCompositeType {
     private final String dependingOn;
 
     /**
+     * Minimum size in bytes.
+     */
+    private final long minBytesLen;
+
+    /**
      * Maximum size in bytes.
      */
-    private final int maxBytesLen;
+    private final long maxBytesLen;
 
     /** {@inheritDoc} */
     public void accept(CobolVisitor visitor) {
@@ -53,7 +58,12 @@ public class CobolArrayType extends CobolCompositeType {
     }
 
     /** {@inheritDoc} */
-    public int getMaxBytesLen() {
+    public long getMinBytesLen() {
+        return minBytesLen;
+    }
+
+    /** {@inheritDoc} */
+    public long getMaxBytesLen() {
         return maxBytesLen;
     }
 
@@ -106,8 +116,8 @@ public class CobolArrayType extends CobolCompositeType {
         minOccurs = builder.minOccurs;
         maxOccurs = builder.maxOccurs;
         dependingOn = builder.dependingOn;
+        minBytesLen = minOccurs * itemType.getMinBytesLen();
         maxBytesLen = maxOccurs * itemType.getMaxBytesLen();
     }
-
 
 }
