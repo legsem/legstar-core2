@@ -9,7 +9,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import com.legstar.base.FromHostResult;
+import com.legstar.base.converter.FromHostResult;
+
 
 /**
  * Sample code that invokes a converter to transform host data read off a file

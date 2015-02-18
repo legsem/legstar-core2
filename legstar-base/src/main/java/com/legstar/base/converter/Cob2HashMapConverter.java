@@ -2,7 +2,6 @@ package com.legstar.base.converter;
 
 import java.util.Map;
 
-import com.legstar.base.FromHostResult;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.visitor.Cob2ObjectVisitor;
 

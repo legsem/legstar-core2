@@ -5,8 +5,6 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import com.legstar.base.FromHostException;
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 
 /**
@@ -54,8 +52,8 @@ public abstract class CobolDecimalType<T extends Number> extends
             '4', '5', '6', '7', '8', '9' };
 
     /** {@inheritDoc} */
-    public final boolean isValid(Class < T > javaClass, CobolContext cobolContext, byte[] hostData,
-            int start) {
+    public final boolean isValid(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
         int bytesLen = getBytesLen();
 
@@ -70,11 +68,9 @@ public abstract class CobolDecimalType<T extends Number> extends
         }
 
         // If required to check within range, need to convert
-        if (!isWithinRange(fromHostInternal(javaClass, cobolContext, hostData,
-                start))) {
-            return false;
-        }
-        return true;
+        FromHostPrimitiveResult < T > result = fromHostInternal(javaClass,
+                cobolContext, hostData, start);
+        return result.isSuccess() && isWithinRange(result.getValue());
 
     }
 
@@ -109,27 +105,29 @@ public abstract class CobolDecimalType<T extends Number> extends
             CobolContext cobolContext, byte[] hostData, int start);
 
     /** {@inheritDoc} */
-    public FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext,
-            byte[] hostData, int start) throws FromHostException {
+    public FromHostPrimitiveResult < T > fromHost(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
         int bytesLen = getBytesLen();
         if (hostData.length < start + bytesLen) {
-            throw new FromHostException("Length provided "
+            return new FromHostPrimitiveResult < T >("Length provided "
                     + (hostData.length - start)
                     + " is smaller than the required " + bytesLen, hostData,
-                    start);
+                    start, bytesLen);
         }
 
-        T value = fromHostInternal(javaClass, cobolContext, hostData,
-                start);
-        if (!isWithinRange(value)) {
-            throw new FromHostException("Value " + value.toString()
-                    + " is outside the required range " + getRangeAsString(),
-                    hostData, start);
+        FromHostPrimitiveResult < T > result = fromHostInternal(javaClass,
+                cobolContext, hostData, start);
+        if (result.isSuccess()) {
+            if (!isWithinRange(result.getValue())) {
+                return new FromHostPrimitiveResult < T >("Value "
+                        + result.getValue().toString()
+                        + " is outside the required range "
+                        + getRangeAsString(), hostData, start, bytesLen);
+            }
         }
 
-        return new FromHostResult < T >(bytesLen, value);
-
+        return result;
     }
 
     /**
@@ -139,12 +137,12 @@ public abstract class CobolDecimalType<T extends Number> extends
      * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
-     * @return the mainframe value as a java Number
-     * @throws FromHostException if conversion fails
+     * @return the conversion results, including the mainframe value as a java
+     *         object if conversion succeeded
      */
-    protected abstract T fromHostInternal(
-            Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start)
-            throws FromHostException;
+    protected abstract FromHostPrimitiveResult < T > fromHostInternal(
+            Class < T > javaClass, CobolContext cobolContext, byte[] hostData,
+            int start);
 
     /**
      * A nibble is a half byte.
@@ -162,17 +160,12 @@ public abstract class CobolDecimalType<T extends Number> extends
      * 
      * @param index the nibble content is a value between 0 and 9 givig the
      *            index of the digit
-     * @param hostData the original data for error reporting
-     * @param start the original position in the mainframe data for error
-     *            reporting
-     * @param pos the nibble byte position for error reporting
-     * @return the java digit corresponding to the nibble value
+     * @return the java digit corresponding to the nibble value or null if the
+     *         nibble is not a digit
      */
-    public char getDigit(int index, byte[] hostData, int start, int pos) {
-        if (index >= JAVA_DIGITS.length) {
-            throw new FromHostException("Nibble is not a digit", hostData, pos);
-        }
-        return JAVA_DIGITS[index];
+    public char getDigit(int index) {
+        return index < 0 || index >= JAVA_DIGITS.length ? '\0'
+                : JAVA_DIGITS[index];
     }
 
     /**

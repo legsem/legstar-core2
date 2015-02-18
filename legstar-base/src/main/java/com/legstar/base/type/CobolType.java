@@ -11,30 +11,36 @@ import com.legstar.base.visitor.CobolVisitor;
  * Types are immutable and thread safe.
  * 
  */
-public abstract class CobolType {
-    
+public interface CobolType {
+
+    /**
+     * Get the original COBOL name of this type.
+     * 
+     * @return the original COBOL name of this type.
+     */
+    String getCobolName();
+
     /**
      * Propagate a visitor.
      * 
      * @param visitor the visitor
      */
-    public abstract void accept(CobolVisitor visitor);
-
+    void accept(CobolVisitor visitor);
 
     /**
-     * Determine the maximum length in bytes of the mainframe representation of this
-     * type.
+     * Determine the maximum length in bytes of the mainframe representation of
+     * this type.
      * 
      * @return the maximum size in bytes needed to store this type
      */
-    public abstract long getMaxBytesLen();
-    
+    long getMaxBytesLen();
+
     /**
-     * Determine the minimum length in bytes of the mainframe representation of this
-     * type.
+     * Determine the minimum length in bytes of the mainframe representation of
+     * this type.
      * 
      * @return the minimum size in bytes needed to store this type
      */
-    public abstract long getMinBytesLen();
+    long getMinBytesLen();
 
 }

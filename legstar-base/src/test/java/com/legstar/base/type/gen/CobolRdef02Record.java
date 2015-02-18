@@ -12,6 +12,7 @@ public class CobolRdef02Record extends CobolComplexType {
     public CobolRdef02Record() {
         super(new CobolComplexType.Builder()
                     .name("Rdef02Record")
+                    .cobolName("RDEF02-RECORD")
                     .fields(createRdef02RecordFields())
               );
     }
@@ -28,6 +29,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolBinaryType < Integer > comSelect =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("COM-SELECT")
                         .totalDigits(4)
                         .build();
         fields.put("comSelect", comSelect);
@@ -42,6 +44,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolStringType < String > comName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("COM-NAME")
                         .charNum(10)
                         .build();
         fields.put("comName", comName);
@@ -56,6 +59,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > comAmount =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-AMOUNT")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();
@@ -63,6 +67,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolStringType < String > filler13 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(6)
                         .build();
         fields.put("filler13", filler13);
@@ -77,6 +82,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolComplexType rdef02Key = new CobolComplexType.Builder()
                         .name("Rdef02Key")
+                        .cobolName("RDEF02-KEY")
                         .fields(createRdef02KeyFields())
                         .build();
         fields.put("rdef02Key", rdef02Key);
@@ -89,6 +95,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > comItem3 =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-ITEM3")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();
@@ -104,6 +111,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolPackedDecimalType < Long > rdef02Item1 =
                 new CobolPackedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("RDEF02-ITEM1")
                         .signed(true)
                         .totalDigits(10)
                         .build();
@@ -111,6 +119,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolStringType < String > rdef02Item2 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("RDEF02-ITEM2")
                         .charNum(6)
                         .build();
         fields.put("rdef02Item2", rdef02Item2);
@@ -125,12 +134,14 @@ public class CobolRdef02Record extends CobolComplexType {
 
         CobolComplexType comDetail1 = new CobolComplexType.Builder()
                         .name("ComDetail1")
+                        .cobolName("COM-DETAIL1")
                         .fields(createComDetail1Fields())
                         .build();
         fields.put("comDetail1", comDetail1);
 
         CobolComplexType comDetail2 = new CobolComplexType.Builder()
                         .name("ComDetail2")
+                        .cobolName("COM-DETAIL2")
                         .fields(createComDetail2Fields())
                         .build();
         fields.put("comDetail2", comDetail2);

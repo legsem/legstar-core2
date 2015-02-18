@@ -23,14 +23,16 @@ public class CobolStringTypeTest {
     @Test
     public void testConstructor() {
         try {
-            new CobolStringType.Builder <String>(String.class).charNum(-1).build();
+            new CobolStringType.Builder < String >(String.class)
+                    .cobolName("STRINGTEST").charNum(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Characters number -1 cannot be negative",
                     e.getMessage());
         }
         try {
-            new CobolStringType.Builder <String>(String.class).charNum(Integer.MAX_VALUE).build();
+            new CobolStringType.Builder < String >(String.class)
+                    .cobolName("STRINGTEST").charNum(Integer.MAX_VALUE).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals(
@@ -115,15 +117,17 @@ public class CobolStringTypeTest {
                         "e08140837d85a2a340a495409799968293d0948540c093c0948595a381899985407c4099c0a296a4849985"));
     }
 
-   private boolean isValid(int charNum, String hexHostData) {
-        return new CobolStringType.Builder <String>(String.class).charNum(charNum).build().isValid(cobolContext,
-                HexUtils.decodeHex(hexHostData), 0);
+    private boolean isValid(int charNum, String hexHostData) {
+        return new CobolStringType.Builder < String >(String.class)
+                .cobolName("STRINGTEST").charNum(charNum).build()
+                .isValid(cobolContext, HexUtils.decodeHex(hexHostData), 0);
     }
 
     private String getValue(int charNum, String hexHostData) {
-        return new CobolStringType.Builder <String>(String.class).charNum(charNum).build().fromHost(cobolContext,
-                HexUtils.decodeHex(hexHostData), 0).getValue();
-
+        return new CobolStringType.Builder < String >(String.class)
+                .cobolName("STRINGTEST").charNum(charNum).build()
+                .fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
+                .getValue();
     }
 
 }

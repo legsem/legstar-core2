@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.legstar.base.FromHostResult;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.utils.HexUtils;

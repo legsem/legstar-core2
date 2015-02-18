@@ -12,6 +12,7 @@ public class {{class_name}} extends CobolComplexType {
     public {{class_name}}() {
         super(new CobolComplexType.Builder()
                     .name("{{root_type_name}}")
+                    .cobolName("{{root_cobol_name}}")
                     .fields(create{{root_type_name}}Fields())
               );
     }

@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.converter.Cob2HashMapConverter;
+import com.legstar.base.converter.FromHostResult;
 
 /**
  * Sample code that invokes a converter to transform host data read off a file

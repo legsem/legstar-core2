@@ -59,7 +59,8 @@ public class CobolFloatTypeTest {
                 .fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
                 .getValue().toString();
     }
+
     private <T extends Number> CobolFloatType < T > getType(Class <T> clazz) {
-        return new CobolFloatType.Builder < T >(clazz).build();
+        return new CobolFloatType.Builder < T >(clazz).cobolName("FLOATTEST").build();
     }
 }

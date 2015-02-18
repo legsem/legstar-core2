@@ -1,13 +1,12 @@
 package com.legstar.base.visitor;
 
-import com.legstar.base.ConversionException;
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
+import com.legstar.base.type.primitive.FromHostPrimitiveResult;
 
 /**
  * Validates that an incoming mainframe bytes array contains data that is
@@ -94,21 +93,16 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
         this.valid = true;
     }
 
-    public void visit(CobolComplexType type) throws ConversionException {
-
+    public void visit(CobolComplexType type) {
         super.visitComplexType(type, complexTypeChildHandler);
-
     }
 
-    public void visit(CobolArrayType type) throws ConversionException {
-
+    public void visit(CobolArrayType type) {
         super.visitCobolArrayType(type, arrayTypeItemHandler);
     }
 
-    public void visit(CobolChoiceType type) throws ConversionException {
-
+    public void visit(CobolChoiceType type) {
         super.visitCobolChoiceType(type, choiceTypeAlternativeHandler);
-
     }
 
     /**
@@ -120,18 +114,21 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
      * <p/>
      * {@inheritDoc}
      */
-    public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
+    public void visit(CobolPrimitiveType < ? > type) {
         if (type.isValid(getCobolContext(), getHostData(), getLastPos())) {
 
             // Perform conversion for those values that might be needed later
             if (type.isOdoObject() || isCustomVariable(type, getCurFieldName())) {
-                FromHostResult < ? > result = type.fromHost(getCobolContext(),
-                        getHostData(), getLastPos());
-                putVariable(getCurFieldName(), result.getValue());
-                setLastPos(getLastPos() + result.getBytesProcessed());
-            } else {
-                setLastPos(getLastPos() + type.getBytesLen());
+                FromHostPrimitiveResult < ? > result = type.fromHost(
+                        getCobolContext(), getHostData(), getLastPos());
+                if (result.isSuccess()) {
+                    putVariable(getCurFieldName(), result.getValue());
+                } else {
+                    throw new FromCobolException(result.getErrorMessage(),
+                            getCurFieldFullCobolName());
+                }
             }
+            setLastPos(getLastPos() + type.getBytesLen());
 
         } else {
             valid = false;

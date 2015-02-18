@@ -15,9 +15,7 @@ import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.gen.CobolCustomerData;
-import com.legstar.base.utils.NumUtils;
 import com.legstar.base.visitor.Cob2ObjectVisitor;
-import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 
 public class Cob2ObjectVisitorLoadText {
 

@@ -97,7 +97,7 @@ public class Xsd2CobolTypesModelBuilderTest extends AbstractTest {
         XmlSchemaCollection schemaCol = new XmlSchemaCollection();
         XmlSchema xsd = schemaCol.read(new StreamSource(reader));
         Xsd2CobolTypesModelBuilder builder = new Xsd2CobolTypesModelBuilder();
-        Map < String, Xsd2CobolTypesModelBuilder.CompositeTypes > model = builder.build(xsd);
+        Map < String, Xsd2CobolTypesModelBuilder.RootCompositeType > model = builder.build(xsd);
         assertEquals(1, model.size());
         return model.toString();
     }

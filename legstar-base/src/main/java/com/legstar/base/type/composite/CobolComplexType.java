@@ -10,18 +10,24 @@ import com.legstar.base.visitor.CobolVisitor;
  * A COBOl Group item.
  * 
  */
-public class CobolComplexType extends CobolCompositeType implements CobolOptionalType {
-    
+public class CobolComplexType extends CobolCompositeType implements
+        CobolOptionalType {
+
     /**
      * A unique name for this complex type.
      */
     private final String name;
 
     /**
+     * Original COBOL name for this type.
+     */
+    private final String cobolName;
+
+    /**
      * List of fields mapping to their COBOL type.
      */
     private final Map < String, CobolType > fields;
-    
+
     /**
      * Optional types may depend on some other field.
      */
@@ -49,7 +55,9 @@ public class CobolComplexType extends CobolCompositeType implements CobolOptiona
         return dependingOn;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void accept(CobolVisitor visitor) {
         visitor.visit(this);
     }
@@ -64,17 +72,30 @@ public class CobolComplexType extends CobolCompositeType implements CobolOptiona
         return maxBytesLen;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public String getCobolName() {
+        return cobolName;
+    }
+
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
     public static class Builder {
 
         private String name;
+        protected String cobolName;
         private Map < String, CobolType > fields;
         private String dependingOn;
 
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        public Builder cobolName(String value) {
+            cobolName = value;
             return this;
         }
 
@@ -104,6 +125,11 @@ public class CobolComplexType extends CobolCompositeType implements CobolOptiona
     public CobolComplexType(Builder builder) {
 
         name = builder.name;
+        cobolName = builder.cobolName;
+        if (builder.cobolName == null) {
+            throw new IllegalArgumentException(
+                    "You must provide a COBOL name for this type");
+        }
         fields = builder.fields;
         dependingOn = builder.dependingOn;
         long minBl = 0;

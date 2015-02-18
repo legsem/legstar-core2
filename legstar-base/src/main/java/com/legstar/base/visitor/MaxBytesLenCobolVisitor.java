@@ -2,7 +2,6 @@ package com.legstar.base.visitor;
 
 import java.util.Map.Entry;
 
-import com.legstar.base.ConversionException;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
@@ -38,7 +37,7 @@ public class MaxBytesLenCobolVisitor implements CobolVisitor {
         this.stopFieldInclusive = stopFieldInclusive;
     }
 
-    public void visit(CobolComplexType type) throws ConversionException {
+    public void visit(CobolComplexType type) {
         for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             child.getValue().accept(this);
             if (child.getKey().equals(stopFieldInclusive)) {
@@ -47,15 +46,15 @@ public class MaxBytesLenCobolVisitor implements CobolVisitor {
         }
     }
 
-    public void visit(CobolChoiceType type) throws ConversionException {
+    public void visit(CobolChoiceType type) {
         maxBytesLen += type.getMaxBytesLen();
     }
 
-    public void visit(CobolArrayType type) throws ConversionException {
+    public void visit(CobolArrayType type) {
         maxBytesLen += type.getMaxBytesLen();
     }
 
-    public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
+    public void visit(CobolPrimitiveType < ? > type) {
         maxBytesLen += type.getMaxBytesLen();
     }
 

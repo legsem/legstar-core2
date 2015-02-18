@@ -124,7 +124,7 @@ public class Xsd2CobolTypesGenerator {
             String targetPackageName) throws Xsd2ConverterException {
         try {
             Map < String, String > code = new HashMap < String, String >();
-            for (Entry < String, Xsd2CobolTypesModelBuilder.CompositeTypes > entry : modelBuilder
+            for (Entry < String, Xsd2CobolTypesModelBuilder.RootCompositeType > entry : modelBuilder
                     .build(xmlSchema).entrySet()) {
                 String className = JAVA_CLASS_NAME_PREFIX + entry.getKey();
                 Map < String, Object > model = new HashMap < String, Object >();
@@ -133,6 +133,7 @@ public class Xsd2CobolTypesGenerator {
                 }
                 model.put("class_name", className);
                 model.put("root_type_name", entry.getKey());
+                model.put("root_cobol_name", entry.getValue().cobolName);
                 model.put("complex_types", entry.getValue().complexTypes);
                 model.put("choice_types", entry.getValue().choiceTypes);
                 code.put(className, hbtJavaClass.apply(model));

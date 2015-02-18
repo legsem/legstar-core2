@@ -12,6 +12,7 @@ public class CobolStru04Record extends CobolComplexType {
     public CobolStru04Record() {
         super(new CobolComplexType.Builder()
                     .name("Stru04Record")
+                    .cobolName("STRU04-RECORD")
                     .fields(createStru04RecordFields())
               );
     }
@@ -22,12 +23,14 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolStringType < String > ComItem4 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("COM-ITEM4")
                         .charNum(1)
                         .build();
         fields.put("ComItem4", ComItem4);
 
         CobolStringType < String > ComArray3 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("COM-ARRAY3")
                         .charNum(1)
                         .build();
         CobolArrayType ComArray3Array = new CobolArrayType.Builder()
@@ -39,6 +42,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > ComItem5 =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-ITEM5")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();
@@ -54,6 +58,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolBinaryType < Short > ComItem3 =
                 new CobolBinaryType.Builder < Short >(Short.class)
+                        .cobolName("COM-ITEM3")
                         .signed(true)
                         .totalDigits(4)
                         .build();
@@ -61,6 +66,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolComplexType ComArray2 = new CobolComplexType.Builder()
                         .name("ComArray2")
+                        .cobolName("COM-ARRAY2")
                         .fields(createComArray2Fields())
                         .build();
         CobolArrayType ComArray2Array = new CobolArrayType.Builder()
@@ -72,6 +78,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolBinaryType < Short > ComItem6 =
                 new CobolBinaryType.Builder < Short >(Short.class)
+                        .cobolName("COM-ITEM6")
                         .signed(true)
                         .totalDigits(4)
                         .build();
@@ -87,6 +94,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolBinaryType < Short > ComItem2 =
                 new CobolBinaryType.Builder < Short >(Short.class)
+                        .cobolName("COM-ITEM2")
                         .signed(true)
                         .totalDigits(4)
                         .build();
@@ -94,12 +102,14 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolComplexType ComGroup1 = new CobolComplexType.Builder()
                         .name("ComGroup1")
+                        .cobolName("COM-GROUP1")
                         .fields(createComGroup1Fields())
                         .build();
         fields.put("ComGroup1", ComGroup1);
 
         CobolBinaryType < Integer > ComItem7 =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("COM-ITEM7")
                         .signed(true)
                         .totalDigits(8)
                         .build();
@@ -115,6 +125,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > ComItem1 =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-ITEM1")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();
@@ -122,6 +133,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolComplexType ComArray1 = new CobolComplexType.Builder()
                         .name("ComArray1")
+                        .cobolName("COM-ARRAY1")
                         .fields(createComArray1Fields())
                         .build();
         CobolArrayType ComArray1Array = new CobolArrayType.Builder()
@@ -133,6 +145,7 @@ public class CobolStru04Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > ComItem8 =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-ITEM8")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();

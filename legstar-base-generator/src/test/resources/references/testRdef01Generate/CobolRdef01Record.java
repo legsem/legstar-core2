@@ -12,6 +12,7 @@ public class CobolRdef01Record extends CobolComplexType {
     public CobolRdef01Record() {
         super(new CobolComplexType.Builder()
                     .name("Rdef01Record")
+                    .cobolName("RDEF01-RECORD")
                     .fields(createRdef01RecordFields())
               );
     }
@@ -22,6 +23,7 @@ public class CobolRdef01Record extends CobolComplexType {
 
         CobolStringType < String > comName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("COM-NAME")
                         .charNum(10)
                         .build();
         fields.put("comName", comName);
@@ -36,6 +38,7 @@ public class CobolRdef01Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > comAmount =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-AMOUNT")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();
@@ -51,6 +54,7 @@ public class CobolRdef01Record extends CobolComplexType {
 
         CobolBinaryType < Integer > comSelect =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("COM-SELECT")
                         .totalDigits(4)
                         .build();
         fields.put("comSelect", comSelect);
@@ -71,12 +75,14 @@ public class CobolRdef01Record extends CobolComplexType {
 
         CobolComplexType comDetail1 = new CobolComplexType.Builder()
                         .name("ComDetail1")
+                        .cobolName("COM-DETAIL1")
                         .fields(createComDetail1Fields())
                         .build();
         fields.put("comDetail1", comDetail1);
 
         CobolComplexType comDetail2 = new CobolComplexType.Builder()
                         .name("ComDetail2")
+                        .cobolName("COM-DETAIL2")
                         .fields(createComDetail2Fields())
                         .build();
         fields.put("comDetail2", comDetail2);

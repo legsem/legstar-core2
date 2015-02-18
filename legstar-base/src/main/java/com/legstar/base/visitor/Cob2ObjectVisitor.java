@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
@@ -55,23 +54,23 @@ public class Cob2ObjectVisitor extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     // Visit methods
     // -----------------------------------------------------------------------------
-    public void visit(CobolComplexType type) throws ConversionException {
+    public void visit(CobolComplexType type) {
         final Map < String, Object > map = new LinkedHashMap < String, Object >();
         super.visitComplexType(type, new ObjectComplexTypeChildHandler(map));
         resultObject = map;
     }
 
-    public void visit(CobolArrayType type) throws ConversionException {
+    public void visit(CobolArrayType type) {
         final List < Object > list = new ArrayList < Object >();
         super.visitCobolArrayType(type, new ObjectArrayTypeItemHandler(list));
         resultObject = list;
     }
 
-    public void visit(CobolChoiceType type) throws ConversionException {
+    public void visit(CobolChoiceType type) {
         super.visitCobolChoiceType(type, choiceTypeAlternativeHandler);
     }
 
-    public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
+    public void visit(CobolPrimitiveType < ? > type) {
         super.visitCobolPrimitiveType(type, primitiveTypeHandler);
     }
 

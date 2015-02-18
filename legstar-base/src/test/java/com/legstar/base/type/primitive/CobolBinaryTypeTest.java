@@ -85,15 +85,10 @@ public class CobolBinaryTypeTest {
 
     @Test
     public void testFromHostShortUnsigned() {
-        try {
-            getValue(Short.class, false, 4, 0, "FFFF");
-            fail();
-        } catch (Exception e) {
-            assertEquals(
-                    "Host unsigned 2 bytes numeric is too large for the target java type java.lang.Short."
-                            + " Position is 0." + " Data at position 0x->FFFF",
-                    e.getMessage());
-        }
+        FromHostPrimitiveResult < Short > result = getResult(Short.class, false, 4, 0, "FFFF");
+        assertFalse(result.isSuccess());
+        assertEquals("Host unsigned 2 bytes numeric is too large for the target java type java.lang.Short."
+                + " Error at offset 0 : [0xFFFF]", result.getErrorMessage());
         assertEquals("32767", getValueComp5(Short.class, false, 4, 0, "7FFF"));
     }
 
@@ -101,15 +96,10 @@ public class CobolBinaryTypeTest {
     public void testFromHostShortUnderflow() {
         assertEquals("32767",
                 getValueComp5(Short.class, false, 9, 0, "00007FFF"));
-        try {
-            getValueComp5(Short.class, false, 9, 0, "00008FFF");
-            fail();
-        } catch (Exception e) {
-            assertEquals(
-                    "Host unsigned 4 bytes numeric is too large for the target java type java.lang.Short."
-                            + " Position is 0."
-                            + " Data at position 0x->00008FFF", e.getMessage());
-        }
+        FromHostPrimitiveResult < Short > result = getResultComp5(Short.class, false, 9, 0, "00008FFF");
+        assertFalse(result.isSuccess());
+        assertEquals("Host unsigned 4 bytes numeric is too large for the target java type java.lang.Short."
+                + " Error at offset 0 : [0x00008FFF]", result.getErrorMessage());
         assertEquals("-1", getValueComp5(Short.class, true, 9, 0, "FFFFFFFF"));
         assertEquals("-1", getValueComp5(Integer.class, true, 9, 0, "FFFFFFFF"));
         assertEquals("-32768",
@@ -117,15 +107,10 @@ public class CobolBinaryTypeTest {
         assertEquals("-32768",
                 getValueComp5(Integer.class, true, 9, 0, "FFFF8000"));
 
-        try {
-            getValueComp5(Short.class, false, 9, 0, "00FF8000");
-            fail();
-        } catch (Exception e) {
-            assertEquals(
-                    "Host 4 bytes numeric is too large for the target java type java.lang.Short."
-                            + " Position is 0."
-                            + " Data at position 0x->00FF8000", e.getMessage());
-        }
+        result = getResultComp5(Short.class, false, 9, 0, "00FF8000");
+        assertFalse(result.isSuccess());
+        assertEquals("Host 4 bytes numeric is too large for the target java type java.lang.Short."
+                + " Error at offset 0 : [0x00FF8000]", result.getErrorMessage());
     }
 
     @Test
@@ -159,17 +144,25 @@ public class CobolBinaryTypeTest {
             boolean signed, int totalDigits, int fractionDigits,
             String hexHostData) {
 
-        return getType(clazz, signed, totalDigits, fractionDigits)
-                .fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
-                .getValue().toString();
+        return getResult(clazz, signed, totalDigits, fractionDigits,
+                hexHostData).getValue().toString();
+
+    }
+
+    private <T extends Number> FromHostPrimitiveResult < T > getResult(
+            Class < T > clazz, boolean signed, int totalDigits,
+            int fractionDigits, String hexHostData) {
+
+        return getType(clazz, signed, totalDigits, fractionDigits).fromHost(
+                cobolContext, HexUtils.decodeHex(hexHostData), 0);
 
     }
 
     private <T extends Number> CobolBinaryType < T > getType(Class < T > clazz,
             boolean signed, int totalDigits, int fractionDigits) {
-        return new CobolBinaryType.Builder < T >(clazz).signed(signed)
-                .totalDigits(totalDigits).fractionDigits(fractionDigits)
-                .build();
+        return new CobolBinaryType.Builder < T >(clazz).cobolName("BINTEST")
+                .signed(signed).totalDigits(totalDigits)
+                .fractionDigits(fractionDigits).build();
     }
 
     private String getValueComp5(boolean signed, int totalDigits,
@@ -178,12 +171,20 @@ public class CobolBinaryTypeTest {
                 fractionDigits, hexHostData);
     }
 
+    private <T extends Number> FromHostPrimitiveResult < T > getResultComp5(
+            Class < T > clazz, boolean signed, int totalDigits,
+            int fractionDigits, String hexHostData) {
+
+        return getTypeComp5(clazz, signed, totalDigits, fractionDigits).fromHost(
+                cobolContext, HexUtils.decodeHex(hexHostData), 0);
+
+    }
+
     private <T extends Number> String getValueComp5(Class < T > clazz,
             boolean signed, int totalDigits, int fractionDigits,
             String hexHostData) {
 
-        return getTypeComp5(clazz, signed, totalDigits, fractionDigits)
-                .fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0)
+        return getResultComp5(clazz, signed, totalDigits, fractionDigits, hexHostData)
                 .getValue().toString();
 
     }
@@ -191,9 +192,10 @@ public class CobolBinaryTypeTest {
     private <T extends Number> CobolBinaryType < T > getTypeComp5(
             Class < T > clazz, boolean signed, int totalDigits,
             int fractionDigits) {
-        return new CobolBinaryType.Builder < T >(clazz).signed(signed)
-                .totalDigits(totalDigits).fractionDigits(fractionDigits)
-                .minInclusive(null).maxInclusive(null).build();
+        return new CobolBinaryType.Builder < T >(clazz).cobolName("COMP5TEST")
+                .signed(signed).totalDigits(totalDigits)
+                .fractionDigits(fractionDigits).minInclusive(null)
+                .maxInclusive(null).build();
     }
 
 }

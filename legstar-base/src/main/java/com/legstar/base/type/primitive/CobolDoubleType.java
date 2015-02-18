@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 
-import com.legstar.base.FromHostException;
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 
 /**
@@ -26,16 +24,15 @@ import com.legstar.base.context.CobolContext;
  */
 public class CobolDoubleType<T extends Number> extends CobolPrimitiveType < T > {
 
-    public FromHostResult < T > fromHost(Class < T > javaClass,
-            CobolContext cobolContext, byte[] hostData, int start)
-            throws FromHostException {
+    public FromHostPrimitiveResult < T > fromHost(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
         int bytesLen = getBytesLen();
         if (hostData.length < start + bytesLen) {
-            throw new FromHostException("Length provided "
+            return new FromHostPrimitiveResult < T >("Length provided "
                     + (hostData.length - start)
                     + " is smaller than the required " + bytesLen, hostData,
-                    start);
+                    start, bytesLen);
         }
 
         ByteBuffer bb = ByteBuffer.wrap(hostData, start, bytesLen);
@@ -87,7 +84,7 @@ public class CobolDoubleType<T extends Number> extends CobolPrimitiveType < T > 
             result = Double.longBitsToDouble(javaLongBits);
         }
 
-        return new FromHostResult < T >(bytesLen, valueOf(javaClass, result));
+        return new FromHostPrimitiveResult < T >(valueOf(javaClass, result));
     }
 
     @SuppressWarnings("unchecked")

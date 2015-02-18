@@ -1,6 +1,7 @@
 {{~#if complexType}}
         CobolComplexType {{@key}} = new CobolComplexType.Builder()
                         .name("{{complexTypeName}}")
+                        .cobolName("{{cobolName}}")
                         .fields(create{{complexTypeName}}Fields())
 {{~#if isOptional}}
                         {{~#if dependingOn}}
@@ -40,6 +41,7 @@
 {{~else}}
         {{cobolTypeName}}{{#if javaTypeName}} < {{javaTypeName}} >{{/if}} {{@key}} =
                 new {{cobolTypeName}}.Builder{{#if javaTypeName}} < {{javaTypeName}} >{{/if}}({{#if javaTypeName}}{{javaTypeName}}.class{{/if}})
+                        .cobolName("{{cobolName}}")
                         {{~#if signed}}
                         .signed({{signed}}){{/if}}
                         {{~#if signLeading}}

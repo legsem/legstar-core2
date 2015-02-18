@@ -12,6 +12,7 @@ public class CobolCustomerData extends CobolComplexType {
     public CobolCustomerData() {
         super(new CobolComplexType.Builder()
                     .name("CustomerData")
+                    .cobolName("CUSTOMER-DATA")
                     .fields(createCustomerDataFields())
               );
     }
@@ -22,18 +23,21 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolStringType < String > customerName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("CUSTOMER-NAME")
                         .charNum(20)
                         .build();
         fields.put("customerName", customerName);
 
         CobolStringType < String > customerAddress =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("CUSTOMER-ADDRESS")
                         .charNum(20)
                         .build();
         fields.put("customerAddress", customerAddress);
 
         CobolStringType < String > customerPhone =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("CUSTOMER-PHONE")
                         .charNum(8)
                         .build();
         fields.put("customerPhone", customerPhone);
@@ -48,30 +52,35 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolStringType < String > transactionDay =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("TRANSACTION-DAY")
                         .charNum(2)
                         .build();
         fields.put("transactionDay", transactionDay);
 
         CobolStringType < String > filler14 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(1)
                         .build();
         fields.put("filler14", filler14);
 
         CobolStringType < String > transactionMonth =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("TRANSACTION-MONTH")
                         .charNum(2)
                         .build();
         fields.put("transactionMonth", transactionMonth);
 
         CobolStringType < String > filler16 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(1)
                         .build();
         fields.put("filler16", filler16);
 
         CobolStringType < String > transactionYear =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("TRANSACTION-YEAR")
                         .charNum(2)
                         .build();
         fields.put("transactionYear", transactionYear);
@@ -92,6 +101,7 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > transactionAmount =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("TRANSACTION-AMOUNT")
                         .signed(true)
                         .totalDigits(15)
                         .fractionDigits(2)
@@ -100,6 +110,7 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolStringType < String > transactionComment =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("TRANSACTION-COMMENT")
                         .charNum(9)
                         .build();
         fields.put("transactionComment", transactionComment);
@@ -114,6 +125,7 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolBinaryType < Long > transactionNbr =
                 new CobolBinaryType.Builder < Long >(Long.class)
+                        .cobolName("TRANSACTION-NBR")
                         .totalDigits(9)
                         .minInclusive(Long.valueOf("0"))
                         .maxInclusive(Long.valueOf("5"))
@@ -123,6 +135,7 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolComplexType transaction = new CobolComplexType.Builder()
                         .name("Transaction")
+                        .cobolName("TRANSACTION")
                         .fields(createTransactionFields())
                         .build();
         CobolArrayType transactionArray = new CobolArrayType.Builder()
@@ -143,18 +156,21 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolZonedDecimalType < Long > customerId =
                 new CobolZonedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("CUSTOMER-ID")
                         .totalDigits(6)
                         .build();
         fields.put("customerId", customerId);
 
         CobolComplexType personalData = new CobolComplexType.Builder()
                         .name("PersonalData")
+                        .cobolName("PERSONAL-DATA")
                         .fields(createPersonalDataFields())
                         .build();
         fields.put("personalData", personalData);
 
         CobolComplexType transactions = new CobolComplexType.Builder()
                         .name("Transactions")
+                        .cobolName("TRANSACTIONS")
                         .fields(createTransactionsFields())
                         .build();
         fields.put("transactions", transactions);
@@ -169,12 +185,14 @@ public class CobolCustomerData extends CobolComplexType {
 
         CobolStringType < String > transactionDate =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("TRANSACTION-DATE")
                         .charNum(8)
                         .build();
         fields.put("transactionDate", transactionDate);
 
         CobolComplexType filler12 = new CobolComplexType.Builder()
                         .name("Filler12")
+                        .cobolName("FILLER")
                         .fields(createFiller12Fields())
                         .build();
         fields.put("filler12", filler12);

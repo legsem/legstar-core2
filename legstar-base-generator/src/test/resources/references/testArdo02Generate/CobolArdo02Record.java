@@ -12,6 +12,7 @@ public class CobolArdo02Record extends CobolComplexType {
     public CobolArdo02Record() {
         super(new CobolComplexType.Builder()
                     .name("Ardo02Record")
+                    .cobolName("ARDO02-RECORD")
                     .fields(createArdo02RecordFields())
               );
     }
@@ -22,6 +23,7 @@ public class CobolArdo02Record extends CobolComplexType {
 
         CobolBinaryType < Integer > OdoCounter =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("ODO-COUNTER")
                         .totalDigits(4)
                         .minInclusive(Integer.valueOf("0"))
                         .maxInclusive(Integer.valueOf("5"))
@@ -39,6 +41,7 @@ public class CobolArdo02Record extends CobolComplexType {
 
         CobolStringType < String > Filler8 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(2)
                         .build();
         fields.put("Filler8", Filler8);
@@ -53,6 +56,7 @@ public class CobolArdo02Record extends CobolComplexType {
 
         CobolStringType < String > Filler10 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(1)
                         .build();
         fields.put("Filler10", Filler10);
@@ -73,6 +77,7 @@ public class CobolArdo02Record extends CobolComplexType {
 
         CobolComplexType OdoArray = new CobolComplexType.Builder()
                         .name("OdoArray")
+                        .cobolName("ODO-ARRAY")
                         .fields(createOdoArrayFields())
                         .build();
         CobolArrayType OdoArrayArray = new CobolArrayType.Builder()
@@ -93,12 +98,14 @@ public class CobolArdo02Record extends CobolComplexType {
 
         CobolComplexType AlternativeA = new CobolComplexType.Builder()
                         .name("AlternativeA")
+                        .cobolName("ALTERNATIVE-A")
                         .fields(createAlternativeAFields())
                         .build();
         fields.put("AlternativeA", AlternativeA);
 
         CobolComplexType AlternativeB = new CobolComplexType.Builder()
                         .name("AlternativeB")
+                        .cobolName("ALTERNATIVE-B")
                         .fields(createAlternativeBFields())
                         .build();
         fields.put("AlternativeB", AlternativeB);

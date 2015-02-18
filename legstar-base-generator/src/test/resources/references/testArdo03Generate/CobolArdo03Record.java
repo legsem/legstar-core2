@@ -12,6 +12,7 @@ public class CobolArdo03Record extends CobolComplexType {
     public CobolArdo03Record() {
         super(new CobolComplexType.Builder()
                     .name("Ardo03Record")
+                    .cobolName("ARDO03-RECORD")
                     .fields(createArdo03RecordFields())
               );
     }
@@ -22,6 +23,7 @@ public class CobolArdo03Record extends CobolComplexType {
 
         CobolStringType < String > Filler8 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(4)
                         .build();
         fields.put("Filler8", Filler8);
@@ -36,6 +38,7 @@ public class CobolArdo03Record extends CobolComplexType {
 
         CobolZonedDecimalType < Integer > OdoSubCounter =
                 new CobolZonedDecimalType.Builder < Integer >(Integer.class)
+                        .cobolName("ODO-SUB-COUNTER")
                         .totalDigits(3)
                         .minInclusive(Integer.valueOf("0"))
                         .maxInclusive(Integer.valueOf("5"))
@@ -45,6 +48,7 @@ public class CobolArdo03Record extends CobolComplexType {
 
         CobolComplexType OdoSubArray = new CobolComplexType.Builder()
                         .name("OdoSubArray")
+                        .cobolName("ODO-SUB-ARRAY")
                         .fields(createOdoSubArrayFields())
                         .build();
         CobolArrayType OdoSubArrayArray = new CobolArrayType.Builder()
@@ -65,6 +69,7 @@ public class CobolArdo03Record extends CobolComplexType {
 
         CobolZonedDecimalType < Long > OdoCounter =
                 new CobolZonedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("ODO-COUNTER")
                         .totalDigits(5)
                         .minInclusive(Long.valueOf("0"))
                         .maxInclusive(Long.valueOf("5"))
@@ -74,6 +79,7 @@ public class CobolArdo03Record extends CobolComplexType {
 
         CobolComplexType OdoArray = new CobolComplexType.Builder()
                         .name("OdoArray")
+                        .cobolName("ODO-ARRAY")
                         .fields(createOdoArrayFields())
                         .build();
         CobolArrayType OdoArrayArray = new CobolArrayType.Builder()

@@ -12,6 +12,7 @@ public class CobolDfhcommarea extends CobolComplexType {
     public CobolDfhcommarea() {
         super(new CobolComplexType.Builder()
                     .name("Dfhcommarea")
+                    .cobolName("DFHCOMMAREA")
                     .fields(createDfhcommareaFields())
               );
     }
@@ -22,18 +23,21 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > SString =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("S-STRING")
                         .charNum(4)
                         .build();
         fields.put("SString", SString);
 
         CobolStringType < java.nio.ByteBuffer > SBinary =
                 new CobolStringType.Builder < java.nio.ByteBuffer >(java.nio.ByteBuffer.class)
+                        .cobolName("S-BINARY")
                         .charNum(4)
                         .build();
         fields.put("SBinary", SBinary);
 
         CobolBinaryType < Short > SShort =
                 new CobolBinaryType.Builder < Short >(Short.class)
+                        .cobolName("S-SHORT")
                         .signed(true)
                         .totalDigits(4)
                         .build();
@@ -41,12 +45,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Integer > SUshort =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("S-USHORT")
                         .totalDigits(4)
                         .build();
         fields.put("SUshort", SUshort);
 
         CobolBinaryType < Integer > SInt =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("S-INT")
                         .signed(true)
                         .totalDigits(9)
                         .build();
@@ -54,12 +60,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Long > SUint =
                 new CobolBinaryType.Builder < Long >(Long.class)
+                        .cobolName("S-UINT")
                         .totalDigits(9)
                         .build();
         fields.put("SUint", SUint);
 
         CobolPackedDecimalType < Long > SLong =
                 new CobolPackedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("S-LONG")
                         .signed(true)
                         .totalDigits(18)
                         .build();
@@ -67,12 +75,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigInteger > SUlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
+                        .cobolName("S-ULONG")
                         .totalDigits(18)
                         .build();
         fields.put("SUlong", SUlong);
 
         CobolPackedDecimalType < java.math.BigInteger > SXlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
+                        .cobolName("S-XLONG")
                         .signed(true)
                         .totalDigits(31)
                         .build();
@@ -80,12 +90,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigInteger > SUxlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
+                        .cobolName("S-UXLONG")
                         .totalDigits(31)
                         .build();
         fields.put("SUxlong", SUxlong);
 
         CobolPackedDecimalType < java.math.BigDecimal > SDec =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("S-DEC")
                         .totalDigits(9)
                         .fractionDigits(2)
                         .build();
@@ -93,16 +105,19 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolFloatType < Float > SFloat =
                 new CobolFloatType.Builder < Float >(Float.class)
+                        .cobolName("S-FLOAT")
                         .build();
         fields.put("SFloat", SFloat);
 
         CobolDoubleType < Double > SDouble =
                 new CobolDoubleType.Builder < Double >(Double.class)
+                        .cobolName("S-DOUBLE")
                         .build();
         fields.put("SDouble", SDouble);
 
         CobolStringType < String > AString =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("A-STRING")
                         .charNum(4)
                         .build();
         CobolArrayType AStringArray = new CobolArrayType.Builder()
@@ -114,6 +129,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < java.nio.ByteBuffer > ABinary =
                 new CobolStringType.Builder < java.nio.ByteBuffer >(java.nio.ByteBuffer.class)
+                        .cobolName("A-BINARY")
                         .charNum(4)
                         .build();
         CobolArrayType ABinaryArray = new CobolArrayType.Builder()
@@ -125,6 +141,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Short > AShort =
                 new CobolBinaryType.Builder < Short >(Short.class)
+                        .cobolName("A-SHORT")
                         .signed(true)
                         .totalDigits(4)
                         .build();
@@ -137,6 +154,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Integer > AUshort =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("A-USHORT")
                         .totalDigits(4)
                         .build();
         CobolArrayType AUshortArray = new CobolArrayType.Builder()
@@ -148,6 +166,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Integer > AInt =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("A-INT")
                         .signed(true)
                         .totalDigits(9)
                         .build();
@@ -160,6 +179,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Long > AUint =
                 new CobolBinaryType.Builder < Long >(Long.class)
+                        .cobolName("A-UINT")
                         .totalDigits(9)
                         .build();
         CobolArrayType AUintArray = new CobolArrayType.Builder()
@@ -171,6 +191,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < Long > ALong =
                 new CobolPackedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("A-LONG")
                         .signed(true)
                         .totalDigits(18)
                         .build();
@@ -183,6 +204,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigInteger > AUlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
+                        .cobolName("A-ULONG")
                         .totalDigits(18)
                         .build();
         CobolArrayType AUlongArray = new CobolArrayType.Builder()
@@ -194,6 +216,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigInteger > AXlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
+                        .cobolName("A-XLONG")
                         .signed(true)
                         .totalDigits(31)
                         .build();
@@ -206,6 +229,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigInteger > AUxlong =
                 new CobolPackedDecimalType.Builder < java.math.BigInteger >(java.math.BigInteger.class)
+                        .cobolName("A-UXLONG")
                         .totalDigits(31)
                         .build();
         CobolArrayType AUxlongArray = new CobolArrayType.Builder()
@@ -217,6 +241,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > ADec =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("A-DEC")
                         .totalDigits(9)
                         .fractionDigits(2)
                         .build();
@@ -229,6 +254,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolFloatType < Float > AFloat =
                 new CobolFloatType.Builder < Float >(Float.class)
+                        .cobolName("A-FLOAT")
                         .build();
         CobolArrayType AFloatArray = new CobolArrayType.Builder()
                         .itemType(AFloat)
@@ -239,6 +265,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolDoubleType < Double > ADouble =
                 new CobolDoubleType.Builder < Double >(Double.class)
+                        .cobolName("A-DOUBLE")
                         .build();
         CobolArrayType ADoubleArray = new CobolArrayType.Builder()
                         .itemType(ADouble)

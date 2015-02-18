@@ -12,6 +12,7 @@ public class CobolFlat02Record extends CobolComplexType {
     public CobolFlat02Record() {
         super(new CobolComplexType.Builder()
                     .name("Flat02Record")
+                    .cobolName("FLAT02-RECORD")
                     .fields(createFlat02RecordFields())
               );
     }
@@ -22,18 +23,21 @@ public class CobolFlat02Record extends CobolComplexType {
 
         CobolZonedDecimalType < Long > comNumber =
                 new CobolZonedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("COM-NUMBER")
                         .totalDigits(6)
                         .build();
         fields.put("comNumber", comNumber);
 
         CobolStringType < String > comName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("COM-NAME")
                         .charNum(20)
                         .build();
         fields.put("comName", comName);
 
         CobolPackedDecimalType < java.math.BigDecimal > comAmount =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-AMOUNT")
                         .totalDigits(7)
                         .fractionDigits(2)
                         .build();
@@ -41,6 +45,7 @@ public class CobolFlat02Record extends CobolComplexType {
 
         CobolBinaryType < Short > comArray =
                 new CobolBinaryType.Builder < Short >(Short.class)
+                        .cobolName("COM-ARRAY")
                         .signed(true)
                         .totalDigits(4)
                         .build();

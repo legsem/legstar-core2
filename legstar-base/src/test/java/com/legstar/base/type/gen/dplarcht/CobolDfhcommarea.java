@@ -12,6 +12,7 @@ public class CobolDfhcommarea extends CobolComplexType {
     public CobolDfhcommarea() {
         super(new CobolComplexType.Builder()
                     .name("Dfhcommarea")
+                    .cobolName("DFHCOMMAREA")
                     .fields(createDfhcommareaFields())
               );
     }
@@ -22,12 +23,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > lsStartwith =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-STARTWITH")
                         .charNum(8)
                         .build();
         fields.put("lsStartwith", lsStartwith);
 
         CobolPackedDecimalType < Long > lsStartwithLen =
                 new CobolPackedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("LS-STARTWITH-LEN")
                         .totalDigits(9)
                         .build();
         fields.put("lsStartwithLen", lsStartwithLen);
@@ -42,6 +45,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Integer > lsRequestType =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("LS-REQUEST-TYPE")
                         .totalDigits(4)
                         .build();
         fields.put("lsRequestType", lsRequestType);
@@ -54,6 +58,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolComplexType lsSearchCriteria = new CobolComplexType.Builder()
                         .name("LsSearchCriteria")
+                        .cobolName("LS-SEARCH-CRITERIA")
                         .fields(createLsSearchCriteriaFields())
                         .build();
         fields.put("lsSearchCriteria", lsSearchCriteria);
@@ -68,18 +73,21 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > lsFileName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-FILE-NAME")
                         .charNum(8)
                         .build();
         fields.put("lsFileName", lsFileName);
 
         CobolStringType < String > lsFileDsname =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-FILE-DSNAME")
                         .charNum(44)
                         .build();
         fields.put("lsFileDsname", lsFileDsname);
 
         CobolStringType < String > lsFileEnablestatus =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-FILE-ENABLESTATUS")
                         .charNum(12)
                         .build();
         fields.put("lsFileEnablestatus", lsFileEnablestatus);
@@ -94,24 +102,28 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > lsProgramName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-PROGRAM-NAME")
                         .charNum(8)
                         .build();
         fields.put("lsProgramName", lsProgramName);
 
         CobolStringType < String > lsProgramType =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-PROGRAM-TYPE")
                         .charNum(12)
                         .build();
         fields.put("lsProgramType", lsProgramType);
 
         CobolStringType < String > lsProgramLanguage =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-PROGRAM-LANGUAGE")
                         .charNum(12)
                         .build();
         fields.put("lsProgramLanguage", lsProgramLanguage);
 
         CobolBinaryType < Integer > lsProgramLength =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("LS-PROGRAM-LENGTH")
                         .signed(true)
                         .totalDigits(9)
                         .build();
@@ -119,6 +131,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Integer > lsProgramUsecount =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("LS-PROGRAM-USECOUNT")
                         .signed(true)
                         .totalDigits(9)
                         .build();
@@ -126,6 +139,7 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > filler113 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(24)
                         .build();
         fields.put("filler113", filler113);
@@ -140,24 +154,28 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > lsTransactionName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-TRANSACTION-NAME")
                         .charNum(8)
                         .build();
         fields.put("lsTransactionName", lsTransactionName);
 
         CobolStringType < String > lsTransactionProgram =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-TRANSACTION-PROGRAM")
                         .charNum(8)
                         .build();
         fields.put("lsTransactionProgram", lsTransactionProgram);
 
         CobolStringType < String > lsTransactionStatus =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-TRANSACTION-STATUS")
                         .charNum(12)
                         .build();
         fields.put("lsTransactionStatus", lsTransactionStatus);
 
         CobolStringType < String > filler119 =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FILLER")
                         .charNum(36)
                         .build();
         fields.put("filler119", filler119);
@@ -186,8 +204,9 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Long > lsItemsCount =
                 new CobolBinaryType.Builder < Long >(Long.class)
+                        .cobolName("LS-ITEMS-COUNT")
                         .totalDigits(9)
-                        .minInclusive(Long.valueOf("1"))
+                        .minInclusive(Long.valueOf("0"))
                         .maxInclusive(Long.valueOf("500"))
                         .odoObject(true)
                         .build();
@@ -195,11 +214,12 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolComplexType lsItemsArray = new CobolComplexType.Builder()
                         .name("LsItemsArray")
+                        .cobolName("LS-ITEMS-ARRAY")
                         .fields(createLsItemsArrayFields())
-                        .dependingOn("lsItemsCount")
                         .build();
         CobolArrayType lsItemsArrayArray = new CobolArrayType.Builder()
                         .itemType(lsItemsArray)
+                        .minOccurs(0)
                         .maxOccurs(500)
                         .dependingOn("lsItemsCount")
                         .build();
@@ -215,12 +235,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolBinaryType < Integer > lsReplyType =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("LS-REPLY-TYPE")
                         .totalDigits(4)
                         .build();
         fields.put("lsReplyType", lsReplyType);
 
         CobolComplexType lsReplyData = new CobolComplexType.Builder()
                         .name("LsReplyData")
+                        .cobolName("LS-REPLY-DATA")
                         .fields(createLsReplyDataFields())
                         .build();
         fields.put("lsReplyData", lsReplyData);
@@ -235,12 +257,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolComplexType lsRequest = new CobolComplexType.Builder()
                         .name("LsRequest")
+                        .cobolName("LS-REQUEST")
                         .fields(createLsRequestFields())
                         .build();
         fields.put("lsRequest", lsRequest);
 
         CobolComplexType lsReply = new CobolComplexType.Builder()
                         .name("LsReply")
+                        .cobolName("LS-REPLY")
                         .fields(createLsReplyFields())
                         .build();
         fields.put("lsReply", lsReply);
@@ -255,12 +279,14 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolStringType < String > lsAllItems =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("LS-ALL-ITEMS")
                         .charNum(4)
                         .build();
         fields.put("lsAllItems", lsAllItems);
 
         CobolZonedDecimalType < Integer > lsMaxItems =
                 new CobolZonedDecimalType.Builder < Integer >(Integer.class)
+                        .cobolName("LS-MAX-ITEMS")
                         .totalDigits(4)
                         .build();
         fields.put("lsMaxItems", lsMaxItems);
@@ -275,18 +301,21 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         CobolComplexType lsFilesData = new CobolComplexType.Builder()
                         .name("LsFilesData")
+                        .cobolName("LS-FILES-DATA")
                         .fields(createLsFilesDataFields())
                         .build();
         fields.put("lsFilesData", lsFilesData);
 
         CobolComplexType lsProgramsData = new CobolComplexType.Builder()
                         .name("LsProgramsData")
+                        .cobolName("LS-PROGRAMS-DATA")
                         .fields(createLsProgramsDataFields())
                         .build();
         fields.put("lsProgramsData", lsProgramsData);
 
         CobolComplexType lsTransactionsData = new CobolComplexType.Builder()
                         .name("LsTransactionsData")
+                        .cobolName("LS-TRANSACTIONS-DATA")
                         .fields(createLsTransactionsDataFields())
                         .build();
         fields.put("lsTransactionsData", lsTransactionsData);

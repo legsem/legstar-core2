@@ -154,7 +154,7 @@ public class Xsd2JaxbGenerator {
             String targetPackageName) throws Xsd2ConverterException {
         try {
             Map < String, String > code = new HashMap < String, String >();
-            for (Entry < String, Xsd2CobolTypesModelBuilder.CompositeTypes > entry : modelBuilder
+            for (Entry < String, Xsd2CobolTypesModelBuilder.RootCompositeType > entry : modelBuilder
                     .build(xmlSchema).entrySet()) {
                 String jaxbWrappersFactoryclassName = entry.getKey()
                         + JAXB_WRAPPER_FACTORY_CLASS_NAME_SUFFIX;

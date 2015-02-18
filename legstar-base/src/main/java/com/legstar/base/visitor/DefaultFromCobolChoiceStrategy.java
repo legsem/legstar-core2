@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
@@ -60,9 +59,8 @@ public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
         } else if (alternative instanceof CobolPrimitiveType) {
             visitor.visit((CobolPrimitiveType < ? >) alternative);
         } else {
-            throw new FromHostException("Invalid alternative "
-                    + alternativeName + " for choice field " + choiceFieldName,
-                    hostData, start);
+            throw new CobolChoiceStrategyException("Invalid alternative "
+                    + alternativeName + " for choice field " + choiceFieldName);
         }
         return visitor.isValid();
 

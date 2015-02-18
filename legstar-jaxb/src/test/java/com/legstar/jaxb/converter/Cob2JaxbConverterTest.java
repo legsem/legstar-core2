@@ -6,7 +6,7 @@ import legstar.test.jaxb.flat01.Flat01Record;
 
 import org.junit.Test;
 
-import com.legstar.base.FromHostResult;
+import com.legstar.base.converter.FromHostResult;
 import com.legstar.base.utils.HexUtils;
 import com.legstar.jaxb.converter.gen.flat01.Flat01RecordJaxb;
 

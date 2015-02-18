@@ -1,7 +1,5 @@
 package com.legstar.base.converter;
 
-import com.legstar.base.FromHostResult;
-
 /**
  * Converts mainframe data to some kind of object.
  *

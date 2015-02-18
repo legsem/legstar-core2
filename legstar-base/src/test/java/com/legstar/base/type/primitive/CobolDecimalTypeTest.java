@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.primitive.CobolDecimalType;
@@ -54,34 +53,42 @@ public class CobolDecimalTypeTest {
     public void testDecimalInRange() {
         CobolDecimalType < BigDecimal > cobolDecimal = getCobolDecimal(false,
                 5, 0, true, BigDecimal.valueOf(-5), 3);
-        assertFalse(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertFalse(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true, BigDecimal.ZERO, 3);
-        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true,
                 BigDecimal.valueOf(250.35), 3);
-        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true,
                 BigDecimal.valueOf(99999), 3);
-        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(false, 5, 0, true,
                 BigDecimal.valueOf(100000), 3);
-        assertFalse(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertFalse(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(true, 5, 0, true,
                 BigDecimal.valueOf(-250.54), 3);
-        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(true, 5, 0, true,
                 BigDecimal.valueOf(-99999), 3);
-        assertTrue(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertTrue(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
 
         cobolDecimal = getCobolDecimal(true, 5, 0, true,
                 BigDecimal.valueOf(-100000), 3);
-        assertFalse(cobolDecimal.isValid(cobolContext, HexUtils.decodeHex("c1c1c1"), 0));
+        assertFalse(cobolDecimal.isValid(cobolContext,
+                HexUtils.decodeHex("c1c1c1"), 0));
     }
 
     public CobolDecimalType < BigDecimal > getCobolDecimal(boolean signed,
@@ -95,9 +102,9 @@ public class CobolDecimalTypeTest {
             final BigDecimal value, final int bytesLen) {
 
         return new MyCobolDecimalType.Builder(BigDecimal.class)
-                .signed(signed).totalDigits(totalDigits).fractionDigits(fractionDigits)
-                .valid(isValid).fromHost(value).bytesLen(bytesLen)
-                .build();
+                .cobolName("DECTEST").signed(signed).totalDigits(totalDigits)
+                .fractionDigits(fractionDigits).valid(isValid).fromHost(value)
+                .bytesLen(bytesLen).build();
     }
 
     private static class MyCobolDecimalType extends
@@ -154,14 +161,15 @@ public class CobolDecimalTypeTest {
             bytesLen = builder.bytesLen;
         }
 
-        protected boolean isValidInternal(Class <BigDecimal> javaClass, CobolContext cobolContext,
-                byte[] hostData, int start) {
+        protected boolean isValidInternal(Class < BigDecimal > javaClass,
+                CobolContext cobolContext, byte[] hostData, int start) {
             return valid;
         }
 
-        protected BigDecimal fromHostInternal(Class <BigDecimal> javaClass, CobolContext cobolContext,
-                byte[] hostData, int start) throws FromHostException {
-            return fromHost;
+        protected FromHostPrimitiveResult < BigDecimal > fromHostInternal(
+                Class < BigDecimal > javaClass, CobolContext cobolContext,
+                byte[] hostData, int start) {
+            return new FromHostPrimitiveResult < BigDecimal >(fromHost);
         }
 
         public int getBytesLen() {

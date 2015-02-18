@@ -25,8 +25,8 @@ public class CobolPackedDecimalTypeTest {
     @Test
     public void testConstructor() {
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(
-                    BigDecimal.class).signed(true).totalDigits(-1)
+            new CobolPackedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .cobolName("PACKEDTEST").signed(true).totalDigits(-1)
                     .fractionDigits(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
@@ -34,16 +34,16 @@ public class CobolPackedDecimalTypeTest {
                     e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(
-                    BigDecimal.class).signed(true).totalDigits(0)
+            new CobolPackedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .cobolName("PACKEDTEST").signed(true).totalDigits(0)
                     .fractionDigits(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Total digits cannot be zero", e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(
-                    BigDecimal.class).signed(true).totalDigits(1)
+            new CobolPackedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .cobolName("PACKEDTEST").signed(true).totalDigits(1)
                     .fractionDigits(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
@@ -51,8 +51,8 @@ public class CobolPackedDecimalTypeTest {
                     e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(
-                    BigDecimal.class).signed(true).totalDigits(45)
+            new CobolPackedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .cobolName("PACKEDTEST").signed(true).totalDigits(45)
                     .fractionDigits(-1).build();
             fail();
         } catch (IllegalArgumentException e) {
@@ -60,8 +60,8 @@ public class CobolPackedDecimalTypeTest {
                     e.getMessage());
         }
         try {
-            new CobolPackedDecimalType.Builder < BigDecimal >(
-                    BigDecimal.class).signed(true).totalDigits(2)
+            new CobolPackedDecimalType.Builder < BigDecimal >(BigDecimal.class)
+                    .cobolName("PACKEDTEST").signed(true).totalDigits(2)
                     .fractionDigits(3).build();
             fail();
         } catch (IllegalArgumentException e) {
@@ -74,20 +74,20 @@ public class CobolPackedDecimalTypeTest {
     @Test
     public void testBytesLength() {
         assertEquals(1, new CobolPackedDecimalType.Builder < BigDecimal >(
-                 BigDecimal.class).signed(true).totalDigits(1)
-                .fractionDigits(0).build().getMaxBytesLen());
+                BigDecimal.class).cobolName("PACKEDTEST").signed(true)
+                .totalDigits(1).fractionDigits(0).build().getMaxBytesLen());
         assertEquals(2, new CobolPackedDecimalType.Builder < BigDecimal >(
-                 BigDecimal.class).signed(true).totalDigits(2)
-                .fractionDigits(0).build().getMaxBytesLen());
+                BigDecimal.class).cobolName("PACKEDTEST").signed(true)
+                .totalDigits(2).fractionDigits(0).build().getMaxBytesLen());
         assertEquals(3, new CobolPackedDecimalType.Builder < BigDecimal >(
-                 BigDecimal.class).signed(true).totalDigits(5)
-                .fractionDigits(0).build().getMaxBytesLen());
+                BigDecimal.class).cobolName("PACKEDTEST").signed(true)
+                .totalDigits(5).fractionDigits(0).build().getMaxBytesLen());
         assertEquals(4, new CobolPackedDecimalType.Builder < BigDecimal >(
-                 BigDecimal.class).signed(true).totalDigits(6)
-                .fractionDigits(0).build().getMaxBytesLen());
+                BigDecimal.class).cobolName("PACKEDTEST").signed(true)
+                .totalDigits(6).fractionDigits(0).build().getMaxBytesLen());
         assertEquals(4, new CobolPackedDecimalType.Builder < BigDecimal >(
-                 BigDecimal.class).signed(true).totalDigits(7)
-                .fractionDigits(0).build().getMaxBytesLen());
+                BigDecimal.class).cobolName("PACKEDTEST").signed(true)
+                .totalDigits(7).fractionDigits(0).build().getMaxBytesLen());
     }
 
     @Test
@@ -130,16 +130,13 @@ public class CobolPackedDecimalTypeTest {
 
     @Test
     public void testFromHostDecimalVariousJavaTypes() {
-        try {
-            getValue(Short.class, false, 11, 5, "45679000675f");
-            fail();
-        } catch (Exception e) {
-            assertEquals(
-                    "Host 6 bytes numeric converts to '456790.00675' which is not a valid java.lang.Short." +
-                    " Position is 0." +
-                    " Data at position 0x->45679000675F",
-                    e.getMessage());
-        }
+        FromHostPrimitiveResult < Short > result = getResult(Short.class,
+                false, 11, 5, "45679000675f");
+        assertFalse(result.isSuccess());
+        assertEquals(
+                "Host 6 bytes numeric converts to '456790.00675' which is not a valid java.lang.Short."
+                + " Error at offset 0 : [0x45679000675F]",
+                result.getErrorMessage());
         assertEquals("456790",
                 getValue(Integer.class, false, 11, 5, "45679000675f"));
         assertEquals("456790",
@@ -155,7 +152,7 @@ public class CobolPackedDecimalTypeTest {
             int fractionDigits, String hexHostData) {
 
         CobolPackedDecimalType < BigDecimal > type = new CobolPackedDecimalType.Builder < BigDecimal >(
-                 BigDecimal.class).signed(signed)
+                BigDecimal.class).cobolName("PACKEDTEST").signed(signed)
                 .totalDigits(totalDigits).fractionDigits(fractionDigits)
                 .build();
 
@@ -171,13 +168,21 @@ public class CobolPackedDecimalTypeTest {
     private <T extends Number> String getValue(Class < T > clazz,
             boolean signed, int totalDigits, int fractionDigits,
             String hexHostData) {
+        return getResult(clazz, signed, totalDigits, fractionDigits,
+                hexHostData).getValue().toString();
+
+    }
+
+    private <T extends Number> FromHostPrimitiveResult < T > getResult(
+            Class < T > clazz, boolean signed, int totalDigits,
+            int fractionDigits, String hexHostData) {
 
         CobolPackedDecimalType < T > type = new CobolPackedDecimalType.Builder < T >(
-                 clazz).signed(signed).totalDigits(totalDigits)
-                .fractionDigits(fractionDigits).build();
+                clazz).cobolName("PACKEDTEST").signed(signed)
+                .totalDigits(totalDigits).fractionDigits(fractionDigits)
+                .build();
 
-        return type.fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0).getValue()
-                .toString();
+        return type.fromHost(cobolContext, HexUtils.decodeHex(hexHostData), 0);
 
     }
 }

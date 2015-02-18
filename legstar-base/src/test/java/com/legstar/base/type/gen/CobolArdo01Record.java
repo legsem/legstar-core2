@@ -12,6 +12,7 @@ public class CobolArdo01Record extends CobolComplexType {
     public CobolArdo01Record() {
         super(new CobolComplexType.Builder()
                     .name("Ardo01Record")
+                    .cobolName("ARDO01-RECORD")
                     .fields(createArdo01RecordFields())
               );
     }
@@ -22,18 +23,21 @@ public class CobolArdo01Record extends CobolComplexType {
 
         CobolZonedDecimalType < Long > comNumber =
                 new CobolZonedDecimalType.Builder < Long >(Long.class)
+                        .cobolName("COM-NUMBER")
                         .totalDigits(6)
                         .build();
         fields.put("comNumber", comNumber);
 
         CobolStringType < String > comName =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("COM-NAME")
                         .charNum(20)
                         .build();
         fields.put("comName", comName);
 
         CobolBinaryType < Integer > comNbr =
                 new CobolBinaryType.Builder < Integer >(Integer.class)
+                        .cobolName("COM-NBR")
                         .totalDigits(4)
                         .minInclusive(Integer.valueOf("0"))
                         .maxInclusive(Integer.valueOf("5"))
@@ -43,12 +47,14 @@ public class CobolArdo01Record extends CobolComplexType {
 
         CobolPackedDecimalType < java.math.BigDecimal > comArray =
                 new CobolPackedDecimalType.Builder < java.math.BigDecimal >(java.math.BigDecimal.class)
+                        .cobolName("COM-ARRAY")
                         .signed(true)
                         .totalDigits(15)
                         .fractionDigits(2)
                         .build();
         CobolArrayType comArrayArray = new CobolArrayType.Builder()
                         .itemType(comArray)
+                        .minOccurs(0)
                         .maxOccurs(5)
                         .dependingOn("comNbr")
                         .build();

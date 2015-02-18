@@ -2,7 +2,6 @@ package com.legstar.base.converter;
 
 import java.util.Set;
 
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.composite.CobolComplexType;
@@ -40,7 +39,7 @@ public abstract class AbstractCob2ObjectConverter<T> implements
      */
     private final Set < String > customVariables;
 
-    public FromHostResult < T > convert(byte[] hostData) {
+    public FromHostResult < T > convert(byte[] hostData)  {
         return convert(hostData, 0);
     }
 

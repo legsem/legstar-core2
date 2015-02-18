@@ -1,7 +1,5 @@
 package com.legstar.base.type.primitive;
 
-import com.legstar.base.FromHostException;
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolOptionalType;
 import com.legstar.base.type.CobolType;
@@ -15,12 +13,18 @@ import com.legstar.base.visitor.CobolVisitor;
  * 
  * @param <T> the underlying java type
  */
-public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOptionalType {
+public abstract class CobolPrimitiveType<T> implements CobolType,
+        CobolOptionalType {
 
     /**
      * The target java type.
      */
     private final Class < T > javaClass;
+
+    /**
+     * The original COBOL name of this type.
+     */
+    private final String cobolName;
 
     /**
      * This type's value gives the runtime size of a variable size array.
@@ -61,7 +65,8 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
      */
-    public abstract boolean isValid(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start);
+    public abstract boolean isValid(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start);
 
     /**
      * Convert mainframe data into a Java object.
@@ -70,10 +75,9 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return the mainframe value as a java object
-     * @throws FromHostException if conversion fails
      */
-    public FromHostResult < T > fromHost(CobolContext cobolContext, byte[] hostData, int start)
-            throws FromHostException {
+    public FromHostPrimitiveResult < T > fromHost(CobolContext cobolContext,
+            byte[] hostData, int start) {
         return fromHost(javaClass, cobolContext, hostData, start);
     }
 
@@ -102,11 +106,11 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
      * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
-     * @return the mainframe value as a java object
-     * @throws FromHostException if conversion fails
+     * @return the conversion results, including the mainframe value as a java
+     *         object if conversion succeeded
      */
-    public abstract FromHostResult < T > fromHost(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start)
-            throws FromHostException;
+    public abstract FromHostPrimitiveResult < T > fromHost(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start);
 
     /** {@inheritDoc} */
     public void accept(CobolVisitor visitor) {
@@ -115,6 +119,10 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
 
     public Class < T > getJavaClass() {
         return javaClass;
+    }
+
+    public String getCobolName() {
+        return cobolName;
     }
 
     public boolean isOdoObject() {
@@ -138,12 +146,18 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
         protected final Class < T > javaClass;
 
         // Optional
+        protected String cobolName;
         protected boolean odoObject = false;
         protected boolean customVariable = false;
         private String dependingOn;
 
         public Builder(Class < T > javaClass) {
             this.javaClass = javaClass;
+        }
+
+        public B cobolName(String value) {
+            cobolName = value;
+            return self();
         }
 
         public B odoObject(boolean value) {
@@ -173,7 +187,11 @@ public abstract class CobolPrimitiveType<T> extends CobolType implements CobolOp
         odoObject = builder.odoObject;
         dependingOn = builder.dependingOn;
         customVariable = builder.customVariable;
-
+        if (builder.cobolName == null) {
+            throw new IllegalArgumentException(
+                    "You must provide a COBOL name for this type");
+        }
+        cobolName = builder.cobolName;
     }
 
 }

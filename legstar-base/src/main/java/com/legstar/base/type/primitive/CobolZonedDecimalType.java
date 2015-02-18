@@ -1,13 +1,13 @@
 package com.legstar.base.type.primitive;
 
-import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 
 /**
  * A Zoned Decimal (PIC S9(n)v9(m) DISPLAY).
  * 
  */
-public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < T > {
+public class CobolZonedDecimalType<T extends Number> extends
+        CobolDecimalType < T > {
 
     // Zoned decimals might have up to 31 digits (with arith(extend))
     public static final int MAX_TOTAL_DIGITS = 31;
@@ -17,7 +17,8 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     private final boolean signSeparate;
 
     /** {@inheritDoc} */
-    public boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start) {
+    public boolean isValidInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
         int length = start + getBytesLen();
 
@@ -49,7 +50,8 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
             }
             if (isSigned()) {
                 if (nibbles[0] != cobolContext.getPositiveSignNibbleValue()
-                        && nibbles[0] != cobolContext.getNegativeSignNibbleValue()) {
+                        && nibbles[0] != cobolContext
+                                .getNegativeSignNibbleValue()) {
                     return false;
                 }
             } else {
@@ -63,33 +65,46 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(Class < T > javaClass, CobolContext cobolContext, byte[] hostData, int start) {
+    protected FromHostPrimitiveResult < T > fromHostInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
-        int length = start + getBytesLen();
+        int bytesLength = start + getBytesLen();
 
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
 
-        for (int i = start + (signLeading ? 1 : 0); i < length
+        for (int i = start + (signLeading ? 1 : 0); i < bytesLength
                 - (signLeading ? 0 : 1); i++) {
             setNibbles(nibbles, hostData[i]);
-            sb.append(getDigit(nibbles[1], hostData, start, i));
+            char digit1 = getDigit(nibbles[1]);
+            if (digit1 == '\0') {
+                return new FromHostPrimitiveResult < T >(
+                        "Second nibble is not a digit", hostData, start, i, bytesLength);
+            }
+            sb.append(digit1);
         }
 
-        int signPos = signLeading ? start : length - 1;
+        int signPos = signLeading ? start : bytesLength - 1;
         if (signSeparate) {
             int separateSign = hostData[signPos] & 0xFF;
             if (separateSign == cobolContext.getHostMinusSign()) {
                 sb.insert(0, "-");
             } else if (separateSign != cobolContext.getHostPlusSign()) {
-                throw new FromHostException("Found character "
+                return new FromHostPrimitiveResult < T >("Found character "
                         + Integer.toHexString(separateSign)
-                        + " where a sign was expected", hostData, signPos);
+                        + " where a sign was expected",
+                        hostData, start, signPos, bytesLength);
             }
         } else {
             setNibbles(nibbles, hostData[signPos]);
-            sb.append(getDigit(nibbles[1], hostData, start, signPos));
-            if (isSigned() && nibbles[0] == cobolContext.getNegativeSignNibbleValue()) {
+            char digit1 = getDigit(nibbles[1]);
+            if (digit1 == '\0') {
+                return new FromHostPrimitiveResult < T >(
+                        "Second nibble is not a digit", hostData, start, signPos, bytesLength);
+            }
+            sb.append(digit1);
+            if (isSigned()
+                    && nibbles[0] == cobolContext.getNegativeSignNibbleValue()) {
                 sb.insert(0, "-");
             }
         }
@@ -99,11 +114,13 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
         }
 
         try {
-            return valueOf(javaClass, sb.toString());
+            T value = valueOf(javaClass, sb.toString());
+            return new FromHostPrimitiveResult < T >(value);
         } catch (NumberFormatException e) {
-            throw new FromHostException("Host " + getMaxBytesLen()
+            return new FromHostPrimitiveResult < T >("Host " + getMaxBytesLen()
                     + " bytes numeric converts to '" + sb.toString()
-                    + "' which is not a valid " + javaClass.getName(), hostData, start);
+                    + "' which is not a valid " + javaClass.getName(),
+                    hostData, start, bytesLength);
         }
     }
 
@@ -115,7 +132,7 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     public static int getBytesLen(int totalDigits, boolean signSeparate) {
         return totalDigits + (signSeparate ? 1 : 0);
     }
- 
+
     public boolean isSignLeading() {
         return signLeading;
     }
@@ -124,11 +141,11 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
         return signSeparate;
     }
 
-    
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
-    public static class Builder<T extends Number> extends CobolDecimalType.Builder<T, Builder < T >> {
+    public static class Builder<T extends Number> extends
+            CobolDecimalType.Builder < T, Builder < T >> {
 
         private boolean signLeading;
         private boolean signSeparate;
@@ -147,13 +164,13 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
             return this;
         }
 
-       public CobolZonedDecimalType < T > build() {
+        public CobolZonedDecimalType < T > build() {
             return new CobolZonedDecimalType < T >(this);
         }
 
-       protected Builder < T > self() {
-           return this;
-       }
+        protected Builder < T > self() {
+            return this;
+        }
 
     }
 
@@ -161,7 +178,7 @@ public class CobolZonedDecimalType<T extends Number> extends CobolDecimalType < 
     // Constructor
     // -----------------------------------------------------------------------------
     private CobolZonedDecimalType(Builder < T > builder) {
-        
+
         super(builder);
 
         if (builder.signSeparate && !isSigned()) {

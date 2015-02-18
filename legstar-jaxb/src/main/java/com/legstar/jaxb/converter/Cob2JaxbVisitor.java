@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.legstar.base.ConversionException;
-import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolArrayType;
@@ -13,6 +11,7 @@ import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
 import com.legstar.base.visitor.FromCobolChoiceStrategy;
+import com.legstar.base.visitor.FromCobolException;
 import com.legstar.base.visitor.FromCobolVisitor;
 
 /**
@@ -68,7 +67,7 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     // Visit methods
     // -----------------------------------------------------------------------------
-    public void visit(CobolComplexType type) throws ConversionException {
+    public void visit(CobolComplexType type) {
         final JaxbWrapper < ? > complexJaxbWrapper = jaxbWrapperFactory
                 .create(type);
         super.visitComplexType(type, new JaxbComplexTypeChildHandler(
@@ -76,17 +75,17 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
         lastObject = complexJaxbWrapper;
     }
 
-    public void visit(CobolArrayType type) throws ConversionException {
+    public void visit(CobolArrayType type) {
         final List < Object > list = new ArrayList < Object >();
         super.visitCobolArrayType(type, new JaxbArrayTypeItemHandler(list));
         lastObject = list;
     }
 
-    public void visit(CobolChoiceType type) throws ConversionException {
+    public void visit(CobolChoiceType type) {
         super.visitCobolChoiceType(type, choiceTypeAlternativeHandler);
     }
 
-    public void visit(CobolPrimitiveType < ? > type) throws ConversionException {
+    public void visit(CobolPrimitiveType < ? > type) {
         super.visitCobolPrimitiveType(type, primitiveTypeHandler);
     }
 
@@ -171,9 +170,9 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
         if (clazz.isAssignableFrom(lastObject.getClass())) {
             return clazz.cast(lastObject);
         } else {
-            throw new FromHostException("Object of class "
+            throw new FromCobolException("Object of class "
                     + lastObject.getClass() + " is not assignable from "
-                    + clazz, getHostData(), getLastPos());
+                    + clazz, getCurFieldFullCobolName());
         }
     };
 

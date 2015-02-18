@@ -1,8 +1,8 @@
 package com.legstar.jaxb.converter;
 
 
-import com.legstar.base.FromHostResult;
 import com.legstar.base.converter.AbstractCob2ObjectConverter;
+import com.legstar.base.converter.FromHostResult;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.jaxb.converter.Cob2JaxbVisitor;
 import com.legstar.jaxb.converter.JaxbWrapper;

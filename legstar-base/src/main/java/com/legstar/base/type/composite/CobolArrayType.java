@@ -66,6 +66,15 @@ public class CobolArrayType extends CobolCompositeType {
     public long getMaxBytesLen() {
         return maxBytesLen;
     }
+    
+    /**
+     *  {@inheritDoc} 
+     *  <p/>
+     *  Arrays are wrappers without a name in COBOL.
+     */
+    public String getCobolName() {
+        return null;
+    }
 
     // -----------------------------------------------------------------------------
     // Builder section

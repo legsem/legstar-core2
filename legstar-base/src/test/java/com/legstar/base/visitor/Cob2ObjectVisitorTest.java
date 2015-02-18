@@ -9,7 +9,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.legstar.base.ConversionException;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.CobolType;
@@ -48,9 +47,11 @@ public class Cob2ObjectVisitorTest {
                     0);
             visitor.visit(new CobolFlat01Record());
             fail();
-        } catch (ConversionException e) {
+        } catch (FromCobolException e) {
             assertEquals(
-                    "Nibble is not a digit. Position is 0. Data at position 0x->ABF0F1F0F4F3D5C1D4C5F0F0F0F0F4F3",
+                    "Second nibble is not a digit."
+                    + " Error at offset 0 : [0xABF0F1F0F4F3<-D5C1D4C5F0F0F0F0F4F3404040404040]."
+                    + " COBOL variable path: FLAT01-RECORD/COM-NUMBER.",
                     e.getMessage());
         }
 
@@ -78,11 +79,11 @@ public class Cob2ObjectVisitorTest {
                     0);
             visitor.visit(new CobolFlat02Record());
             fail();
-        } catch (ConversionException e) {
+        } catch (FromCobolException e) {
             assertEquals(
                     "Value 3871 is outside the required range [0, 99]."
-                            + " Position is 32."
-                            + " Data at position 0x404040404040404040400310000F003E->0F1F0014000F000C",
+                    + " Error at offset 32 : [0x404040404040404040400310000F003E->0F1F<-0014000F000C]."
+                    + " COBOL variable path: FLAT02-RECORD[1]/COM-ARRAY.",
                     e.getMessage());
         }
 
@@ -109,11 +110,11 @@ public class Cob2ObjectVisitorTest {
                     0);
             visitor.visit(new CobolStru01Record());
             fail();
-        } catch (ConversionException e) {
+        } catch (FromCobolException e) {
             assertEquals(
-                    "Value 574 is outside the required range [0, 99]." +
-                    " Position is 30." +
-                    " Data at position 0xF6F2404040404040404040400310000F->023EC1C2",
+                    "Value 574 is outside the required range [0, 99]."
+                    + " Error at offset 30 : [0xF6F2404040404040404040400310000F->023E<-C1C2]."
+                    + " COBOL variable path: STRU01-RECORD/COM-SUB-RECORD/COM-ITEM1.",
                     e.getMessage());
         }
 
@@ -140,11 +141,11 @@ public class Cob2ObjectVisitorTest {
                     0);
             visitor.visit(new CobolStru03Record());
             fail();
-        } catch (ConversionException e) {
+        } catch (FromCobolException e) {
             assertEquals(
-                    "Value 3855 is outside the required range [0, 99]." +
-                    " Position is 42." +
-                    " Data at position 0x0310000F003EC1C2001FC1C20014C1C2->0F0FC1C2000CC1C2",
+                    "Value 3855 is outside the required range [0, 99]."
+                    + " Error at offset 42 : [0x0310000F003EC1C2001FC1C20014C1C2->0F0F<-C1C2000CC1C2]."
+                    + " COBOL variable path: STRU03-RECORD[3]/COM-ARRAY/COM-ITEM1.",
                     e.getMessage());
         }
 

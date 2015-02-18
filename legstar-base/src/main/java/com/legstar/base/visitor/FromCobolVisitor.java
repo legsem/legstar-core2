@@ -1,13 +1,12 @@
 package com.legstar.base.visitor;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 
-import com.legstar.base.ConversionException;
-import com.legstar.base.FromHostException;
-import com.legstar.base.FromHostResult;
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolOptionalType;
 import com.legstar.base.type.CobolType;
@@ -15,6 +14,8 @@ import com.legstar.base.type.composite.CobolArrayType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
+import com.legstar.base.type.primitive.FromHostPrimitiveResult;
+import com.legstar.base.utils.StringUtils;
 
 /**
  * Generic visitor using mainframe data as input and producing some kind of
@@ -86,13 +87,18 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * in the incoming mainframe data buffer that was processed.
      */
     private int lastPos;
-    
+
     /**
      * Items following choices must start at fixed positions even if the chosen
      * alternative is shorter than the largest one. This situation results in an
      * extra offset that will be used to position such items.
      */
     private int extraOffset;
+
+    /**
+     * Current COBOL type name visited relative to its parents.
+     */
+    private Stack < String > cobolNamesStack;
 
     // -----------------------------------------------------------------------------
     // Constructors
@@ -126,6 +132,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         this.customChoiceStrategy = customChoiceStrategy;
         this.defaultChoiceStrategy = new DefaultFromCobolChoiceStrategy(
                 cobolContext);
+        this.cobolNamesStack = new Stack < String >();
     }
 
     // -----------------------------------------------------------------------------
@@ -143,6 +150,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public void visitComplexType(CobolComplexType type,
             ComplexTypeChildHandler callback) {
 
+        cobolNamesStack.push(type.getCobolName());
         int index = 0;
         for (Entry < String, CobolType > child : type.getFields().entrySet()) {
             CobolType childType = child.getValue();
@@ -156,12 +164,15 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             if (!callback.preVisit(childName, index, childType)) {
                 break;
             }
+
             childType.accept(this);
+
             if (!callback.postVisit(childName, index, childType)) {
                 break;
             }
             index++;
         }
+        cobolNamesStack.pop();
     }
 
     /**
@@ -180,7 +191,9 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             if (!callback.preVisit(i, type)) {
                 break;
             }
+            cobolNamesStack.push("[" + i + "]");
             type.getItemType().accept(this);
+            cobolNamesStack.pop();
             if (!callback.postVisit(i, type)) {
                 break;
             }
@@ -195,10 +208,9 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * @param choiceType the choice type
      * @param callback a function that is invoked after the selected alternative
      *            has been visited
-     * @throws ConversionException
      */
     public void visitCobolChoiceType(CobolChoiceType choiceType,
-            ChoiceTypeAlternativeHandler callback) throws ConversionException {
+            ChoiceTypeAlternativeHandler callback) {
 
         CobolType alternative = null;
 
@@ -211,35 +223,38 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
         // If user strategy did not succeed, try the default one
         if (alternative == null) {
-            alternative = defaultChoiceStrategy.choose(curFieldName, choiceType,
-                    getVariables(), getHostData(), getLastPos());
+            alternative = defaultChoiceStrategy.choose(curFieldName,
+                    choiceType, getVariables(), getHostData(), getLastPos());
         }
 
         // All attempts have failed
         if (alternative == null) {
-            throw new FromHostException(
+            throw new CobolChoiceStrategyException(
                     "Unable to select an alternative for choice "
-                            + curFieldName, getHostData(), getLastPos());
+                            + curFieldName + ", path: "
+                            + getCurFieldFullCobolName());
         }
 
         // Make sure the strategy is returning a known alternative
         String alternativeName = choiceType.getAlternativeName(alternative);
         if (alternativeName == null) {
-            throw new FromHostException(
+            throw new CobolChoiceStrategyException(
                     "Alternative does not correspond to a known alternative for choice "
-                            + curFieldName, getHostData(), getLastPos());
+                            + curFieldName + ", path: "
+                            + getCurFieldFullCobolName());
         }
 
         callback.preVisit(alternativeName,
                 choiceType.getAlternativeIndex(alternativeName), alternative);
 
         alternative.accept(this);
-        
+
         // If the alternative chosen is not the largest one, add the difference
         // to an extra offset that will be used if a fixed position item follows
         // this choice
         if (alternative.getMaxBytesLen() < choiceType.getMaxBytesLen()) {
-            extraOffset += choiceType.getMaxBytesLen() - alternative.getMaxBytesLen();
+            extraOffset += choiceType.getMaxBytesLen()
+                    - alternative.getMaxBytesLen();
         }
 
         callback.postVisit(alternativeName,
@@ -256,21 +271,27 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * @param type the primitive type
      * @param callback a function that is invoked after the primitive type has
      *            been visited
-     * @throws ConversionException
+     * @throws FromCobolException
      */
     public void visitCobolPrimitiveType(CobolPrimitiveType < ? > type,
-            PrimitiveTypeHandler callback) throws ConversionException {
+            PrimitiveTypeHandler callback) throws FromCobolException {
 
         if (extraOffset > 0) {
             this.lastPos += extraOffset;
             extraOffset = 0;
         }
 
+        cobolNamesStack.push(type.getCobolName());
         callback.preVisit(type);
 
-        FromHostResult < ? > result = type.fromHost(cobolContext,
+        FromHostPrimitiveResult < ? > result = type.fromHost(cobolContext,
                 getHostData(), getLastPos());
-        this.lastPos += result.getBytesProcessed();
+        if (result.isSuccess()) {
+            this.lastPos += type.getBytesLen();
+        } else {
+            throw new FromCobolException(result.getErrorMessage(),
+                    getCurFieldFullCobolName());
+        }
 
         // Keep those values that might be needed later
         if (type.isOdoObject() || isCustomVariable(type, curFieldName)) {
@@ -278,6 +299,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         }
 
         callback.postVisit(type, result.getValue());
+        cobolNamesStack.pop();
 
     }
 
@@ -381,7 +403,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
          * 
          * @param type the primitive type
          */
-        void preVisit(CobolPrimitiveType<?> type);
+        void preVisit(CobolPrimitiveType < ? > type);
 
         /**
          * Notify caller that a primitive type was visited
@@ -389,13 +411,13 @@ public abstract class FromCobolVisitor implements CobolVisitor {
          * @param type the primitive type
          * @param value the primitive type value converted from mainframe data
          */
-        void postVisit(CobolPrimitiveType<?> type, Object value);
+        void postVisit(CobolPrimitiveType < ? > type, Object value);
     }
 
     // -----------------------------------------------------------------------------
     // Internal methods
     // -----------------------------------------------------------------------------
-    
+
     /**
      * Retrieve the size of an array.
      * <p/>
@@ -412,7 +434,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             return type.getMaxOccurs();
         }
     }
-    
+
     /**
      * Check if an optional type is present.
      * 
@@ -425,12 +447,12 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         }
         return true;
     }
-    
+
     /**
      * Retrieve the ODO object value for a variable size array.
      * <p/>
-     * The ODO object has usually been populated before this method in invoked in
-     * which case, its value has been stored as a variable.
+     * The ODO object has usually been populated before this method in invoked
+     * in which case, its value has been stored as a variable.
      * <p/>
      * If we can't find the ODO object in the variables hash, this means it was
      * not populated. This is possible in case the ODO object is in a REDEFINE
@@ -446,9 +468,10 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         } else if (odoValue instanceof Number) {
             return ((Number) odoValue).intValue();
         } else {
-            throw new FromHostException("The value " + odoValue.toString()
-                    + " for ODOObject " + dependingOn + " si not numeric.",
-                    getHostData(), getLastPos());
+            throw new CobolODOResolutionException("The value "
+                    + odoValue.toString() + " for ODOObject " + dependingOn
+                    + " si not numeric" + ". Path: "
+                    + getCurFieldFullCobolName());
         }
     }
 
@@ -511,7 +534,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     public Map < String, Object > getVariables() {
         return variables;
     }
-    
+
     /**
      * A primitive type is a custom variable if it has been marked as so via one
      * of the available mechanisms or is needed to make choice decisions.
@@ -546,10 +569,22 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     }
 
     /**
-     * @param curFieldName name of field being visited
+     * @return the name of the current field with ancestor path
      */
-    public void setCurFieldName(String curFieldName) {
-        this.curFieldName = curFieldName;
+    public String getCurFieldFullCobolName() {
+        StringBuffer sb = new StringBuffer();
+        Iterator < String > it = cobolNamesStack.iterator();
+        while (it.hasNext()) {
+            String cobolName = it.next();
+            if (StringUtils.isBlank(cobolName)) {
+                continue;
+            }
+            if (sb.length() > 0 && !cobolName.startsWith("[")) {
+                sb.append("/");
+            }
+            sb.append(cobolName);
+        }
+        return sb.toString();
     }
 
     public CobolContext getCobolContext() {

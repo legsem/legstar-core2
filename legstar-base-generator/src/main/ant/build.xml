@@ -1,4 +1,4 @@
-<project name="cob2jaxb-sample" default="run" basedir=".">
+<project name="cob2java-sample" default="run" basedir=".">
 
     <!-- Starting from COBOL copybooks in cobdir                    -->
     <!-- Generate java conversion classes in gendir                 -->

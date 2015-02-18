@@ -86,6 +86,15 @@ public class CobolChoiceType extends CobolCompositeType {
         return maxBytesLen;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * Choices are wrappers without a name in COBOL.
+     */
+    public String getCobolName() {
+        return null;
+    }
+
     // -----------------------------------------------------------------------------
     // Builder section
     // -----------------------------------------------------------------------------
@@ -132,6 +141,5 @@ public class CobolChoiceType extends CobolCompositeType {
         maxBytesLen = maxBl;
         minBytesLen = minBl;
     }
-
 
 }

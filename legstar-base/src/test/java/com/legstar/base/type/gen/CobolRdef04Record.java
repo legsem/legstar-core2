@@ -12,6 +12,7 @@ public class CobolRdef04Record extends CobolComplexType {
     public CobolRdef04Record() {
         super(new CobolComplexType.Builder()
                     .name("Rdef04Record")
+                    .cobolName("RDEF04-RECORD")
                     .fields(createRdef04RecordFields())
               );
     }
@@ -42,6 +43,7 @@ public class CobolRdef04Record extends CobolComplexType {
 
         CobolStringType < String > footer =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("FOOTER")
                         .charNum(1)
                         .build();
         fields.put("footer", footer);
@@ -56,12 +58,14 @@ public class CobolRdef04Record extends CobolComplexType {
 
         CobolStringType < String > innerRedefinesLong =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("INNER-REDEFINES-LONG")
                         .charNum(5)
                         .build();
         fields.put("innerRedefinesLong", innerRedefinesLong);
 
         CobolStringType < String > innerRedefinesShort =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("INNER-REDEFINES-SHORT")
                         .charNum(3)
                         .build();
         fields.put("innerRedefinesShort", innerRedefinesShort);
@@ -76,12 +80,14 @@ public class CobolRdef04Record extends CobolComplexType {
 
         CobolStringType < String > outerRedefinesLong =
                 new CobolStringType.Builder < String >(String.class)
+                        .cobolName("OUTER-REDEFINES-LONG")
                         .charNum(10)
                         .build();
         fields.put("outerRedefinesLong", outerRedefinesLong);
 
         CobolComplexType outerRedefinesShort = new CobolComplexType.Builder()
                         .name("OuterRedefinesShort")
+                        .cobolName("OUTER-REDEFINES-SHORT")
                         .fields(createOuterRedefinesShortFields())
                         .build();
         fields.put("outerRedefinesShort", outerRedefinesShort);

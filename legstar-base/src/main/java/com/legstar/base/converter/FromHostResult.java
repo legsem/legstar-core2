@@ -1,4 +1,4 @@
-package com.legstar.base;
+package com.legstar.base.converter;
 
 /**
  * Aggregate result of converting host bytes to java.
@@ -27,3 +27,4 @@ public class FromHostResult<J> {
 
 
 }
+

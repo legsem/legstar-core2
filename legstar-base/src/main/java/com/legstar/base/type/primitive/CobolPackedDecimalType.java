@@ -1,6 +1,5 @@
 package com.legstar.base.type.primitive;
 
-import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 
 /**
@@ -14,8 +13,8 @@ public class CobolPackedDecimalType<T extends Number> extends
     public static final int MAX_TOTAL_DIGITS = 31;
 
     /** {@inheritDoc} */
-    protected boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext,
-            byte[] hostData, int start) {
+    protected boolean isValidInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
 
         int length = start + getBytesLen();
 
@@ -51,43 +50,55 @@ public class CobolPackedDecimalType<T extends Number> extends
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(Class < T > javaClass,
-            CobolContext cobolContext, byte[] hostData, int start) {
+    protected FromHostPrimitiveResult < T > fromHostInternal(
+            Class < T > javaClass, CobolContext cobolContext, byte[] hostData,
+            int start) {
 
-        int length = start + getBytesLen();
+        int bytesLen = start + getBytesLen();
 
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
 
-        for (int i = start; i < length; i++) {
+        for (int i = start; i < bytesLen; i++) {
             setNibbles(nibbles, hostData[i]);
-            if (i == length - 1) {
-                sb.append(getDigit(nibbles[0], hostData, start, i));
+            char digit0 = getDigit(nibbles[0]);
+            if (digit0 == '\0') {
+                return new FromHostPrimitiveResult < T >(
+                        "First nibble is not a digit", hostData, start, i,
+                        bytesLen);
+            }
+            sb.append(digit0);
+            if (i == bytesLen - 1) {
                 if (isSigned()) {
                     if (nibbles[1] == cobolContext.getNegativeSignNibbleValue()) {
                         sb.insert(0, "-");
                     } else if (nibbles[1] != cobolContext
                             .getPositiveSignNibbleValue()) {
-                        throw new FromHostException(
+                        return new FromHostPrimitiveResult < T >(
                                 "Nibble at sign position does not contain the expected values 0x"
                                         + Integer.toHexString(cobolContext
                                                 .getNegativeSignNibbleValue())
                                         + " or 0x"
                                         + Integer.toHexString(cobolContext
                                                 .getPositiveSignNibbleValue()),
-                                hostData, i);
+                                hostData, start, i, bytesLen);
                     }
                 } else if (nibbles[1] != cobolContext
                         .getUnspecifiedSignNibbleValue()) {
-                    throw new FromHostException(
+                    return new FromHostPrimitiveResult < T >(
                             "Nibble at sign position does not contain the expected value 0x"
                                     + Integer.toHexString(cobolContext
                                             .getUnspecifiedSignNibbleValue()),
-                            hostData, i);
+                            hostData, start, i, bytesLen);
                 }
             } else {
-                sb.append(getDigit(nibbles[0], hostData, start, i));
-                sb.append(getDigit(nibbles[1], hostData, start, i));
+                char digit1 = getDigit(nibbles[1]);
+                if (digit1 == '\0') {
+                    return new FromHostPrimitiveResult < T >(
+                            "Second nibble is not a digit", hostData, start, i,
+                            bytesLen);
+                }
+                sb.append(digit1);
             }
         }
 
@@ -96,12 +107,13 @@ public class CobolPackedDecimalType<T extends Number> extends
         }
 
         try {
-            return valueOf(javaClass, sb.toString());
+            T value = valueOf(javaClass, sb.toString());
+            return new FromHostPrimitiveResult < T >(value);
         } catch (NumberFormatException e) {
-            throw new FromHostException("Host " + getMaxBytesLen()
+            return new FromHostPrimitiveResult < T >("Host " + getMaxBytesLen()
                     + " bytes numeric converts to '" + sb.toString()
-                    + "' which is not a valid " + javaClass.getName(), hostData,
-                    start);
+                    + "' which is not a valid " + javaClass.getName(),
+                    hostData, start, bytesLen);
         }
     }
 

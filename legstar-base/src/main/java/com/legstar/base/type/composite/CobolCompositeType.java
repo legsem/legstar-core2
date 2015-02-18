@@ -6,6 +6,6 @@ import com.legstar.base.type.CobolType;
  * Composite types are built from other types.
  *
  */
-public abstract class CobolCompositeType extends CobolType {
+public abstract class CobolCompositeType implements CobolType {
 
 }

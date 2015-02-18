@@ -44,6 +44,8 @@ import com.legstar.cobol.model.CobolTypes;
  */
 public class Xsd2CobolTypesModelBuilder {
 
+    private static final String COBOL_NAME_PROP_NAME = "cobolName";
+
     private static final String FRACTION_DIGITS_PROP_NAME = "fractionDigits";
 
     private static final String TOTAL_DIGITS_PROP_NAME = "totalDigits";
@@ -114,18 +116,21 @@ public class Xsd2CobolTypesModelBuilder {
      *         composite types constituents
      * @throws Xsd2ConverterException if parsing the XML schema fails
      */
-    public Map < String, CompositeTypes > build(XmlSchema xmlSchema)
+    public Map < String, RootCompositeType > build(XmlSchema xmlSchema)
             throws Xsd2ConverterException {
 
         log.debug("visit XML Schema started");
-        Map < String, CompositeTypes > rootComplexTypes = new LinkedHashMap < String, CompositeTypes >();
+        Map < String, RootCompositeType > rootComplexTypes = new LinkedHashMap < String, RootCompositeType >();
 
         for (Entry < QName, XmlSchemaElement > entry : xmlSchema.getElements()
                 .entrySet()) {
             if (entry.getValue().getSchemaType() instanceof XmlSchemaComplexType) {
+                CobolAnnotations cobolAnnotations = new CobolAnnotations(
+                        entry.getValue());
                 XmlSchemaComplexType xsdComplexType = (XmlSchemaComplexType) entry
                         .getValue().getSchemaType();
-                CompositeTypes compositeTypes = new CompositeTypes();
+                RootCompositeType compositeTypes = new RootCompositeType(
+                        cobolAnnotations.getCobolName());
                 String complexTypeName = getComplexTypeName(xsdComplexType);
                 rootComplexTypes.put(complexTypeName, compositeTypes);
                 visit(xsdComplexType, compositeTypes, complexTypeName);
@@ -143,23 +148,34 @@ public class Xsd2CobolTypesModelBuilder {
      * 
      * 
      */
-    public static class CompositeTypes {
+    public static class RootCompositeType {
 
-        public final Map < String, Object > complexTypes = new LinkedHashMap < String, Object >();
+        public final Map < String, Object > complexTypes;
 
-        public final Map < String, Object > choiceTypes = new LinkedHashMap < String, Object >();
+        public final Map < String, Object > choiceTypes;
+        
+        public final String cobolName;
+        
+        public RootCompositeType(String cobolName) {
+            this.cobolName = cobolName;
+            complexTypes = new LinkedHashMap < String, Object >();
+            choiceTypes = new LinkedHashMap < String, Object >();
+        }
 
         @Override
         public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("[complexTypes=");
-            builder.append(complexTypes);
+            StringBuilder sb = new StringBuilder();
+            sb.append("[cobolName=");
+            sb.append(cobolName);
+            sb.append(", ");
+            sb.append("complexTypes=");
+            sb.append(complexTypes);
             if (choiceTypes.size() > 0) {
-                builder.append(", choiceTypes=");
-                builder.append(choiceTypes);
+                sb.append(", choiceTypes=");
+                sb.append(choiceTypes);
             }
-            builder.append("]");
-            return builder.toString();
+            sb.append("]");
+            return sb.toString();
         };
     }
 
@@ -173,7 +189,7 @@ public class Xsd2CobolTypesModelBuilder {
      * @param complexTypeName the name to use for this complex type
      */
     private void visit(XmlSchemaComplexType xsdComplexType,
-            CompositeTypes compositeTypes, String complexTypeName) {
+            RootCompositeType compositeTypes, String complexTypeName) {
 
         Map < String, Object > fields = new LinkedHashMap < String, Object >();
         XmlSchemaParticle particle = xsdComplexType.getParticle();
@@ -213,7 +229,7 @@ public class Xsd2CobolTypesModelBuilder {
      * @param choiceTypeName the name to use for this choice type
      */
     private void visit(XmlSchemaChoice xsdChoice,
-            CompositeTypes compositeTypes, String choiceTypeName) {
+            RootCompositeType compositeTypes, String choiceTypeName) {
         Map < String, Object > alternatives = new LinkedHashMap < String, Object >();
         int fieldIndex = 0;
         for (XmlSchemaChoiceMember alternative : xsdChoice.getItems()) {
@@ -236,7 +252,7 @@ public class Xsd2CobolTypesModelBuilder {
      * @param compositeTypes the lists of composite types being populated
      */
     private void addField(int fieldIndex, XmlSchemaObjectBase xsdSchemaObject,
-            Map < String, Object > fields, CompositeTypes compositeTypes) {
+            Map < String, Object > fields, RootCompositeType compositeTypes) {
         if (xsdSchemaObject instanceof XmlSchemaElement) {
             XmlSchemaElement xsdElement = (XmlSchemaElement) xsdSchemaObject;
             fields.put(getFieldName(xsdElement),
@@ -260,7 +276,7 @@ public class Xsd2CobolTypesModelBuilder {
      * @return the choice's properties
      */
     private Map < String, Object > getProps(int fieldIndex,
-            XmlSchemaChoice xsdChoice, CompositeTypes compositeTypes) {
+            XmlSchemaChoice xsdChoice, RootCompositeType compositeTypes) {
 
         String choiceTypeName = getComplexTypeName(xsdChoice);
         visit(xsdChoice, compositeTypes, choiceTypeName);
@@ -285,7 +301,7 @@ public class Xsd2CobolTypesModelBuilder {
      * @return the complex type properties
      */
     private Map < String, Object > getProps(
-            XmlSchemaComplexType xsdComplexType, CompositeTypes compositeTypes) {
+            XmlSchemaComplexType xsdComplexType, RootCompositeType compositeTypes) {
 
         String complexTypeName = getComplexTypeName(xsdComplexType);
         visit(xsdComplexType, compositeTypes, complexTypeName);
@@ -299,7 +315,7 @@ public class Xsd2CobolTypesModelBuilder {
     }
 
     private Map < String, Object > getProps(int fieldIndex,
-            XmlSchemaElement xsdElement, CompositeTypes compositeTypes) {
+            XmlSchemaElement xsdElement, RootCompositeType compositeTypes) {
         Map < String, Object > props;
         CobolAnnotations cobolAnnotations = new CobolAnnotations(xsdElement);
 
@@ -329,6 +345,7 @@ public class Xsd2CobolTypesModelBuilder {
             addOptionalProps(xsdElement, cobolAnnotations, props);
         }
 
+        props.put(COBOL_NAME_PROP_NAME, cobolAnnotations.getCobolName());
         props.put(FIELD_INDEX_PROP_NAME, fieldIndex);
         return props;
 

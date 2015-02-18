@@ -2,7 +2,6 @@ package com.legstar.base.type.primitive;
 
 import java.nio.ByteBuffer;
 
-import com.legstar.base.FromHostException;
 import com.legstar.base.context.CobolContext;
 
 /**
@@ -20,8 +19,8 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     private final int bufferLen;
 
     /** {@inheritDoc} */
-    protected boolean isValidInternal(Class < T > javaClass, CobolContext cobolContext,
-            byte[] hostData, int start) {
+    protected boolean isValidInternal(Class < T > javaClass,
+            CobolContext cobolContext, byte[] hostData, int start) {
         // Unsigned numeric must have sign bit turned off
         if (!isSigned() && isNegative(hostData[start])) {
             return false;
@@ -31,29 +30,17 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
     }
 
     /** {@inheritDoc} */
-    protected T fromHostInternal(Class < T > javaClass,
-            CobolContext cobolContext, byte[] hostData, int start) {
-        ByteBuffer bb = getByteBuffer(javaClass, hostData, start);
-        return valueOf(javaClass, bb, getFractionDigits());
-    }
-
-    /**
-     * Copies the mainframe data into a byte buffer large enough for the target
-     * java Number and sets position to zero so that value can be extracted
-     * straight away.
-     * 
-     * 
-     * @param clazz the java Number type
-     * @param hostData the byte array containing mainframe data
-     * @param start the start position for the expected type in the byte array
-     * @return a byte buffer with mainframe data.
-     */
-    private ByteBuffer getByteBuffer(Class < T > clazz, byte[] hostData,
+    protected FromHostPrimitiveResult < T > fromHostInternal(
+            Class < T > javaClass, CobolContext cobolContext, byte[] hostData,
             int start) {
 
         int hostBytesLen = getBytesLen();
         int pos = start;
 
+        // Copies the mainframe data into a byte buffer large enough for the
+        // target
+        // java Number and sets position to zero so that value can be extracted
+        // straight away.
         ByteBuffer bb = ByteBuffer.allocate(bufferLen);
 
         if (bb.capacity() > hostBytesLen) {
@@ -86,28 +73,30 @@ public class CobolBinaryType<T extends Number> extends CobolDecimalType < T > {
 
                 if ((leading00 != excessBytes)
                         && (leadingFF != excessBytes || !isNegative(hostData[pos]))) {
-                    throw new FromHostException(
+                    return new FromHostPrimitiveResult < T >(
                             "Host "
                                     + hostBytesLen
                                     + " bytes numeric is too large for the target java type "
-                                    + clazz.getName(), hostData, start);
+                                    + javaClass.getName(), hostData, start,
+                            hostBytesLen);
                 }
             }
 
             // If the MSB is set for an unsigned numeric then it is not going to
             // fit in the target java Number (which is always signed)
             if (!isSigned() && isNegative(hostData[pos])) {
-                throw new FromHostException("Host unsigned " + hostBytesLen
-                        + " bytes numeric"
+                return new FromHostPrimitiveResult < T >("Host unsigned "
+                        + hostBytesLen + " bytes numeric"
                         + " is too large for the target java type "
-                        + clazz.getName(), hostData, start);
+                        + javaClass.getName(), hostData, start, hostBytesLen);
             }
 
         }
 
         bb.put(hostData, pos, hostBytesLen - (pos - start));
         bb.position(0);
-        return bb;
+        T value = valueOf(javaClass, bb, getFractionDigits());
+        return new FromHostPrimitiveResult < T >(value);
     }
 
     /** {@inheritDoc} */
