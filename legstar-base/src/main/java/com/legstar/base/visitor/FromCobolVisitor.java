@@ -7,6 +7,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.type.CobolOptionalType;
 import com.legstar.base.type.CobolType;
@@ -26,6 +29,8 @@ import com.legstar.base.utils.StringUtils;
  */
 public abstract class FromCobolVisitor implements CobolVisitor {
 
+    private static Logger log = LoggerFactory.getLogger(FromCobolVisitor.class);
+ 
     /**
      * Host COBOL configuration parameters.
      */
@@ -99,6 +104,12 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * Current COBOL type name visited relative to its parents.
      */
     private Stack < String > cobolNamesStack;
+    
+    
+    /**
+     * Should we produce debug traces.
+     */
+    private final boolean isDebugEnabled;
 
     // -----------------------------------------------------------------------------
     // Constructors
@@ -133,6 +144,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         this.defaultChoiceStrategy = new DefaultFromCobolChoiceStrategy(
                 cobolContext);
         this.cobolNamesStack = new Stack < String >();
+        this.isDebugEnabled = log.isDebugEnabled();
     }
 
     // -----------------------------------------------------------------------------
@@ -296,6 +308,10 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         // Keep those values that might be needed later
         if (type.isOdoObject() || isCustomVariable(type, curFieldName)) {
             putVariable(curFieldName, result.getValue());
+        }
+        
+        if (isDebugEnabled) {
+            log.debug(getCurFieldFullCobolName() + "=" + result.getValue());
         }
 
         callback.postVisit(type, result.getValue());
