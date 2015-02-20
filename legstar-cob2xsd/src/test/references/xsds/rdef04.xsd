@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/rdef04" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/rdef04">
+    <complexType name="Rdef04Record">
+        <sequence>
+            <element name="FieldA">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FIELD-A" fractionDigits="2" levelNumber="20" picture="S9(15)V99" signed="true" srceLine="2" totalDigits="17" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="17"/>
+                        <fractionDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <choice>
+                <element name="FieldB">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FIELD-B" fractionDigits="2" isRedefined="true" levelNumber="20" picture="S9(15)V99" signed="true" srceLine="3" totalDigits="17" type="PACKED_DECIMAL_ITEM" unmarshalChoiceStrategyClassName="" usage="PACKED-DECIMAL"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="decimal">
+                            <totalDigits value="17"/>
+                            <fractionDigits value="2"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="FieldC">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FIELD-C" fractionDigits="2" levelNumber="20" picture="S9(15)V99" redefines="FIELD-B" signed="true" srceLine="4" totalDigits="17" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="decimal">
+                            <totalDigits value="17"/>
+                            <fractionDigits value="2"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+            <choice>
+                <element name="FieldD">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FIELD-D" fractionDigits="2" isRedefined="true" levelNumber="20" picture="S9(15)V99" signed="true" srceLine="5" totalDigits="17" type="PACKED_DECIMAL_ITEM" unmarshalChoiceStrategyClassName="" usage="PACKED-DECIMAL"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="decimal">
+                            <totalDigits value="17"/>
+                            <fractionDigits value="2"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="FieldE">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="FIELD-E" fractionDigits="2" levelNumber="20" picture="S9(15)V99" redefines="FIELD-D" signed="true" srceLine="6" totalDigits="17" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="decimal">
+                            <totalDigits value="17"/>
+                            <fractionDigits value="2"/>
+                        </restriction>
+                    </simpleType>
+                </element>
+            </choice>
+            <element name="FieldF">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="FIELD-F" fractionDigits="2" levelNumber="20" picture="S9(15)V99" signed="true" srceLine="7" totalDigits="17" type="PACKED_DECIMAL_ITEM" usage="PACKED-DECIMAL"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <totalDigits value="17"/>
+                        <fractionDigits value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="Rdef04Record" type="tns:Rdef04Record">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="RDEF04-RECORD" levelNumber="1" srceLine="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

@@ -165,23 +165,25 @@
                     </simpleType>
                 </element>
             </choice>
-            <element name="WsP9X18MaxB" type="tns:WsP9X18MaxB">
-                <annotation>
-                    <appinfo>
-                        <cb:cobolElement cobolName="WS-P9X18-MAX-B" isRedefined="true" levelNumber="15" srceLine="49" type="GROUP_ITEM" unmarshalChoiceStrategyClassName=""/>
-                    </appinfo>
-                </annotation>
-            </element>
-            <element name="WsP9X18Max">
-                <annotation>
-                    <appinfo>
-                        <cb:cobolElement cobolName="WS-P9X18-MAX" levelNumber="15" picture="9(18)" redefines="WS-P9X18-MAX-B" signed="false" srceLine="52" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
-                    </appinfo>
-                </annotation>
-                <simpleType>
-                    <restriction base="unsignedLong"/>
-                </simpleType>
-            </element>
+            <choice>
+                <element name="WsP9X18MaxB" type="tns:WsP9X18MaxB">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="WS-P9X18-MAX-B" isRedefined="true" levelNumber="15" srceLine="49" type="GROUP_ITEM" unmarshalChoiceStrategyClassName=""/>
+                        </appinfo>
+                    </annotation>
+                </element>
+                <element name="WsP9X18Max">
+                    <annotation>
+                        <appinfo>
+                            <cb:cobolElement cobolName="WS-P9X18-MAX" levelNumber="15" picture="9(18)" redefines="WS-P9X18-MAX-B" signed="false" srceLine="52" totalDigits="18" type="NATIVE_BINARY_ITEM" usage="COMP-5"/>
+                        </appinfo>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="unsignedLong"/>
+                    </simpleType>
+                </element>
+            </choice>
         </sequence>
     </complexType>
     <complexType name="WsP9X18HighB">
