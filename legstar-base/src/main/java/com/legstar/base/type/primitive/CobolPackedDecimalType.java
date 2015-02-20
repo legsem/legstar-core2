@@ -16,13 +16,13 @@ public class CobolPackedDecimalType<T extends Number> extends
     protected boolean isValidInternal(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int length = start + getBytesLen();
+        int end = start + getBytesLen();
 
         // examine nibbles in each byte in turn
         int[] nibbles = new int[2];
 
         // all nibbles, except the last one, must hold valid digits
-        for (int i = start; i < length - 1; i++) {
+        for (int i = start; i < end - 1; i++) {
             setNibbles(nibbles, hostData[i]);
             if (!isDigit(nibbles[0]) || !isDigit(nibbles[1])) {
                 return false;
@@ -30,7 +30,7 @@ public class CobolPackedDecimalType<T extends Number> extends
         }
 
         // Check last byte
-        setNibbles(nibbles, hostData[length - 1]);
+        setNibbles(nibbles, hostData[end - 1]);
         if (!isDigit(nibbles[0])) {
             return false;
         }
@@ -54,21 +54,21 @@ public class CobolPackedDecimalType<T extends Number> extends
             Class < T > javaClass, CobolContext cobolContext, byte[] hostData,
             int start) {
 
-        int bytesLen = start + getBytesLen();
+        int end = start + getBytesLen();
 
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
 
-        for (int i = start; i < bytesLen; i++) {
+        for (int i = start; i < end; i++) {
             setNibbles(nibbles, hostData[i]);
             char digit0 = getDigit(nibbles[0]);
             if (digit0 == '\0') {
                 return new FromHostPrimitiveResult < T >(
                         "First nibble is not a digit", hostData, start, i,
-                        bytesLen);
+                        getBytesLen());
             }
             sb.append(digit0);
-            if (i == bytesLen - 1) {
+            if (i == end - 1) {
                 if (isSigned()) {
                     if (nibbles[1] == cobolContext.getNegativeSignNibbleValue()) {
                         sb.insert(0, "-");
@@ -81,7 +81,7 @@ public class CobolPackedDecimalType<T extends Number> extends
                                         + " or 0x"
                                         + Integer.toHexString(cobolContext
                                                 .getPositiveSignNibbleValue()),
-                                hostData, start, i, bytesLen);
+                                hostData, start, i, getBytesLen());
                     }
                 } else if (nibbles[1] != cobolContext
                         .getUnspecifiedSignNibbleValue()) {
@@ -89,14 +89,14 @@ public class CobolPackedDecimalType<T extends Number> extends
                             "Nibble at sign position does not contain the expected value 0x"
                                     + Integer.toHexString(cobolContext
                                             .getUnspecifiedSignNibbleValue()),
-                            hostData, start, i, bytesLen);
+                            hostData, start, i, getBytesLen());
                 }
             } else {
                 char digit1 = getDigit(nibbles[1]);
                 if (digit1 == '\0') {
                     return new FromHostPrimitiveResult < T >(
                             "Second nibble is not a digit", hostData, start, i,
-                            bytesLen);
+                            getBytesLen());
                 }
                 sb.append(digit1);
             }
@@ -113,7 +113,7 @@ public class CobolPackedDecimalType<T extends Number> extends
             return new FromHostPrimitiveResult < T >("Host " + getMaxBytesLen()
                     + " bytes numeric converts to '" + sb.toString()
                     + "' which is not a valid " + javaClass.getName(),
-                    hostData, start, bytesLen);
+                    hostData, start, getBytesLen());
         }
     }
 

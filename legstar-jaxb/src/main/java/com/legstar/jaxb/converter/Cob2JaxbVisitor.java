@@ -11,7 +11,6 @@ import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.primitive.CobolPrimitiveType;
 import com.legstar.base.visitor.FromCobolChoiceStrategy;
-import com.legstar.base.visitor.FromCobolException;
 import com.legstar.base.visitor.FromCobolVisitor;
 
 /**
@@ -108,7 +107,8 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
 
         public boolean postVisit(String fieldName, int fieldIndex,
                 CobolType child) {
-            complexJaxbWrapper.set(fieldIndex, lastObject, lastAlternativeIndex);
+            complexJaxbWrapper
+                    .set(fieldIndex, lastObject, lastAlternativeIndex);
             lastAlternativeIndex = -1;
             return true;
         }
@@ -149,11 +149,11 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
 
     private class JaxbPrimitiveTypeHandler implements PrimitiveTypeHandler {
 
-        public void preVisit(CobolPrimitiveType<?> type) {
-            
+        public void preVisit(CobolPrimitiveType < ? > type) {
+
         }
 
-        public void postVisit(CobolPrimitiveType<?> type, Object value) {
+        public void postVisit(CobolPrimitiveType < ? > type, Object value) {
             lastObject = value;
         }
 
@@ -170,9 +170,9 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
         if (clazz.isAssignableFrom(lastObject.getClass())) {
             return clazz.cast(lastObject);
         } else {
-            throw new FromCobolException("Object of class "
+            throw new IllegalArgumentException("Object of class "
                     + lastObject.getClass() + " is not assignable from "
-                    + clazz, getCurFieldFullCobolName());
+                    + clazz);
         }
     };
 

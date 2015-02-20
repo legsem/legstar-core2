@@ -20,13 +20,13 @@ public class CobolZonedDecimalType<T extends Number> extends
     public boolean isValidInternal(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int length = start + getBytesLen();
+        int end = start + getBytesLen();
 
         int[] nibbles = new int[2];
 
         // check all bytes excluding sign
         // all right hand size nibbles must contain a digit
-        for (int i = start + (signLeading ? 1 : 0); i < length
+        for (int i = start + (signLeading ? 1 : 0); i < end
                 - (signLeading ? 0 : 1); i++) {
             setNibbles(nibbles, hostData[i]);
             if (!isDigit(nibbles[1])) {
@@ -37,14 +37,14 @@ public class CobolZonedDecimalType<T extends Number> extends
         // check the sign
         if (signSeparate) {
             int separateSign = (signLeading ? hostData[start]
-                    : hostData[length - 1]) & 0xFF;
+                    : hostData[end - 1]) & 0xFF;
             if (separateSign != cobolContext.getHostPlusSign()
                     && separateSign != cobolContext.getHostMinusSign()) {
                 return false;
             }
         } else {
             setNibbles(nibbles, signLeading ? hostData[start]
-                    : hostData[length - 1]);
+                    : hostData[end - 1]);
             if (!isDigit(nibbles[1])) {
                 return false;
             }
@@ -68,23 +68,23 @@ public class CobolZonedDecimalType<T extends Number> extends
     protected FromHostPrimitiveResult < T > fromHostInternal(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int bytesLength = start + getBytesLen();
+        int end = start + getBytesLen();
 
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
 
-        for (int i = start + (signLeading ? 1 : 0); i < bytesLength
+        for (int i = start + (signLeading ? 1 : 0); i < end
                 - (signLeading ? 0 : 1); i++) {
             setNibbles(nibbles, hostData[i]);
             char digit1 = getDigit(nibbles[1]);
             if (digit1 == '\0') {
                 return new FromHostPrimitiveResult < T >(
-                        "Second nibble is not a digit", hostData, start, i, bytesLength);
+                        "Second nibble is not a digit", hostData, start, i, getBytesLen());
             }
             sb.append(digit1);
         }
 
-        int signPos = signLeading ? start : bytesLength - 1;
+        int signPos = signLeading ? start : end - 1;
         if (signSeparate) {
             int separateSign = hostData[signPos] & 0xFF;
             if (separateSign == cobolContext.getHostMinusSign()) {
@@ -93,14 +93,14 @@ public class CobolZonedDecimalType<T extends Number> extends
                 return new FromHostPrimitiveResult < T >("Found character "
                         + Integer.toHexString(separateSign)
                         + " where a sign was expected",
-                        hostData, start, signPos, bytesLength);
+                        hostData, start, signPos, getBytesLen());
             }
         } else {
             setNibbles(nibbles, hostData[signPos]);
             char digit1 = getDigit(nibbles[1]);
             if (digit1 == '\0') {
                 return new FromHostPrimitiveResult < T >(
-                        "Second nibble is not a digit", hostData, start, signPos, bytesLength);
+                        "Second nibble is not a digit", hostData, start, signPos, getBytesLen());
             }
             sb.append(digit1);
             if (isSigned()
@@ -120,7 +120,7 @@ public class CobolZonedDecimalType<T extends Number> extends
             return new FromHostPrimitiveResult < T >("Host " + getMaxBytesLen()
                     + " bytes numeric converts to '" + sb.toString()
                     + "' which is not a valid " + javaClass.getName(),
-                    hostData, start, bytesLength);
+                    hostData, start, getBytesLen());
         }
     }
 

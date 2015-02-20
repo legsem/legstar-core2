@@ -22,12 +22,12 @@ public class CobolStringType<T> extends CobolPrimitiveType < T > {
     public boolean isValid(Class < T > javaClass, CobolContext cobolContext,
             byte[] hostData, int start) {
 
-        int bytesLen = getBytesLen(charNum);
+        int hostBytesLen = getBytesLen(charNum);
 
         // Is buffer large enough to contain this type?
         // TODO last field in a record might be truncated if all low-values or
         // spaces
-        if (hostData.length < start + bytesLen) {
+        if (hostData.length < start + hostBytesLen) {
             return false;
         }
 

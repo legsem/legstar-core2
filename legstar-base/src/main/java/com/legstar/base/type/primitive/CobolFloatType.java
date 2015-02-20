@@ -28,15 +28,15 @@ public class CobolFloatType<T extends Number> extends CobolPrimitiveType < T > {
     public FromHostPrimitiveResult < T > fromHost(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int bytesLen = getBytesLen();
-        if (hostData.length < start + bytesLen) {
+        int hostBytesLen = getBytesLen();
+        if (hostData.length < start + hostBytesLen) {
             return new FromHostPrimitiveResult < T >("Length provided "
                     + (hostData.length - start)
-                    + " is smaller than the required " + bytesLen, hostData,
-                    start, bytesLen);
+                    + " is smaller than the required " + hostBytesLen, hostData,
+                    start, hostBytesLen);
         }
 
-        ByteBuffer bb = ByteBuffer.wrap(hostData, start, bytesLen);
+        ByteBuffer bb = ByteBuffer.wrap(hostData, start, hostBytesLen);
         int hostIntBits = bb.getInt();
         int sign = (hostIntBits & 0x80000000) >>> 31;
 

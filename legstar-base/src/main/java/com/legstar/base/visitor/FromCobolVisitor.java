@@ -290,7 +290,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             this.lastPos += type.getBytesLen();
         } else {
             throw new FromCobolException(result.getErrorMessage(),
-                    getCurFieldFullCobolName());
+                    getCurFieldFullCobolName(), type);
         }
 
         // Keep those values that might be needed later

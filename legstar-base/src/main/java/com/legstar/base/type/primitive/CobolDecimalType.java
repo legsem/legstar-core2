@@ -55,10 +55,10 @@ public abstract class CobolDecimalType<T extends Number> extends
     public final boolean isValid(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int bytesLen = getBytesLen();
+        int hostBytesLen = getBytesLen();
 
         // Is buffer large enough to contain this type?
-        if (hostData.length < start + bytesLen) {
+        if (hostData.length < start + hostBytesLen) {
             return false;
         }
 
@@ -108,12 +108,12 @@ public abstract class CobolDecimalType<T extends Number> extends
     public FromHostPrimitiveResult < T > fromHost(Class < T > javaClass,
             CobolContext cobolContext, byte[] hostData, int start) {
 
-        int bytesLen = getBytesLen();
-        if (hostData.length < start + bytesLen) {
+        int hostBytesLen = getBytesLen();
+        if (hostData.length < start + hostBytesLen) {
             return new FromHostPrimitiveResult < T >("Length provided "
                     + (hostData.length - start)
-                    + " is smaller than the required " + bytesLen, hostData,
-                    start, bytesLen);
+                    + " is smaller than the required " + hostBytesLen, hostData,
+                    start, hostBytesLen);
         }
 
         FromHostPrimitiveResult < T > result = fromHostInternal(javaClass,
@@ -123,7 +123,7 @@ public abstract class CobolDecimalType<T extends Number> extends
                 return new FromHostPrimitiveResult < T >("Value "
                         + result.getValue().toString()
                         + " is outside the required range "
-                        + getRangeAsString(), hostData, start, bytesLen);
+                        + getRangeAsString(), hostData, start, hostBytesLen);
             }
         }
 

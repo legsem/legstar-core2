@@ -125,7 +125,7 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
                     putVariable(getCurFieldName(), result.getValue());
                 } else {
                     throw new FromCobolException(result.getErrorMessage(),
-                            getCurFieldFullCobolName());
+                            getCurFieldFullCobolName(), type);
                 }
             }
             setLastPos(getLastPos() + type.getBytesLen());
