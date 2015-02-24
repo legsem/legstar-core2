@@ -68,11 +68,7 @@ public class CobolStru03Record extends CobolComplexType {
                         .build();
         fields.put("comAmount", comAmount);
 
-        CobolComplexType comArray = new CobolComplexType.Builder()
-                        .name("ComArray")
-                        .cobolName("COM-ARRAY")
-                        .fields(createComArrayFields())
-                        .build();
+        CobolComplexType comArray = createComArray();
         CobolArrayType comArrayArray = new CobolArrayType.Builder()
                         .itemType(comArray)
                         .minOccurs(5)
@@ -84,4 +80,15 @@ public class CobolStru03Record extends CobolComplexType {
 
     }
 
+    public static CobolComplexType createComArray() {
+
+        return new CobolComplexType.Builder()
+                .name("ComArray")
+                .cobolName("COM-ARRAY")
+                .fields(createComArrayFields())
+                .build();
+    }
+
+
 }
+

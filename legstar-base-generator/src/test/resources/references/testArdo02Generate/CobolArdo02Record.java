@@ -75,11 +75,7 @@ public class CobolArdo02Record extends CobolComplexType {
                         .build();
         fields.put("AlternativeAChoice", AlternativeAChoice);
 
-        CobolComplexType OdoArray = new CobolComplexType.Builder()
-                        .name("OdoArray")
-                        .cobolName("ODO-ARRAY")
-                        .fields(createOdoArrayFields())
-                        .build();
+        CobolComplexType OdoArray = createOdoArray();
         CobolArrayType OdoArrayArray = new CobolArrayType.Builder()
                         .itemType(OdoArray)
                         .minOccurs(0)
@@ -96,22 +92,42 @@ public class CobolArdo02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType AlternativeA = new CobolComplexType.Builder()
-                        .name("AlternativeA")
-                        .cobolName("ALTERNATIVE-A")
-                        .fields(createAlternativeAFields())
-                        .build();
+        CobolComplexType AlternativeA = createAlternativeA();
         fields.put("AlternativeA", AlternativeA);
 
-        CobolComplexType AlternativeB = new CobolComplexType.Builder()
-                        .name("AlternativeB")
-                        .cobolName("ALTERNATIVE-B")
-                        .fields(createAlternativeBFields())
-                        .build();
+        CobolComplexType AlternativeB = createAlternativeB();
         fields.put("AlternativeB", AlternativeB);
 
         return fields;
 
     }
+    public static CobolComplexType createOdoArray() {
+
+        return new CobolComplexType.Builder()
+                .name("OdoArray")
+                .cobolName("ODO-ARRAY")
+                .fields(createOdoArrayFields())
+                .build();
+    }
+
+    public static CobolComplexType createAlternativeA() {
+
+        return new CobolComplexType.Builder()
+                .name("AlternativeA")
+                .cobolName("ALTERNATIVE-A")
+                .fields(createAlternativeAFields())
+                .build();
+    }
+
+    public static CobolComplexType createAlternativeB() {
+
+        return new CobolComplexType.Builder()
+                .name("AlternativeB")
+                .cobolName("ALTERNATIVE-B")
+                .fields(createAlternativeBFields())
+                .build();
+    }
+
 
 }
+

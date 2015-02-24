@@ -37,5 +37,22 @@ public class {{class_name}} extends CobolComplexType {
         return fields;
 
     }
-{{/each}}{{!-- choice_types --}}
+
+{{~/each}}{{!-- choice_types --}}
+{{~#each complex_types}}
+{{~#each this }}
+{{~#if complexType }}
+{{> com/legstar/base/generator/java.complextype}}
+{{/if ~}}{{!-- complexType --}}
+{{~/each}}{{!-- this: fields in complex type --}}
+{{~/each}}{{!-- complex_types --}}
+{{~#each choice_types}}
+{{~#each this }}
+{{~#if complexType }}
+{{> com/legstar/base/generator/java.complextype}}
+{{/if ~}}{{!-- complexType --}}
+{{~/each}}{{!-- this: fields in complex type --}}
+{{~/each}}{{!-- choice_types --}}
+
 }
+

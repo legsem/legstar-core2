@@ -80,11 +80,7 @@ public class CobolRdef02Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType rdef02Key = new CobolComplexType.Builder()
-                        .name("Rdef02Key")
-                        .cobolName("RDEF02-KEY")
-                        .fields(createRdef02KeyFields())
-                        .build();
+        CobolComplexType rdef02Key = createRdef02Key();
         fields.put("rdef02Key", rdef02Key);
 
         CobolChoiceType comDetail1Choice = new CobolChoiceType.Builder()
@@ -127,27 +123,46 @@ public class CobolRdef02Record extends CobolComplexType {
         return fields;
 
     }
-
     private static Map < String, CobolType > createComDetail1ChoiceFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType comDetail1 = new CobolComplexType.Builder()
-                        .name("ComDetail1")
-                        .cobolName("COM-DETAIL1")
-                        .fields(createComDetail1Fields())
-                        .build();
+        CobolComplexType comDetail1 = createComDetail1();
         fields.put("comDetail1", comDetail1);
 
-        CobolComplexType comDetail2 = new CobolComplexType.Builder()
-                        .name("ComDetail2")
-                        .cobolName("COM-DETAIL2")
-                        .fields(createComDetail2Fields())
-                        .build();
+        CobolComplexType comDetail2 = createComDetail2();
         fields.put("comDetail2", comDetail2);
 
         return fields;
 
     }
+    public static CobolComplexType createRdef02Key() {
+
+        return new CobolComplexType.Builder()
+                .name("Rdef02Key")
+                .cobolName("RDEF02-KEY")
+                .fields(createRdef02KeyFields())
+                .build();
+    }
+
+    public static CobolComplexType createComDetail1() {
+
+        return new CobolComplexType.Builder()
+                .name("ComDetail1")
+                .cobolName("COM-DETAIL1")
+                .fields(createComDetail1Fields())
+                .build();
+    }
+
+    public static CobolComplexType createComDetail2() {
+
+        return new CobolComplexType.Builder()
+                .name("ComDetail2")
+                .cobolName("COM-DETAIL2")
+                .fields(createComDetail2Fields())
+                .build();
+    }
+
 
 }
+

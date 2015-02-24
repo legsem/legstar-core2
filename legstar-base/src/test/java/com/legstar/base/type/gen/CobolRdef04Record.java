@@ -73,7 +73,6 @@ public class CobolRdef04Record extends CobolComplexType {
         return fields;
 
     }
-
     private static Map < String, CobolType > createOuterRedefinesLongChoiceFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
@@ -85,15 +84,21 @@ public class CobolRdef04Record extends CobolComplexType {
                         .build();
         fields.put("outerRedefinesLong", outerRedefinesLong);
 
-        CobolComplexType outerRedefinesShort = new CobolComplexType.Builder()
-                        .name("OuterRedefinesShort")
-                        .cobolName("OUTER-REDEFINES-SHORT")
-                        .fields(createOuterRedefinesShortFields())
-                        .build();
+        CobolComplexType outerRedefinesShort = createOuterRedefinesShort();
         fields.put("outerRedefinesShort", outerRedefinesShort);
 
         return fields;
 
     }
+    public static CobolComplexType createOuterRedefinesShort() {
+
+        return new CobolComplexType.Builder()
+                .name("OuterRedefinesShort")
+                .cobolName("OUTER-REDEFINES-SHORT")
+                .fields(createOuterRedefinesShortFields())
+                .build();
+    }
+
 
 }
+

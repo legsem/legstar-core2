@@ -68,15 +68,22 @@ public class CobolStru01Record extends CobolComplexType {
                         .build();
         fields.put("comAmount", comAmount);
 
-        CobolComplexType comSubRecord = new CobolComplexType.Builder()
-                        .name("ComSubRecord")
-                        .cobolName("COM-SUB-RECORD")
-                        .fields(createComSubRecordFields())
-                        .build();
+        CobolComplexType comSubRecord = createComSubRecord();
         fields.put("comSubRecord", comSubRecord);
 
         return fields;
 
     }
 
+    public static CobolComplexType createComSubRecord() {
+
+        return new CobolComplexType.Builder()
+                .name("ComSubRecord")
+                .cobolName("COM-SUB-RECORD")
+                .fields(createComSubRecordFields())
+                .build();
+    }
+
+
 }
+

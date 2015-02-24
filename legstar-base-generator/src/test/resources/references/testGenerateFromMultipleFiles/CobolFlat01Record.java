@@ -47,4 +47,6 @@ public class CobolFlat01Record extends CobolComplexType {
 
     }
 
+
 }
+

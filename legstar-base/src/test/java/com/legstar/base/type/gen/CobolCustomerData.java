@@ -133,11 +133,7 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         fields.put("transactionNbr", transactionNbr);
 
-        CobolComplexType transaction = new CobolComplexType.Builder()
-                        .name("Transaction")
-                        .cobolName("TRANSACTION")
-                        .fields(createTransactionFields())
-                        .build();
+        CobolComplexType transaction = createTransaction();
         CobolArrayType transactionArray = new CobolArrayType.Builder()
                         .itemType(transaction)
                         .minOccurs(0)
@@ -161,18 +157,10 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         fields.put("customerId", customerId);
 
-        CobolComplexType personalData = new CobolComplexType.Builder()
-                        .name("PersonalData")
-                        .cobolName("PERSONAL-DATA")
-                        .fields(createPersonalDataFields())
-                        .build();
+        CobolComplexType personalData = createPersonalData();
         fields.put("personalData", personalData);
 
-        CobolComplexType transactions = new CobolComplexType.Builder()
-                        .name("Transactions")
-                        .cobolName("TRANSACTIONS")
-                        .fields(createTransactionsFields())
-                        .build();
+        CobolComplexType transactions = createTransactions();
         fields.put("transactions", transactions);
 
         return fields;
@@ -190,15 +178,48 @@ public class CobolCustomerData extends CobolComplexType {
                         .build();
         fields.put("transactionDate", transactionDate);
 
-        CobolComplexType filler12 = new CobolComplexType.Builder()
-                        .name("Filler12")
-                        .cobolName("FILLER")
-                        .fields(createFiller12Fields())
-                        .build();
+        CobolComplexType filler12 = createFiller12();
         fields.put("filler12", filler12);
 
         return fields;
 
     }
+    public static CobolComplexType createTransaction() {
+
+        return new CobolComplexType.Builder()
+                .name("Transaction")
+                .cobolName("TRANSACTION")
+                .fields(createTransactionFields())
+                .build();
+    }
+
+    public static CobolComplexType createPersonalData() {
+
+        return new CobolComplexType.Builder()
+                .name("PersonalData")
+                .cobolName("PERSONAL-DATA")
+                .fields(createPersonalDataFields())
+                .build();
+    }
+
+    public static CobolComplexType createTransactions() {
+
+        return new CobolComplexType.Builder()
+                .name("Transactions")
+                .cobolName("TRANSACTIONS")
+                .fields(createTransactionsFields())
+                .build();
+    }
+
+    public static CobolComplexType createFiller12() {
+
+        return new CobolComplexType.Builder()
+                .name("Filler12")
+                .cobolName("FILLER")
+                .fields(createFiller12Fields())
+                .build();
+    }
+
 
 }
+

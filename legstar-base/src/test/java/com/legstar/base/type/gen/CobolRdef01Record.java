@@ -73,22 +73,33 @@ public class CobolRdef01Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType comDetail1 = new CobolComplexType.Builder()
-                        .name("ComDetail1")
-                        .cobolName("COM-DETAIL1")
-                        .fields(createComDetail1Fields())
-                        .build();
+        CobolComplexType comDetail1 = createComDetail1();
         fields.put("comDetail1", comDetail1);
 
-        CobolComplexType comDetail2 = new CobolComplexType.Builder()
-                        .name("ComDetail2")
-                        .cobolName("COM-DETAIL2")
-                        .fields(createComDetail2Fields())
-                        .build();
+        CobolComplexType comDetail2 = createComDetail2();
         fields.put("comDetail2", comDetail2);
 
         return fields;
 
     }
+    public static CobolComplexType createComDetail1() {
+
+        return new CobolComplexType.Builder()
+                .name("ComDetail1")
+                .cobolName("COM-DETAIL1")
+                .fields(createComDetail1Fields())
+                .build();
+    }
+
+    public static CobolComplexType createComDetail2() {
+
+        return new CobolComplexType.Builder()
+                .name("ComDetail2")
+                .cobolName("COM-DETAIL2")
+                .fields(createComDetail2Fields())
+                .build();
+    }
+
 
 }
+

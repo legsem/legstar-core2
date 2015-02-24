@@ -64,4 +64,6 @@ public class CobolArdo01Record extends CobolComplexType {
 
     }
 
+
 }
+

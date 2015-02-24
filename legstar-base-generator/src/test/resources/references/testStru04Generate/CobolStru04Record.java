@@ -64,11 +64,7 @@ public class CobolStru04Record extends CobolComplexType {
                         .build();
         fields.put("ComItem3", ComItem3);
 
-        CobolComplexType ComArray2 = new CobolComplexType.Builder()
-                        .name("ComArray2")
-                        .cobolName("COM-ARRAY2")
-                        .fields(createComArray2Fields())
-                        .build();
+        CobolComplexType ComArray2 = createComArray2();
         CobolArrayType ComArray2Array = new CobolArrayType.Builder()
                         .itemType(ComArray2)
                         .minOccurs(2)
@@ -100,11 +96,7 @@ public class CobolStru04Record extends CobolComplexType {
                         .build();
         fields.put("ComItem2", ComItem2);
 
-        CobolComplexType ComGroup1 = new CobolComplexType.Builder()
-                        .name("ComGroup1")
-                        .cobolName("COM-GROUP1")
-                        .fields(createComGroup1Fields())
-                        .build();
+        CobolComplexType ComGroup1 = createComGroup1();
         fields.put("ComGroup1", ComGroup1);
 
         CobolBinaryType < Integer > ComItem7 =
@@ -131,11 +123,7 @@ public class CobolStru04Record extends CobolComplexType {
                         .build();
         fields.put("ComItem1", ComItem1);
 
-        CobolComplexType ComArray1 = new CobolComplexType.Builder()
-                        .name("ComArray1")
-                        .cobolName("COM-ARRAY1")
-                        .fields(createComArray1Fields())
-                        .build();
+        CobolComplexType ComArray1 = createComArray1();
         CobolArrayType ComArray1Array = new CobolArrayType.Builder()
                         .itemType(ComArray1)
                         .minOccurs(3)
@@ -155,4 +143,33 @@ public class CobolStru04Record extends CobolComplexType {
 
     }
 
+    public static CobolComplexType createComArray2() {
+
+        return new CobolComplexType.Builder()
+                .name("ComArray2")
+                .cobolName("COM-ARRAY2")
+                .fields(createComArray2Fields())
+                .build();
+    }
+
+    public static CobolComplexType createComGroup1() {
+
+        return new CobolComplexType.Builder()
+                .name("ComGroup1")
+                .cobolName("COM-GROUP1")
+                .fields(createComGroup1Fields())
+                .build();
+    }
+
+    public static CobolComplexType createComArray1() {
+
+        return new CobolComplexType.Builder()
+                .name("ComArray1")
+                .cobolName("COM-ARRAY1")
+                .fields(createComArray1Fields())
+                .build();
+    }
+
+
 }
+

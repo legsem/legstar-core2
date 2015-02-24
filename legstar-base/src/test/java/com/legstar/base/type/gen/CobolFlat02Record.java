@@ -63,3 +63,4 @@ public class CobolFlat02Record extends CobolComplexType {
     }
 
 }
+

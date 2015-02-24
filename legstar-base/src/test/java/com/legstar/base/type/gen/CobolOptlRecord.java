@@ -7,13 +7,13 @@ import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.*;
 import com.legstar.base.type.primitive.*;
 
-public class CobolOptl01Record extends CobolComplexType {
+public class CobolOptlRecord extends CobolComplexType {
 
-    public CobolOptl01Record() {
+    public CobolOptlRecord() {
         super(new CobolComplexType.Builder()
-                    .name("Optl01Record")
-                    .cobolName("OPTL01-RECORD")
-                    .fields(createOptl01RecordFields())
+                    .name("OptlRecord")
+                    .cobolName("OPTL-RECORD")
+                    .fields(createOptlRecordFields())
               );
     }
 
@@ -39,7 +39,7 @@ public class CobolOptl01Record extends CobolComplexType {
 
     }
 
-    private static Map < String, CobolType > createOptl01RecordFields() {
+    private static Map < String, CobolType > createOptlRecordFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
@@ -51,29 +51,33 @@ public class CobolOptl01Record extends CobolComplexType {
                         .build();
         fields.put("optlStructInd", optlStructInd);
 
-        CobolZonedDecimalType < Integer > optlItemInd =
-                new CobolZonedDecimalType.Builder < Integer >(Integer.class)
-                        .cobolName("OPTL-ITEM-IND")
-                        .totalDigits(3)
-                        .odoObject(true)
+        CobolChoiceType optlItemChoice = new CobolChoiceType.Builder()
+                        .name("OptlItemChoice")
+                        .alternatives(createOptlItemChoiceFields())
                         .build();
-        fields.put("optlItemInd", optlItemInd);
-
-        CobolComplexType optlStruct = createOptlStruct();
-        fields.put("optlStruct", optlStruct);
-
-        CobolStringType < String > optlItem =
-                new CobolStringType.Builder < String >(String.class)
-                        .cobolName("OPTL-ITEM")
-                        .charNum(32)
-                        .dependingOn("optlItemInd")
-                        .build();
-        fields.put("optlItem", optlItem);
+        fields.put("optlItemChoice", optlItemChoice);
 
         return fields;
 
     }
 
+    private static Map < String, CobolType > createOptlItemChoiceFields() {
+
+        Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
+
+        CobolStringType < String > optlItem =
+                new CobolStringType.Builder < String >(String.class)
+                        .cobolName("OPTL-ITEM")
+                        .charNum(23)
+                        .build();
+        fields.put("optlItem", optlItem);
+
+        CobolComplexType optlStruct = createOptlStruct();
+        fields.put("optlStruct", optlStruct);
+
+        return fields;
+
+    }
     public static CobolComplexType createOptlStruct() {
 
         return new CobolComplexType.Builder()

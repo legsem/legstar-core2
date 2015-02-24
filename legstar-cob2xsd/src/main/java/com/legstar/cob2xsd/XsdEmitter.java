@@ -156,7 +156,14 @@ public class XsdEmitter {
                     xmlSchemaSequence.getItems().add(xmlSchemaChoice);
                     xmlSchemaChoice.getItems().add(xmlSchemaElement);
                 } else if (child.getRedefines() != null) {
-                    xmlSchemaChoice.getItems().add(xmlSchemaElement);
+                    if (xmlSchemaChoice == null) {
+                        _log.warn("Item " + child.getCobolName()
+                                + " REDEFINES " + child.getRedefines()
+                                + " but redefined item is not a sibling");
+                        xmlSchemaSequence.getItems().add(xmlSchemaElement);
+                    } else {
+                        xmlSchemaChoice.getItems().add(xmlSchemaElement);
+                    }
                 } else {
                     xmlSchemaSequence.getItems().add(xmlSchemaElement);
                 }

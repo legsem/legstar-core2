@@ -46,11 +46,7 @@ public class CobolArdo03Record extends CobolComplexType {
                         .build();
         fields.put("odoSubCounter", odoSubCounter);
 
-        CobolComplexType odoSubArray = new CobolComplexType.Builder()
-                        .name("OdoSubArray")
-                        .cobolName("ODO-SUB-ARRAY")
-                        .fields(createOdoSubArrayFields())
-                        .build();
+        CobolComplexType odoSubArray = createOdoSubArray();
         CobolArrayType odoSubArrayArray = new CobolArrayType.Builder()
                         .itemType(odoSubArray)
                         .minOccurs(0)
@@ -77,11 +73,7 @@ public class CobolArdo03Record extends CobolComplexType {
                         .build();
         fields.put("odoCounter", odoCounter);
 
-        CobolComplexType odoArray = new CobolComplexType.Builder()
-                        .name("OdoArray")
-                        .cobolName("ODO-ARRAY")
-                        .fields(createOdoArrayFields())
-                        .build();
+        CobolComplexType odoArray = createOdoArray();
         CobolArrayType odoArrayArray = new CobolArrayType.Builder()
                         .itemType(odoArray)
                         .minOccurs(0)
@@ -94,4 +86,24 @@ public class CobolArdo03Record extends CobolComplexType {
 
     }
 
+    public static CobolComplexType createOdoSubArray() {
+
+        return new CobolComplexType.Builder()
+                .name("OdoSubArray")
+                .cobolName("ODO-SUB-ARRAY")
+                .fields(createOdoSubArrayFields())
+                .build();
+    }
+
+    public static CobolComplexType createOdoArray() {
+
+        return new CobolComplexType.Builder()
+                .name("OdoArray")
+                .cobolName("ODO-ARRAY")
+                .fields(createOdoArrayFields())
+                .build();
+    }
+
+
 }
+

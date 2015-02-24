@@ -43,11 +43,7 @@ public class CobolCflt01Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType cfltInfo = new CobolComplexType.Builder()
-                        .name("CfltInfo9")
-                        .cobolName("CFLT-INFO")
-                        .fields(createCfltInfo9Fields())
-                        .build();
+        CobolComplexType cfltInfo = createCfltInfo9();
         fields.put("cfltInfo", cfltInfo);
 
         return fields;
@@ -80,11 +76,7 @@ public class CobolCflt01Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType cfltInfo = new CobolComplexType.Builder()
-                        .name("CfltInfo13")
-                        .cobolName("CFLT-INFO")
-                        .fields(createCfltInfo13Fields())
-                        .build();
+        CobolComplexType cfltInfo = createCfltInfo13();
         fields.put("cfltInfo", cfltInfo);
 
         return fields;
@@ -95,22 +87,52 @@ public class CobolCflt01Record extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType cfltParent1 = new CobolComplexType.Builder()
-                        .name("CfltParent1")
-                        .cobolName("CFLT-PARENT1")
-                        .fields(createCfltParent1Fields())
-                        .build();
+        CobolComplexType cfltParent1 = createCfltParent1();
         fields.put("cfltParent1", cfltParent1);
 
-        CobolComplexType cfltParent2 = new CobolComplexType.Builder()
-                        .name("CfltParent2")
-                        .cobolName("CFLT-PARENT2")
-                        .fields(createCfltParent2Fields())
-                        .build();
+        CobolComplexType cfltParent2 = createCfltParent2();
         fields.put("cfltParent2", cfltParent2);
 
         return fields;
 
     }
 
+    public static CobolComplexType createCfltInfo9() {
+
+        return new CobolComplexType.Builder()
+                .name("CfltInfo9")
+                .cobolName("CFLT-INFO")
+                .fields(createCfltInfo9Fields())
+                .build();
+    }
+
+    public static CobolComplexType createCfltInfo13() {
+
+        return new CobolComplexType.Builder()
+                .name("CfltInfo13")
+                .cobolName("CFLT-INFO")
+                .fields(createCfltInfo13Fields())
+                .build();
+    }
+
+    public static CobolComplexType createCfltParent1() {
+
+        return new CobolComplexType.Builder()
+                .name("CfltParent1")
+                .cobolName("CFLT-PARENT1")
+                .fields(createCfltParent1Fields())
+                .build();
+    }
+
+    public static CobolComplexType createCfltParent2() {
+
+        return new CobolComplexType.Builder()
+                .name("CfltParent2")
+                .cobolName("CFLT-PARENT2")
+                .fields(createCfltParent2Fields())
+                .build();
+    }
+
+
 }
+

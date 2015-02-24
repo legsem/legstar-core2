@@ -56,11 +56,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         fields.put("lsAllItemsChoice", lsAllItemsChoice);
 
-        CobolComplexType lsSearchCriteria = new CobolComplexType.Builder()
-                        .name("LsSearchCriteria")
-                        .cobolName("LS-SEARCH-CRITERIA")
-                        .fields(createLsSearchCriteriaFields())
-                        .build();
+        CobolComplexType lsSearchCriteria = createLsSearchCriteria();
         fields.put("lsSearchCriteria", lsSearchCriteria);
 
         return fields;
@@ -212,11 +208,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         fields.put("lsItemsCount", lsItemsCount);
 
-        CobolComplexType lsItemsArray = new CobolComplexType.Builder()
-                        .name("LsItemsArray")
-                        .cobolName("LS-ITEMS-ARRAY")
-                        .fields(createLsItemsArrayFields())
-                        .build();
+        CobolComplexType lsItemsArray = createLsItemsArray();
         CobolArrayType lsItemsArrayArray = new CobolArrayType.Builder()
                         .itemType(lsItemsArray)
                         .minOccurs(0)
@@ -240,11 +232,7 @@ public class CobolDfhcommarea extends CobolComplexType {
                         .build();
         fields.put("lsReplyType", lsReplyType);
 
-        CobolComplexType lsReplyData = new CobolComplexType.Builder()
-                        .name("LsReplyData")
-                        .cobolName("LS-REPLY-DATA")
-                        .fields(createLsReplyDataFields())
-                        .build();
+        CobolComplexType lsReplyData = createLsReplyData();
         fields.put("lsReplyData", lsReplyData);
 
         return fields;
@@ -255,18 +243,10 @@ public class CobolDfhcommarea extends CobolComplexType {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType lsRequest = new CobolComplexType.Builder()
-                        .name("LsRequest")
-                        .cobolName("LS-REQUEST")
-                        .fields(createLsRequestFields())
-                        .build();
+        CobolComplexType lsRequest = createLsRequest();
         fields.put("lsRequest", lsRequest);
 
-        CobolComplexType lsReply = new CobolComplexType.Builder()
-                        .name("LsReply")
-                        .cobolName("LS-REPLY")
-                        .fields(createLsReplyFields())
-                        .build();
+        CobolComplexType lsReply = createLsReply();
         fields.put("lsReply", lsReply);
 
         return fields;
@@ -294,34 +274,94 @@ public class CobolDfhcommarea extends CobolComplexType {
         return fields;
 
     }
-
     private static Map < String, CobolType > createLsFilesDataChoiceFields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
 
-        CobolComplexType lsFilesData = new CobolComplexType.Builder()
-                        .name("LsFilesData")
-                        .cobolName("LS-FILES-DATA")
-                        .fields(createLsFilesDataFields())
-                        .build();
+        CobolComplexType lsFilesData = createLsFilesData();
         fields.put("lsFilesData", lsFilesData);
 
-        CobolComplexType lsProgramsData = new CobolComplexType.Builder()
-                        .name("LsProgramsData")
-                        .cobolName("LS-PROGRAMS-DATA")
-                        .fields(createLsProgramsDataFields())
-                        .build();
+        CobolComplexType lsProgramsData = createLsProgramsData();
         fields.put("lsProgramsData", lsProgramsData);
 
-        CobolComplexType lsTransactionsData = new CobolComplexType.Builder()
-                        .name("LsTransactionsData")
-                        .cobolName("LS-TRANSACTIONS-DATA")
-                        .fields(createLsTransactionsDataFields())
-                        .build();
+        CobolComplexType lsTransactionsData = createLsTransactionsData();
         fields.put("lsTransactionsData", lsTransactionsData);
 
         return fields;
 
     }
+    public static CobolComplexType createLsSearchCriteria() {
+
+        return new CobolComplexType.Builder()
+                .name("LsSearchCriteria")
+                .cobolName("LS-SEARCH-CRITERIA")
+                .fields(createLsSearchCriteriaFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsItemsArray() {
+
+        return new CobolComplexType.Builder()
+                .name("LsItemsArray")
+                .cobolName("LS-ITEMS-ARRAY")
+                .fields(createLsItemsArrayFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsReplyData() {
+
+        return new CobolComplexType.Builder()
+                .name("LsReplyData")
+                .cobolName("LS-REPLY-DATA")
+                .fields(createLsReplyDataFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsRequest() {
+
+        return new CobolComplexType.Builder()
+                .name("LsRequest")
+                .cobolName("LS-REQUEST")
+                .fields(createLsRequestFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsReply() {
+
+        return new CobolComplexType.Builder()
+                .name("LsReply")
+                .cobolName("LS-REPLY")
+                .fields(createLsReplyFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsFilesData() {
+
+        return new CobolComplexType.Builder()
+                .name("LsFilesData")
+                .cobolName("LS-FILES-DATA")
+                .fields(createLsFilesDataFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsProgramsData() {
+
+        return new CobolComplexType.Builder()
+                .name("LsProgramsData")
+                .cobolName("LS-PROGRAMS-DATA")
+                .fields(createLsProgramsDataFields())
+                .build();
+    }
+
+    public static CobolComplexType createLsTransactionsData() {
+
+        return new CobolComplexType.Builder()
+                .name("LsTransactionsData")
+                .cobolName("LS-TRANSACTIONS-DATA")
+                .fields(createLsTransactionsDataFields())
+                .build();
+    }
+
 
 }
+
