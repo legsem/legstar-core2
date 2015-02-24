@@ -47,6 +47,11 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     private final int start;
 
     /**
+     * How many bytes of hostData contains actual data to process.
+     */
+    private final int length;
+
+    /**
      * Certain field values might need to be accessed, after they were visited,
      * by some other node downstream.
      * <p/>
@@ -115,28 +120,33 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     // Constructors
     // -----------------------------------------------------------------------------
     public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
-            int start) {
-        this(cobolContext, hostData, start, null);
+            int start, int length) {
+        this(cobolContext, hostData, start, length, null);
     }
 
     public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, FromCobolChoiceStrategy customChoiceStrategy) {
-        this(cobolContext, hostData, start, customChoiceStrategy, null);
+            int start, int length, FromCobolChoiceStrategy customChoiceStrategy) {
+        this(cobolContext, hostData, start, length, customChoiceStrategy, null);
     }
 
     public FromCobolVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, FromCobolChoiceStrategy customChoiceStrategy,
+            int start, int length, FromCobolChoiceStrategy customChoiceStrategy,
             Set < String > customVariables) {
         if (hostData == null) {
             throw new IllegalArgumentException("Mainframe data buffer is null");
         }
-        if (start >= hostData.length) {
+        if (length < 0 || length > hostData.length) {
+            throw new IllegalArgumentException("Length " + length
+                    + " is invalid");
+        }
+        if (start >= length) {
             throw new IllegalArgumentException("Start position " + start
                     + " is outside the mainframe data buffer");
         }
         this.cobolContext = cobolContext;
         this.hostData = hostData;
         this.start = start;
+        this.length = length;
         this.lastPos = start;
         this.variables = new HashMap < String, Object >();
         this.customVariables = customVariables;
@@ -230,13 +240,13 @@ public abstract class FromCobolVisitor implements CobolVisitor {
         // alternative
         if (customChoiceStrategy != null) {
             alternative = customChoiceStrategy.choose(curFieldName, choiceType,
-                    getVariables(), getHostData(), getLastPos());
+                    variables, hostData, lastPos, length);
         }
 
         // If user strategy did not succeed, try the default one
         if (alternative == null) {
             alternative = defaultChoiceStrategy.choose(curFieldName,
-                    choiceType, getVariables(), getHostData(), getLastPos());
+                    choiceType, variables, hostData, lastPos, length);
         }
 
         // All attempts have failed
@@ -289,17 +299,24 @@ public abstract class FromCobolVisitor implements CobolVisitor {
             PrimitiveTypeHandler callback) throws FromCobolException {
 
         if (extraOffset > 0) {
-            this.lastPos += extraOffset;
+            lastPos += extraOffset;
             extraOffset = 0;
+        }
+        
+        if (lastPos >= length) {
+            if (isDebugEnabled) {
+                log.debug(getCurFieldFullCobolName() + " past maximum length");
+            }
+            return;
         }
 
         cobolNamesStack.push(type.getCobolName());
         callback.preVisit(type);
 
         FromHostPrimitiveResult < ? > result = type.fromHost(cobolContext,
-                getHostData(), getLastPos());
+                hostData, lastPos);
         if (result.isSuccess()) {
-            this.lastPos += type.getBytesLen();
+            lastPos += type.getBytesLen();
         } else {
             throw new FromCobolException(result.getErrorMessage(),
                     getCurFieldFullCobolName(), type);
@@ -510,6 +527,15 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      */
     public int getStart() {
         return start;
+    }
+
+    /**
+     * How many bytes of hostData contains actual data to process.
+     * 
+     * @return How many bytes of hostData contains actual data to process
+     */
+    public int getLength() {
+        return length;
     }
 
     /**

@@ -22,9 +22,10 @@ public interface Cob2ObjectConverter<T> {
      * 
      * @param hostData a byte array holding mainframe data
      * @param start where to start in the mainframe byte array
+     * @param length where to stop in the mainframe byte array
      * @return a result containing the produced object and how many bytes were
      *         actually processed in hostData
      */
-    FromHostResult < T > convert(byte[] hostData, int start);
+    FromHostResult < T > convert(byte[] hostData, int start, int length);
 
 }

@@ -41,22 +41,28 @@ public class Cob2JaxbVisitor extends FromCobolVisitor {
     // Constructors
     // -----------------------------------------------------------------------------
     public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, JaxbWrapperFactory jaxbWrapperFactory) {
-        this(cobolContext, hostData, start, jaxbWrapperFactory, null);
+            JaxbWrapperFactory jaxbWrapperFactory) {
+        this(cobolContext, hostData, 0, hostData.length, jaxbWrapperFactory,
+                null);
     }
 
     public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, JaxbWrapperFactory jaxbWrapperFactory,
+            int start, int length, JaxbWrapperFactory jaxbWrapperFactory) {
+        this(cobolContext, hostData, start, length, jaxbWrapperFactory, null);
+    }
+
+    public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, int length, JaxbWrapperFactory jaxbWrapperFactory,
             FromCobolChoiceStrategy customChoiceStrategy) {
-        this(cobolContext, hostData, start, jaxbWrapperFactory,
+        this(cobolContext, hostData, start, length, jaxbWrapperFactory,
                 customChoiceStrategy, null);
     }
 
     public Cob2JaxbVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, JaxbWrapperFactory jaxbWrapperFactory,
+            int start, int length, JaxbWrapperFactory jaxbWrapperFactory,
             FromCobolChoiceStrategy customChoiceStrategy,
             Set < String > customVariables) {
-        super(cobolContext, hostData, start, customChoiceStrategy,
+        super(cobolContext, hostData, start, length, customChoiceStrategy,
                 customVariables);
         primitiveTypeHandler = new JaxbPrimitiveTypeHandler();
         choiceTypeAlternativeHandler = new JaxbChoiceTypeAlternativeHandler();

@@ -75,20 +75,24 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
 
     };
 
-    public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
-            int start) {
-        this(cobolContext, hostData, start, null, null);
+    public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData) {
+        this(cobolContext, hostData, 0, hostData.length, null, null);
     }
 
     public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
-            int start, String stopFieldInclusive) {
-        this(cobolContext, hostData, start, stopFieldInclusive, null);
+            int start, int length) {
+        this(cobolContext, hostData, start, length, null, null);
     }
 
     public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
-            int start, String stopFieldInclusive,
+            int start, int length, String stopFieldInclusive) {
+        this(cobolContext, hostData, start, length, stopFieldInclusive, null);
+    }
+
+    public Cob2ObjectValidator(CobolContext cobolContext, byte[] hostData,
+            int start, int length, String stopFieldInclusive,
             FromCobolChoiceStrategy customChoiceStrategy) {
-        super(cobolContext, hostData, start, customChoiceStrategy);
+        super(cobolContext, hostData, start, length, customChoiceStrategy);
         this.stopFieldInclusive = stopFieldInclusive;
         this.valid = true;
     }

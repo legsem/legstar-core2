@@ -32,13 +32,13 @@ public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
 
     public CobolType choose(String choiceFieldName,
             CobolChoiceType cobolChoiceType, Map < String, Object > variables,
-            byte[] hostData, int start) {
+            byte[] hostData, int start, int length) {
 
         for (Entry < String, CobolType > alternative : cobolChoiceType
                 .getAlternatives().entrySet()) {
 
             if (tryAlternative(choiceFieldName, alternative.getValue(),
-                    alternative.getKey(), hostData, start)) {
+                    alternative.getKey(), hostData, start, length)) {
                 return alternative.getValue();
             }
         }
@@ -48,10 +48,10 @@ public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
 
     private boolean tryAlternative(String choiceFieldName,
             CobolType alternative, String alternativeName, byte[] hostData,
-            int start) {
+            int start, int length) {
 
         Cob2ObjectValidator visitor = new Cob2ObjectValidator(
-                cobolContext, hostData, start);
+                cobolContext, hostData, start, length);
         if (alternative instanceof CobolComplexType) {
             visitor.visit((CobolComplexType) alternative);
         } else if (alternative instanceof CobolArrayType) {

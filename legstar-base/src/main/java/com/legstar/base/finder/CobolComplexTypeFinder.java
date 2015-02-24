@@ -82,7 +82,7 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
     public boolean match(byte[] hostData, int start, int length) {
 
         Cob2ObjectValidator visitor = new Cob2ObjectValidator(cobolContext,
-                hostData, start, stopFieldInclusive);
+                hostData, start, length, stopFieldInclusive);
         visitor.visit(cobolComplexType);
         return visitor.isValid();
 

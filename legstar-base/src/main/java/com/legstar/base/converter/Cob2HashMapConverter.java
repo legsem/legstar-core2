@@ -22,9 +22,9 @@ public class Cob2HashMapConverter extends
 
     @SuppressWarnings("unchecked")
     public FromHostResult < Map < String, Object > > convert(byte[] hostData,
-            int start) {
+            int start, int length) {
         Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(getCobolContext(),
-                hostData, start, getCustomChoiceStrategy(),
+                hostData, start, length, getCustomChoiceStrategy(),
                 getCustomVariables());
         visitor.visit(getCobolComplexType());
         return new FromHostResult < Map < String, Object > >(

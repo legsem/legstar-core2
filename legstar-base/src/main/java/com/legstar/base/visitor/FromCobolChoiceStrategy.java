@@ -18,10 +18,12 @@ public interface FromCobolChoiceStrategy {
      * @param hostData the host data
      * @param start the start position within the host data for the entire
      *            parent structure
+     * @param length how many bytes of hostData contains actual data to process
      * @return a selected alternative or null if unable to select one
      */
     CobolType choose(String choiceFieldName, CobolChoiceType choiceType,
-            Map < String, Object > variables, byte[] hostData, int start);
+            Map < String, Object > variables, byte[] hostData, int start,
+            int length);
 
     /**
      * Provides a list of variable names whose values are to be collected before

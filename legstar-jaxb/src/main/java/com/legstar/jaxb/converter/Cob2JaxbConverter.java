@@ -36,13 +36,14 @@ public class Cob2JaxbConverter<J> extends AbstractCob2ObjectConverter < J > {
      * 
      * @param hostData the buffer of host data
      * @param start where to start in the buffer of host data
+     * @param length How many bytes of hostData contains actual data to process
      * @return a result object containing the JAXB instance created as well as
      *         the total number of host bytes used to generate that JAXB
      *         instance
      */
-    public FromHostResult < J > convert(byte[] hostData, int start) {
+    public FromHostResult < J > convert(byte[] hostData, int start, int length) {
         Cob2JaxbVisitor visitor = new Cob2JaxbVisitor(getCobolContext(),
-                hostData, start, jaxbWrapperFactory);
+                hostData, start, length, jaxbWrapperFactory);
         visitor.visit(getCobolComplexType());
         JaxbWrapper < ? > jaxbWrapper = visitor
                 .getLastObject(JaxbWrapper.class);

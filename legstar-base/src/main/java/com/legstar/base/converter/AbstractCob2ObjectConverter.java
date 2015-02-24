@@ -40,7 +40,7 @@ public abstract class AbstractCob2ObjectConverter<T> implements
     private final Set < String > customVariables;
 
     public FromHostResult < T > convert(byte[] hostData)  {
-        return convert(hostData, 0);
+        return convert(hostData, 0, hostData.length);
     }
 
     // -----------------------------------------------------------------------------

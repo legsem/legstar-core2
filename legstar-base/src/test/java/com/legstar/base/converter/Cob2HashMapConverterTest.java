@@ -34,7 +34,7 @@ public class Cob2HashMapConverterTest {
             public CobolType choose(String choiceFieldName,
                     CobolChoiceType choiceType,
                     Map < String, Object > variables, byte[] hostData,
-                    int start) {
+                    int start, int length) {
                 int select = ((Number) variables.get("comSelect"))
                         .intValue();
                 switch (select) {

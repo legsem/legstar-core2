@@ -34,19 +34,26 @@ public class Cob2ObjectVisitor extends FromCobolVisitor {
     // -----------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------
-    public Cob2ObjectVisitor(CobolContext cobolContext, byte[] hostData,
-            int start) {
-        this(cobolContext, hostData, start, null);
+    public Cob2ObjectVisitor(CobolContext cobolContext, byte[] hostData) {
+        this(cobolContext, hostData, 0, hostData.length, null);
     }
 
     public Cob2ObjectVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, FromCobolChoiceStrategy customChoiceStrategy) {
-        this(cobolContext, hostData, start, customChoiceStrategy, null);
+            int start, int length) {
+        this(cobolContext, hostData, start, length, null);
     }
 
     public Cob2ObjectVisitor(CobolContext cobolContext, byte[] hostData,
-            int start, FromCobolChoiceStrategy customChoiceStrategy, Set < String > customVariables) {
-        super(cobolContext, hostData, start, customChoiceStrategy, customVariables);
+            int start, int length, FromCobolChoiceStrategy customChoiceStrategy) {
+        this(cobolContext, hostData, start, length, customChoiceStrategy, null);
+    }
+
+    public Cob2ObjectVisitor(CobolContext cobolContext, byte[] hostData,
+            int start, int length,
+            FromCobolChoiceStrategy customChoiceStrategy,
+            Set < String > customVariables) {
+        super(cobolContext, hostData, start, length, customChoiceStrategy,
+                customVariables);
         primitiveTypeHandler = new ObjectPrimitiveTypeHandler();
         choiceTypeAlternativeHandler = new ObjectChoiceTypeAlternativeHandler();
     }
@@ -91,7 +98,8 @@ public class Cob2ObjectVisitor extends FromCobolVisitor {
             return true;
         }
 
-        public boolean postVisit(String fieldName, int fieldIndex, CobolType child) {
+        public boolean postVisit(String fieldName, int fieldIndex,
+                CobolType child) {
             map.put(fieldName, resultObject);
             return true;
         }
@@ -124,7 +132,8 @@ public class Cob2ObjectVisitor extends FromCobolVisitor {
                 CobolType alternative) {
         }
 
-        public void postVisit(String alternativeName, int alternativeIndex, CobolType alternative) {
+        public void postVisit(String alternativeName, int alternativeIndex,
+                CobolType alternative) {
             // Wrap the chosen alternative in a map
             final Map < String, Object > map = new LinkedHashMap < String, Object >();
             map.put(alternativeName, resultObject);
@@ -135,11 +144,11 @@ public class Cob2ObjectVisitor extends FromCobolVisitor {
 
     private class ObjectPrimitiveTypeHandler implements PrimitiveTypeHandler {
 
-        public void preVisit(CobolPrimitiveType<?> type) {
-            
+        public void preVisit(CobolPrimitiveType < ? > type) {
+
         }
 
-        public void postVisit(CobolPrimitiveType<?> type, Object value) {
+        public void postVisit(CobolPrimitiveType < ? > type, Object value) {
             resultObject = value;
         }
 

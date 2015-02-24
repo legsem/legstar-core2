@@ -45,7 +45,7 @@ public class Cob2ObjectVisitorLoadText {
         while ((rdw = getRecLen(is)) > 0) {
             readFully(is, record, 0, rdw);
             Cob2ObjectVisitor visitor = new Cob2ObjectVisitor(cobolContext,
-                    record, 0);
+                    record, 0, rdw);
             visitor.visit(cobolType);
             count++;
 
