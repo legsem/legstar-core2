@@ -56,6 +56,17 @@ public class CobolComplexTypeFinder extends CobolTypeFinder {
      * 
      * @param cobolContext host COBOL configuration parameters
      * @param cobolComplexType the Cobol complex type we are looking for
+     */
+    public CobolComplexTypeFinder(CobolContext cobolContext,
+            CobolComplexType cobolComplexType) {
+        this(cobolContext, cobolComplexType, null);
+    }
+
+    /**
+     * Construct the finder.
+     * 
+     * @param cobolContext host COBOL configuration parameters
+     * @param cobolComplexType the Cobol complex type we are looking for
      * @param stopFieldInclusive what is the last field of the signature (the
      *            signature is formed by all fields from the start of the
      *            complex type up to this one). If you pass null or a field that
