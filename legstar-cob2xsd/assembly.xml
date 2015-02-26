@@ -15,6 +15,10 @@ Assembly descriptor for the distribution.
         </fileSet>
         <fileSet>
             <directory>src/main/ant</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/samples/ant</directory>
             <outputDirectory>/samples</outputDirectory>
         </fileSet>
         <fileSet>

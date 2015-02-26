@@ -1,17 +1,21 @@
-<project name="cob2xsd-sample" default="generate" basedir=".">
+<project name="cob2base-sample" default="generate" basedir=".">
 
-    <!-- Generates samples                                          -->
+    <!-- Set LEGSTAR_CORE2_HOME to use this ant script from another location -->
+    <!-- Point cobdir to a folder containing COBOL copybooks                 -->
+    <!-- Point gendir where you want the XML schemas to be generated         -->
 
-    <property name="libdir" location="../lib"/>
-    <property name="cobdir" location="cobol"/>
-    <property name="config" location="conf/cob2xsd.properties"/>
-    <property name="logconfig" location="conf/log4j.properties"/>
-    <property name="gendir" location="gen/xsd"/>
+    <property environment="env"/>
+    <property name="env.LEGSTAR_CORE2_HOME" value="."/>
+    <property name="core2.home" location="${env.LEGSTAR_CORE2_HOME}"/>
+    <property name="cobdir" location="${core2.home}/samples/cobol"/>
+    <property name="gendir" location="target/generated-sources/xsd"/>
     <property name="nsprefix" value="http://samples.legstar"/>
+    <property name="config" location="${core2.home}/samples/conf/cob2xsd.properties"/>
+    <property name="logconfig" location="${core2.home}/samples/conf/log4j.properties"/>
 
     <!-- Classpath for generation -->
     <path id="project.class.path">
-        <fileset dir="${libdir}">
+        <fileset dir="${core2.home}/lib">
             <include name="*.jar"/>
         </fileset>
     </path>
@@ -28,11 +32,5 @@
             <jvmarg value="-Dlog4j.configuration=file:///${logconfig}"/>
         </java>
     </target>
-
-    <target name="clean" description="Clean output directory">
-        <delete dir="${gendir}" verbose="true" />
-    </target>
-
-    <target name="clean-and-generate" depends="clean,generate" />
 
 </project>

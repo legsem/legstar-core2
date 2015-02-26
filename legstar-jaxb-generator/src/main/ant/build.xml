@@ -1,23 +1,21 @@
-<project name="cob2jaxb-sample" default="run" basedir=".">
+<project name="cob2jaxb-sample" default="generate" basedir=".">
 
-    <!-- Starting from COBOL copybooks in cobdir                    -->
-    <!-- Generate JAXB converters in gendir                         -->
-    <!-- Compile the generated java code and sample into bindir     -->
-    <!-- Run the java sample reading host data from infile          -->
+    <!-- Set LEGSTAR_CORE2_HOME to use this ant script from another location -->
+    <!-- Point cobdir to a folder containing COBOL copybooks                 -->
+    <!-- Point gendir where you want the java sources to be generated        -->
 
-    <property name="libdir" location="../lib"/>
-    <property name="cobdir" location="cobol"/>
-    <property name="javadir" location="java"/>
-    <property name="config" location="conf/cob2xsd.properties"/>
-    <property name="logconfig" location="conf/log4j.properties"/>
+    <property environment="env"/>
+    <property name="env.LEGSTAR_CORE2_HOME" value="."/>
+    <property name="core2.home" location="${env.LEGSTAR_CORE2_HOME}"/>
+    <property name="cobdir" location="${core2.home}/samples/cobol"/>
+    <property name="gendir" location="target/generated-sources/java"/>
     <property name="packageprefix" value="legstar.samples"/>
-    <property name="infile" location="data/custdat.bin"/>
-    <property name="gendir" location="gen/java"/>
-    <property name="bindir" location="bin"/>
+    <property name="config" location="${core2.home}/samples/conf/cob2xsd.properties"/>
+    <property name="logconfig" location="${core2.home}/samples/conf/log4j.properties"/>
 
     <!-- Classpath for generation -->
     <path id="project.class.path">
-        <fileset dir="${libdir}">
+        <fileset dir="${core2.home}/lib">
             <include name="*.jar"/>
         </fileset>
     </path>
@@ -25,7 +23,6 @@
 
     <target name="init">
         <mkdir dir="${gendir}"/>
-        <mkdir dir="${bindir}"/>
     </target>
 
     <target name="generate" depends="init">
@@ -35,31 +32,5 @@
             <jvmarg value="-Dlog4j.configuration=file:///${logconfig}"/>
         </java>
     </target>
-
-    <target name="compile" depends="generate">
-        <javac srcdir="${gendir}:${javadir}" destdir="${bindir}" source="1.6" debug="true">
-            <classpath>
-                <pathelement path="${project.classpath}"/>
-                <pathelement location="${bindir}"/>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="run" depends="compile">
-        <java classname="legstar.samples.custdat.CustdatSample" fork="true" failonerror="true">
-        	<arg value="${infile}"/>
-            <classpath>
-                <pathelement path="${project.classpath}"/>
-                <pathelement location="${bindir}"/>
-            </classpath>
-        </java>
-    </target>
-
-    <target name="clean" description="Clean output directories">
-        <delete dir="${gendir}" verbose="true" />
-        <delete dir="${bindir}" verbose="false" />
-    </target>
-
-    <target name="clean-and-run" depends="clean,run" />
 
 </project>
