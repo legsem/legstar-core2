@@ -9,7 +9,7 @@
 
   <groupId>com.legsem.legstar</groupId>
   <artifactId>legstar-core2</artifactId>
-  <version>2.0.4-SNAPSHOT</version>
+  <version>2.0.4</version>
   <packaging>pom</packaging>
 
   <name>legstar-core2</name>
@@ -34,7 +34,7 @@
       <connection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</connection>
       <developerConnection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</developerConnection>
       <url>https://github.com/legsem/legstar-core2.git</url>
-      <tag>HEAD</tag>
+      <tag>legstar-core2-2.0.4</tag>
   </scm> 
 
   <distributionManagement>
