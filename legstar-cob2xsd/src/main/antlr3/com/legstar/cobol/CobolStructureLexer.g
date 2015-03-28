@@ -227,6 +227,13 @@ import java.util.Map;
     }
 
     /**
+     * Is this a separator.
+     */
+    public boolean isSeparator(final String string) {
+        return string.matches("\\s*[,|;]\\s*");
+    }
+
+    /**
      * Check that a string is a valid part of a picture string.
      * <p/>
      * Check that we are in the context of collecting picture string parts.
@@ -373,13 +380,19 @@ DATA_NAME
  * 3 tokens : PICTURE_STRING DECIMAL_POINT PICTURE_STRING.
  * The complete picture string is reconstructed by the 
  * picture_string parser rule.
+ * If we were not looking for a picture, we might be on a value
+ * separator (which we ignore) or on a data name
  *------------------------------------------------------------------*/
 PICTURE_PART
     : PICTURE_CHAR+
     {
         if (lastKeyword != PICTURE_KEYWORD) {
-            checkDataName(getText());
-            $type = DATA_NAME;
+            if (isSeparator(getText())) {
+              skip();
+            } else {
+              checkDataName(getText());
+              $type = DATA_NAME;
+            }
         } else {
             checkPicture(getText());
         }

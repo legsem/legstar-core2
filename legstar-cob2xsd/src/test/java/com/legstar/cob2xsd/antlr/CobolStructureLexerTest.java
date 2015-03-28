@@ -838,4 +838,24 @@ public class CobolStructureLexerTest extends AbstractCobolTester {
                         + "[@5,35:47=''CONTO N. W '',<ALPHANUM_LITERAL_STRING>,1:35]"
                         + "[@6,48:48='.',<PERIOD>,1:48]");
     }
+
+    /**
+     * Issue #15, long delimiter not detected if newline.
+     */
+    @Test
+    public void testLevel88ValueOnMultipleLines() {
+        lexAndCheck(
+                "        88 AT31-TRAN-DISPUTE-YES VALUE 'Y',\n        '2' THRU '9'.\n",
+                "[@0,8:9='88',<CONDITION_LEVEL>,1:8]"
+                        + "[@1,11:31='AT31-TRAN-DISPUTE-YES',<DATA_NAME>,1:11]"
+                        + "[@2,33:37='VALUE',<VALUE_KEYWORD>,1:33]"
+                        + "[@3,39:41=''Y'',<ALPHANUM_LITERAL_STRING>,1:39]"
+                        + "[@4,52:54=''2'',<ALPHANUM_LITERAL_STRING>,2:8]"
+                        + "[@5,56:59='THRU',<THROUGH_KEYWORD>,2:12]"
+                        + "[@6,61:63=''9'',<ALPHANUM_LITERAL_STRING>,2:17]"
+                        + "[@7,64:64='.',<PERIOD>,2:20]");
+    }
+
+
+
 }
