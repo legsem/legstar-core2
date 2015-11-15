@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import com.legstar.cob2xsd.Cob2XsdConfig;
+import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +61,8 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
     @Parameter(property = "configProps")
     private Properties configProps;
 
+    @Parameter(required = true, property = "project")
+    protected MavenProject project;
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         validate();
@@ -74,6 +77,8 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
             execute(configProps, sourceDirectory, inputEncoding,
                     outputDirectory, xsltFileName);
         }
+
+        project.getCompileSourceRoots().add( outputDirectory.getAbsolutePath() );
     }
 
     private void validate() throws MojoFailureException {
