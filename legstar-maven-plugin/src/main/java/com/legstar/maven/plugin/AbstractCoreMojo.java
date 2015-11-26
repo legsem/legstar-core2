@@ -1,12 +1,11 @@
 package com.legstar.maven.plugin;
 
+import com.legstar.cob2xsd.Cob2XsdConfig;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import com.legstar.cob2xsd.Cob2XsdConfig;
 import org.apache.maven.project.MavenProject;
 
 import java.io.File;
@@ -78,7 +77,7 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
                     outputDirectory, xsltFileName);
         }
 
-        project.getCompileSourceRoots().add( outputDirectory.getAbsolutePath() );
+        project.addCompileSourceRoot( outputDirectory.getAbsolutePath() );
     }
 
     private void validate() throws MojoFailureException {
