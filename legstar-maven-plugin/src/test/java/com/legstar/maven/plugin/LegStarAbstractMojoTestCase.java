@@ -8,7 +8,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 
 /**
- * @author et2448
+ * @author <a href="mailto:david@davidkarlsen.com">David J. M. Karlsen</a>
  * @since 11/26/15
  */
 public abstract class LegStarAbstractMojoTestCase
