@@ -37,7 +37,7 @@ public class CobolPackedDecimalType<T extends Number> extends
         // Last byte must hold a valid sign (in the right nibble)
         if (isSigned()) {
             if (nibbles[1] != cobolContext.getPositiveSignNibbleValue()
-                    && nibbles[1] != cobolContext.getNegativeSignNibbleValue()) {
+                    && nibbles[1] != cobolContext.getNegativeSignNibbleValue() && nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
                 return false;
             }
         } else {
@@ -73,14 +73,17 @@ public class CobolPackedDecimalType<T extends Number> extends
                     if (nibbles[1] == cobolContext.getNegativeSignNibbleValue()) {
                         sb.insert(0, "-");
                     } else if (nibbles[1] != cobolContext
-                            .getPositiveSignNibbleValue()) {
+                            .getPositiveSignNibbleValue() && nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
                         return new FromHostPrimitiveResult < T >(
                                 "Nibble at sign position does not contain the expected values 0x"
                                         + Integer.toHexString(cobolContext
                                                 .getNegativeSignNibbleValue())
                                         + " or 0x"
                                         + Integer.toHexString(cobolContext
-                                                .getPositiveSignNibbleValue()),
+                                                .getPositiveSignNibbleValue())
+                                         + " or 0x"
+                                         + Integer.toHexString(cobolContext
+                                        .getUnspecifiedSignNibbleValue()),
                                 hostData, start, i, getBytesLen());
                     }
                 } else if (nibbles[1] != cobolContext
