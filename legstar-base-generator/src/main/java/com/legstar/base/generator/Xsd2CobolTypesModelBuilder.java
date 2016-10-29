@@ -3,7 +3,6 @@ package com.legstar.base.generator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,13 +98,13 @@ public class Xsd2CobolTypesModelBuilder {
      * enriching the odo object with target arrays characteristics.
      * <p/>
      */
-    Map < String, Object > odoObjects = new HashMap < String, Object >();
+    Map < String, Object > odoObjects = new LinkedHashMap < String, Object >();
 
     /**
      * Maps an Object Depending On COBOL name to its element name in the XML
      * schema.
      */
-    Map < String, String > odoObjectNames = new HashMap < String, String >();
+    Map < String, String > odoObjectNames = new LinkedHashMap < String, String >();
 
     /**
      * Process each element in the input Schema.
@@ -281,7 +280,7 @@ public class Xsd2CobolTypesModelBuilder {
         String choiceTypeName = getComplexTypeName(xsdChoice);
         visit(xsdChoice, compositeTypes, choiceTypeName);
 
-        Map < String, Object > props = new HashMap < String, Object >();
+        Map < String, Object > props = new LinkedHashMap < String, Object >();
         props.put(FIELD_INDEX_PROP_NAME, fieldIndex);
         props.put(CHOICE_TYPE_PROP_NAME, true);
         props.put(CHOICE_TYPE_NAME_PROP_NAME, choiceTypeName);
@@ -306,7 +305,7 @@ public class Xsd2CobolTypesModelBuilder {
         String complexTypeName = getComplexTypeName(xsdComplexType);
         visit(xsdComplexType, compositeTypes, complexTypeName);
 
-        Map < String, Object > props = new HashMap < String, Object >();
+        Map < String, Object > props = new LinkedHashMap < String, Object >();
         props.put(COMPLEX_TYPE_PROP_NAME, true);
         props.put(COMPLEX_TYPE_NAME_PROP_NAME, complexTypeName);
 
@@ -504,7 +503,7 @@ public class Xsd2CobolTypesModelBuilder {
      */
     private <T extends Number> Map < String, Object > getCobolAlphanumType(
             List < XmlSchemaFacet > facets) {
-        Map < String, Object > props = new HashMap < String, Object >();
+        Map < String, Object > props = new LinkedHashMap < String, Object >();
         props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolStringType");
         props.put(CHAR_NUM_PROP_NAME, getMaxLength(facets));
         props.put(JAVA_TYPE_NAME_PROP_NAME, getShortTypeName(String.class));
@@ -519,7 +518,7 @@ public class Xsd2CobolTypesModelBuilder {
      */
     private <T extends Number> Map < String, Object > getCobolOctetStreamType(
             List < XmlSchemaFacet > facets) {
-        Map < String, Object > props = new HashMap < String, Object >();
+        Map < String, Object > props = new LinkedHashMap < String, Object >();
         props.put(COBOL_TYPE_NAME_PROP_NAME, "CobolStringType");
         props.put(CHAR_NUM_PROP_NAME, getMaxLength(facets));
         props.put(JAVA_TYPE_NAME_PROP_NAME, getShortTypeName(ByteBuffer.class));
@@ -553,7 +552,7 @@ public class Xsd2CobolTypesModelBuilder {
     private <T extends Number> Map < String, Object > getCobolDecimalType(
             CobolAnnotations cobolAnnotations, Class < T > clazz) {
         String cobolType = cobolAnnotations.getCobolType();
-        Map < String, Object > props = new HashMap < String, Object >();
+        Map < String, Object > props = new LinkedHashMap < String, Object >();
 
         switch (CobolTypes.valueOf(cobolType)) {
         case ZONED_DECIMAL_ITEM:
