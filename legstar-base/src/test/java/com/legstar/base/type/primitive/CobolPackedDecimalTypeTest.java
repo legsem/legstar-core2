@@ -95,6 +95,7 @@ public class CobolPackedDecimalTypeTest {
         assertTrue(isValid(false, 1, 0, "1F"));
         assertTrue(isValid(true, 5, 2, "42567C"));
         assertTrue(isValid(false, 6, 5, "0012345F"));
+        assertTrue(isValid(true, 6, 5, "0012345F"));
         assertTrue(isValid(false, 31, 5, "1234567890123456789012345678901F"));
     }
 
@@ -120,6 +121,7 @@ public class CobolPackedDecimalTypeTest {
     @Test
     public void testFromHostDecimal() {
         assertEquals("456790.00675", getValue(false, 11, 5, "45679000675f"));
+        assertEquals("456790.00675", getValue(true, 11, 5, "45679000675f"));
         assertEquals("-123456789012345.12",
                 getValue(true, 17, 2, "12345678901234512d"));
         assertEquals("0.00", getValue(true, 17, 2, "00000000000000000c"));

@@ -35,16 +35,17 @@ public class CobolPackedDecimalType<T extends Number> extends
             return false;
         }
         // Last byte must hold a valid sign (in the right nibble)
-        if (isSigned()) {
-            if (nibbles[1] != cobolContext.getPositiveSignNibbleValue()
-                    && nibbles[1] != cobolContext.getNegativeSignNibbleValue() && nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
-                return false;
-            }
-        } else {
-            if (nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
-                return false;
-            }
-        }
+		if (isSigned()) {
+			if (nibbles[1] != cobolContext.getPositiveSignNibbleValue()
+					&& nibbles[1] != cobolContext.getNegativeSignNibbleValue()
+					&& nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
+				return false;
+			}
+		} else {
+			if (nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
+				return false;
+			}
+		}
 
         return true;
     }
@@ -59,51 +60,41 @@ public class CobolPackedDecimalType<T extends Number> extends
         StringBuffer sb = new StringBuffer();
         int[] nibbles = new int[2];
 
-        for (int i = start; i < end; i++) {
-            setNibbles(nibbles, hostData[i]);
-            char digit0 = getDigit(nibbles[0]);
-            if (digit0 == '\0') {
-                return new FromHostPrimitiveResult < T >(
-                        "First nibble is not a digit", hostData, start, i,
-                        getBytesLen());
-            }
-            sb.append(digit0);
-            if (i == end - 1) {
-                if (isSigned()) {
-                    if (nibbles[1] == cobolContext.getNegativeSignNibbleValue()) {
-                        sb.insert(0, "-");
-                    } else if (nibbles[1] != cobolContext
-                            .getPositiveSignNibbleValue() && nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
-                        return new FromHostPrimitiveResult < T >(
-                                "Nibble at sign position does not contain the expected values 0x"
-                                        + Integer.toHexString(cobolContext
-                                                .getNegativeSignNibbleValue())
-                                        + " or 0x"
-                                        + Integer.toHexString(cobolContext
-                                                .getPositiveSignNibbleValue())
-                                         + " or 0x"
-                                         + Integer.toHexString(cobolContext
-                                        .getUnspecifiedSignNibbleValue()),
-                                hostData, start, i, getBytesLen());
-                    }
-                } else if (nibbles[1] != cobolContext
-                        .getUnspecifiedSignNibbleValue()) {
-                    return new FromHostPrimitiveResult < T >(
-                            "Nibble at sign position does not contain the expected value 0x"
-                                    + Integer.toHexString(cobolContext
-                                            .getUnspecifiedSignNibbleValue()),
-                            hostData, start, i, getBytesLen());
-                }
-            } else {
-                char digit1 = getDigit(nibbles[1]);
-                if (digit1 == '\0') {
-                    return new FromHostPrimitiveResult < T >(
-                            "Second nibble is not a digit", hostData, start, i,
-                            getBytesLen());
-                }
-                sb.append(digit1);
-            }
-        }
+		for (int i = start; i < end; i++) {
+			setNibbles(nibbles, hostData[i]);
+			char digit0 = getDigit(nibbles[0]);
+			if (digit0 == '\0') {
+				return new FromHostPrimitiveResult<T>("First nibble is not a digit", hostData, start, i, getBytesLen());
+			}
+			sb.append(digit0);
+			if (i == end - 1) {
+				if (isSigned()) {
+					if (nibbles[1] == cobolContext.getNegativeSignNibbleValue()) {
+						sb.insert(0, "-");
+					} else if (nibbles[1] != cobolContext.getPositiveSignNibbleValue()
+							&& nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
+						return new FromHostPrimitiveResult<T>(
+								"Nibble at sign position does not contain the expected values 0x"
+										+ Integer.toHexString(cobolContext.getNegativeSignNibbleValue()) + " or 0x"
+										+ Integer.toHexString(cobolContext.getPositiveSignNibbleValue()) + " or 0x"
+										+ Integer.toHexString(cobolContext.getUnspecifiedSignNibbleValue()),
+								hostData, start, i, getBytesLen());
+					}
+				} else if (nibbles[1] != cobolContext.getUnspecifiedSignNibbleValue()) {
+					return new FromHostPrimitiveResult<T>(
+							"Nibble at sign position does not contain the expected value 0x"
+									+ Integer.toHexString(cobolContext.getUnspecifiedSignNibbleValue()),
+							hostData, start, i, getBytesLen());
+				}
+			} else {
+				char digit1 = getDigit(nibbles[1]);
+				if (digit1 == '\0') {
+					return new FromHostPrimitiveResult<T>("Second nibble is not a digit", hostData, start, i,
+							getBytesLen());
+				}
+				sb.append(digit1);
+			}
+		}
 
         if (getFractionDigits() > 0) {
             sb.insert(sb.length() - getFractionDigits(), JAVA_DECIMAL_POINT);
