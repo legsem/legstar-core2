@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolChoiceType;
-import com.legstar.base.visitor.FromCobolChoiceStrategy;
 
 /**
  * Example of a custom strategy.

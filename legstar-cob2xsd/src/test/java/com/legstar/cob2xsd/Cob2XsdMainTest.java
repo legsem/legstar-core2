@@ -10,15 +10,17 @@
  ******************************************************************************/
 package com.legstar.cob2xsd;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-
-import com.legstar.cob2xsd.Cob2XsdMain;
-
-import static org.junit.Assert.*;
 
 
 
@@ -105,7 +107,7 @@ public class Cob2XsdMainTest extends AbstractTest {
                     "-n", "http://legstar.com"});
             File result = new File(tempFolder, "myfile.xsd");
             assertTrue(result.exists());
-            assertTrue(FileUtils.readFileToString(result).contains(
+            assertTrue(FileUtils.readFileToString(result, StandardCharsets.UTF_8).contains(
                     "xmlns:tns=\"http://legstar.com/lsfileae\""));
             result.deleteOnExit();
         } catch (Exception e) {

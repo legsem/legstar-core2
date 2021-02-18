@@ -103,6 +103,9 @@ public class XsdDataItem {
     /** True if some item downstream redefines this data item. */
     private boolean _isRedefined;
 
+    /** The name of a upstream element that this element redefines. */
+    private String _redefines;
+
     /** Minimum number of storage bytes occupied by this item in z/OS memory. */
     private int _minStorageLength;
 
@@ -234,8 +237,9 @@ public class XsdDataItem {
         }
 
         /* Inform object upstream that someone redefines him. */
-        if (getRedefines() != null && getParent() != null) {
-            getParent().updateRedefinition(getRedefines());
+        _redefines = cobolDataItem.getRedefines();
+        if (_redefines != null && getParent() != null) {
+        	_redefines = getParent().updateRedefinition(_redefines);
         }
 
         /* Create the list of children by decorating the COBOL item children. */
@@ -396,27 +400,37 @@ public class XsdDataItem {
         return found;
     }
 
-    /**
-     * Called when some child (or child of a child) has a REDEFINES clause. We
-     * look up our children for an item matching the COBOL name of the REDEFINES
-     * object. If found, we update its isRedefined member, otherwise we
-     * propagate the request to our own parent.
-     * 
-     * @param cobolName the redefines object.
-     */
-    public void updateRedefinition(final String cobolName) {
-        boolean found = false;
-        for (XsdDataItem child : getChildren()) {
-            if (child.getCobolName().equals(cobolName)) {
-                child.setIsRedefined(true);
-                found = true;
-                break;
-            }
-        }
-        if (!found && getParent() != null) {
-            getParent().updateRedefinition(cobolName);
-        }
-    }
+	/**
+	 * Called when some child (or child of a child) has a REDEFINES clause. We
+	 * look up our children for an item matching the COBOL name of the REDEFINES
+	 * object. If found, we update its isRedefined member, otherwise we
+	 * propagate the request to our own parent.
+	 * <p>
+	 * In case the redefined parent is itself redefining a grand parent
+	 * (transitive redefines), we don't update the isRedefined property and send
+	 * back the grand parent name (to be used as the true redefines).
+	 * 
+	 * @param cobolName
+	 *            the redefines object.
+	 * @return the ultimate redefined element name (may differ from cobolName in
+	 *         case of transitive dependencies)
+	 */
+	public String updateRedefinition(final String cobolName) {
+		for (XsdDataItem child : getChildren()) {
+			if (child.getCobolName().equals(cobolName)) {
+				if (child.getRedefines() != null) {
+					return child.getRedefines();
+				}
+				child.setIsRedefined(true);
+				return cobolName;
+			}
+		}
+		if (getParent() != null) {
+			return getParent().updateRedefinition(cobolName);
+		}
+		_log.error("Unable to locate redefined item " + cobolName);
+		return null;
+	}
 
     /**
      * Derive XML schema attributes from a COBOL usage clause. This gives a
@@ -1076,7 +1090,7 @@ public class XsdDataItem {
      * @return the Cobol element sharing same memory location
      */
     public String getRedefines() {
-        return _cobolDataItem.getRedefines();
+        return _redefines;
     }
 
     /**

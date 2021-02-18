@@ -1,21 +1,10 @@
 package com.legstar.jaxb.converter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import legstar.test.jaxb.ardo01.CobolArdo01Record;
-import legstar.test.jaxb.cusdat.CobolCustomerData;
-import legstar.test.jaxb.flat01.CobolFlat01Record;
-import legstar.test.jaxb.flat02.CobolFlat02Record;
-import legstar.test.jaxb.rdef01.CobolRdef01Record;
-import legstar.test.jaxb.rdef02.CobolRdef02Record;
-import legstar.test.jaxb.rdef03.CobolRdef03Record;
-import legstar.test.jaxb.stru01.CobolStru01Record;
-import legstar.test.jaxb.stru03.CobolStru03Record;
-import legstar.test.jaxb.stru04.CobolStru04Record;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +16,6 @@ import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.utils.HexUtils;
 import com.legstar.base.visitor.FromCobolChoiceStrategy;
-import com.legstar.jaxb.converter.Cob2JaxbVisitor;
 import com.legstar.jaxb.converter.gen.ardo01.Ardo01RecordJaxb;
 import com.legstar.jaxb.converter.gen.custdat.CustomerDataJaxb;
 import com.legstar.jaxb.converter.gen.flat01.Flat01RecordJaxb;
@@ -38,6 +26,17 @@ import com.legstar.jaxb.converter.gen.rdef03.Rdef03RecordJaxb;
 import com.legstar.jaxb.converter.gen.stru01.Stru01RecordJaxb;
 import com.legstar.jaxb.converter.gen.stru03.Stru03RecordJaxb;
 import com.legstar.jaxb.converter.gen.stru04.Stru04RecordJaxb;
+
+import legstar.test.jaxb.ardo01.CobolArdo01Record;
+import legstar.test.jaxb.cusdat.CobolCustomerData;
+import legstar.test.jaxb.flat01.CobolFlat01Record;
+import legstar.test.jaxb.flat02.CobolFlat02Record;
+import legstar.test.jaxb.rdef01.CobolRdef01Record;
+import legstar.test.jaxb.rdef02.CobolRdef02Record;
+import legstar.test.jaxb.rdef03.CobolRdef03Record;
+import legstar.test.jaxb.stru01.CobolStru01Record;
+import legstar.test.jaxb.stru03.CobolStru03Record;
+import legstar.test.jaxb.stru04.CobolStru04Record;
 
 public class Cob2JaxbVisitorTest {
 

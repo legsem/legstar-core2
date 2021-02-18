@@ -2,6 +2,7 @@ package com.legstar.base.generator;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -48,7 +49,7 @@ public class Cob2CobolTypesGeneratorMain extends AbstractCob2JavaGeneratorMain {
                 log.info("Writing java class " + className + " with package "
                         + packageName + " in " + output);
                 FileUtils.writeStringToFile(new File(output, subFolder
-                        + className), entry.getValue());
+                        + className), entry.getValue(), StandardCharsets.UTF_8);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

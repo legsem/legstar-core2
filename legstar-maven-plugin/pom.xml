@@ -13,11 +13,11 @@
   <name>LegStar Core Maven Plugin</name>
   <description>Produces XML Schemas and java classes for a set of COBOL copybooks</description>
   <prerequisites>
-    <maven>3.0.0</maven>
+    <maven>3.6.0</maven>
   </prerequisites>
   <properties>
-    <maven.version>3.2.5</maven.version>
-    <maven.plugin.version>3.2</maven.plugin.version>
+    <maven.version>3.6.3</maven.version>
+    <maven.plugin.version>3.6.0</maven.plugin.version>
   </properties>
 
   <dependencies>

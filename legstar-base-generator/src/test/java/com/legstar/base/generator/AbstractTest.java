@@ -1,10 +1,10 @@
 package com.legstar.base.generator;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.*;
-
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.rules.TestName;
@@ -41,10 +41,10 @@ public class AbstractTest {
         File refFile = new File(SRC_REF_DIR, name.getMethodName() + "/"
                 + refFileName);
         if (isCreateReferences()) {
-            FileUtils.writeStringToFile(refFile, resultText, Charsets.UTF_8);
+            FileUtils.writeStringToFile(refFile, resultText, StandardCharsets.UTF_8);
         } else {
             String referenceText = FileUtils.readFileToString(refFile,
-                    Charsets.UTF_8);
+            		StandardCharsets.UTF_8);
             assertEquals(referenceText, resultText);
         }
 

@@ -1,0 +1,35 @@
+       PROCESS XOPTS(SP APOST)
+       PROCESS NOSEQ LIB OPTIMIZE(FULL)
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. REDTRANS.
+      *****************************************************************
+      * OVERVIEW                                                      *
+      * --------                                                      *
+      * TRANSITIVE REDEFINES                                          *
+      *                                                               *
+      *****************************************************************
+      *****************************************************************
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+      *SOURCE-COMPUTER. IBM-390 WITH DEBUGGING MODE.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       LINKAGE SECTION.
+       01 DFHCOMMAREA.
+           05  C-NUMERIC     PIC  9(4) COMP.
+           05  C-ALPHA REDEFINES C-NUMERIC.
+               10 C-LEFT-BYTE  PIC X.
+               10 C-RIGHT-BYTE PIC X.
+           05  C-ALPHA2 REDEFINES C-ALPHA.
+               10 FILLER     PIC X(2).
+          
+       PROCEDURE DIVISION.
+
+
+           EXEC CICS RETURN END-EXEC.
+
+           GOBACK.
+
+       END PROGRAM REDTRANS.

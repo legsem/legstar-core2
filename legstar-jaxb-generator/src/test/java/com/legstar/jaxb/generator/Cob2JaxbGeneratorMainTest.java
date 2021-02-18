@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -51,7 +52,7 @@ public class Cob2JaxbGeneratorMainTest extends AbstractTest {
     private String getCode(String subFolder, String className)
             throws IOException {
         return FileUtils.readFileToString(new File(outputDir, subFolder + "/"
-                + className + ".java"));
+                + className + ".java"), StandardCharsets.UTF_8);
     }
 
 }

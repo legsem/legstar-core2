@@ -1,13 +1,12 @@
 package com.legstar.base.finder;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.finder.CobolComplexTypeFinder;
 import com.legstar.base.type.gen.CobolFlat01Record;
 import com.legstar.base.utils.HexUtils;
 

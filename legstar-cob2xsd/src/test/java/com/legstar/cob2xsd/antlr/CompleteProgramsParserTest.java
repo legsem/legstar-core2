@@ -11,6 +11,7 @@
 package com.legstar.cob2xsd.antlr;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class CompleteProgramsParserTest extends AbstractCobolTester {
     @Test
     public void testLsfileae() throws Exception {
         parseAndCheck(
-                FileUtils.readFileToString(new File(sampleFolder, "LSFILEAE"))
+                FileUtils.readFileToString(new File(sampleFolder, "LSFILEAE"), StandardCharsets.UTF_8)
                 , "(DATA_ITEM (LEVEL 01) (NAME FILEA))"
                 + " (DATA_ITEM (LEVEL 77) (NAME RESPONSE) (PICTURE S9(8)))"
                 + " (DATA_ITEM (LEVEL 01) (NAME DFHCOMMAREA)"
@@ -53,7 +54,7 @@ public class CompleteProgramsParserTest extends AbstractCobolTester {
     @Test
     public void testDplarcht() throws Exception {
         parseAndCheck(
-                FileUtils.readFileToString(new File(sampleFolder, "DPLARCHT"))
+                FileUtils.readFileToString(new File(sampleFolder, "DPLARCHT"), StandardCharsets.UTF_8)
                 , "(DATA_ITEM (LEVEL 01) (NAME WS-MAX-ITEMS) (PICTURE 9(9)) (USAGE NATIVEBINARY) (VALUE 500))"
                 + " (DATA_ITEM (LEVEL 01) (NAME WS-MAX-ITEMS-D) (PICTURE 9(9)) (VALUE ZERO))"
                 + " (DATA_ITEM (LEVEL 01) (NAME WS-ERROR-STATUS) (PICTURE 9(4)) (USAGE BINARY) (VALUE ZERO)"

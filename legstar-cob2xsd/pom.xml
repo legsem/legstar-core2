@@ -167,6 +167,45 @@
                </executions>
           </plugin>
 
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-shade-plugin</artifactId>
+              <version>3.2.4</version>
+              <configuration>
+                  <shadedArtifactAttached>true</shadedArtifactAttached>
+                  <shadedClassifierName>shaded</shadedClassifierName>
+                  <artifactSet>
+                      <excludes>
+                          <exclude>org.antlr:antlr</exclude>
+                          <exclude>org.slf4j:slf4j-log4j12</exclude>
+                          <exclude>log4j:log4j:jar:</exclude>
+                      </excludes>
+                  </artifactSet>
+                  <relocations>
+                      <relocation>
+                          <pattern>org.apache</pattern>
+                          <shadedPattern>org.legstar.apache</shadedPattern>
+                      </relocation>
+                      <relocation>
+                          <pattern>org.antlr</pattern>
+                          <shadedPattern>org.legstar.antlr</shadedPattern>
+                      </relocation>
+                      <relocation>
+                          <pattern>org.stringtemplate</pattern>
+                          <shadedPattern>org.legstar.stringtemplate</shadedPattern>
+                      </relocation>
+                  </relocations>
+              </configuration>
+              <executions>
+                  <execution>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>shade</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+            
 
        </plugins>
   </build>

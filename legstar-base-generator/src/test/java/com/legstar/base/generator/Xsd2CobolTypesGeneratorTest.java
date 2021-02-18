@@ -1,15 +1,13 @@
 package com.legstar.base.generator;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.legstar.base.generator.Xsd2CobolTypesGenerator;
 
 public class Xsd2CobolTypesGeneratorTest extends AbstractTest {
 

@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +177,7 @@ public abstract class AbstractCob2JavaGeneratorMain {
     protected boolean collectOptions(final Options options, final String[] args) {
         try {
             if (args != null && args.length > 0) {
-                CommandLineParser parser = new PosixParser();
+                CommandLineParser parser = new DefaultParser();
                 CommandLine line = parser.parse(options, args);
                 return processLine(line, options);
             }
