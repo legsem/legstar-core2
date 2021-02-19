@@ -13,7 +13,7 @@ import com.legstar.base.context.CobolContext;
  * This is a broad class that covers pretty much all COBOL numerics apart from
  * Float/Double.
  * <p>
- * The parameterized type <T> determines which java Number type this COBOL
+ * The parameterized type T determines which java Number type this COBOL
  * decimal is converted to.
  * 
  */
@@ -97,6 +97,7 @@ public abstract class CobolDecimalType<T extends Number> extends
      * characteristics.
      * 
      * @param javaClass java Number class mapped to this COBOL decimal
+     * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
@@ -184,6 +185,7 @@ public abstract class CobolDecimalType<T extends Number> extends
      * <p>
      * If the target is an integer type, we trim any fractional part.
      * 
+     * @param <D> a number type
      * @param clazz the java Number type
      * @param str the string representation of a numeric value
      * @return the java Number obtained from the input string
@@ -212,6 +214,7 @@ public abstract class CobolDecimalType<T extends Number> extends
      * <p>
      * Note that there is an assumption that the byte buffer contains at least 8
      * 
+     * @param <D> a number type
      * @param clazz the java Number type
      * @param bb byte buffer containing the 2's complement representation of an
      *            unscaled numeric

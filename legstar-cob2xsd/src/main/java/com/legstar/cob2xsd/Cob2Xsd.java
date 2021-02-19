@@ -75,7 +75,7 @@ import com.legstar.cobol.model.CobolDataItem;
  * <li>Writing the XML Schema, optionally applying a customization XSLT</li>
  * </ul>
  * <p>
- * All options are bundled in {@link Cob2XsdModel} instance that is received at
+ * All options are bundled in {@link Cob2XsdConfig} instance that is received at
  * construction time.
  * <p>
  * To invoke the translator, you normally call the translate method.

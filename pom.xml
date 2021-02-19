@@ -1,487 +1,458 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-      <groupId>org.sonatype.oss</groupId>
-      <artifactId>oss-parent</artifactId>
-      <version>9</version>
-  </parent>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-core2</artifactId>
+    <version>2.0.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <groupId>com.legsem.legstar</groupId>
-  <artifactId>legstar-core2</artifactId>
-  <version>2.0.5-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <name>legstar-core2</name>
+    <description>Translates COBOL structures to a java model. Converts Mainframe data to Java objects.</description>
+    <url>https://github.com/legsem/legstar-core2</url>
 
-  <name>legstar-core2</name>
-  <description>Translates COBOL structures to a java model. Converts Mainframe data to Java objects.</description>
-  <url>https://github.com/legsem/legstar-core2</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <compiler.version>1.8</compiler.version>
+        <antlr.version>3.5.2</antlr.version>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    </properties>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <compiler.version>1.8</compiler.version>
-    <antlr.version>3.5.2</antlr.version>
-    <timestamp>${maven.build.timestamp}</timestamp>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-  </properties>
+    <issueManagement>
+        <system>Github Issue Tracking</system>
+        <url>https://github.com/legsem/legstar-core2/issues</url>
+    </issueManagement>
 
-  <issueManagement>
-      <system>Github Issue Tracking</system>
-      <url>https://github.com/legsem/legstar-core2/issues</url>
-  </issueManagement>
+    <!-- Source control GIT on github -->
+    <scm>
+        <connection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</connection>
+        <developerConnection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</developerConnection>
+        <url>https://github.com/legsem/legstar-core2.git</url>
+        <tag>HEAD</tag>
+    </scm> 
 
-  <!-- Source control GIT on github -->
-  <scm>
-      <connection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</connection>
-      <developerConnection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</developerConnection>
-      <url>https://github.com/legsem/legstar-core2.git</url>
-      <tag>HEAD</tag>
-  </scm> 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <site>
+            <id>legstar-core.website</id>
+            <url>file:///${user.home}/${project.artifactId}/site</url>
+        </site>
+    </distributionManagement>
 
-  <distributionManagement>
-      <site>
-          <id>legstar-core.website</id>
-          <url>file:///${user.home}/${project.artifactId}/site</url>
-      </site>
-  </distributionManagement>
+    <mailingLists>
+        <mailingList>
+            <name>LegStar users mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-user/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-user/subscribe</unsubscribe>
+            <post>legstar-user@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-user/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>LegStar dev mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-dev/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-dev/subscribe</unsubscribe>
+            <post>legstar-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-dev/topics</archive>
+        </mailingList>
+    </mailingLists>
 
-  <mailingLists>
-      <mailingList>
-          <name>LegStar users mailing list</name>
-          <subscribe>http://groups.google.com/group/legstar-user/subscribe</subscribe>
-          <unsubscribe>http://groups.google.com/group/legstar-user/subscribe</unsubscribe>
-          <post>legstar-user@googlegroups.com</post>
-          <archive>http://groups.google.com/group/legstar-user/topics</archive>
-      </mailingList>
-      <mailingList>
-          <name>LegStar dev mailing list</name>
-          <subscribe>http://groups.google.com/group/legstar-dev/subscribe</subscribe>
-          <unsubscribe>http://groups.google.com/group/legstar-dev/subscribe</unsubscribe>
-          <post>legstar-dev@googlegroups.com</post>
-          <archive>http://groups.google.com/group/legstar-dev/topics</archive>
-      </mailingList>
-  </mailingLists>
+    <developers>
+        <developer>
+            <id>fady</id>
+            <name>Fady Moussallam</name>
+            <email>fady@NOSPAMlegsem.com</email>
+            <organization>Legsem.com</organization>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
 
-  <developers>
-      <developer>
-          <id>fady</id>
-          <name>Fady Moussallam</name>
-          <email>fady@NOSPAMlegsem.com</email>
-          <organization>Legsem.com</organization>
-          <roles>
-              <role>Project Manager</role>
-              <role>Architect</role>
-          </roles>
-          <timezone>+1</timezone>
-      </developer>
-  </developers>
+    <licenses>
+        <license>
+            <name>APACHE LICENSE, VERSION 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <licenses>
-      <license>
-          <name>APACHE LICENSE, VERSION 2.0</name>
-          <url>https://www.apache.org/licenses/LICENSE-2.0</url>
-          <distribution>repo</distribution>
-      </license>
-  </licenses>
+    <organization>
+        <name>LegSem</name>
+        <url>http://www.legsem.com/</url>
+    </organization>
 
-  <organization>
-      <name>LegSem</name>
-      <url>http://www.legsem.com/</url>
-  </organization>
+    <modules>
+        <module>legstar-cob2xsd</module>
+        <module>legstar-base</module>
+        <module>legstar-base-generator</module>
+        <module>legstar-jaxb</module>
+        <module>legstar-jaxb-generator</module>
+        <module>legstar-maven-plugin</module>
+    </modules>
 
-  <modules>
-      <module>legstar-cob2xsd</module>
-      <module>legstar-base</module>
-      <module>legstar-base-generator</module>
-      <module>legstar-jaxb</module>
-      <module>legstar-jaxb-generator</module>
-      <module>legstar-maven-plugin</module>
-  </modules>
+    <dependencyManagement>
 
-  <dependencyManagement>
-
-    <dependencies>
+        <dependencies>
 
 
-      <!-- LegStar Converter -->
-      <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-base</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+            <!-- LegStar Converter -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-      <!-- LegStar Cobol to XSD Translator -->
-      <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-cob2xsd</artifactId>
-          <version>${project.version}</version>
-          <exclusions>
-            <exclusion>  <!-- projects depending on cob2xsd don't need antlr -->
-              <groupId>org.antlr</groupId>
-              <artifactId>antlr</artifactId>
-            </exclusion>
-          </exclusions> 
-      </dependency>
+            <!-- LegStar Cobol to XSD Translator -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cob2xsd</artifactId>
+                <version>${project.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- projects depending on cob2xsd don't need antlr -->
+                        <groupId>org.antlr</groupId>
+                        <artifactId>antlr</artifactId>
+                    </exclusion>
+                </exclusions> 
+            </dependency>
 
-      <!-- LegStar Converter Generator -->
-      <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-base-generator</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+            <!-- LegStar Converter Generator -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-base-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-      <!-- LegStar Converter for JAXB -->
-      <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-jaxb</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+            <!-- LegStar Converter for JAXB -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-      <!-- LegStar Generator for JAXB -->
-      <dependency>
-          <groupId>com.legsem.legstar</groupId>
-          <artifactId>legstar-jaxb-generator</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+            <!-- LegStar Generator for JAXB -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxb-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-       <!-- XML schema -->
-      <dependency>
-          <groupId>org.apache.ws.xmlschema</groupId>
-          <artifactId>xmlschema-core</artifactId>
-          <version>2.2.5</version>
-      </dependency>
+            <!-- XML schema -->
+            <dependency>
+                <groupId>org.apache.ws.xmlschema</groupId>
+                <artifactId>xmlschema-core</artifactId>
+                <version>2.2.5</version>
+            </dependency>
 
-      <!-- JAXB XJC utility -->
-      <dependency>
-          <groupId>org.glassfish.jaxb</groupId>
-          <artifactId>jaxb-core</artifactId>
-          <version>2.3.0.1</version>
-      </dependency>
-      <dependency>
-          <groupId>org.glassfish.jaxb</groupId>
-          <artifactId>jaxb-xjc</artifactId>
-          <version>2.3.3</version>
-      </dependency>
-      <dependency>
-          <groupId>javax.xml.bind</groupId>
-          <artifactId>jaxb-api</artifactId>
-          <version>2.3.1</version>
-      </dependency>
+            <!-- JAXB XJC utility -->
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>2.3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>2.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.3.1</version>
+            </dependency>
 
-      <!-- Handlebars Templating -->
-      <dependency>
-          <groupId>com.github.jknack</groupId>
-          <artifactId>handlebars</artifactId>
-          <version>1.3.2</version>
-      </dependency>
+            <!-- Handlebars Templating -->
+            <dependency>
+                <groupId>com.github.jknack</groupId>
+                <artifactId>handlebars</artifactId>
+                <version>1.3.2</version>
+            </dependency>
 
-      <!-- ANTLR -->
-      <dependency>
-          <groupId>org.antlr</groupId>
-          <artifactId>antlr</artifactId>
-          <version>${antlr.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.antlr</groupId>
-          <artifactId>antlr-runtime</artifactId>
-          <version>${antlr.version}</version>
-      </dependency>
+            <!-- ANTLR -->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr</artifactId>
+                <version>${antlr.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr-runtime</artifactId>
+                <version>${antlr.version}</version>
+            </dependency>
 
-      <!-- Apache utils -->
-      <dependency>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-          <version>2.7</version>
-      </dependency>
-      <dependency>
-          <groupId>commons-cli</groupId>
-          <artifactId>commons-cli</artifactId>
-          <version>1.4</version>
-      </dependency>
-      <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-lang3</artifactId>
-          <version>3.11</version>
-      </dependency>
+            <!-- Apache utils -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.7</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.11</version>
+            </dependency>
 
-      <!-- Logging -->   
-      <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-          <version>1.7.30</version>
-      </dependency>
-      <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-          <version>1.7.30</version>
-      </dependency>
+            <!-- Logging -->   
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.30</version>
+            </dependency>
 
-      <!-- Tests -->
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.13.2</version>
-          <scope>test</scope>
-      </dependency>
+            <!-- Tests -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
+                <scope>test</scope>
+            </dependency>
 
-      <!-- Used to graph ASTs -->   
-      <dependency>
-          <groupId>org.antlr</groupId>
-          <artifactId>stringtemplate</artifactId>
-          <version>3.2.1</version>
-          <scope>test</scope>
-      </dependency>
+            <!-- Used to graph ASTs -->   
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>stringtemplate</artifactId>
+                <version>3.2.1</version>
+                <scope>test</scope>
+            </dependency>
 
-      <!-- XML testing -->
-      <dependency>
-          <groupId>xmlunit</groupId>
-          <artifactId>xmlunit</artifactId>
-          <version>1.5</version>
-          <scope>test</scope>
-      </dependency> 
+            <!-- XML testing -->
+            <dependency>
+                <groupId>xmlunit</groupId>
+                <artifactId>xmlunit</artifactId>
+                <version>1.5</version>
+                <scope>test</scope>
+            </dependency> 
 
-    </dependencies>
+        </dependencies>
 
-  </dependencyManagement>
+    </dependencyManagement>
 
-  <build>
+    <build>
 
-    <pluginManagement>
+        <plugins>
 
-      <plugins>
+            <!-- Staging plugin for OSSRH Nexus Repository -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
 
-        <!-- JDK -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-            <configuration>
-                <source>${compiler.version}</source>
-                <target>${compiler.version}</target>
-            </configuration>
-        </plugin>
 
-        <!-- Resource filtering -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>3.2.0</version>
-        </plugin>
+        </plugins>
 
-        <!-- Dependencies -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.1.2</version>
-        </plugin>
+        <pluginManagement>
 
-        <!-- Execute Java -->
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.0.0</version>
-        </plugin>
+            <plugins>
 
-          <!-- Add source folders (for generated code) -->
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.2.0</version>
-        </plugin>
-
-        <!-- Assembly -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.3.0</version>
-        </plugin>
-
-         <!-- Make jars -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-              <excludes>
-                <exclude>**/test/**/*</exclude>
-              </excludes>
-            </configuration>
-        </plugin>
-
-        <!-- Antlr generator -->
-        <plugin>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr3-maven-plugin</artifactId>
-            <version>${antlr.version}</version>
-        </plugin>
-
-      <!-- Generate JAXB classes -->
-      <plugin>
-          <groupId>org.jvnet.jaxb2.maven2</groupId>
-          <artifactId>maven-jaxb2-plugin</artifactId>
-          <version>0.14.0</version>
-          <configuration>
-              <locale>en</locale>
-          </configuration>
-        </plugin>
-
-        <!-- Test framework -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.2</version>
-            <configuration>
-                <argLine>-Duser.language=en -Duser.region=US</argLine>
-            </configuration>
-        </plugin>
-
-       <!-- Release -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <version>3.0.0-M1</version>
-            <configuration>
-                <autoVersionSubmodules>true</autoVersionSubmodules>
-            </configuration>
-        </plugin>
-
-        <!-- Site reporting -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-site-plugin</artifactId>
-            <version>3.9.1</version>
-        </plugin>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-project-info-reports-plugin</artifactId>
-            <version>3.1.1</version>
-        </plugin>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>3.2.1</version>
-        </plugin>
- 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-              <links>
-              </links>
-            </configuration>
-        </plugin>
-
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <versionRange>[1.9,)</versionRange>
-                    <goals>
-                      <goal>add-source</goal>
-                      <goal>add-test-source</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
+                <!-- JDK -->
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <versionRange>[1.7,)</versionRange>
-                    <goals>
-                      <goal>run</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${compiler.version}</source>
+                        <target>${compiler.version}</target>
+                    </configuration>
+                </plugin>
+
+                <!-- Resource filtering -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+
+                <!-- Dependencies -->
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <versionRange>[2.8,)</versionRange>
-                    <goals>
-                      <goal>build-classpath</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
+                    <version>3.1.2</version>
+                </plugin>
+
+                <!-- Execute Java -->
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <versionRange>[1.3.2,)</versionRange>
-                    <goals>
-                      <goal>java</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <!-- Add source folders (for generated code) -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+
+                <!-- Assembly -->
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <versionRange>[1.0.0,)</versionRange>
-                    <goals>
-                      <goal>enforce</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+
+                <!-- Make jars -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/test/**/*</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <!-- Antlr generator -->
+                <plugin>
                     <groupId>org.antlr</groupId>
                     <artifactId>antlr3-maven-plugin</artifactId>
-                    <versionRange>[3.5.2,)</versionRange>
-                    <goals>
-                      <goal>antlr</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
+                    <version>${antlr.version}</version>
+                </plugin>
+
+                <!-- Generate JAXB classes -->
+                <plugin>
                     <groupId>org.jvnet.jaxb2.maven2</groupId>
                     <artifactId>maven-jaxb2-plugin</artifactId>
-                    <versionRange>[0.11.0,)</versionRange>
-                    <goals>
-                      <goal>generate</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-        
-      </plugins>
+                    <version>0.14.0</version>
+                    <configuration>
+                        <locale>en</locale>
+                    </configuration>
+                </plugin>
 
-    </pluginManagement>
+                <!-- Test framework -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>-Duser.language=en -Duser.region=US</argLine>
+                    </configuration>
+                </plugin>
 
-  </build>
+                <!-- Release -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <releaseProfiles>release</releaseProfiles>
+                    </configuration>
+                </plugin>
+
+                <!-- Signing -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                </plugin>
+
+                <!-- Site reporting -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.9.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <configuration>
+                        <links>
+                        </links>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
+
+    </build>
+
+    <profiles>
+        <profile> 
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

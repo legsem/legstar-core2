@@ -377,7 +377,7 @@ public class XsdDataItem {
      * @param odoObjectCobolName the ODO Object we are looking for
      * @param stopChildCobolName a child name past which it is not useful to
      *            continue the lookup
-     * @return
+     * @return true if ODO object found
      */
     public boolean markODOObjectInChildren(final String odoObjectCobolName,
             final String stopChildCobolName) {

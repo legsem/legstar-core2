@@ -293,7 +293,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
      * @param type the primitive type
      * @param callback a function that is invoked after the primitive type has
      *            been visited
-     * @throws FromCobolException
+     * @throws FromCobolException conversion failure
      */
     public void visitCobolPrimitiveType(CobolPrimitiveType < ? > type,
             PrimitiveTypeHandler callback) throws FromCobolException {

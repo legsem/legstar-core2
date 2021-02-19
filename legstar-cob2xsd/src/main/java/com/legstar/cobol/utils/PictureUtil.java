@@ -34,7 +34,7 @@ public final class PictureUtil {
      * Determines how many times a given character occurs in a picture string. A
      * character can appear standalone or as a factored sequence like X(nn).
      * Unlike all other picture symbols, currency symbols are case sensitive.
-     * For example, &apos;D&apos; and &apos;d&apos; specify different currency
+     * For example, 'D' and 'd' specify different currency
      * symbols.
      * 
      * @param picture the picture string

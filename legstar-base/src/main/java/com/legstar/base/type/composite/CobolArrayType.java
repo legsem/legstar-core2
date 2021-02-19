@@ -10,7 +10,6 @@ import com.legstar.base.visitor.CobolVisitor;
  * variable size array which size is determined at runtime by the value of the
  * dependingOn variable.
  * 
- * @param an item java object type
  */
 public class CobolArrayType extends CobolCompositeType {
 
