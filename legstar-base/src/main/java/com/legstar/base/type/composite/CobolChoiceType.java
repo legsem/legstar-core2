@@ -88,7 +88,7 @@ public class CobolChoiceType extends CobolCompositeType {
 
     /**
      * {@inheritDoc}
-     * <p/>
+     * <p>
      * Choices are wrappers without a name in COBOL.
      */
     public String getCobolName() {

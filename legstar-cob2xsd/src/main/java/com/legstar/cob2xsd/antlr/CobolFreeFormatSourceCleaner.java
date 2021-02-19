@@ -12,7 +12,7 @@ package com.legstar.cob2xsd.antlr;
 
 /**
  * Clean a free format COBOL source.
- * <p/>
+ * <p>
  * Free format is the Microfocus and open COBOL format where column 1 is the
  * indicator area but code can start at column 1 as well. There are no area A
  * and B anymore and code has no fixed right margin.

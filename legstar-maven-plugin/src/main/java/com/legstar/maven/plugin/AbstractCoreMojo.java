@@ -22,9 +22,9 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
      * The source directory from which COBOL copybooks are taken. Note that all
      * files within this directory and its sub directories will be considered
      * COBOL copybooks.
-     * <p/>
+     * <p>
      * Defaults to <b>src/main/cobol</b>.
-     * <p/>
+     * <p>
      * Note that you can alternatively specify a single file using this
      * parameter.
      */
@@ -34,7 +34,7 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
     /**
      * Output directory where artifacts will be placed. If the directory does
      * not exist, it will be created.
-     * <p/>
+     * <p>
      * Defaults to * <b>target/generated-sources</b>.
      */
     @Parameter(property = "outputDirectory")

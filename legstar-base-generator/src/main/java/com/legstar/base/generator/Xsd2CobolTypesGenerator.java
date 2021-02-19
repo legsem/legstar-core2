@@ -24,7 +24,7 @@ import com.github.jknack.handlebars.Template;
 
 /**
  * Produces a set of java classes for runtime conversion of mainframe data.
- * <p/>
+ * <p>
  * The generated java classes reflect the structure of an original COBOL
  * copybook after it was translated to a COBOL annotated XML Schema ( see
  * legstar-cob2xsd).

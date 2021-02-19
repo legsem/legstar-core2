@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * Converts an XML namespace to a java package name and vice versa.
- * <p/>
+ * <p>
  * Code mostly comes from com.sun.xml.bind.api.impl.NameConverter
  */
 public class NamespaceUtils {

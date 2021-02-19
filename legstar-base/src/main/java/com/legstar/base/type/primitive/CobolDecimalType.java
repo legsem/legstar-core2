@@ -9,10 +9,10 @@ import com.legstar.base.context.CobolContext;
 
 /**
  * A generic type for mainframe decimals.
- * <p/>
+ * <p>
  * This is a broad class that covers pretty much all COBOL numerics apart from
  * Float/Double.
- * <p/>
+ * <p>
  * The parameterized type <T> determines which java Number type this COBOL
  * decimal is converted to.
  * 
@@ -181,7 +181,7 @@ public abstract class CobolDecimalType<T extends Number> extends
     /**
      * Given a string representation of a numeric value, convert that to the
      * target java Number type.
-     * <p/>
+     * <p>
      * If the target is an integer type, we trim any fractional part.
      * 
      * @param clazz the java Number type
@@ -209,7 +209,7 @@ public abstract class CobolDecimalType<T extends Number> extends
     /**
      * Given a byte buffer containing the 2's complement representation of an
      * unscaled numeric, convert that to the target java Number type.
-     * <p/>
+     * <p>
      * Note that there is an assumption that the byte buffer contains at least 8
      * 
      * @param clazz the java Number type
@@ -256,7 +256,7 @@ public abstract class CobolDecimalType<T extends Number> extends
 
     /**
      * Determines the maximum value a numeric can take.
-     * <p/>
+     * <p>
      * The maximum is constrained either from the host side by the the number of
      * digits in the picture clause or by the mapping java type maximum value
      * whichever is smaller.
@@ -302,7 +302,7 @@ public abstract class CobolDecimalType<T extends Number> extends
 
     /**
      * Determines the minimum value a numeric can take.
-     * <p/>
+     * <p>
      * The minimum is constrained either from the host side by the the number of
      * digits in the picture clause or by the mapping java type minimum value
      * whichever is larger.

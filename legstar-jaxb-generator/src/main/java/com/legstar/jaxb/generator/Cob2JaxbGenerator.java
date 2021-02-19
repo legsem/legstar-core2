@@ -124,9 +124,9 @@ public class Cob2JaxbGenerator {
 
     /**
      * Invoke the XJC utility which takes input from a file.
-     * <p/>
+     * <p>
      * First step is to copy the XSD source to a temporary file.
-     * <p/>
+     * <p>
      * We then build a command line and invoke XJC.
      * 
      * @param xmlSchemaSource the input XML schema

@@ -15,7 +15,7 @@ import com.legstar.base.type.primitive.CobolPrimitiveType;
 
 /**
  * Convert a mainframe data to a java Object.
- * <p/>
+ * <p>
  * COBOL Complex types are converted to java Maps.
  * 
  */

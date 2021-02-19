@@ -20,7 +20,7 @@ import com.legstar.cob2xsd.Cob2XsdConfig;
 /**
  * Given a COBOL copybook, this will produce a set of java classes used at
  * runtime to convert mainframe data to java.
- * <p/>
+ * <p>
  * This is a 2 steps process:
  * <ul>
  * <li>Translate the copybook to a COBOL annotated XML schema</li>

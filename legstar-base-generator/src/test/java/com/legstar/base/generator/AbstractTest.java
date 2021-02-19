@@ -28,7 +28,7 @@ public class AbstractTest {
     /**
      * Check a string result against a reference file content (One ref file per
      * test case).
-     * <p/>
+     * <p>
      * If reference needs to be created, it is created rather than used for
      * comparison.
      * 

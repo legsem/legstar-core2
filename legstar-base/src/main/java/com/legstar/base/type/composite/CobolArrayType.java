@@ -5,7 +5,7 @@ import com.legstar.base.visitor.CobolVisitor;
 
 /**
  * Array of other types.
- * <p/>
+ * <p>
  * If there is no dependingOn then this is a fixed size array otherwise, it is a
  * variable size array which size is determined at runtime by the value of the
  * dependingOn variable.
@@ -69,7 +69,7 @@ public class CobolArrayType extends CobolCompositeType {
     
     /**
      *  {@inheritDoc} 
-     *  <p/>
+     *  <p>
      *  Arrays are wrappers without a name in COBOL.
      */
     public String getCobolName() {

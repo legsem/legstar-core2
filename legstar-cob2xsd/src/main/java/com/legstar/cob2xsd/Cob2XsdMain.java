@@ -30,10 +30,10 @@ import com.legstar.cob2xsd.antlr.RecognizerException;
 
 /**
  * COBOL structure to XML schema executable.
- * <p/>
+ * <p>
  * This is the main class for the executable jar. It takes options from the
  * command line and calls the {@link Cob2Xsd} API.
- * <p/>
+ * <p>
  * Usage: <code>
  * java -jar legstar-cob2xsd-x.y.z-exe.jar -i&lt;input file or folder&gt; -o&lt;output folder&gt;
  * </code>
@@ -99,7 +99,7 @@ public class Cob2XsdMain {
 
     /**
      * Process command line options and run translator.
-     * <p/>
+     * <p>
      * If no options are passed, prints the help. Help is also printed if the
      * command line options are invalid.
      * 
@@ -123,7 +123,7 @@ public class Cob2XsdMain {
     /**
      * Take arguments received on the command line and setup corresponding
      * options.
-     * <p/>
+     * <p>
      * No arguments is valid. It means use the defaults.
      * 
      * @param options the expected options

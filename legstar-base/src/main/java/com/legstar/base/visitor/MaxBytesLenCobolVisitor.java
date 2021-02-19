@@ -11,11 +11,11 @@ import com.legstar.base.type.primitive.CobolPrimitiveType;
 /**
  * Calculates the maximum number of bytes needed for a mainframe buffer to hold
  * a representation of a complex type.
- * <p/>
+ * <p>
  * Variable size arrays are considered to have all occurrences.
- * <p/>
+ * <p>
  * Choices are assumed to have the largest alternative selected.
- * <p/>
+ * <p>
  * Optionally calculation can stop on a field in the middle of the structure
  * (calculates partial length).
  * 

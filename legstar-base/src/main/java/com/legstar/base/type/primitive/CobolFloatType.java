@@ -8,7 +8,7 @@ import com.legstar.base.context.CobolContext;
 
 /**
  * COBOL Float type.
- * <p/>
+ * <p>
  * This is the bit layout for this type:
  * 
  * <pre>

@@ -9,7 +9,7 @@ import com.legstar.base.visitor.FromCobolChoiceStrategy;
 
 /**
  * Converts a mainframe datum to an Object.
- * <p/>
+ * <p>
  * Implementation classes must be immutable and Thread safe.
  *
  * @param <T> the type of Object produced

@@ -36,7 +36,7 @@ import com.legstar.cobol.model.CobolTypes;
 /**
  * Build a model using a COBOL-annotated XML schema such as the ones produced by
  * legstar-cob2xsd.
- * <p/>
+ * <p>
  * The model is organized as a set of hierarchical properties which are easy to
  * use by a template engine.
  * 
@@ -96,7 +96,7 @@ public class Xsd2CobolTypesModelBuilder {
     /**
      * Maps an Object Depending On COBOL name to its properties. This helps
      * enriching the odo object with target arrays characteristics.
-     * <p/>
+     * <p>
      */
     Map < String, Object > odoObjects = new LinkedHashMap < String, Object >();
 
@@ -108,7 +108,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Process each element in the input Schema.
-     * <p/>
+     * <p>
      * 
      * @param xmlSchema the XML schema with COBOL annotations
      * @return a map of root elements in the XML schema, each one mapped to its
@@ -142,7 +142,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Gathers all composite types for a given root element in the schema.
-     * <p/>
+     * <p>
      * Composite types are complex types, choice types, arrays.
      * 
      * 
@@ -180,7 +180,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Visit each child of a complex type in turn.
-     * <p/>
+     * <p>
      * Contribute a complex type to a list of complex types.
      * 
      * @param xsdComplexType the new complex type visited
@@ -220,7 +220,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Visit each alternative of a choice in turn.
-     * <p/>
+     * <p>
      * Note that this produces a new complex type.
      * 
      * @param xsdChoice the XML schema choice
@@ -266,7 +266,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Retrieve the properties of a choice element.
-     * <p/>
+     * <p>
      * Use the opportunity to visit each of the choice's alternatives.
      * 
      * @param fieldIndex the order of the choice in the parent complex type
@@ -292,7 +292,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Retrieve the properties of a complex type.
-     * <p/>
+     * <p>
      * Use the opportunity to visit the complex typew type's children.
      * 
      * @param xsdComplexType the xsd complex type
@@ -403,7 +403,7 @@ public class Xsd2CobolTypesModelBuilder {
 
     /**
      * Contribute array-related properties.
-     * <p/>
+     * <p>
      * If this is a array depending on, there must me a corresponding ODO Object
      * that we enrich with the array dimensions as the numeric range.
      * 

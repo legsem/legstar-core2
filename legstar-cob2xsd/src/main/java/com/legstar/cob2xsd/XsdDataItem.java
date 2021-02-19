@@ -27,11 +27,11 @@ import com.legstar.cobol.utils.PictureUtil;
 
 /**
  * XML Schema attributes derived from a COBOL data item.
- * <p/>
+ * <p>
  * Acts as a facade to the {@link CobolDataItem} type. This class is constructed
  * from a CobolDataItem. All XML Schema attributes are derived at construction
  * time.
- * <p/>
+ * <p>
  * The isODOObject and isRedefined properties are the only ones that are not set
  * at construction time (And therefore have setters). This is because these
  * members can be set only when some data item downstream happens to reference
@@ -316,7 +316,7 @@ public class XsdDataItem {
     /**
      * Items are identified as group items if they has at least one child that
      * is not a condition.
-     * <p/>
+     * <p>
      * If a group item has a picture clause assume a COBOL syntax error issue a
      * warning and ignore children.
      * 
@@ -345,10 +345,10 @@ public class XsdDataItem {
 
     /**
      * Lookup our ancestors for the ODO object of an array.
-     * <p/>
+     * <p>
      * First we ask our direct parent to lookup in his children (stopping when
      * he reaches us).
-     * <p/>
+     * <p>
      * If we can't find in the immediate parent, then we move up to the grand
      * parent.
      * 
@@ -370,7 +370,7 @@ public class XsdDataItem {
 
     /**
      * Lookup an ODO object in this item's children.
-     * <p/>
+     * <p>
      * Recurses through the grand children until found or no more children to
      * lookup.
      * 
@@ -617,10 +617,10 @@ public class XsdDataItem {
      * Once we have identified the COBOL data item as being numeric, this will
      * perform more analysis on the picture clause to extract such info as
      * integer part, decimal part and sign.
-     * <p/>
+     * <p>
      * The fractionDigits corresponds to digits past the decimal point. The
      * totalDigits is the integer part + fractionDigits;
-     * <p/>
+     * <p>
      * Once digits are identified we can further refine the choice of XML schema
      * type and a set of associated facets.
      * 
@@ -671,9 +671,9 @@ public class XsdDataItem {
     /**
      * Extracts total number of digits, fraction digits and sign from a picture
      * clause.
-     * <p/>
+     * <p>
      * Works for zoned decimals, binary and packed decimal.
-     * <p/>
+     * <p>
      * 
      * @param picture a purely numeric picture clause
      * @param currencySymbol the currency symbol
@@ -720,7 +720,7 @@ public class XsdDataItem {
     /**
      * The maximum number of digits supported by a numeric is given by its
      * picture clause.
-     * <p/>
+     * <p>
      * Currency symbol, + and - can be used for floating insertion editing in
      * which case they are repeated more than once.
      * 
@@ -746,7 +746,7 @@ public class XsdDataItem {
 
     /**
      * Turn a COBOL name to an XSD element name.
-     * <p/>
+     * <p>
      * COBOL names look ugly in XML schema. They are often uppercased and use
      * hyphens extensively. XML schema names they will have to be transformed
      * later to java identifiers so we try to get as close as possible to a
@@ -755,18 +755,18 @@ public class XsdDataItem {
      * So we remove hyphens. We lower case all characters which are not word
      * breakers. Word breakers are hyphens and numerics. This creates Camel
      * style names. Element names customarily start with a lowercase character.
-     * <p/>
+     * <p>
      * COBOL FILLERs are a particular case because there might be more than one
      * in the same parent group. So what we do is systematically append the
      * COBOL source line number so that these become unique names.
-     * <p/>
+     * <p>
      * COBOL names can start with a digit which is illegal for XML element
      * names. In this case we prepend a "C" character.
-     * <p/>
+     * <p>
      * Since Enterprise COBOL V4R1, underscores can be used (apart from first
      * character). We treat them as hyphens here, they are not propagated to the
      * XSD name but are used as word breakers.
-     * <p/>
+     * <p>
      * Once an element name is identified, we make sure it is unique among
      * siblings within the same parent.
      * 
@@ -831,9 +831,9 @@ public class XsdDataItem {
 
     /**
      * Turn a COBOL name to a unique XSD type name.
-     * <p/>
+     * <p>
      * Complex type names customarily start with an uppercase character.
-     * <p/>
+     * <p>
      * The proposed name might be conflicting with another so we disambiguate
      * xsd type names with one of 2 options:
      * <ul>

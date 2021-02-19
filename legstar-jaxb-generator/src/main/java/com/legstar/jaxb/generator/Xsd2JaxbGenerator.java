@@ -29,7 +29,7 @@ import com.legstar.base.utils.NamespaceUtils;
 
 /**
  * Given a COBOL-annotated XML schema, generates converter code for JAXB.
- * <p/>
+ * <p>
  * Produces the following artifacts:
  * <ul>
  * <li>Wrappers to get/set JAXB instances properties. They are a faster

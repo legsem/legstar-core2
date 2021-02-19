@@ -18,7 +18,7 @@ import java.util.Properties;
 
 /**
  * This class gathers execution parameters for the COBOL to XML Schema utility.
- * <p/>
+ * <p>
  * The class is immutable.
  * 
  */

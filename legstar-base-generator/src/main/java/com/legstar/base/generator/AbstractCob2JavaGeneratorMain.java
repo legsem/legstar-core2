@@ -88,7 +88,7 @@ public abstract class AbstractCob2JavaGeneratorMain {
 
     /**
      * Process command line options and run generator.
-     * <p/>
+     * <p>
      * If no options are passed, prints the help. Help is also printed if the
      * command line options are invalid.
      * 
@@ -167,7 +167,7 @@ public abstract class AbstractCob2JavaGeneratorMain {
     /**
      * Take arguments received on the command line and setup corresponding
      * options.
-     * <p/>
+     * <p>
      * No arguments is valid. It means use the defaults.
      * 
      * @param options the expected options
@@ -330,7 +330,7 @@ public abstract class AbstractCob2JavaGeneratorMain {
 
     /**
      * Check that package prefix name provided is valid.
-     * <p/>
+     * <p>
      * Null is acceptable and interpreted as no prefix.
      * 
      * @param packagePrefix the generated java classes package name

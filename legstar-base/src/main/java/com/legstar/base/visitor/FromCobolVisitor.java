@@ -23,7 +23,7 @@ import com.legstar.base.utils.StringUtils;
 /**
  * Generic visitor using mainframe data as input and producing some kind of
  * output (up to the specialized classes).
- * <p/>
+ * <p>
  * Mainframe data is expected as a byte array.
  * 
  */
@@ -54,10 +54,10 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     /**
      * Certain field values might need to be accessed, after they were visited,
      * by some other node downstream.
-     * <p/>
+     * <p>
      * One use case is variable size arrays which dimension is given at runtime
      * by a numeric field marked as odoObject.
-     * <p/>
+     * <p>
      * Another use case is custom code invoked by this visitor that might need
      * field values to make decisions. Such fields are marked as customVariable.
      */
@@ -162,7 +162,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     // -----------------------------------------------------------------------------
     /**
      * Visit a complex type which visits each of its children in turn.
-     * <p/>
+     * <p>
      * Optional children may be skipped.
      * 
      * @param type the complex type to visit
@@ -199,7 +199,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
     /**
      * Visit an array type which visits each items in turn.
-     * <p/>
+     * <p>
      * Size of the array might be inferred from an ODOObject visited before this
      * array.
      * 
@@ -225,7 +225,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
     /**
      * Visit a choice type (COBOL REDEFINES) which determines which alternative
      * must be selected.
-     * <p/>
+     * <p>
      * 
      * @param choiceType the choice type
      * @param callback a function that is invoked after the selected alternative
@@ -286,7 +286,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
     /**
      * Visit a primitive type performing the actual conversion to a java object.
-     * <p/>
+     * <p>
      * If there is an extra offset left over by a previous item, adjust the
      * position accordingly.
      * 
@@ -453,7 +453,7 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
     /**
      * Retrieve the size of an array.
-     * <p/>
+     * <p>
      * For variable size arrays this requires an ODOObject whose value
      * determines the size at runtime.
      * 
@@ -483,10 +483,10 @@ public abstract class FromCobolVisitor implements CobolVisitor {
 
     /**
      * Retrieve the ODO object value for a variable size array.
-     * <p/>
+     * <p>
      * The ODO object has usually been populated before this method in invoked
      * in which case, its value has been stored as a variable.
-     * <p/>
+     * <p>
      * If we can't find the ODO object in the variables hash, this means it was
      * not populated. This is possible in case the ODO object is in a REDEFINE
      * alternative where that alternative was not chosen.

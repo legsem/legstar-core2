@@ -13,10 +13,10 @@ import com.legstar.base.type.primitive.CobolPrimitiveType;
 
 /**
  * Default strategy for choice alternative selection.
- * <p/>
+ * <p>
  * Alternatives are taken in the order they were added to the Choice. The first
  * one that validates (mainframe data is compatible) is selected.
- * <p/>
+ * <p>
  * If no alternative validates, returns null.
  */
 public class DefaultFromCobolChoiceStrategy implements FromCobolChoiceStrategy {
