@@ -2,7 +2,7 @@ package com.legstar.jaxb.converter;
 
 /**
  * A wrapper on a JAXB instance.
- * <p/>
+ * <p>
  * Allows getting/setting the underlying JAXB instance properties using symbolic
  * field names or position (Order in which properties are declared in the JAXB
  * instance).

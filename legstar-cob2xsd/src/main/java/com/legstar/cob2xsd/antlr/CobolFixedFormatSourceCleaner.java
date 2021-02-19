@@ -13,7 +13,7 @@ package com.legstar.cob2xsd.antlr;
 
 /**
  * Clean a fixed format COBOL source.
- * <p/>
+ * <p>
  * Fixed format is the traditional IBM z/OS format where columns 1-6 contain
  * sequence numbers, column 7 is the indicator area, area A spans from column 8
  * to 11 and area B from 12 to 72.

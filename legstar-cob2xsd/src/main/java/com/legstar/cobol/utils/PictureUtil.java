@@ -34,7 +34,7 @@ public final class PictureUtil {
      * Determines how many times a given character occurs in a picture string. A
      * character can appear standalone or as a factored sequence like X(nn).
      * Unlike all other picture symbols, currency symbols are case sensitive.
-     * For example, &apos;D&apos; and &apos;d&apos; specify different currency
+     * For example, 'D' and 'd' specify different currency
      * symbols.
      * 
      * @param picture the picture string
@@ -83,12 +83,12 @@ public final class PictureUtil {
     /**
      * The COBOL picture clause determines the length, in number of characters,
      * for all alphanumeric and numeric-edited data items.
-     * <p/>
+     * <p>
      * The length evaluated here is either the number of character positions
      * (which corresponds to the size constraint on the client side) or the byte
      * size of the storage needed on z/OS for the data item. You select between
      * one or the other with the calcStorageLength parameter.
-     * <p/>
+     * <p>
      * When the currency sign is more than a single character, then the first
      * occurrence of the currency symbol counts for more than one byte of
      * storage.
@@ -144,13 +144,13 @@ public final class PictureUtil {
 
     /**
      * Try to infer a regular expression to match a COBOL picture clause.
-     * <p/>
+     * <p>
      * The objective is to build a string that would fit the internal
      * representation of a picture edited COBOL field.
-     * <p/>
+     * <p>
      * If a picture is not restrictive, for instance PIC X does not impose any
      * restriction, then we return null (no pattern).
-     * <p/>
+     * <p>
      * Regular expressions in XML Schema are more like PERL than Java regex.
      * 
      * @param picture the picture clause
@@ -220,7 +220,7 @@ public final class PictureUtil {
      * Parse a COBOL picture clause. Character symbols are returned in the order
      * where they are found in the picture clause. All factoring is resolved and
      * each character is associated with its occurrence number.
-     * <p/>
+     * <p>
      * For instance: 9(3)V99XX becomes 4 entries in the list for characters 9,
      * V, 9 and X. First 9 occurs 3 times, V occurs 1 time, 9 occurs 2 and X
      * occurs 2.

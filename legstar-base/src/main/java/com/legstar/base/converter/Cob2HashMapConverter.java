@@ -7,13 +7,13 @@ import com.legstar.base.visitor.Cob2ObjectVisitor;
 
 /**
  * Converts mainframe data to a hash map.
- * <p/>
+ * <p>
  * Convenience class using {@link Cob2ObjectVisitor} to perform a record
  * conversion.
- * <p/>
+ * <p>
  * Assumes a {@link CobolComplexType} is available. The CobolComplexType
  * describes the incoming mainframe datum.
- * <p/>
+ * <p>
  * This class is immutable and Thread safe.
  * 
  */

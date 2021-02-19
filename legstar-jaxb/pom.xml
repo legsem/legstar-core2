@@ -20,6 +20,12 @@
           <artifactId>legstar-base</artifactId>
       </dependency>
 
+      <!-- Jaxb -->   
+      <dependency>
+          <groupId>javax.xml.bind</groupId>
+          <artifactId>jaxb-api</artifactId>
+      </dependency>
+
       <!-- Logging -->   
       <dependency>
           <groupId>org.slf4j</groupId>

@@ -7,7 +7,7 @@ import com.legstar.base.visitor.CobolVisitor;
 
 /**
  * A primitive COBOL type.
- * <p/>
+ * <p>
  * Because primitive types tend to have lots of optional properties they are
  * created using Builders.
  * 

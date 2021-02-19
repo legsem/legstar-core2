@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,7 +29,7 @@ import com.legstar.base.utils.NamespaceUtils;
 
 /**
  * Given a COBOL-annotated XML schema, generates converter code for JAXB.
- * <p/>
+ * <p>
  * Produces the following artifacts:
  * <ul>
  * <li>Wrappers to get/set JAXB instances properties. They are a faster
@@ -72,7 +73,7 @@ public class Xsd2JaxbGenerator {
     private Template loadTemplate(Handlebars handlebars, String resourceName) {
         try {
             String text = IOUtils.toString(getClass().getResourceAsStream(
-                    resourceName));
+                    resourceName), StandardCharsets.UTF_8);
             return handlebars.compileInline(text);
         } catch (IOException e) {
             throw new Xsd2ConverterException(e);

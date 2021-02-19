@@ -2,6 +2,7 @@ package com.legstar.cob2xsd;
 
 import java.io.File;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -84,11 +85,11 @@ public class Cob2XsdValidationTest extends AbstractXsdTester {
             // Store it in a temporary file
             File tempXsdFile = File.createTempFile("test", ".xsd");
             tempXsdFile.deleteOnExit();
-            FileUtils.writeStringToFile(tempXsdFile, xmlSchema);
+            FileUtils.writeStringToFile(tempXsdFile, xmlSchema, StandardCharsets.UTF_8);
 
             if (_log.isDebugEnabled()) {
                 _log.debug(tempXsdFile.toURI().toString());
-                _log.debug(FileUtils.readFileToString(tempXsdFile));
+                _log.debug(FileUtils.readFileToString(tempXsdFile, StandardCharsets.UTF_8));
                 _log.debug(xmlInstance);
             }
 

@@ -1,6 +1,6 @@
 package com.legstar.base.visitor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,6 @@ import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.composite.CobolComplexType;
 import com.legstar.base.type.gen.CobolCustomerData;
-import com.legstar.base.visitor.Cob2ObjectVisitor;
 
 public class Cob2ObjectVisitorLoadText {
 

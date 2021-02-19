@@ -4,16 +4,14 @@ package com.legstar.jaxb.converter;
 import com.legstar.base.converter.AbstractCob2ObjectConverter;
 import com.legstar.base.converter.FromHostResult;
 import com.legstar.base.type.composite.CobolComplexType;
-import com.legstar.jaxb.converter.Cob2JaxbVisitor;
-import com.legstar.jaxb.converter.JaxbWrapper;
 
 /**
  * Converts mainframe data to a JAXB instance.
- * <p/>
+ * <p>
  * Given a buffer of mainframe data corresponding to a COBOL copybook.
- * <p/>
+ * <p>
  * Uses a {@link CobolComplexType} to visit all fields of the COBOL copybook.
- * <p/>
+ * <p>
  * Uses a {@link JaxbWrapperFactory} to create resulting JAXB instances.
  *
  * @param <J> the target JAXB object type
@@ -32,7 +30,7 @@ public class Cob2JaxbConverter<J> extends AbstractCob2ObjectConverter < J > {
 
     /**
      * Convert host data to a JAXB instance.
-     * <p/>
+     * <p>
      * 
      * @param hostData the buffer of host data
      * @param start where to start in the buffer of host data

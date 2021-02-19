@@ -36,7 +36,7 @@ import com.legstar.cobol.utils.ValueUtil;
 /**
  * This class is used to generate LegStar annotations to be included in an XML
  * schema.
- * <p/>
+ * <p>
  * The COBOL annotations are at the element level and belong to the LegStar
  * namespace.
  */

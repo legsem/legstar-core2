@@ -22,7 +22,7 @@ import com.legstar.cobol.CobolStructureEmitter;
 /**
  * Overrides some of the ANTLR generated lexer methods so that the resulting
  * java class behaves like other LegStar classes, particularly for logging purposes.
- * <p/>
+ * <p>
  * This code could be imbedded in the lexer grammar as well but its harder to
  * debug using ANTLRWorks because this code might have dependencies on jars which
  * are not naturally in ANTLRWorks classpath.

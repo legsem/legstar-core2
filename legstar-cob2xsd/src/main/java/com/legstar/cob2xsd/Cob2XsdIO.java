@@ -28,7 +28,7 @@ public class Cob2XsdIO extends Cob2Xsd {
 
     /**
      * Translates a single COBOL source file.
-     * <p/>
+     * <p>
      * When requested the file base name is appended to the target namespace.
      * 
      * @param cobolFile COBOL source file

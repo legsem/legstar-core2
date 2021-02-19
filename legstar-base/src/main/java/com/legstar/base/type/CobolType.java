@@ -4,10 +4,10 @@ import com.legstar.base.visitor.CobolVisitor;
 
 /**
  * Represents a COBOL item type.
- * <p/>
+ * <p>
  * They represent metadata and does not hold the actual item value during
  * conversion.
- * <p/>
+ * <p>
  * Types are immutable and thread safe.
  * 
  */

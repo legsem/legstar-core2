@@ -228,6 +228,8 @@ import java.util.Map;
 
     /**
      * Is this a separator.
+     * @param string a proposed separator
+     * @return true if this is a separator
      */
     public boolean isSeparator(final String string) {
         return string.matches("\\s*[,|;]\\s*");
@@ -235,9 +237,9 @@ import java.util.Map;
 
     /**
      * Check that a string is a valid part of a picture string.
-     * <p/>
+     * <p>
      * Check that we are in the context of collecting picture string parts.
-     * <p/>
+     * <p>
      * When string is a valid picture part, close picture string sequence
      * if the next character is space or new line.
      * 

@@ -18,7 +18,7 @@ import java.util.Properties;
 
 /**
  * This class gathers execution parameters for the COBOL to XML Schema utility.
- * <p/>
+ * <p>
  * The class is immutable.
  * 
  */
@@ -238,11 +238,12 @@ public class Cob2XsdConfig {
 
     }
 
-    /**
-     * Construct from a properties file.
-     * 
-     * @param configFile the configuration file
-     */
+	/**
+	 * Construct from a properties file.
+	 * 
+	 * @param configFile the configuration file
+	 * @throws IOException if configuration cannot be loaded
+	 */
     public Cob2XsdConfig(final File configFile) throws IOException {
         this(getConfigProps(configFile));
     }

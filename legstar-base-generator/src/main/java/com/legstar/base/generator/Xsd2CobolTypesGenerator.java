@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,7 +24,7 @@ import com.github.jknack.handlebars.Template;
 
 /**
  * Produces a set of java classes for runtime conversion of mainframe data.
- * <p/>
+ * <p>
  * The generated java classes reflect the structure of an original COBOL
  * copybook after it was translated to a COBOL annotated XML Schema ( see
  * legstar-cob2xsd).
@@ -43,7 +44,7 @@ public class Xsd2CobolTypesGenerator {
     public Xsd2CobolTypesGenerator() {
         try {
             String text = IOUtils.toString(getClass().getResourceAsStream(
-                    JAVA_CLASS_TEMPLATE_NAME));
+                    JAVA_CLASS_TEMPLATE_NAME), StandardCharsets.UTF_8);
             Handlebars handlebars = new Handlebars();
             hbtJavaClass = handlebars.compileInline(text);
             modelBuilder = new Xsd2CobolTypesModelBuilder();

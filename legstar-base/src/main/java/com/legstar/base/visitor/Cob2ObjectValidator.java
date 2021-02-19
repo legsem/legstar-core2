@@ -11,15 +11,15 @@ import com.legstar.base.type.primitive.FromHostPrimitiveResult;
 /**
  * Validates that an incoming mainframe bytes array contains data that is
  * compatible with a given complex type.
- * <p/>
+ * <p>
  * Validation can be stopped early by specifying a stop field name. All fields
  * up to this one (inclusive) are validated. The rest of the data is ignored.
- * <p/>
+ * <p>
  * Data corresponding to individual fields is validated without necessarily
  * performing the conversion. However, if the field is defined with a range
  * (minInclusive, maxInclusive) then data is converted to check that it fits in
  * the required range.
- * <p/>
+ * <p>
  * Upon completion, the lastPos property indicates the last position in the
  * incoming buffer that was validated.
  * 
@@ -115,7 +115,7 @@ public class Cob2ObjectValidator extends FromCobolVisitor {
      * but we try to avoid converting data unless this is needed for range
      * comparison or because the field is a custom variable or an ODOObject.
      * 
-     * <p/>
+     * <p>
      * {@inheritDoc}
      */
     public void visit(CobolPrimitiveType < ? > type) {

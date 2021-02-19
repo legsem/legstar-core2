@@ -11,7 +11,6 @@ import com.legstar.base.type.gen.CobolFlat02Record;
 import com.legstar.base.type.gen.CobolRdef01Record;
 import com.legstar.base.type.gen.CobolRdef02Record;
 import com.legstar.base.type.gen.CobolStru03Record;
-import com.legstar.base.visitor.MaxBytesLenCobolVisitor;
 
 public class MaxBytesLenCobolVisitorTest {
 

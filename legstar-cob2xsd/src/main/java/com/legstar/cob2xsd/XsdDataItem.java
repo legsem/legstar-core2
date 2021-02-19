@@ -27,11 +27,11 @@ import com.legstar.cobol.utils.PictureUtil;
 
 /**
  * XML Schema attributes derived from a COBOL data item.
- * <p/>
+ * <p>
  * Acts as a facade to the {@link CobolDataItem} type. This class is constructed
  * from a CobolDataItem. All XML Schema attributes are derived at construction
  * time.
- * <p/>
+ * <p>
  * The isODOObject and isRedefined properties are the only ones that are not set
  * at construction time (And therefore have setters). This is because these
  * members can be set only when some data item downstream happens to reference
@@ -102,6 +102,9 @@ public class XsdDataItem {
 
     /** True if some item downstream redefines this data item. */
     private boolean _isRedefined;
+
+    /** The name of a upstream element that this element redefines. */
+    private String _redefines;
 
     /** Minimum number of storage bytes occupied by this item in z/OS memory. */
     private int _minStorageLength;
@@ -234,8 +237,9 @@ public class XsdDataItem {
         }
 
         /* Inform object upstream that someone redefines him. */
-        if (getRedefines() != null && getParent() != null) {
-            getParent().updateRedefinition(getRedefines());
+        _redefines = cobolDataItem.getRedefines();
+        if (_redefines != null && getParent() != null) {
+        	_redefines = getParent().updateRedefinition(_redefines);
         }
 
         /* Create the list of children by decorating the COBOL item children. */
@@ -312,7 +316,7 @@ public class XsdDataItem {
     /**
      * Items are identified as group items if they has at least one child that
      * is not a condition.
-     * <p/>
+     * <p>
      * If a group item has a picture clause assume a COBOL syntax error issue a
      * warning and ignore children.
      * 
@@ -341,10 +345,10 @@ public class XsdDataItem {
 
     /**
      * Lookup our ancestors for the ODO object of an array.
-     * <p/>
+     * <p>
      * First we ask our direct parent to lookup in his children (stopping when
      * he reaches us).
-     * <p/>
+     * <p>
      * If we can't find in the immediate parent, then we move up to the grand
      * parent.
      * 
@@ -366,14 +370,14 @@ public class XsdDataItem {
 
     /**
      * Lookup an ODO object in this item's children.
-     * <p/>
+     * <p>
      * Recurses through the grand children until found or no more children to
      * lookup.
      * 
      * @param odoObjectCobolName the ODO Object we are looking for
      * @param stopChildCobolName a child name past which it is not useful to
      *            continue the lookup
-     * @return
+     * @return true if ODO object found
      */
     public boolean markODOObjectInChildren(final String odoObjectCobolName,
             final String stopChildCobolName) {
@@ -396,27 +400,37 @@ public class XsdDataItem {
         return found;
     }
 
-    /**
-     * Called when some child (or child of a child) has a REDEFINES clause. We
-     * look up our children for an item matching the COBOL name of the REDEFINES
-     * object. If found, we update its isRedefined member, otherwise we
-     * propagate the request to our own parent.
-     * 
-     * @param cobolName the redefines object.
-     */
-    public void updateRedefinition(final String cobolName) {
-        boolean found = false;
-        for (XsdDataItem child : getChildren()) {
-            if (child.getCobolName().equals(cobolName)) {
-                child.setIsRedefined(true);
-                found = true;
-                break;
-            }
-        }
-        if (!found && getParent() != null) {
-            getParent().updateRedefinition(cobolName);
-        }
-    }
+	/**
+	 * Called when some child (or child of a child) has a REDEFINES clause. We
+	 * look up our children for an item matching the COBOL name of the REDEFINES
+	 * object. If found, we update its isRedefined member, otherwise we
+	 * propagate the request to our own parent.
+	 * <p>
+	 * In case the redefined parent is itself redefining a grand parent
+	 * (transitive redefines), we don't update the isRedefined property and send
+	 * back the grand parent name (to be used as the true redefines).
+	 * 
+	 * @param cobolName
+	 *            the redefines object.
+	 * @return the ultimate redefined element name (may differ from cobolName in
+	 *         case of transitive dependencies)
+	 */
+	public String updateRedefinition(final String cobolName) {
+		for (XsdDataItem child : getChildren()) {
+			if (child.getCobolName().equals(cobolName)) {
+				if (child.getRedefines() != null) {
+					return child.getRedefines();
+				}
+				child.setIsRedefined(true);
+				return cobolName;
+			}
+		}
+		if (getParent() != null) {
+			return getParent().updateRedefinition(cobolName);
+		}
+		_log.error("Unable to locate redefined item " + cobolName);
+		return null;
+	}
 
     /**
      * Derive XML schema attributes from a COBOL usage clause. This gives a
@@ -603,10 +617,10 @@ public class XsdDataItem {
      * Once we have identified the COBOL data item as being numeric, this will
      * perform more analysis on the picture clause to extract such info as
      * integer part, decimal part and sign.
-     * <p/>
+     * <p>
      * The fractionDigits corresponds to digits past the decimal point. The
      * totalDigits is the integer part + fractionDigits;
-     * <p/>
+     * <p>
      * Once digits are identified we can further refine the choice of XML schema
      * type and a set of associated facets.
      * 
@@ -657,9 +671,9 @@ public class XsdDataItem {
     /**
      * Extracts total number of digits, fraction digits and sign from a picture
      * clause.
-     * <p/>
+     * <p>
      * Works for zoned decimals, binary and packed decimal.
-     * <p/>
+     * <p>
      * 
      * @param picture a purely numeric picture clause
      * @param currencySymbol the currency symbol
@@ -706,7 +720,7 @@ public class XsdDataItem {
     /**
      * The maximum number of digits supported by a numeric is given by its
      * picture clause.
-     * <p/>
+     * <p>
      * Currency symbol, + and - can be used for floating insertion editing in
      * which case they are repeated more than once.
      * 
@@ -732,7 +746,7 @@ public class XsdDataItem {
 
     /**
      * Turn a COBOL name to an XSD element name.
-     * <p/>
+     * <p>
      * COBOL names look ugly in XML schema. They are often uppercased and use
      * hyphens extensively. XML schema names they will have to be transformed
      * later to java identifiers so we try to get as close as possible to a
@@ -741,18 +755,18 @@ public class XsdDataItem {
      * So we remove hyphens. We lower case all characters which are not word
      * breakers. Word breakers are hyphens and numerics. This creates Camel
      * style names. Element names customarily start with a lowercase character.
-     * <p/>
+     * <p>
      * COBOL FILLERs are a particular case because there might be more than one
      * in the same parent group. So what we do is systematically append the
      * COBOL source line number so that these become unique names.
-     * <p/>
+     * <p>
      * COBOL names can start with a digit which is illegal for XML element
      * names. In this case we prepend a "C" character.
-     * <p/>
+     * <p>
      * Since Enterprise COBOL V4R1, underscores can be used (apart from first
      * character). We treat them as hyphens here, they are not propagated to the
      * XSD name but are used as word breakers.
-     * <p/>
+     * <p>
      * Once an element name is identified, we make sure it is unique among
      * siblings within the same parent.
      * 
@@ -817,9 +831,9 @@ public class XsdDataItem {
 
     /**
      * Turn a COBOL name to a unique XSD type name.
-     * <p/>
+     * <p>
      * Complex type names customarily start with an uppercase character.
-     * <p/>
+     * <p>
      * The proposed name might be conflicting with another so we disambiguate
      * xsd type names with one of 2 options:
      * <ul>
@@ -1076,7 +1090,7 @@ public class XsdDataItem {
      * @return the Cobol element sharing same memory location
      */
     public String getRedefines() {
-        return _cobolDataItem.getRedefines();
+        return _redefines;
     }
 
     /**

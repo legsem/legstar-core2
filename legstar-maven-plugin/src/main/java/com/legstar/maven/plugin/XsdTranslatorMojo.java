@@ -33,8 +33,6 @@ public class XsdTranslatorMojo extends AbstractCoreMojo {
      * @param cobolFile COBOL source file
      * @param cobolFileEncoding the COBOL file character encoding
      * @param target target file or folder
-     * @param targetNamespacePrefix the output XML schemas target namespace
-     *            prefix
      * @param xsltFileName an optional xslt to apply on the XML Schema
      * @throws MojoExecutionException if parser fails
      */

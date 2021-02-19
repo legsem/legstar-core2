@@ -1,6 +1,7 @@
 package com.legstar.base.visitor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolChoiceType;
 import com.legstar.base.type.gen.CobolRdef01Record;
 import com.legstar.base.utils.HexUtils;
-import com.legstar.base.visitor.DefaultFromCobolChoiceStrategy;
 
 public class DefaultFromCobolChoiceStrategyTest {
     

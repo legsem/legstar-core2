@@ -16,7 +16,7 @@ import com.legstar.base.visitor.FromCobolVisitor;
 /**
  * Given mainframe data this converter produces JAXB instances valued using the
  * converted mainframe data.
- * <p/>
+ * <p>
  * Relies on {@link JaxbWrapperFactory} class to create actual JAXB instances
  * and {@link JaxbWrapper} classes to map COBOL fields to JAXB properties.
  * 

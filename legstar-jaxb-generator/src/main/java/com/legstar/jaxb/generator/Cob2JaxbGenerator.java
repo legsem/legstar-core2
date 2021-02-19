@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -113,7 +114,7 @@ public class Cob2JaxbGenerator {
                 log.info("Writing java class " + className + " with package "
                         + targetPackageName + " in " + targetFolder);
                 FileUtils.writeStringToFile(new File(targetFolder, subFolder
-                        + className), entry.getValue());
+                        + className), entry.getValue(), StandardCharsets.UTF_8);
             }
         } catch (IOException e) {
             throw new Cob2JaxbGeneratorException(e);
@@ -123,9 +124,9 @@ public class Cob2JaxbGenerator {
 
     /**
      * Invoke the XJC utility which takes input from a file.
-     * <p/>
+     * <p>
      * First step is to copy the XSD source to a temporary file.
-     * <p/>
+     * <p>
      * We then build a command line and invoke XJC.
      * 
      * @param xmlSchemaSource the input XML schema
@@ -138,7 +139,7 @@ public class Cob2JaxbGenerator {
 
         try {
             File tempXsdFile = File.createTempFile("legstar", ".xsd");
-            FileUtils.writeStringToFile(tempXsdFile, xmlSchemaSource);
+            FileUtils.writeStringToFile(tempXsdFile, xmlSchemaSource, StandardCharsets.UTF_8);
             
             ErrorReceiver errorReceiver = new ErrorReceiverImpl();
 

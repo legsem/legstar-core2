@@ -1,6 +1,9 @@
 package com.legstar.base.type.primitive;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -10,7 +13,6 @@ import org.junit.Test;
 
 import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
-import com.legstar.base.type.primitive.CobolPackedDecimalType;
 import com.legstar.base.utils.HexUtils;
 
 public class CobolPackedDecimalTypeTest {

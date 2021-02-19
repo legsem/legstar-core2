@@ -1,6 +1,6 @@
 package com.legstar.base.generator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,8 +14,6 @@ import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.legstar.base.generator.Xsd2CobolTypesModelBuilder;
 
 public class Xsd2CobolTypesModelBuilderTest extends AbstractTest {
 

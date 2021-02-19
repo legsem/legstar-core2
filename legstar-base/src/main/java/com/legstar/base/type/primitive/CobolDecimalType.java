@@ -9,11 +9,11 @@ import com.legstar.base.context.CobolContext;
 
 /**
  * A generic type for mainframe decimals.
- * <p/>
+ * <p>
  * This is a broad class that covers pretty much all COBOL numerics apart from
  * Float/Double.
- * <p/>
- * The parameterized type <T> determines which java Number type this COBOL
+ * <p>
+ * The parameterized type T determines which java Number type this COBOL
  * decimal is converted to.
  * 
  */
@@ -97,6 +97,7 @@ public abstract class CobolDecimalType<T extends Number> extends
      * characteristics.
      * 
      * @param javaClass java Number class mapped to this COBOL decimal
+     * @param cobolContext host COBOL configuration parameters
      * @param hostData the byte array containing mainframe data
      * @param start the start position for the expected type in the byte array
      * @return true if the byte array contains a valid type
@@ -181,9 +182,10 @@ public abstract class CobolDecimalType<T extends Number> extends
     /**
      * Given a string representation of a numeric value, convert that to the
      * target java Number type.
-     * <p/>
+     * <p>
      * If the target is an integer type, we trim any fractional part.
      * 
+     * @param <D> a number type
      * @param clazz the java Number type
      * @param str the string representation of a numeric value
      * @return the java Number obtained from the input string
@@ -209,9 +211,10 @@ public abstract class CobolDecimalType<T extends Number> extends
     /**
      * Given a byte buffer containing the 2's complement representation of an
      * unscaled numeric, convert that to the target java Number type.
-     * <p/>
+     * <p>
      * Note that there is an assumption that the byte buffer contains at least 8
      * 
+     * @param <D> a number type
      * @param clazz the java Number type
      * @param bb byte buffer containing the 2's complement representation of an
      *            unscaled numeric
@@ -256,7 +259,7 @@ public abstract class CobolDecimalType<T extends Number> extends
 
     /**
      * Determines the maximum value a numeric can take.
-     * <p/>
+     * <p>
      * The maximum is constrained either from the host side by the the number of
      * digits in the picture clause or by the mapping java type maximum value
      * whichever is smaller.
@@ -302,7 +305,7 @@ public abstract class CobolDecimalType<T extends Number> extends
 
     /**
      * Determines the minimum value a numeric can take.
-     * <p/>
+     * <p>
      * The minimum is constrained either from the host side by the the number of
      * digits in the picture clause or by the mapping java type minimum value
      * whichever is larger.

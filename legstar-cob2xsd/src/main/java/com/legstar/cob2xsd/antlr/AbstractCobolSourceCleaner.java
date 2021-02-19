@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  * remove all unnecessary characters from the original source. This way, the
  * ANTLR lexer will be presented with a purified source that only contains data
  * division entries.
- * <p/>
+ * <p>
  * This allows users to submit complete COBOL programs or fragments of COBOL
  * programs with non data description statements to the parser without the need
  * to add grammar rules for all these cases.
@@ -84,7 +84,7 @@ public abstract class AbstractCobolSourceCleaner {
     /**
      * Takes in a raw COBOL source, potentially containing sequence numbers or
      * non data description statements and produces a clean source code.
-     * <p/>
+     * <p>
      * Statements which are not data descriptions become empty lines in order to
      * preserve original line numbering.
      * 
@@ -205,7 +205,7 @@ public abstract class AbstractCobolSourceCleaner {
     /**
      * Rough triage of statements which are not strictly part of the data
      * division. Detects end of DATA DIVISION by looking for PROCEDURE DIVISION.
-     * <p/>
+     * <p>
      * Since we are not guaranteed to have identification division, we initially
      * consider we are in the data division. If we find an identification
      * division, then we stop processing till we find a data division.
@@ -247,26 +247,26 @@ public abstract class AbstractCobolSourceCleaner {
 
     /**
      * Removes characters which are not part of a data description entry.
-     * <p/>
+     * <p>
      * The fragment received as a parameter is assumed to be cleaned from
      * sequence numbers.
-     * <p/>
+     * <p>
      * Data description entries start with an integer (the level) and end with a
      * period followed by either space, newline or EOF.
-     * <p/>
+     * <p>
      * A single line might hold multiple data descriptions. This method is
      * recursive, and is called multiple times for each line fragment holding a
      * new data description.
-     * <p/>
+     * <p>
      * Data description entries might span multiple lines which is why we need
      * to keep a context. Context tells us if we need to start by looking for a
      * level (no data description has started on some previous line) or for a
      * period.
-     * <p/>
+     * <p>
      * Unsupported data description instructions such as COPY might appear on
      * the same line as data instructions. They also can span multiple lines.
      * This code blanks out such "non data description" statements.
-     * <p/>
+     * <p>
      * Code that is outside alphanumeric literals is also cleaned from long
      * separators.
      * 

@@ -2,7 +2,7 @@ package com.legstar.base.finder;
 
 /**
  * A finder looks up the signature of a Cobol type in a byte stream.
- * <p/>
+ * <p>
  * This is useful when you are looking for a particular Cobol type (typically a
  * complex type) in a byte stream that otherwise contains data you are not
  * interested in.
@@ -12,7 +12,7 @@ public abstract class CobolTypeFinder {
 
     /**
      * Lookup for the signature of a Cobol type.
-     * <p/>
+     * <p>
      * Attempts at finding the type one byte at a time delegating the matching
      * to specialized classes.
      * 

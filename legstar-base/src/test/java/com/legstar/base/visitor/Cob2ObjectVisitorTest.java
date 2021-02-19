@@ -1,6 +1,7 @@
 package com.legstar.base.visitor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -13,10 +14,20 @@ import com.legstar.base.context.CobolContext;
 import com.legstar.base.context.EbcdicCobolContext;
 import com.legstar.base.type.CobolType;
 import com.legstar.base.type.composite.CobolChoiceType;
-import com.legstar.base.type.gen.*;
+import com.legstar.base.type.gen.CobolArdo01Record;
+import com.legstar.base.type.gen.CobolArdo02Record;
+import com.legstar.base.type.gen.CobolArdo03Record;
+import com.legstar.base.type.gen.CobolCflt01Record;
+import com.legstar.base.type.gen.CobolCustomerData;
+import com.legstar.base.type.gen.CobolFlat01Record;
+import com.legstar.base.type.gen.CobolFlat02Record;
+import com.legstar.base.type.gen.CobolOptl01Record;
+import com.legstar.base.type.gen.CobolRdef03Record;
+import com.legstar.base.type.gen.CobolRdef04Record;
+import com.legstar.base.type.gen.CobolStru01Record;
+import com.legstar.base.type.gen.CobolStru03Record;
+import com.legstar.base.type.gen.CobolStru04Record;
 import com.legstar.base.utils.HexUtils;
-import com.legstar.base.visitor.Cob2ObjectVisitor;
-import com.legstar.base.visitor.FromCobolChoiceStrategy;
 
 public class Cob2ObjectVisitorTest {
 

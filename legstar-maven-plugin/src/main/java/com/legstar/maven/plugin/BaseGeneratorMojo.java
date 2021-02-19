@@ -10,6 +10,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import com.legstar.base.generator.Cob2CobolTypesGenerator;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -49,7 +50,7 @@ public class BaseGeneratorMojo extends AbstractCoreMojo {
                         "Writing java class " + className + " with package "
                                 + packageName + " in " + output);
                 FileUtils.writeStringToFile(new File(output, subFolder
-                        + className), entry.getValue());
+                        + className), entry.getValue(), StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             throw new MojoExecutionException("Generation failed for "

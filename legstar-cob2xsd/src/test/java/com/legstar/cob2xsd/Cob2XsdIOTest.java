@@ -11,6 +11,7 @@
 package com.legstar.cob2xsd;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                         tempDir, "http://legstar.com/test/coxb", custmXslt.exists() ? custmXslt.getPath() : null);
                 if (_log.isDebugEnabled()) {
                     _log.debug("Result:\n"
-                            + FileUtils.readFileToString(xsdFile));
+                            + FileUtils.readFileToString(xsdFile, StandardCharsets.UTF_8));
                 }
                 File xsdRefFile = new File(XSD_REFERENCES_DIR,
                         name.toLowerCase() + ".xsd");

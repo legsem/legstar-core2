@@ -39,12 +39,12 @@ import com.legstar.cobol.utils.ValueUtil;
 
 /**
  * Populates an XML Schema from COBOL data items (COBOL Model).
- * <p/>
+ * <p>
  * Uses the {@link XsdDataItem} facade to CobolDataItem. This will have all XSD
  * attributes ready.
- * <p/>
+ * <p>
  * This class uses Apache XmlSchema to produce the XML schema.
- * <p/>
+ * <p>
  * All execution parameters are bundled in {@link Cob2XsdConfig}.
  * 
  */
@@ -218,7 +218,7 @@ public class XsdEmitter {
 
     /**
      * Create a simple type for an alphanumeric type.
-     * <p/>
+     * <p>
      * COBOL alphanumeric fields are fixed length so we create a facet to
      * enforce that constraint. A pattern derived from the picture clause can
      * also be used as a facet. If the item has children conditions, we add
@@ -247,7 +247,7 @@ public class XsdEmitter {
 
     /**
      * Create a simple type for an numeric type.
-     * <p/>
+     * <p>
      * Numeric elements might have totaDigits, fractionDigits, minInclusive or
      * maxInclusive facets.
      * 
