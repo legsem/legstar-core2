@@ -16,7 +16,7 @@
     <maven>3.6.0</maven>
   </prerequisites>
   <properties>
-    <maven.version>3.6.3</maven.version>
+    <maven.version>3.8.1</maven.version>
     <maven.plugin.version>3.6.0</maven.plugin.version>
   </properties>
 
