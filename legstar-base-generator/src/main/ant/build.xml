@@ -11,7 +11,6 @@
     <property name="gendir" location="target/generated-sources/java"/>
     <property name="packageprefix" value="legstar.samples"/>
     <property name="config" location="${core2.home}/samples/conf/cob2xsd.properties"/>
-    <property name="logconfig" location="${core2.home}/samples/conf/log4j.properties"/>
 
     <!-- Classpath for generation -->
     <path id="project.class.path">
@@ -29,7 +28,6 @@
         <java classname="com.legstar.base.generator.Cob2CobolTypesGeneratorMain" fork="true" failonerror="true">
             <classpath path="${project.classpath}"/>
             <arg line="-i ${cobdir} -o ${gendir} -c ${config} -p ${packageprefix}"/>
-            <jvmarg value="-Dlog4j.configuration=file:///${logconfig}"/>
         </java>
     </target>
 

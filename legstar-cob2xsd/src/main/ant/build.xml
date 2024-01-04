@@ -11,7 +11,6 @@
     <property name="gendir" location="target/generated-sources/xsd"/>
     <property name="nsprefix" value="http://samples.legstar"/>
     <property name="config" location="${core2.home}/samples/conf/cob2xsd.properties"/>
-    <property name="logconfig" location="${core2.home}/samples/conf/log4j.properties"/>
 
     <!-- Classpath for generation -->
     <path id="project.class.path">
@@ -29,7 +28,6 @@
         <java classname="com.legstar.cob2xsd.Cob2XsdMain" fork="true" failonerror="true">
             <classpath path="${project.classpath}"/>
             <arg line="-i ${cobdir} -o ${gendir} -c ${config} -n ${nsprefix}"/>
-            <jvmarg value="-Dlog4j.configuration=file:///${logconfig}"/>
         </java>
     </target>
 
