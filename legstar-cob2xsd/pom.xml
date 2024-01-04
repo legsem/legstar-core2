@@ -51,7 +51,7 @@
       </dependency>
       <dependency>
           <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
+          <artifactId>slf4j-simple</artifactId>
       </dependency>
 
       <!-- Tests -->
@@ -60,6 +60,11 @@
           <artifactId>junit</artifactId>
           <scope>test</scope>
       </dependency>
+     <dependency>
+         <groupId>org.hamcrest</groupId>
+         <artifactId>hamcrest</artifactId>
+         <scope>test</scope>
+     </dependency>
 
       <!-- Used to graph ASTs -->
       <dependency>
@@ -177,8 +182,7 @@
                   <artifactSet>
                       <excludes>
                           <exclude>org.antlr:antlr</exclude>
-                          <exclude>org.slf4j:slf4j-log4j12</exclude>
-                          <exclude>log4j:log4j:jar:</exclude>
+                          <exclude>org.slf4j:slf4j-simple</exclude>
                       </excludes>
                   </artifactSet>
                   <relocations>
