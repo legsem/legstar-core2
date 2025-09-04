@@ -256,19 +256,16 @@
 
         <plugins>
 
-            <!-- Staging plugin for OSSRH Nexus Repository -->
+            <!-- Staging plugin for Central Nexus Repository -->
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
-
 
         </plugins>
 
@@ -365,7 +362,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.1.1</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <releaseProfiles>release</releaseProfiles>
