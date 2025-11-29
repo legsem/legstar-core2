@@ -5,7 +5,9 @@ package com.legstar.base.utils;
  */
 public class StringUtils {
 
-    /**
+	   public static final String EMPTY = "";
+
+	   /**
      * <p>Checks if a String is whitespace, empty ("") or null.</p>
      *
      * <pre>
@@ -51,6 +53,24 @@ public class StringUtils {
      */
     public static boolean isNotBlank(String str) {
         return !StringUtils.isBlank(str);
+    }
+    
+    /**
+     * Uppercases the first character.
+     * 
+     * @param str the string to uppercase
+     * @return the string with first character in uppercase
+     */
+    public static String capitalize(String str) {
+    	if (str == null || str.length() == 0) {
+    		return str;
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(Character.toUpperCase(str.charAt(0)));
+    	if (str.length() > 1) {
+    		sb.append(str.substring(1));
+    	}
+    	return sb.toString();
     }
 
 }

@@ -1,16 +1,17 @@
 package com.legstar.jaxb.generator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.legstar.base.utils.StringUtils;
 import com.legstar.cob2xsd.Cob2XsdConfig;
 
 public class Cob2JaxbGeneratorTest extends AbstractTest {

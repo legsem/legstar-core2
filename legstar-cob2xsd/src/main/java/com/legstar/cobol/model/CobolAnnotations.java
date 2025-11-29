@@ -1,6 +1,5 @@
 package com.legstar.cobol.model;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaElement;
@@ -71,7 +70,7 @@ public class CobolAnnotations {
 
     public boolean signed() {
         String val = cobolAnnotations.getAttribute(CobolMarkup.IS_SIGNED);
-        if (StringUtils.isBlank(val)) {
+        if (isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -80,7 +79,7 @@ public class CobolAnnotations {
     public boolean signLeading() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.IS_SIGN_LEADING);
-        if (StringUtils.isBlank(val)) {
+        if (isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -89,7 +88,7 @@ public class CobolAnnotations {
     public boolean signSeparate() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.IS_SIGN_SEPARATE);
-        if (StringUtils.isBlank(val)) {
+        if (isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -98,7 +97,7 @@ public class CobolAnnotations {
     public int totalDigits() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.TOTAL_DIGITS);
-        if (StringUtils.isBlank(val)) {
+        if (isBlank(val)) {
             return 0;
         }
         return Integer.parseInt(val);
@@ -108,7 +107,7 @@ public class CobolAnnotations {
     public int fractionDigits() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.FRACTION_DIGITS);
-        if (StringUtils.isBlank(val)) {
+        if (isBlank(val)) {
             return 0;
         }
         return Integer.parseInt(val);
@@ -118,7 +117,7 @@ public class CobolAnnotations {
     public boolean odoObject() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.IS_ODO_OBJECT);
-        if (StringUtils.isBlank(val)) {
+        if (isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -132,5 +131,16 @@ public class CobolAnnotations {
         }
     }
 
+    public static boolean isBlank(String s) {
+        if (s == null || s.isEmpty()) {
+            return true;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isWhitespace(s.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
