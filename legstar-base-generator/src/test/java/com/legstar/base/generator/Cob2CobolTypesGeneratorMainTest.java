@@ -1,14 +1,17 @@
 package com.legstar.base.generator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.cli.Options;
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.legstar.base.utils.FileUtils;
 
 public class Cob2CobolTypesGeneratorMainTest extends AbstractTest {
 
@@ -85,7 +88,7 @@ public class Cob2CobolTypesGeneratorMainTest extends AbstractTest {
                     "-o", outputDir.getAbsolutePath() });
             File result = new File(outputDir + "/flat01/CobolFlat01Record.java");
             assertTrue(result.exists());
-            check(FileUtils.readFileToString(result, StandardCharsets.UTF_8), "CobolFlat01Record.java");
+            check(FileUtils.readFileToString(result), "CobolFlat01Record.java");
             result.deleteOnExit();
         } catch (Exception e) {
             fail(e.getMessage());
@@ -100,7 +103,7 @@ public class Cob2CobolTypesGeneratorMainTest extends AbstractTest {
                     new File("src/test/xslt/alltypes.xsl").getAbsolutePath() });
             File result = new File(outputDir + "/flat01/CobolFlat01Record.java");
             assertTrue(result.exists());
-            check(FileUtils.readFileToString(result, StandardCharsets.UTF_8), "CobolFlat01Record.java");
+            check(FileUtils.readFileToString(result), "CobolFlat01Record.java");
             result.deleteOnExit();
         } catch (Exception e) {
             fail(e.getMessage());

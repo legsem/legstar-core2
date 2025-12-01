@@ -1,16 +1,16 @@
 package com.legstar.maven.plugin;
 
-import com.legstar.cob2xsd.Cob2XsdConfig;
-import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.util.Properties;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
+import com.legstar.base.utils.FileUtils;
+import com.legstar.cob2xsd.Cob2XsdConfig;
 
 /**
  * Properties that are common to all Mojos.
@@ -67,8 +67,7 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
         validate();
 
         if (sourceDirectory.isDirectory()) {
-            for (File cobolFile : FileUtils.listFiles(sourceDirectory, null,
-                    true)) {
+            for (File cobolFile : FileUtils.listFilesRecursive(sourceDirectory)) {
                 execute(configProps, cobolFile, inputEncoding, outputDirectory,
                         xsltFileName);
             }
@@ -94,12 +93,7 @@ public abstract class AbstractCoreMojo extends AbstractMojo {
             outputDirectory = new File("target/generated-sources/"
                     + getDefaultOutputSubDirectory());
         }
-        try {
-            FileUtils.forceMkdir(outputDirectory);
-        } catch (IOException e) {
-            throw new MojoFailureException("Unable to create target "
-                    + outputDirectory, e);
-        }
+        FileUtils.forceMkdir(outputDirectory);
 
         if (configProps == null) {
             configProps = Cob2XsdConfig.getDefaultConfigProps();

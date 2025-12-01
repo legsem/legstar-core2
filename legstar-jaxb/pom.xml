@@ -36,12 +36,6 @@
           <artifactId>slf4j-simple</artifactId>
       </dependency>
 
-      <!-- Apache utils -->
-      <dependency>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-      </dependency>
-
       <!-- LegStar Converter Generator -->
       <dependency>
           <groupId>com.legsem.legstar</groupId>

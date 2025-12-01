@@ -21,11 +21,11 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.legstar.base.utils.FileUtils;
+import com.legstar.base.utils.FilenameUtils;
 import com.legstar.cob2xsd.antlr.RecognizerException;
 
 /**
@@ -272,35 +272,31 @@ public class Cob2XsdMain {
             final String xsltFileName)
             throws XsdGenerationException {
 
-        try {
-            _log.info("Started translation from COBOL to XML Schema");
-            _log.info("Taking COBOL from           : " + input);
-            _log.info("COBOL encoding              : " + cobolFileEncoding == null ? "default"
-                    : cobolFileEncoding);
-            _log.info("Output XML Schema to        : " + target);
-            _log.info("XML Schema namespace prefix : " + targetNamespacePrefix);
-            _log.info("XSLT transform to apply     : " + xsltFileName);
-            _log.info("Options in effect           : " + getConfig().toString());
+        _log.info("Started translation from COBOL to XML Schema");
+        _log.info("Taking COBOL from           : " + input);
+        _log.info("COBOL encoding              : " + cobolFileEncoding == null ? "default"
+                : cobolFileEncoding);
+        _log.info("Output XML Schema to        : " + target);
+        _log.info("XML Schema namespace prefix : " + targetNamespacePrefix);
+        _log.info("XSLT transform to apply     : " + xsltFileName);
+        _log.info("Options in effect           : " + getConfig().toString());
 
-            if (input.isFile()) {
-                if (FilenameUtils.getExtension(target.getPath()).length() == 0) {
-                    FileUtils.forceMkdir(target);
-                }
-                translate(input, cobolFileEncoding, target,
-                        targetNamespacePrefix, xsltFileName);
-            } else {
+        if (input.isFile()) {
+            if (FilenameUtils.getExtension(target).length() == 0) {
                 FileUtils.forceMkdir(target);
-                for (File cobolFile : input.listFiles()) {
-                    if (cobolFile.isFile()) {
-                        translate(cobolFile, cobolFileEncoding, target,
-                                targetNamespacePrefix, xsltFileName);
-                    }
+            }
+            translate(input, cobolFileEncoding, target,
+                    targetNamespacePrefix, xsltFileName);
+        } else {
+            FileUtils.forceMkdir(target);
+            for (File cobolFile : input.listFiles()) {
+                if (cobolFile.isFile()) {
+                    translate(cobolFile, cobolFileEncoding, target,
+                            targetNamespacePrefix, xsltFileName);
                 }
             }
-            _log.info("Finished translation");
-        } catch (IOException e) {
-            throw new XsdGenerationException(e);
         }
+        _log.info("Finished translation");
 
     }
 

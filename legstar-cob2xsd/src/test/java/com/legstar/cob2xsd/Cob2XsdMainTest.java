@@ -16,11 +16,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.cli.Options;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+
+import com.legstar.base.utils.FileUtils;
 
 
 
@@ -107,7 +107,7 @@ public class Cob2XsdMainTest extends AbstractTest {
                     "-n", "http://legstar.com"});
             File result = new File(tempFolder, "myfile.xsd");
             assertTrue(result.exists());
-            assertTrue(FileUtils.readFileToString(result, StandardCharsets.UTF_8).contains(
+            assertTrue(FileUtils.readFileToString(result).contains(
                     "xmlns:tns=\"http://legstar.com/lsfileae\""));
             result.deleteOnExit();
         } catch (Exception e) {

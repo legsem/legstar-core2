@@ -8,23 +8,22 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.StringHelpers;
+import com.legstar.base.generator.TextGeneratorBase;
 import com.legstar.base.generator.Xsd2CobolTypesGenerator;
-import com.legstar.base.generator.Xsd2ConverterException;
 import com.legstar.base.generator.Xsd2CobolTypesModelBuilder;
+import com.legstar.base.generator.Xsd2ConverterException;
 import com.legstar.base.utils.NamespaceUtils;
 
 /**
@@ -38,7 +37,7 @@ import com.legstar.base.utils.NamespaceUtils;
  * </ul>
  * 
  */
-public class Xsd2JaxbGenerator {
+public class Xsd2JaxbGenerator extends TextGeneratorBase {
 
     public static final String JAXB_WRAPPER_FACTORY_CLASS_NAME_SUFFIX = "Jaxb";
 
@@ -72,8 +71,7 @@ public class Xsd2JaxbGenerator {
 
     private Template loadTemplate(Handlebars handlebars, String resourceName) {
         try {
-            String text = IOUtils.toString(getClass().getResourceAsStream(
-                    resourceName), StandardCharsets.UTF_8);
+            String text = resourceToString(resourceName);
             return handlebars.compileInline(text);
         } catch (IOException e) {
             throw new Xsd2ConverterException(e);

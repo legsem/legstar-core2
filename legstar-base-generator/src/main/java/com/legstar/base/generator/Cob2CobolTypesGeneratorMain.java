@@ -2,15 +2,15 @@ package com.legstar.base.generator;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.legstar.base.utils.FileUtils;
+import com.legstar.base.utils.FilenameUtils;
 
 /**
  * Exposes the {@link Cob2CobolTypesGenerator} utility as a command line tool.
@@ -37,7 +37,7 @@ public class Cob2CobolTypesGeneratorMain extends AbstractCob2JavaGeneratorMain {
             Cob2CobolTypesGenerator gen = new Cob2CobolTypesGenerator(
                     configProps);
             String baseName = FilenameUtils.getBaseName(
-                    cobolFile.getAbsolutePath()).toLowerCase();
+                    cobolFile).toLowerCase();
             String packageName = packageNamePrefix == null ? baseName
                     : (packageNamePrefix + "." + baseName);
 
@@ -49,7 +49,7 @@ public class Cob2CobolTypesGeneratorMain extends AbstractCob2JavaGeneratorMain {
                 log.info("Writing java class " + className + " with package "
                         + packageName + " in " + output);
                 FileUtils.writeStringToFile(new File(output, subFolder
-                        + className), entry.getValue(), StandardCharsets.UTF_8);
+                        + className), entry.getValue());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -6,6 +6,8 @@ import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.legstar.base.utils.StringUtils;
+
 /**
  * Encapsulates the XML schema COBOL annotations.
  *
@@ -70,7 +72,7 @@ public class CobolAnnotations {
 
     public boolean signed() {
         String val = cobolAnnotations.getAttribute(CobolMarkup.IS_SIGNED);
-        if (isBlank(val)) {
+        if (StringUtils.isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -79,7 +81,7 @@ public class CobolAnnotations {
     public boolean signLeading() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.IS_SIGN_LEADING);
-        if (isBlank(val)) {
+        if (StringUtils.isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -88,7 +90,7 @@ public class CobolAnnotations {
     public boolean signSeparate() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.IS_SIGN_SEPARATE);
-        if (isBlank(val)) {
+        if (StringUtils.isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -97,7 +99,7 @@ public class CobolAnnotations {
     public int totalDigits() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.TOTAL_DIGITS);
-        if (isBlank(val)) {
+        if (StringUtils.isBlank(val)) {
             return 0;
         }
         return Integer.parseInt(val);
@@ -107,7 +109,7 @@ public class CobolAnnotations {
     public int fractionDigits() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.FRACTION_DIGITS);
-        if (isBlank(val)) {
+        if (StringUtils.isBlank(val)) {
             return 0;
         }
         return Integer.parseInt(val);
@@ -117,7 +119,7 @@ public class CobolAnnotations {
     public boolean odoObject() {
         String val = cobolAnnotations
                 .getAttribute(CobolMarkup.IS_ODO_OBJECT);
-        if (isBlank(val)) {
+        if (StringUtils.isBlank(val)) {
             return false;
         }
         return Boolean.parseBoolean(val);
@@ -131,16 +133,5 @@ public class CobolAnnotations {
         }
     }
 
-    public static boolean isBlank(String s) {
-        if (s == null || s.isEmpty()) {
-            return true;
-        }
-        for (int i = 0; i < s.length(); i++) {
-            if (!Character.isWhitespace(s.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
 

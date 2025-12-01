@@ -5,12 +5,11 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.legstar.base.utils.FileUtils;
 import com.legstar.base.utils.StringUtils;
 import com.legstar.cob2xsd.Cob2XsdConfig;
 
@@ -63,7 +62,7 @@ public class Cob2JaxbGeneratorTest extends AbstractTest {
     }
     
     private String getCode(String className) throws IOException {
-        return FileUtils.readFileToString(new File(OUTPUT_DIR, "test/example/" + className  + ".java"), StandardCharsets.UTF_8);
+        return FileUtils.readFileToString(new File(OUTPUT_DIR, "test/example/" + className  + ".java"));
     }
 
 }

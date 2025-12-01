@@ -1,10 +1,10 @@
 package com.legstar.cob2xsd;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.ErrorHandler;
@@ -12,7 +12,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import static org.junit.Assert.*;
+import com.legstar.base.utils.FileUtils;
 
 /**
  * These tests check that the XML Schemas that we generate are validating.
@@ -85,11 +85,11 @@ public class Cob2XsdValidationTest extends AbstractXsdTester {
             // Store it in a temporary file
             File tempXsdFile = File.createTempFile("test", ".xsd");
             tempXsdFile.deleteOnExit();
-            FileUtils.writeStringToFile(tempXsdFile, xmlSchema, StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(tempXsdFile, xmlSchema);
 
             if (_log.isDebugEnabled()) {
                 _log.debug(tempXsdFile.toURI().toString());
-                _log.debug(FileUtils.readFileToString(tempXsdFile, StandardCharsets.UTF_8));
+                _log.debug(FileUtils.readFileToString(tempXsdFile));
                 _log.debug(xmlInstance);
             }
 

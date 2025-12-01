@@ -10,15 +10,15 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
 import com.legstar.base.generator.Xsd2CobolTypesGenerator;
+import com.legstar.base.utils.FileUtils;
 import com.legstar.base.utils.NamespaceUtils;
 import com.legstar.cob2xsd.Cob2Xsd;
 import com.legstar.cob2xsd.Cob2XsdConfig;
@@ -114,7 +114,7 @@ public class Cob2JaxbGenerator {
                 log.info("Writing java class " + className + " with package "
                         + targetPackageName + " in " + targetFolder);
                 FileUtils.writeStringToFile(new File(targetFolder, subFolder
-                        + className), entry.getValue(), StandardCharsets.UTF_8);
+                        + className), entry.getValue());
             }
         } catch (IOException e) {
             throw new Cob2JaxbGeneratorException(e);
