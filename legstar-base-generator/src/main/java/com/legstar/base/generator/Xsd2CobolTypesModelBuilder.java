@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaAll;
 import org.apache.ws.commons.schema.XmlSchemaAllMember;
@@ -30,6 +29,7 @@ import org.apache.ws.commons.schema.utils.XmlSchemaObjectBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.legstar.base.utils.StringUtils;
 import com.legstar.cobol.model.CobolAnnotations;
 import com.legstar.cobol.model.CobolTypes;
 

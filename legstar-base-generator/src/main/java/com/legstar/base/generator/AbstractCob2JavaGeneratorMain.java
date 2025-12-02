@@ -15,9 +15,10 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.legstar.base.utils.FileUtils;
 
 /**
  * Shared code for command line utilities using COBOL copybooks as input and
@@ -101,8 +102,7 @@ public abstract class AbstractCob2JavaGeneratorMain {
             if (collectOptions(options, args)) {
                 setDefaults();
                 if (input.isDirectory()) {
-                    for (File cobolFile : FileUtils
-                            .listFiles(input, null, true)) {
+                    for (File cobolFile : FileUtils.listFilesRecursive(input)) {
                         generate(configProps, cobolFile, inputEncoding, output,
                                 packagePrefix, xsltFileName);
                     }

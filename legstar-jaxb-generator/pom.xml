@@ -54,16 +54,6 @@
           <artifactId>handlebars</artifactId>
       </dependency>
 
-      <!-- Apache utils -->
-      <dependency>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-lang3</artifactId>
-      </dependency>
-
       <!-- Logging -->   
       <dependency>
           <groupId>org.slf4j</groupId>

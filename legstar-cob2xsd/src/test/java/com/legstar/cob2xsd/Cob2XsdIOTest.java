@@ -12,12 +12,14 @@ package com.legstar.cob2xsd;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+
+import com.legstar.base.utils.FileUtils;
 
 import static org.junit.Assert.*;
 
@@ -66,13 +68,13 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
                         tempDir, "http://legstar.com/test/coxb", custmXslt.exists() ? custmXslt.getPath() : null);
                 if (_log.isDebugEnabled()) {
                     _log.debug("Result:\n"
-                            + FileUtils.readFileToString(xsdFile, StandardCharsets.UTF_8));
+                            + FileUtils.readFileToString(xsdFile));
                 }
                 File xsdRefFile = new File(XSD_REFERENCES_DIR,
                         name.toLowerCase() + ".xsd");
 
                 if (CREATE_REFERENCES) {
-                    FileUtils.copyFile(xsdFile, xsdRefFile);
+                	Files.write(xsdRefFile.toPath(), Files.readAllBytes(xsdFile.toPath()));
                 } else {
                     Document result = getXMLSchemaAsDoc(xsdFile);
                     Document expected = getXMLSchemaAsDoc(xsdRefFile);
@@ -98,13 +100,12 @@ public class Cob2XsdIOTest extends AbstractXsdTester {
             File tempCobolFile = File.createTempFile("test", ".cob");
             tempCobolFile.deleteOnExit();
 
-            FileUtils.write(tempCobolFile,
-                    "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.",
-                    "UTF8");
+            FileUtils.writeStringToFile(tempCobolFile,
+                    "       01 A.\n           02 B PIC G(4) VALUE '牛年快乐'.");
             File xmlSchema = cob2xsd.translate(tempCobolFile, "UTF8", tempDir,
                     "http://www.mycompany.com/test", null);
 
-            for (String line : FileUtils.readLines(xmlSchema, "UTF8")) {
+            for (String line : Files.readAllLines(xmlSchema.toPath(), StandardCharsets.UTF_8)) {
                 if (line.contains("cobolName=\"B\"")) {
                     assertTrue(line.contains("value=\"牛年快乐\""));
                 }

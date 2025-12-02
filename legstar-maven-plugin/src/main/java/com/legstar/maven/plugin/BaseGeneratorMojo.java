@@ -1,19 +1,18 @@
 package com.legstar.maven.plugin;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
+import java.io.File;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import com.legstar.base.generator.Cob2CobolTypesGenerator;
-
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
+import com.legstar.base.utils.FileUtils;
+import com.legstar.base.utils.FilenameUtils;
 
 /**
  * Goal generates conversion support java classes from a set of COBOL copybooks.
@@ -37,7 +36,7 @@ public class BaseGeneratorMojo extends AbstractCoreMojo {
             Cob2CobolTypesGenerator gen = new Cob2CobolTypesGenerator(
                     configProps);
             String baseName = FilenameUtils.getBaseName(
-                    cobolFile.getAbsolutePath()).toLowerCase();
+                    cobolFile).toLowerCase();
             String packageName = packageNamePrefix == null ? baseName
                     : (packageNamePrefix + "." + baseName);
 
@@ -50,7 +49,7 @@ public class BaseGeneratorMojo extends AbstractCoreMojo {
                         "Writing java class " + className + " with package "
                                 + packageName + " in " + output);
                 FileUtils.writeStringToFile(new File(output, subFolder
-                        + className), entry.getValue(), StandardCharsets.UTF_8);
+                        + className), entry.getValue());
             }
         } catch (Exception e) {
             throw new MojoExecutionException("Generation failed for "

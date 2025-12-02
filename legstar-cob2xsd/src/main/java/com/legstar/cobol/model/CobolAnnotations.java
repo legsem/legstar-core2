@@ -1,11 +1,12 @@
 package com.legstar.cobol.model;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import com.legstar.base.utils.StringUtils;
 
 /**
  * Encapsulates the XML schema COBOL annotations.

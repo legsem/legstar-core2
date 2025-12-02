@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.legstar.base.utils.FileUtils;
+import com.legstar.base.utils.FilenameUtils;
 import com.legstar.cob2xsd.antlr.RecognizerException;
 
 /**
@@ -56,7 +56,7 @@ public class Cob2XsdIO extends Cob2Xsd {
             checkTarget(target);
 
             String baseName = FilenameUtils.getBaseName(
-                    cobolFile.getAbsolutePath()).toLowerCase();
+                    cobolFile).toLowerCase();
 
             Reader cobolReader = cobolFileEncoding == null ? new InputStreamReader(
                     new FileInputStream(cobolFile)) : new InputStreamReader(
@@ -113,7 +113,7 @@ public class Cob2XsdIO extends Cob2Xsd {
             throw new IOException("You must provide a target directory or file");
         }
         if (!target.exists()) {
-            String extension = FilenameUtils.getExtension(target.getName());
+            String extension = FilenameUtils.getExtension(target);
             if (extension.length() == 0) {
                 throw new IOException("Target folder " + target + " not found");
             }

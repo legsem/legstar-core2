@@ -6,19 +6,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
 import com.legstar.base.generator.Xsd2CobolTypesGenerator;
+import com.legstar.base.utils.FileUtils;
 import com.legstar.base.utils.NamespaceUtils;
 import com.legstar.cob2xsd.Cob2Xsd;
 import com.legstar.cob2xsd.Cob2XsdConfig;
@@ -41,10 +43,31 @@ public class Cob2JaxbGenerator {
 
     private final Xsd2JaxbGenerator xsd2JaxbWrappers;
 
+    public Cob2JaxbGenerator() {
+    	this(Cob2XsdConfig.getDefaultConfigProps());
+    }
+
     public Cob2JaxbGenerator(Properties configProps) {
         cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
         xsd2CobolTypes = new Xsd2CobolTypesGenerator();
         xsd2JaxbWrappers = new Xsd2JaxbGenerator();
+    }
+
+    /**
+     * Given a COBOL copybook, produce a set of java classes (source
+     * code) used to convert mainframe data (matching the copybook) to JAXB
+     * instances.
+     * 
+     * @param cobolSource the COBOL copybook source
+     * @param targetFolderPath the target folder path
+     * @param targetPackageName the java package the generated classes should
+     *            reside in
+     */
+    public void generate(String cobolSource, Path targetFolderPath,
+            String targetPackageName) {
+    	File targetFolder = targetFolderPath.toFile();
+    	FileUtils.forceMkdir(targetFolder);
+    	generate(new StringReader(cobolSource), targetFolder, targetPackageName, null);
     }
 
     /**
@@ -114,7 +137,7 @@ public class Cob2JaxbGenerator {
                 log.info("Writing java class " + className + " with package "
                         + targetPackageName + " in " + targetFolder);
                 FileUtils.writeStringToFile(new File(targetFolder, subFolder
-                        + className), entry.getValue(), StandardCharsets.UTF_8);
+                        + className), entry.getValue());
             }
         } catch (IOException e) {
             throw new Cob2JaxbGeneratorException(e);

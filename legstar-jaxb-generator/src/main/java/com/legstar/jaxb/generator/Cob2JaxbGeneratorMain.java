@@ -3,7 +3,7 @@ package com.legstar.jaxb.generator;
 import java.io.File;
 import java.util.Properties;
 
-import org.apache.commons.io.FilenameUtils;
+import com.legstar.base.utils.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class Cob2JaxbGeneratorMain extends AbstractCob2JavaGeneratorMain {
         Cob2JaxbGenerator gen = new Cob2JaxbGenerator(
                 configProps);
         String baseName = FilenameUtils.getBaseName(
-                cobolFile.getAbsolutePath()).toLowerCase();
+                cobolFile).toLowerCase();
         String packageName = packageNamePrefix == null ? baseName
                 : (packageNamePrefix + "." + baseName);
 

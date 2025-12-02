@@ -3,11 +3,11 @@ package com.legstar.base.generator;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.rules.TestName;
+
+import com.legstar.base.utils.FileUtils;
 
 public class AbstractTest {
 
@@ -41,10 +41,9 @@ public class AbstractTest {
         File refFile = new File(SRC_REF_DIR, name.getMethodName() + "/"
                 + refFileName);
         if (isCreateReferences()) {
-            FileUtils.writeStringToFile(refFile, resultText, StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(refFile, resultText);
         } else {
-            String referenceText = FileUtils.readFileToString(refFile,
-            		StandardCharsets.UTF_8);
+            String referenceText = FileUtils.readFileToString(refFile);
             assertEquals(referenceText, resultText);
         }
 

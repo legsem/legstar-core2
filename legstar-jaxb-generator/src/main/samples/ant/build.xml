@@ -35,7 +35,7 @@
     </target>
 
     <target name="compile" depends="generate">
-        <javac srcdir="${gendir}:${javadir}" destdir="${bindir}" source="1.6" debug="true">
+        <javac srcdir="${gendir}:${javadir}" destdir="${bindir}" source="1.8" debug="true">
             <classpath>
                 <pathelement path="${project.classpath}"/>
                 <pathelement location="${bindir}"/>

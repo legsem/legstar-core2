@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
+import com.legstar.base.utils.StringUtils;
 
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Helper;

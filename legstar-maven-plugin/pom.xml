@@ -46,11 +46,6 @@
           <artifactId>legstar-jaxb-generator</artifactId>
       </dependency>
   
-      <dependency>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-      </dependency>
-
       <!-- Logging -->   
       <dependency>
           <groupId>org.slf4j</groupId>

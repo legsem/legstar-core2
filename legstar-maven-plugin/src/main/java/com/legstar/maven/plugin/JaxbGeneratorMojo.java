@@ -1,15 +1,15 @@
 package com.legstar.maven.plugin;
 
-import org.apache.commons.io.FilenameUtils;
+import java.io.File;
+import java.util.Properties;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import com.legstar.base.utils.FilenameUtils;
 import com.legstar.jaxb.generator.Cob2JaxbGenerator;
-
-import java.io.File;
-import java.util.Properties;
 
 /**
  * Goal generates conversion support java classes for JAXB from a set of COBOL
@@ -33,7 +33,7 @@ public class JaxbGeneratorMojo extends AbstractCoreMojo {
             getLog().info("Processing COBOL file " + cobolFile);
             Cob2JaxbGenerator gen = new Cob2JaxbGenerator(configProps);
             String baseName = FilenameUtils.getBaseName(
-                    cobolFile.getAbsolutePath()).toLowerCase();
+                    cobolFile).toLowerCase();
             String packageName = packageNamePrefix == null ? baseName
                     : (packageNamePrefix + "." + baseName);
 

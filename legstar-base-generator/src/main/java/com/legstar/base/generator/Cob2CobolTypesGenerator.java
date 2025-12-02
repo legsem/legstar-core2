@@ -37,9 +37,29 @@ public class Cob2CobolTypesGenerator {
     private static Logger log = LoggerFactory
             .getLogger(Cob2CobolTypesGenerator.class);
 
+    public Cob2CobolTypesGenerator() {
+    	this(Cob2XsdConfig.getDefaultConfigProps());
+    }
+    
     public Cob2CobolTypesGenerator(Properties configProps) {
         cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
         xsd2CobolTypes = new Xsd2CobolTypesGenerator();
+    }
+
+    /**
+     * Given a COBOL copybook, produce a set of java classes (source code) used
+     * to convert mainframe data (matching the copybook) at runtime.
+     * 
+     * @param cobolSource the COBOL copybook source
+     * @param targetPackageName the java package the generated classes should
+     *            reside in
+     * @return a map of java class names to their source code
+     */
+    public Map < String, String > generate(String cobolSource,
+            String targetPackageName) {
+
+        return generate(cobolSource, targetPackageName,
+                null);
     }
 
     /**

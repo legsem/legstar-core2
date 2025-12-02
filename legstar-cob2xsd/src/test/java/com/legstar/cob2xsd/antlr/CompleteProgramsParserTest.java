@@ -13,8 +13,9 @@ package com.legstar.cob2xsd.antlr;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+
+import com.legstar.base.utils.FileUtils;
 
 /**
  * Check recognition on a complete program source.
@@ -32,7 +33,7 @@ public class CompleteProgramsParserTest extends AbstractCobolTester {
     @Test
     public void testLsfileae() throws Exception {
         parseAndCheck(
-                FileUtils.readFileToString(new File(sampleFolder, "LSFILEAE"), StandardCharsets.UTF_8)
+                FileUtils.readFileToString(new File(sampleFolder, "LSFILEAE"))
                 , "(DATA_ITEM (LEVEL 01) (NAME FILEA))"
                 + " (DATA_ITEM (LEVEL 77) (NAME RESPONSE) (PICTURE S9(8)))"
                 + " (DATA_ITEM (LEVEL 01) (NAME DFHCOMMAREA)"
