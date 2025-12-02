@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,10 +43,31 @@ public class Cob2JaxbGenerator {
 
     private final Xsd2JaxbGenerator xsd2JaxbWrappers;
 
+    public Cob2JaxbGenerator() {
+    	this(Cob2XsdConfig.getDefaultConfigProps());
+    }
+
     public Cob2JaxbGenerator(Properties configProps) {
         cob2xsd = new Cob2Xsd(new Cob2XsdConfig(configProps));
         xsd2CobolTypes = new Xsd2CobolTypesGenerator();
         xsd2JaxbWrappers = new Xsd2JaxbGenerator();
+    }
+
+    /**
+     * Given a COBOL copybook, produce a set of java classes (source
+     * code) used to convert mainframe data (matching the copybook) to JAXB
+     * instances.
+     * 
+     * @param cobolSource the COBOL copybook source
+     * @param targetFolderPath the target folder path
+     * @param targetPackageName the java package the generated classes should
+     *            reside in
+     */
+    public void generate(String cobolSource, Path targetFolderPath,
+            String targetPackageName) {
+    	File targetFolder = targetFolderPath.toFile();
+    	FileUtils.forceMkdir(targetFolder);
+    	generate(new StringReader(cobolSource), targetFolder, targetPackageName, null);
     }
 
     /**
