@@ -3,6 +3,8 @@ legstar core V2
 
 A COBOL to Java conversion toolkit.
 
+__This project is in maintenance mode. A new [legstar-v3](https://github.com/legsem/legstar-v3) project has started.__
+
 ## Objectives
 
 * Provide conversion capabilities for data described by [COBOL copybooks](https://en.wikipedia.org/wiki/COBOL#Data_division)
