@@ -1,4 +1,5 @@
-{{~#unless @first}}            builder.append(", ");
+{{~#each this}}
+{{#unless @first}}            builder.append(", ");
 {{/unless}}            builder.append("{{@key}}=");
 {{~#if complexType}}
 {{~#if maxOccurs}}
@@ -26,3 +27,4 @@
             builder.append(getJaxb().get{{capFirst @key}}());
 {{~/if ~}}{{!-- choiceType --}}
 {{~/if ~}}{{!-- complexType --}}
+{{~/each}}{{!-- this: fields in complex type --}}

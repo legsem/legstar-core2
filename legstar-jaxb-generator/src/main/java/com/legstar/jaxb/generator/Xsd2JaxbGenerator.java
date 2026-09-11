@@ -60,8 +60,6 @@ public class Xsd2JaxbGenerator extends TextGeneratorBase {
     public Xsd2JaxbGenerator() {
         Handlebars handlebars = new Handlebars();
         handlebars.registerHelper("capFirst", StringHelpers.capitalize);
-        handlebars.registerHelper("each",
-                new com.legstar.jaxb.generator.EachHelper());
         hbtJaxbWrapperFactoryClass = loadTemplate(handlebars,
                 JAXB_WRAPPER_FACTORY_CLASS_TEMPLATE_NAME);
         hbtJaxbConverterClass = loadTemplate(handlebars,

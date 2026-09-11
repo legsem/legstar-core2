@@ -20,9 +20,7 @@ public class {{class_name}} extends CobolComplexType {
     private static Map < String, CobolType > create{{@key}}Fields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
-{{#each this ~}}
 {{> com/legstar/base/generator/java.field}}
-{{~/each}}{{!-- this: fields in complex type --}}
         return fields;
 
     }
@@ -31,9 +29,7 @@ public class {{class_name}} extends CobolComplexType {
     private static Map < String, CobolType > create{{@key}}Fields() {
 
         Map < String, CobolType > fields = new LinkedHashMap < String, CobolType >();
-{{#each this ~}}
 {{> com/legstar/base/generator/java.field}}
-{{~/each}}{{!-- this: fields in choice type --}}
         return fields;
 
     }
