@@ -3,7 +3,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-core2</artifactId>
-    <version>2.1.5</version>
+    <version>2.1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>legstar-core2</name>
@@ -27,7 +27,7 @@
     <!-- Source control GIT on github -->
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/legsem/legstar-core2.git</developerConnection>
-        <tag>legstar-core2-2.1.5</tag>
+        <tag>HEAD</tag>
     </scm> 
 
     <distributionManagement>
