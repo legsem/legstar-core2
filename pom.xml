@@ -26,9 +26,7 @@
 
     <!-- Source control GIT on github -->
     <scm>
-        <connection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</connection>
-        <developerConnection>scm:git:https://legsem@github.com/legsem/legstar-core2.git</developerConnection>
-        <url>https://github.com/legsem/legstar-core2.git</url>
+        <developerConnection>scm:git:ssh://legsem@github.com/legsem/legstar-core2.git</developerConnection>
         <tag>HEAD</tag>
     </scm> 
 
